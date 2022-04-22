@@ -36,9 +36,10 @@ public class FSMGame : MonoBehaviour
         }
         else if (_state == GState.Aiming)
         {
-            if (_player.Fire())
+            if (_player.StartFire())
             {
                 _player.HideAim();
+                StartCoroutine(_player.Fire());
                 _state = GState.Firing;
             }
             else if (_player.EndAim())
@@ -53,7 +54,11 @@ public class FSMGame : MonoBehaviour
         }
         else if (_state == GState.Firing)
         {
-            _state = GState.WaitingForPlayerInput;
+            if (_player.StartAim())
+            {
+                _player.EndFire();
+                _state = GState.WaitingForPlayerInput;
+            }
         }
     }
 }

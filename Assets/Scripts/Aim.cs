@@ -10,6 +10,7 @@ public class Aim : MonoBehaviour
     [field: SerializeField]
     private GameObject PredictionSprite { get; set; }
     
+    public Vector2 Direction { get; private set; }
 
     private void Awake()
     {
@@ -23,6 +24,8 @@ public class Aim : MonoBehaviour
     {
         PredictionSprite.SetActive(true);
         PredictionSprite.transform.localPosition = to;
+        Direction = to;
+        Direction.Normalize();
     }
 
     public void HidePrediction()
