@@ -39,7 +39,7 @@ public class FSMGame : MonoBehaviour
             if (_player.StartFire())
             {
                 _player.HideAim();
-                StartCoroutine(_player.Fire());
+                _player.RunFire();
                 _state = GState.Firing;
             }
             else if (_player.EndAim())
@@ -54,7 +54,7 @@ public class FSMGame : MonoBehaviour
         }
         else if (_state == GState.Firing)
         {
-            if (_player.StartAim())
+            if (_player.ReturnFire() || _player.IsFireComplete())
             {
                 _player.EndFire();
                 _state = GState.WaitingForPlayerInput;

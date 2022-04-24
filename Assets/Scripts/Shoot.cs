@@ -5,15 +5,15 @@ using UnityEngine;
 public class Shoot : MonoBehaviour
 {
     private Rigidbody2D _rb;
-    private Vector2 _offScreen = Vector2.one * 100;
+    private Vector3 _offScreen = Vector3.one * 20;
     [field: SerializeField]
     public int Speed { get; private set; }
+    public bool IsReturned { get; private set; }
     void Awake()
     {
         _rb = GetComponent<Rigidbody2D>();
     }
 
-    
     public void Fire(Vector2 direction)
     {
         if (_rb.velocity != Vector2.zero)
@@ -24,14 +24,16 @@ public class Shoot : MonoBehaviour
         }
         else
         {
-            transform.localPosition = Vector2.zero; // from zero because are children of parent shooting from
+            IsReturned = false;
+            transform.localPosition = Vector3.zero; // from zero because are children of parent shooting from
             _rb.AddForce(direction * Speed);
         }
     }
 
     public void Return()
     {
-        _rb.velocity = Vector2.zero;
+        IsReturned = true;
+        _rb.velocity = Vector3.zero;
         transform.localPosition = _offScreen;
     }
 }
