@@ -12,11 +12,11 @@ public class Player : MonoBehaviour
 
     private Aim _aim;
     
+    private List<Shoot> _shoots = new List<Shoot>();
     [field: SerializeField]
     private GameObject ShootPrefab { get; set; }
-    private List<Shoot> _shoots = new List<Shoot>();
     public bool IsFireRunning { get; private set; } = true;
-    void Start()
+    void Awake()
     {
         ResourceLocator.AddResource("Player", this);
 

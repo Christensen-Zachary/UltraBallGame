@@ -8,6 +8,7 @@ public class Shoot : MonoBehaviour
     private Vector3 _offScreen = Vector3.one * 20;
     [field: SerializeField]
     public int Speed { get; private set; }
+    public float Damage { get; set; } = 1;
     public bool IsReturned { get; private set; }
     void Awake()
     {
