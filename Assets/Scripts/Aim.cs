@@ -8,27 +8,55 @@ public class Aim : MonoBehaviour
     [field: SerializeField]
     public ResourceLocator ResourceLocator { get; set; }
     [field: SerializeField]
-    private GameObject PredictionSprite { get; set; }
+    private GameObject EndPredictionSprite { get; set; }
     [field: SerializeField]
-    private List<GameObject> PredictionSprites { get; set; }
-    
+    private GameObject MidPredictionSprite { get; set; }
+    private List<GameObject> EndPointPredictionSprites { get; set; }
+    private List<GameObject> MidPointPredictionSprites { get; set; }
+    [field: SerializeField]
+    private const float MAX_DOTS = 25f;
+
     public Vector2 Direction { get; private set; }
     private float ContactOffset { get; set; }
+    private float MaxDistance { get; set; } = 10;
 
     private void Awake()
     {
         ResourceLocator.AddResource("Aim", this);
 
-        PredictionSprites = new List<GameObject>();
+        Background background = ResourceLocator.GetResource<Background>("Background");
+        MaxDistance = Vector2.Distance(background.GetBounds.extents, -background.GetBounds.extents);
+
+        EndPointPredictionSprites = new List<GameObject>();
         for (int i = 0; i < 5; i++)
         {
-            GameObject obj = Instantiate(PredictionSprite);
+            GameObject obj = Instantiate(EndPredictionSprite);
             obj.transform.SetParent(transform);
-            PredictionSprites.Add(obj);
+            EndPointPredictionSprites.Add(obj);
+        }
+
+        MidPointPredictionSprites = new List<GameObject>();
+        for (int i = 0; i < 50; i++)
+        {
+            GetMidPointPredictionSprite();
         }
         HidePrediction();
 
         ContactOffset = Physics2D.defaultContactOffset * 200;
+    }
+
+    public GameObject GetMidPointPredictionSprite()
+    {
+        GameObject obj = MidPointPredictionSprites.Find(x => x.activeSelf == false);
+        if (obj == null)
+        {
+            obj = Instantiate(MidPredictionSprite);
+            obj.transform.SetParent(transform);
+            obj.transform.localScale = Vector3.one * 0.25f;
+            MidPointPredictionSprites.Add(obj);
+        }
+
+        return obj;
     }
 
     public void ShowPrediction(Vector2 from, Vector2 to, float radius)
@@ -37,20 +65,35 @@ public class Aim : MonoBehaviour
         Direction.Normalize();
 
         HidePrediction();
-        GetPredictions(from, to, 3, radius).ForEach(x =>
+        List<Vector2> predictions = GetPredictions(from, to, 3, radius);
+        for (int i = 0; i < predictions.Count; i++)
         {
-            GameObject obj = PredictionSprites.Find(x => x.activeSelf == false);
+            GameObject obj = EndPointPredictionSprites.Find(x => x.activeSelf == false);
             if (obj != null)
             {
                 obj.SetActive(true);
-                obj.transform.position = x;
+                obj.transform.position = predictions[i];
             }
-        });
+
+            if (i != predictions.Count - 1)
+            {
+                float distance = Vector2.Distance(predictions[i], predictions[i + 1]);
+                int numberOfDots = Mathf.CeilToInt(distance / MaxDistance * MAX_DOTS);
+                Vector2 inc = (predictions[i + 1] - predictions[i]) / numberOfDots;
+                for (int j = 1; j < numberOfDots; j++)
+                {
+                    GameObject dot = GetMidPointPredictionSprite();
+                    dot.transform.position = predictions[i] + j * inc;
+                    dot.SetActive(true);
+                }
+            }
+        }
     }
 
     public void HidePrediction()
     {
-        PredictionSprites.ForEach(x => x.SetActive(false));
+        EndPointPredictionSprites.ForEach(x => x.SetActive(false));
+        MidPointPredictionSprites.ForEach(x => x.SetActive(false));
     }
 
     private List<Vector2> GetPredictions(Vector2 from, Vector2 direction, int predictionCount, float radius)
