@@ -19,6 +19,7 @@ public class FSMGame : MonoBehaviour
     private GState _state = GState.SetupLevel;
 
     private Player _player;
+    private GameInput _gameInput;
     private LevelService _levelService;
     private FacBrick _facBrick;
     private FacBall _facBall;
@@ -26,6 +27,7 @@ public class FSMGame : MonoBehaviour
     void Start()
     {
         _player = ResourceLocator.GetResource<Player>("Player");
+        _gameInput = ResourceLocator.GetResource<GameInput>("GameInput");
         _levelService = ResourceLocator.GetResource<LevelService>("Level");
         _facBrick = ResourceLocator.GetResource<FacBrick>("FacBrick");
         _facBall = ResourceLocator.GetResource<FacBall>("FacBall");
@@ -47,47 +49,47 @@ public class FSMGame : MonoBehaviour
         }
         else if (_state == GState.WaitingForPlayerInput)
         {
-            if (_player.StartAim())
+            if (_gameInput.StartAim())
             {
                 _state = GState.Aiming;
             }
-            else if (_player.StartMove())
+            else if (_gameInput.StartMove())
             {
                 _state = GState.MovingPlayer;
             }
         }
         else if (_state == GState.MovingPlayer)
         {
-            if (_player.EndMove())
+            if (_gameInput.EndMove())
             {
                 _state = GState.WaitingForPlayerInput;
             }
             else
             {
-                _player.MovePlayer(_player.GetMovePosition());
+                _player.MovePlayer(_gameInput.GetMovePosition());
             }
         }
         else if (_state == GState.Aiming)
         {
-            if (_player.StartFire())
+            if (_gameInput.StartFire())
             {
                 _player.HideAim();
-                _player.RunFire();
+                _player.RunFire(_gameInput.GetFireDirection());
                 _state = GState.Firing;
             }
-            else if (_player.EndAim())
+            else if (_gameInput.EndAim())
             {
                 _player.HideAim();
                 _state = GState.WaitingForPlayerInput;
             }
             else
             {
-                _player.ShowAim();
+                _player.ShowAim(_gameInput.GetFireDirection());
             }
         }
         else if (_state == GState.Firing)
         {
-            if (_player.ReturnFire() || _player.IsFireComplete())
+            if (_gameInput.ReturnFire() || _player.IsFireComplete())
             {
                 _player.EndFire();
                 _state = GState.WaitingForPlayerInput;

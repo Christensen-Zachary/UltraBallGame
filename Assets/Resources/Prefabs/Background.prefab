@@ -278,6 +278,7 @@ MonoBehaviour:
   <ResourceLocator>k__BackingField: {fileID: 0}
   <NumberOfDivisions>k__BackingField: 12
   <UnitScale>k__BackingField: 1
+  _origin: {x: 0, y: 0}
 --- !u!1 &9155598873804157131
 GameObject:
   m_ObjectHideFlags: 0

@@ -36,10 +36,6 @@ public class Aim : MonoBehaviour
         }
 
         MidPointPredictionSprites = new List<GameObject>();
-        for (int i = 0; i < 50; i++)
-        {
-            GetMidPointPredictionSprite();
-        }
         HidePrediction();
 
         ContactOffset = Physics2D.defaultContactOffset * 200;

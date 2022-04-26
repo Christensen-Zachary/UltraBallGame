@@ -7,9 +7,9 @@ public class Player : MonoBehaviour
 {
     [field: SerializeField]
     private ResourceLocator ResourceLocator { get; set; }
-    private Grid _grid;
     private Camera _mainCamera;
 
+    private Grid _grid;
     private Aim _aim;
     private float _radius = 1;
     
@@ -34,18 +34,11 @@ public class Player : MonoBehaviour
         _radius = _grid.UnitScale * shootable.GetComponent<CircleCollider2D>().radius * shootable.transform.localScale.x;
     }
 
-    private Vector3 GetMousePosition()
+    
+    public void ShowAim(Vector2 direction)
     {
-        return _mainCamera.ScreenToWorldPoint(Input.mousePosition);
-    }
-
-    public bool StartAim()
-    {
-        return Input.GetMouseButtonDown(0) && _grid.Contains(GetMousePosition());
-    }
-    public bool EndAim()
-    {
-        return !_grid.Contains(GetMousePosition());
+        direction.Normalize();
+        _aim.ShowPrediction(transform.position, direction, _radius);
     }
 
     public void HideAim()
@@ -53,29 +46,18 @@ public class Player : MonoBehaviour
         _aim.HidePrediction();
     }
 
-    public void ShowAim()
+    public void RunFire(Vector2 direction)
     {
-        Vector2 direction = GetMousePosition() - transform.position;
         direction.Normalize();
-        _aim.ShowPrediction(transform.position, direction, _radius);
+        StartCoroutine(Fire(direction));
     }
 
-    public bool StartFire()
-    {
-        return Input.GetMouseButtonUp(0) && _grid.Contains(GetMousePosition());
-    }
-
-    public void RunFire()
-    {
-        StartCoroutine(Fire());
-    }
-
-    private IEnumerator Fire()
+    private IEnumerator Fire(Vector2 direction)
     {
         IsFireRunning = true;
         foreach (var ball in Shootables)
         {
-            ball.Fire(_aim.Direction);
+            ball.Fire(direction);
             yield return new WaitForSeconds(0.25f);
         }
         IsFireRunning = false;
@@ -91,10 +73,6 @@ public class Player : MonoBehaviour
         }
     }
 
-    public bool ReturnFire()
-    {
-        return Input.GetKeyDown(KeyCode.Space);
-    }
 
     public bool IsFireComplete()
     {
@@ -102,20 +80,6 @@ public class Player : MonoBehaviour
     }
 
 
-    public bool StartMove()
-    {
-        return Input.GetKeyDown(KeyCode.M);
-    }
-
-    public bool EndMove()
-    {
-        return Input.GetKeyDown(KeyCode.M);
-    }
-
-    public Vector2 GetMovePosition()
-    {
-        return _mainCamera.ScreenToWorldPoint(Input.mousePosition);
-    }
 
     public void MovePlayer(Vector2 newPosition)
     {

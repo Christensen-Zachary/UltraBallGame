@@ -22,11 +22,11 @@ public class Level
             Balls = new List<Ball>()
         };
 
-        for (int i = 0; i < level.NumberOfDivisions - 3; i++)
+        for (int i = 0; i < level.NumberOfDivisions; i++)
         {
-            for (int j = 0; j < level.NumberOfDivisions; j++)
+            for (int j = 3; j < level.NumberOfDivisions - 2; j++)
             {
-                if (j % 2 == 0 && i % 2 != 0 || j % 2 != 0 && i % 2 == 0) level.Bricks.Add(new Brick(i, j, 10));   
+                if (i != level.NumberOfDivisions / 2 && (j % 2 == 0 && i % 2 != 0 || j % 2 != 0 && i % 2 == 0)) level.Bricks.Add(new Brick(i, j, 1000));   
             }
         }
 
