@@ -2,12 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Shoot : MonoBehaviour
+public class Shootable : MonoBehaviour
 {
     private Rigidbody2D _rb;
     private Vector3 _offScreen = Vector3.one * 20;
     [field: SerializeField]
     public int Speed { get; private set; }
+    
+    [field: SerializeField]
     public float Damage { get; set; } = 1;
     public bool IsReturned { get; private set; }
     void Awake()

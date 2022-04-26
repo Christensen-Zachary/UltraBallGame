@@ -6,9 +6,9 @@ public class ReturnBallOnTrigger : MonoBehaviour
 {
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.TryGetComponent(out Shoot shoot))
+        if (collision.TryGetComponent(out Shootable shootable))
         {
-            shoot.Return();
+            shootable.Return();
         }
     }
 }

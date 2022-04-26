@@ -11,10 +11,10 @@ public class Player : MonoBehaviour
     private Camera _mainCamera;
 
     private Aim _aim;
+    private float _radius = 1;
     
-    private List<Shoot> _shoots = new List<Shoot>();
-    [field: SerializeField]
-    private GameObject ShootPrefab { get; set; }
+
+    public List<Shootable> Shootables { get; private set; } = new List<Shootable>();
     public bool IsFireRunning { get; private set; } = true;
     void Awake()
     {
@@ -26,16 +26,12 @@ public class Player : MonoBehaviour
 
         transform.localPosition = _grid.GetPosition((_grid.NumberOfDivisions - 1) / 2f, _grid.NumberOfDivisions - 1);
         transform.localScale = _grid.UnitScale * Vector2.one;
+    }
 
-        for (int i = 0; i < 10; i++)
-        {
-            GameObject shoot = Instantiate(ShootPrefab);
-            shoot.name = $"Ball {i}";
-            shoot.transform.SetParent(transform);
-            shoot.transform.localScale = Vector3.one;
-            _shoots.Add(shoot.GetComponent<Shoot>());
-        }
-        _shoots.ForEach(x => x.Return());
+    public void SetRadius()
+    {
+        Shootable shootable = Shootables.First();
+        _radius = _grid.UnitScale * shootable.GetComponent<CircleCollider2D>().radius * shootable.transform.localScale.x;
     }
 
     private Vector3 GetMousePosition()
@@ -61,7 +57,7 @@ public class Player : MonoBehaviour
     {
         Vector2 direction = GetMousePosition() - transform.position;
         direction.Normalize();
-        _aim.ShowPrediction(transform.position, direction);
+        _aim.ShowPrediction(transform.position, direction, _radius);
     }
 
     public bool StartFire()
@@ -77,7 +73,7 @@ public class Player : MonoBehaviour
     private IEnumerator Fire()
     {
         IsFireRunning = true;
-        foreach (var ball in _shoots)
+        foreach (var ball in Shootables)
         {
             ball.Fire(_aim.Direction);
             yield return new WaitForSeconds(0.25f);
@@ -89,7 +85,7 @@ public class Player : MonoBehaviour
     {
         StopAllCoroutines();
         IsFireRunning = false;
-        foreach (var ball in _shoots)
+        foreach (var ball in Shootables)
         {
             ball.Return();
         }
@@ -102,7 +98,28 @@ public class Player : MonoBehaviour
 
     public bool IsFireComplete()
     {
-        return !_shoots.Any(x => x.IsReturned == false) && !IsFireRunning;
+        return !Shootables.Any(x => x.IsReturned == false) && !IsFireRunning;
     }
 
+
+    public bool StartMove()
+    {
+        return Input.GetKeyDown(KeyCode.M);
+    }
+
+    public bool EndMove()
+    {
+        return Input.GetKeyDown(KeyCode.M);
+    }
+
+    public Vector2 GetMovePosition()
+    {
+        return _mainCamera.ScreenToWorldPoint(Input.mousePosition);
+    }
+
+    public void MovePlayer(Vector2 newPosition)
+    {
+        newPosition = new Vector2(newPosition.x, transform.position.y);
+        transform.position = newPosition;
+    }
 }

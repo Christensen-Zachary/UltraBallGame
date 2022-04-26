@@ -10,14 +10,17 @@ public class FacBall : MonoBehaviour
     private GameObject BallPrefab { get; set; }
 
     private Grid _grid;
+    private Player _player;
     private Transform _ballParent;
 
     private void Awake()
     {
         _grid = ResourceLocator.GetResource<Grid>("Grid");
+        _player = ResourceLocator.GetResource<Player>("Player");
+
         ResourceLocator.AddResource("FacBall", this);
 
-        _ballParent = transform;
+        _ballParent = _player.transform;
     }
 
     public GameObject Create(Ball ball)
@@ -25,12 +28,13 @@ public class FacBall : MonoBehaviour
         GameObject obj = Instantiate(BallPrefab);
         obj.name = $"Ball {System.Guid.NewGuid()}";
         obj.transform.SetParent(_ballParent);
-        obj.transform.localScale = Vector3.one * _grid.UnitScale * ball.Size;
+        obj.transform.localScale = ball.Size * Vector3.one;
         
-        if (obj.TryGetComponent(out Shoot shoot))
+        if (obj.TryGetComponent(out Shootable shootable))
         {
-            shoot.Damage = ball.Damage;
-            shoot.Return();
+            shootable.Damage = ball.Damage;
+            shootable.Return();
+            _player.Shootables.Add(shootable);
         }
 
         return obj;

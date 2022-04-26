@@ -6,6 +6,7 @@ public enum GState
 {
     SetupLevel,
     WaitingForPlayerInput,
+    MovingPlayer,
     Aiming,
     Firing
 }
@@ -37,10 +38,10 @@ public class FSMGame : MonoBehaviour
         {
             for (int i = 0; i < _levelService.NumberOfDivisions - 1; i++)
             {
-                List<Brick> row = _levelService.GetNextRow();
-                row.ForEach(x => _facBrick.Create(x));
+                _levelService.GetNextRow().ForEach(x => _facBrick.Create(x));
             }
             _levelService.Balls.ForEach(x => _facBall.Create(x));
+            _player.SetRadius();
 
             _state = GState.WaitingForPlayerInput;
         }
@@ -49,6 +50,21 @@ public class FSMGame : MonoBehaviour
             if (_player.StartAim())
             {
                 _state = GState.Aiming;
+            }
+            else if (_player.StartMove())
+            {
+                _state = GState.MovingPlayer;
+            }
+        }
+        else if (_state == GState.MovingPlayer)
+        {
+            if (_player.EndMove())
+            {
+                _state = GState.WaitingForPlayerInput;
+            }
+            else
+            {
+                _player.MovePlayer(_player.GetMovePosition());
             }
         }
         else if (_state == GState.Aiming)
