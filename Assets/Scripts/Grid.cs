@@ -7,9 +7,9 @@ public class Grid : MonoBehaviour
     [field: SerializeField]
     public ResourceLocator ResourceLocator { get; set; }
     [field: SerializeField]
-    public int NumberOfDivisions { get; private set; } = 12;
+    public int NumberOfDivisions { get; private set; }
     [field: SerializeField]
-    public float UnitScale { get; private set; } = 1;
+    public float UnitScale { get; private set; }
     
     public Vector2 Origin { get; private set; } // origin is the location of GetPosition(0, 0). It is set to the top left corner
 

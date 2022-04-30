@@ -4,14 +4,17 @@ using UnityEngine;
 
 public enum InputSource
 {
-    Player
+    Player,
+    Robot
 }
 
 public class GameInput : MonoBehaviour, IStartFire, IGetFireDirection, IGetMousePosition, IStartAim, IEndAim, IReturnFire, IStartMove, IEndMove, IGetMovePosition
 {
     [field: SerializeField]
     private ResourceLocator ResourceLocator { get; set; }
-    private InputSource _inputSource = InputSource.Player;
+    public InputSource _inputSource = InputSource.Player;
+    [field: SerializeField]
+    public float RobotSpeed { get; set; } = 4;
 
     private IStartFire GStartFire { get; set; }
     private IGetFireDirection GGetFireDirection { get; set; }
@@ -28,6 +31,7 @@ public class GameInput : MonoBehaviour, IStartFire, IGetFireDirection, IGetMouse
         ResourceLocator.AddResource("GameInput", this);
 
         PlayerInput playerInput = ResourceLocator.GetResource<PlayerInput>("PlayerInput");
+        RobotInput robotInput = ResourceLocator.GetResource<RobotInput>("RobotInput");
         RandomFireDirection randomFireDirection = ResourceLocator.GetResource<RandomFireDirection>("RandomFireDirection");
         switch (_inputSource)
         {
@@ -41,6 +45,19 @@ public class GameInput : MonoBehaviour, IStartFire, IGetFireDirection, IGetMouse
                 GStartMove = playerInput;
                 GEndMove = playerInput;
                 GGetMovePosition = playerInput;
+                break;
+            case InputSource.Robot:
+                GStartFire = robotInput;
+                GGetFireDirection = robotInput;
+                GGetMousePosition = robotInput;
+                GStartAim = robotInput;
+                GEndAim = robotInput;
+                GReturnFire = playerInput;
+                GStartMove = robotInput;
+                GEndMove = robotInput;
+                GGetMovePosition = robotInput;
+
+                Time.timeScale = RobotSpeed;
                 break;
         }
     }

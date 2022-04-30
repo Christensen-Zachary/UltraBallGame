@@ -36,6 +36,12 @@ public class FSMGame : MonoBehaviour
     
     void Update()
     {
+        // print($"state: {_state}");
+
+        /*
+         * Use effectors to create directional collisions to create 'doors' for balls to go through and get trapped for maximum fun zone
+         * 
+         */
         if (_state == GState.SetupLevel)
         {
             for (int i = 0; i < _levelService.NumberOfDivisions - 1; i++)

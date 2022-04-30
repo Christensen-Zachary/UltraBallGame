@@ -22,17 +22,18 @@ public class Level
             Balls = new List<Ball>()
         };
 
-        for (int i = 0; i < level.NumberOfDivisions; i++)
+        for (int row = 0; row < level.NumberOfDivisions - 2; row++)
         {
-            for (int j = 3; j < level.NumberOfDivisions - 2; j++)
+            for (int col = 0; col < level.NumberOfDivisions; col++)
             {
-                if (i != level.NumberOfDivisions / 2 && (j % 2 == 0 && i % 2 != 0 || j % 2 != 0 && i % 2 == 0)) level.Bricks.Add(new Brick(i, j, 1000));   
+                if (col != level.NumberOfDivisions / 2 && col != (level.NumberOfDivisions / 2) + 1 && (row % 2 == 0 && col % 2 != 0 || row % 2 != 0 && col % 2 == 0)) level.Bricks.Add(new Brick(col, row, 200));   
+                
             }
         }
 
-        for (int i = 0; i < 10; i++)
+        for (int i = 0; i < 5; i++)
         {
-            level.Balls.Add(new Ball(1, 0.75f));
+            level.Balls.Add(new Ball(1, 1.1f));
         }
 
         return level;

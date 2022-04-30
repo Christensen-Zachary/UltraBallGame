@@ -5,7 +5,7 @@ using UnityEngine;
 public class Shootable : MonoBehaviour
 {
     private Rigidbody2D _rb;
-    private Vector3 _offScreen = Vector3.one * 20;
+    private Vector3 _offScreen = Vector3.one * 100;
     [field: SerializeField]
     public int Speed { get; private set; }
     
