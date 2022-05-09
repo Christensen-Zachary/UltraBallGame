@@ -5,11 +5,15 @@ using UnityEngine;
 
 public class Level
 {
+    [field: SerializeField]
     public int LevelNum { get; set; }
+    [field: SerializeField]
     public int NumberOfDivisions { get; set; } = 12;
 
-    public List<Brick> Bricks { get; set; }
-    public List<Ball> Balls { get; set; }
+    [field: SerializeField]
+    public List<Brick> Bricks { get; set; } = new List<Brick>();
+    [field: SerializeField]
+    public List<Ball> Balls { get; set; } = new List<Ball>();
 
 
     public static Level GetDefault()
@@ -26,8 +30,11 @@ public class Level
         {
             for (int col = 0; col < level.NumberOfDivisions; col++)
             {
-                if (col != level.NumberOfDivisions / 2 && col != (level.NumberOfDivisions / 2) + 1 && (row % 2 == 0 && col % 2 != 0 || row % 2 != 0 && col % 2 == 0)) level.Bricks.Add(new Brick(col, row, 200));   
-                
+                if (col != level.NumberOfDivisions / 2 
+                    && col != (level.NumberOfDivisions / 2) + 1 
+                    && (row % 2 == 0 && col % 2 != 0 || row % 2 != 0 && col % 2 == 0)) 
+
+                    level.Bricks.Add(new Brick(BrickType.Square, col, row, Random.Range(4, 25)));
             }
         }
 

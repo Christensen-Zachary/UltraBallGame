@@ -23,7 +23,17 @@ public class FacBrick : MonoBehaviour
 
     public GameObject Create(Brick brick)
     {
-        GameObject obj = Instantiate(BrickPrefab);
+        GameObject obj;
+        switch (brick.BrickType)
+        {
+            case BrickType.Square:
+                obj = Instantiate(BrickPrefab);
+                break;
+            default:
+                obj = Instantiate(BrickPrefab);
+                break;
+        }
+        
         obj.name = $"Brick {System.Guid.NewGuid()}";
         obj.transform.SetParent(_brickParent);
         obj.transform.localScale = Vector3.one * _grid.UnitScale;

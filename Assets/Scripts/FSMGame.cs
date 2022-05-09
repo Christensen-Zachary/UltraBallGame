@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Reflection;
 using UnityEngine;
 
 public enum GState
@@ -31,6 +32,9 @@ public class FSMGame : MonoBehaviour
         _levelService = ResourceLocator.GetResource<LevelService>("Level");
         _facBrick = ResourceLocator.GetResource<FacBrick>("FacBrick");
         _facBall = ResourceLocator.GetResource<FacBall>("FacBall");
+
+        //LevelService.SaveLevel(Level.GetDefault());
+
     }
 
     
