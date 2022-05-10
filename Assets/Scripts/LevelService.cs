@@ -9,7 +9,7 @@ using System;
 public class LevelService : MonoBehaviour
 {
 
-
+    public int _levelNumber = 0;
     public int NumberOfDivisions { get; set; } = 12;
 
     public List<Brick> Bricks { get; set; }
@@ -23,7 +23,7 @@ public class LevelService : MonoBehaviour
         ResourceLocator.AddResource("Level", this);
 
         //int levelNum = ES3.Load<int>(BGStrings.ES_LEVELNUM, 1);
-        Level level = LoadLevel(0);//ES3.Load<Level>($"{BGStrings.ES_LEVELNAME}{levelNum}", Level.GetDefault());
+        Level level = LoadLevel(_levelNumber);//ES3.Load<Level>($"{BGStrings.ES_LEVELNAME}{levelNum}", Level.GetDefault());
 
         if (level == null)
         {
@@ -86,7 +86,7 @@ public class LevelService : MonoBehaviour
             }
 
             // balls added manually because they are not currently saved and loaded
-            for (int i = 0; i < 5; i++)
+            for (int i = 0; i < 25; i++)
             {
                 level.Balls.Add(new Ball(1, 1.1f));
             }
@@ -102,21 +102,21 @@ public class LevelService : MonoBehaviour
 
     public static void SaveLevel(Level level)
     {
-        using (StreamWriter sw = new StreamWriter("levelOutput.txt"))
+        using (StreamWriter sw = new StreamWriter("levelOutput.txt", true))
         {
-            BrickType[] brickTypes = level.Bricks.Select(x => x.BrickType).Distinct().ToArray();
-
             sw.Write($"{level.NumberOfDivisions}{NUMBEROFDIVISIONS_DELIMITER}");
 
-            foreach (var brickType in brickTypes)
+            foreach (var brickType in level.Bricks.Select(x => x.BrickType).Distinct().ToArray())
             {
                 sw.Write($"{(int)brickType}{BRICK_TYPE_DELIMITER}");
                 foreach (var brick in level.Bricks.Where(x => x.BrickType == brickType))
                 {
                     sw.Write($"{brick.Col}{BRICK_PARAMS_DELIMITER}{brick.Row}{BRICK_PARAMS_DELIMITER}{brick.Health}{BRICK_DELIMITER}");
                 }
-                sw.Write("~");
+                sw.Write(BRICK_TYPES_DELIMITER);
             }
+
+            sw.Write("\n");
         }
     }
 }

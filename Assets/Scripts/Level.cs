@@ -45,4 +45,45 @@ public class Level
 
         return level;
     }
+
+    public static Level GetRandom()
+    {
+        Level level = new Level()
+        {
+            LevelNum = 1,
+            NumberOfDivisions = Random.Range(25, 50),
+            Bricks = new List<Brick>(),
+            Balls = new List<Ball>()
+        };
+
+        PerlinNoise perlin = new PerlinNoise();
+        float[,] perlinNoise = perlin.GeneratePerlinNoise(perlin.GenerateWhiteNoise(level.NumberOfDivisions, level.NumberOfDivisions), 1);
+
+        for (int i = 0; i < perlinNoise.GetLength(0); i++)
+        {
+            for (int j = 0; j < perlinNoise.GetLength(1); j++)
+            {
+                if (perlinNoise[i, j] > 0.75f)
+                {
+                    level.Bricks.Add(new Brick(BrickType.Square, i, j, Random.Range(10, 10)));
+                }
+            }
+        }
+
+        //for (int row = 0; row < level.NumberOfDivisions - 2; row++)
+        //{
+        //    for (int col = 0; col < level.NumberOfDivisions; col++)
+        //    {
+        //        if (Random.Range(1, 100) % 2 == 0)
+        //            level.Bricks.Add(new Brick(BrickType.Square, col, row, Random.Range(10, 10)));
+        //    }
+        //}
+
+        for (int i = 0; i < 5; i++)
+        {
+            level.Balls.Add(new Ball(1, 1.1f));
+        }
+
+        return level;
+    }
 }

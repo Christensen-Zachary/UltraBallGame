@@ -33,8 +33,6 @@ public class FSMGame : MonoBehaviour
         _facBrick = ResourceLocator.GetResource<FacBrick>("FacBrick");
         _facBall = ResourceLocator.GetResource<FacBall>("FacBall");
 
-        //LevelService.SaveLevel(Level.GetDefault());
-
     }
 
     
