@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class GameUI : MonoBehaviour
 {
-    private float _leaveSidesOpenByPercent = 1 / 3f; // percent of the side that should not be overlapped by square. amount is for both sides combined
+    private float _leaveSidesOpenByPercent = 1 - (2 / (1 + Mathf.Sqrt(5))); // percent of the side that should not be overlapped by square. amount is for both sides combined
     [field: SerializeField]
     public List<RectTransform> LPanels { get; set; }
     [field: SerializeField]

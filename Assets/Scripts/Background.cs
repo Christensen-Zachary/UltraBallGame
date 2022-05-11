@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class Background : MonoBehaviour
 {
-    private float _leaveSidesOpenByPercent = 1 / 3f; // percent of the side that should not be overlapped by square. amount is for both sides combined
+    private float _leaveSidesOpenByPercent = 1 - (2 / (1 + Mathf.Sqrt(5))); // percent of the side that should not be overlapped by square. amount is for both sides combined
     private SpriteRenderer _sr;
     public float GetWidth => transform.localScale.x;
     public Vector2 GetTopLeftCorner =>  new Vector2(-_sr.bounds.extents.x, _sr.bounds.extents.y);
