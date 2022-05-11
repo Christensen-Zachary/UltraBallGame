@@ -15,6 +15,15 @@ public class Level
     [field: SerializeField]
     public List<Ball> Balls { get; set; } = new List<Ball>();
 
+    public Level() { }
+
+    public Level(int levelNum, int numberOfDivisions, List<Brick> bricks, List<Ball> balls)
+    {
+        LevelNum = levelNum;
+        NumberOfDivisions = numberOfDivisions;
+        Bricks = bricks;
+        Balls = balls;
+    }
 
     public static Level GetDefault()
     {

@@ -16,6 +16,7 @@ public class Brick
 
     public int Health { get; set; } = 10;
 
+    public Brick() { }
 
     public Brick(BrickType brickType, int col, int row, int health = 10)
     {

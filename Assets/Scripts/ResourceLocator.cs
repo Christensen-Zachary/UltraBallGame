@@ -22,13 +22,14 @@ public class ResourceLocator : MonoBehaviour
 
     public T GetResource<T>(string key) where T : MonoBehaviour
     {
-        T resource = Resources[key] as T;
-        if (resource == null)
+        if (Resources.ContainsKey(key))
         {
-            string errMsg = $"Resource {key} was not found";
-            Debug.LogError(errMsg);
-            throw new System.Exception(errMsg);
+            return Resources[key] as T;
         }
-        return resource;
+        
+        string errMsg = $"Resource {key} was not found";
+        Debug.LogError(errMsg);
+        //throw new System.Exception(errMsg);
+        return null;
     }
 }

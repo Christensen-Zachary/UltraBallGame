@@ -23,7 +23,10 @@ public class Grid : MonoBehaviour
         _background = ResourceLocator.GetResource<Background>("Background");
         _levelService = ResourceLocator.GetResource<LevelService>("Level");
 
-        NumberOfDivisions = _levelService.NumberOfDivisions;
+        if (_levelService != null)
+        {
+            NumberOfDivisions = _levelService.NumberOfDivisions;
+        }
 
         UnitScale = _background.GetWidth / NumberOfDivisions;
         Origin = _background.GetTopLeftCorner + new Vector2(1, -1) * UnitScale / 2;
