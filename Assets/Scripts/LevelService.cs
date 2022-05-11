@@ -60,7 +60,6 @@ public class LevelService : MonoBehaviour
         }
         
         Level level = new Level() { LevelNum = levelNumber };
-        
 
         try
         {
@@ -88,7 +87,7 @@ public class LevelService : MonoBehaviour
             // balls added manually because they are not currently saved and loaded
             for (int i = 0; i < 25; i++)
             {
-                level.Balls.Add(new Ball(1, 1.1f));
+                level.Balls.Add(new Ball(1, 0.8f));
             }
 
             return level;

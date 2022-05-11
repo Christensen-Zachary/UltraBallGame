@@ -25,12 +25,12 @@ public class Background : MonoBehaviour
         float scale;
         if (height < width) // is landscape
         {
-            if ((width - height) < (_leaveSidesOpenByPercent * width)) scale = (1 - _leaveSidesOpenByPercent) * height;
+            if ((width - height) < (_leaveSidesOpenByPercent * width)) scale = (1 - _leaveSidesOpenByPercent) * width;
             else scale = height;
         }
         else // is portrait
         {
-            if ((height - width) < (_leaveSidesOpenByPercent * height)) scale = (1 - _leaveSidesOpenByPercent) * width;
+            if ((height - width) < (_leaveSidesOpenByPercent * height)) scale = (1 - _leaveSidesOpenByPercent) * height;
             else scale = width;
         }
         transform.localScale = Vector2.one * scale;

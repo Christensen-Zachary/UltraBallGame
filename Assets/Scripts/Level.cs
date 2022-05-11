@@ -51,21 +51,23 @@ public class Level
         Level level = new Level()
         {
             LevelNum = 1,
-            NumberOfDivisions = Random.Range(25, 50),
+            NumberOfDivisions = Random.Range(25, 35),
             Bricks = new List<Brick>(),
             Balls = new List<Ball>()
         };
 
         PerlinNoise perlin = new PerlinNoise();
-        float[,] perlinNoise = perlin.GeneratePerlinNoise(perlin.GenerateWhiteNoise(level.NumberOfDivisions, level.NumberOfDivisions), 1);
+        float[,] perlinNoise = perlin.GeneratePerlinNoise(perlin.GenerateWhiteNoise(level.NumberOfDivisions, level.NumberOfDivisions), 2);
+        float[,] perlinNoiseHealth = perlin.GeneratePerlinNoise(perlin.GenerateWhiteNoise(level.NumberOfDivisions, level.NumberOfDivisions), 2);
 
         for (int i = 0; i < perlinNoise.GetLength(0); i++)
         {
             for (int j = 0; j < perlinNoise.GetLength(1); j++)
             {
-                if (perlinNoise[i, j] > 0.75f)
+                if (perlinNoiseHealth[i, j] > 0.25f)
+                //if (true)
                 {
-                    level.Bricks.Add(new Brick(BrickType.Square, i, j, Random.Range(10, 10)));
+                    level.Bricks.Add(new Brick(BrickType.Square, i, j, (perlinNoiseHealth[i, j] > 0.5f) ? (int)(100 * perlinNoiseHealth[i, j]) : 1));
                 }
             }
         }

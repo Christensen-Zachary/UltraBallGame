@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
@@ -46,6 +47,8 @@ public class FSMGame : MonoBehaviour
          */
         if (_state == GState.SetupLevel)
         {
+            _facBrick.MaxHealth = _levelService.Bricks.Select(x => x.Health).Max();
+
             for (int i = 0; i < _levelService.NumberOfDivisions - 1; i++)
             {
                 _levelService.GetNextRow().ForEach(x => _facBrick.Create(x));

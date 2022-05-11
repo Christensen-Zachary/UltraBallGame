@@ -13,6 +13,8 @@ public class FacBrick : MonoBehaviour
     private Grid _grid;
     private Transform _brickParent;
 
+    public float MaxHealth { get; set; } = 10;
+
     private void Awake()
     {
         _grid = ResourceLocator.GetResource<Grid>("Grid");
@@ -41,6 +43,8 @@ public class FacBrick : MonoBehaviour
 
         if (obj.TryGetComponent(out Damageable damageable))
         {
+            damageable.MaxColorValue = MaxHealth;
+            damageable.SetColor(brick.Health);
             damageable.Health = brick.Health;
         }
 
