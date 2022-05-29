@@ -41,18 +41,31 @@ public class Shootable : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D collision)
     {
         int layerMask = (1 << LayerMask.NameToLayer("Brick") | 1 << LayerMask.NameToLayer("Wall")) & ~(1 << LayerMask.NameToLayer("Ball"));
-        RaycastHit2D[] hits = Physics2D.CircleCastAll(collision.contacts[0].point, _radius, LagVelocity.normalized, 0.1f, layerMask);
+
+        //if (collision.contactCount > 1)
+        //{
+        //    for (int i = 0; i < collision.contactCount; i++)
+        //    {
+        //        GameObject obj = Instantiate(Resources.Load<GameObject>("Prefabs/MidPrediction"));
+        //        obj.transform.position = collision.contacts[i].point;
+        //        obj.transform.localScale = Vector3.one * 0.3f;
+        //        obj.GetComponent<SpriteRenderer>().color = Color.red;
+        //        print($"CName {collision.contacts[i].collider.name} point {collision.contacts[i].normal}");
+        //    }
+        //}
+
+        RaycastHit2D[] hits = Physics2D.CircleCastAll(collision.contacts[0].point, _radius, LagVelocity.normalized, 0.05f, layerMask);
         if (hits.Length == 0)
         {
             print("No hits");
-            GameObject obj = Instantiate(Resources.Load<GameObject>("Prefabs/MidPrediction"));
-            obj.transform.position = collision.contacts[0].point;
-            obj.transform.localScale = Vector3.one * 0.3f;
-            obj.GetComponent<SpriteRenderer>().color = Color.white;
+            //GameObject obj = Instantiate(Resources.Load<GameObject>("Prefabs/MidPrediction"));
+            //obj.transform.position = collision.contacts[0].point;
+            //obj.transform.localScale = Vector3.one * 0.3f;
+            //obj.GetComponent<SpriteRenderer>().color = Color.white;
         }
         else
         {
-            print($"{hits.Length} hits {hits[0].collider.name}");
+            print($"{hits.Length} hits {collision.contactCount} contacts");
             for (int i = 0; i < hits.Length; i++)
             {
                 if (hits[i].collider.TryGetComponent(out Damageable damageable))

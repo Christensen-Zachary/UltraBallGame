@@ -97,7 +97,7 @@ public class Aim : MonoBehaviour
         direction = direction.normalized;
         List<Vector2> predictions = new List<Vector2>() { from };
 
-        int layerMask = (1 << LayerMask.NameToLayer("Wall") | 1 << LayerMask.NameToLayer("Brick")) & ~(1 << LayerMask.NameToLayer("Ball"));
+        int layerMask = (1 << LayerMask.NameToLayer("Wall") | 1 << LayerMask.NameToLayer("Reflect")) & ~(1 << LayerMask.NameToLayer("Ball"));
         string lastName = "";
         for (int i = 0; i < predictionCount; i++)
         {
