@@ -110,23 +110,23 @@ public class Aim : MonoBehaviour
                 {
                     return predictions;
                 }
-                else if (hit.collider.name.Equals(lastName))
-                {
-                    RaycastHit2D[] hits = Physics2D.CircleCastAll(from, radius, direction, Mathf.Infinity, layerMask);
-                    for (int j = 0; j < hits.Length; j++)
-                    {
-                        if (!hits[j].collider.name.Equals(lastName))
-                        {
-                            if (hits[j].collider.CompareTag(BGStrings.TAG_BOTTOMWALL))
-                            {
-                                return predictions;
-                            }
+                //else if (hit.collider.name.Equals(lastName))
+                //{
+                //    RaycastHit2D[] hits = Physics2D.CircleCastAll(from, radius, direction, Mathf.Infinity, layerMask);
+                //    for (int j = 0; j < hits.Length; j++)
+                //    {
+                //        if (true)//!hits[j].collider.name.Equals(lastName))
+                //        {
+                //            if (hits[j].collider.CompareTag(BGStrings.TAG_BOTTOMWALL))
+                //            {
+                //                return predictions;
+                //            }
 
-                            predictions.Add(hits[j].centroid);
-                            break;
-                        }
-                    }
-                }
+                //            predictions.Add(hits[j].centroid);
+                //            break;
+                //        }
+                //    }
+                //}
                 else
                 {
                     lastName = hit.collider.name;

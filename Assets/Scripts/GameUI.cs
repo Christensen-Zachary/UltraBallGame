@@ -18,9 +18,8 @@ public class GameUI : MonoBehaviour
         (float height, float width) = BGUtils.GetScreenSize();
         height *= canvasScreenRatio;
         width *= canvasScreenRatio;
-
-        
-        print($"CanvasRectHeight {canvas.rect.height} ScreenHeight {BGUtils.GetScreenSize().height} Height {height} Width {width} CanvasScreenRatio {canvasScreenRatio}");
+   
+        //print($"CanvasRectHeight {canvas.rect.height} ScreenHeight {BGUtils.GetScreenSize().height} Height {height} Width {width} CanvasScreenRatio {canvasScreenRatio}");
 
         if (height < width) // is landscape
         {

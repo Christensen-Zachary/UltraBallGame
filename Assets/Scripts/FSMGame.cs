@@ -23,6 +23,7 @@ public class FSMGame : MonoBehaviour
     private Player _player;
     private GameInput _gameInput;
     private LevelService _levelService;
+    private BrickFixCollision _brickFixCollision;
     private FacBrick _facBrick;
     private FacBall _facBall;
 
@@ -31,9 +32,11 @@ public class FSMGame : MonoBehaviour
         _player = ResourceLocator.GetResource<Player>("Player");
         _gameInput = ResourceLocator.GetResource<GameInput>("GameInput");
         _levelService = ResourceLocator.GetResource<LevelService>("Level");
+        _brickFixCollision = ResourceLocator.GetResource<BrickFixCollision>("BrickFixCollision");
         _facBrick = ResourceLocator.GetResource<FacBrick>("FacBrick");
         _facBall = ResourceLocator.GetResource<FacBall>("FacBall");
 
+        //Time.timeScale = 0.3f;
     }
 
     
@@ -53,6 +56,10 @@ public class FSMGame : MonoBehaviour
             {
                 _levelService.GetNextRow().ForEach(x => _facBrick.Create(x));
             }
+            //_brickFixCollision.SetProblemCorners();
+            //StartCoroutine(_brickFixCollision.SetPolygonColliderPaths());
+            //_brickFixCollision.SetPolygonColliderPaths();
+
             _levelService.Balls.ForEach(x => _facBall.Create(x));
             _player.SetRadius();
 

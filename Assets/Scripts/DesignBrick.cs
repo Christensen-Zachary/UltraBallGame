@@ -59,7 +59,6 @@ public class DesignBrick : MonoBehaviour
 
     public void SetHealth(int health)
     {
-        print($"Setting health to {health}");
         Brick.Health = health;
     }
 

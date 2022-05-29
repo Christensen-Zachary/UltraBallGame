@@ -12,12 +12,14 @@ public class FacBrick : MonoBehaviour
 
     private Grid _grid;
     private Transform _brickParent;
+    private BrickFixCollision _brickFixCollision;
 
     public float MaxHealth { get; set; } = 10;
 
     private void Awake()
     {
         _grid = ResourceLocator.GetResource<Grid>("Grid");
+        _brickFixCollision = ResourceLocator.GetResource<BrickFixCollision>("BrickFixCollision");
         ResourceLocator.AddResource("FacBrick", this);
 
         _brickParent = transform;
@@ -41,11 +43,20 @@ public class FacBrick : MonoBehaviour
         obj.transform.localScale = Vector3.one * _grid.UnitScale;
         obj.transform.localPosition = _grid.GetPosition(brick.Col, brick.Row);
 
-        if (obj.TryGetComponent(out Damageable damageable))
+        Damageable damageable = obj.GetComponentInChildren<Damageable>();
+        if (damageable != null)
         {
             damageable.MaxColorValue = MaxHealth;
             damageable.SetColor(brick.Health);
             damageable.Health = brick.Health;
+            damageable.BrickFixCollision = ResourceLocator.GetResource<BrickFixCollision>("BrickFixCollision");
+        }
+
+        if (obj.TryGetComponent(out BrickCollision brickCollision))
+        {
+            brickCollision.Col = brick.Col;
+            brickCollision.Row = brick.Row;
+            _brickFixCollision.Bricks.Add(brickCollision);
         }
 
         return obj;

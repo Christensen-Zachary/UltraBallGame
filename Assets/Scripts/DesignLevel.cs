@@ -174,6 +174,7 @@ public class DesignLevel : MonoBehaviour
 
                 if (Input.GetKeyDown(KeyCode.J))
                 {
+                    print($"_setHealth = false");
                     _setHealth = false;
                     try
                     {
