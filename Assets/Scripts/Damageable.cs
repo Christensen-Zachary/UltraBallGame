@@ -38,10 +38,7 @@ public class Damageable : MonoBehaviour
     private SpriteRenderer SpriteRenderer { get; set; } // reference set on prefab in editor
 
 
-    /*
-     * Instead of OnTriggerEnter2D, could use raycast/circlecast overlap in ball oncollision to enact damage routine
-     * 
-     */
+
     private void OnTriggerEnter2D(Collider2D collider)//(Collision2D collision)
     {
         if (collider.TryGetComponent(out Shootable shootable))

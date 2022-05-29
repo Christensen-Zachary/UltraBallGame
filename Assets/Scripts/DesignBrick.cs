@@ -9,6 +9,7 @@ public class DesignBrick : MonoBehaviour
     private bool _isInitialized = false;
 
     public bool Selected { get; set; } = false;
+    public int SelectNumber { get; set; } = 0;
 
     public Brick Brick { get; set; } = new Brick();
     public int Row => Brick.Row;

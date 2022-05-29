@@ -9,6 +9,7 @@ public class DesignLevel : MonoBehaviour
     [field: SerializeField]
     public ResourceLocator ResourceLocator { get; set; }
     private int _levelNumber = 1;
+    private int _selectNumber = 0;
 
 
     [field: SerializeField]
@@ -17,6 +18,7 @@ public class DesignLevel : MonoBehaviour
     private List<DesignBrick> DesignBricks { get; set; } = new List<DesignBrick>();
     private List<Ball> Balls { get; set; }
     private DesignBrick SelectedBrick { get; set; }
+    
 
     private Grid _grid;
     private Camera _mainCamera;
@@ -154,73 +156,82 @@ public class DesignLevel : MonoBehaviour
 
         if (SelectedBrick != null)
         {
-            if (Input.GetKeyDown(KeyCode.H))
-            {
-                print($"_setHealth = true");
-                _setHealth = true;
-            }
+            SetHealthRoutine();
 
-            if (_setHealth)
+            if (Input.GetKeyDown(KeyCode.D))
             {
-                if (Input.GetKeyDown(KeyCode.Alpha0))
-                {
-                    _healthStr += "0";
-                }
-                else if (Input.GetKeyDown(KeyCode.Alpha1))
-                {
-                    _healthStr += "1";
-                }
-                else if (Input.GetKeyDown(KeyCode.Alpha2))
-                {
-                    _healthStr += "2";
-                }
-                else if (Input.GetKeyDown(KeyCode.Alpha3))
-                {
-                    _healthStr += "3";
-                }
-                else if (Input.GetKeyDown(KeyCode.Alpha4))
-                {
-                    _healthStr += "4";
-                }
-                else if (Input.GetKeyDown(KeyCode.Alpha5))
-                {
-                    _healthStr += "5";
-                }
-                else if (Input.GetKeyDown(KeyCode.Alpha6))
-                {
-                    _healthStr += "6";
-                }
-                else if (Input.GetKeyDown(KeyCode.Alpha7))
-                {
-                    _healthStr += "7";
-                }
-                else if (Input.GetKeyDown(KeyCode.Alpha8))
-                {
-                    _healthStr += "8";
-                }
-                else if (Input.GetKeyDown(KeyCode.Alpha9))
-                {
-                    _healthStr += "9";
-                }
-
-                if (Input.GetKeyDown(KeyCode.J))
-                {
-                    print($"_setHealth = false");
-                    _setHealth = false;
-                    try
-                    {
-                        SelectedBrick.SetHealth(Convert.ToInt32(_healthStr));
-                        _healthStr = "";
-                    }
-                    catch
-                    {
-                        print($"Unable to convert {_healthStr} to int32");
-                    }
-                }
+                DeleteSelectedBrick();
             }
         }
     }
 
+    private void SetHealthRoutine()
+    {
+        if (Input.GetKeyDown(KeyCode.H))
+        {
+            print($"_setHealth = true");
+            _setHealth = true;
+        }
+
+        if (_setHealth)
+        {
+            if (Input.GetKeyDown(KeyCode.Alpha0))
+            {
+                _healthStr += "0";
+            }
+            else if (Input.GetKeyDown(KeyCode.Alpha1))
+            {
+                _healthStr += "1";
+            }
+            else if (Input.GetKeyDown(KeyCode.Alpha2))
+            {
+                _healthStr += "2";
+            }
+            else if (Input.GetKeyDown(KeyCode.Alpha3))
+            {
+                _healthStr += "3";
+            }
+            else if (Input.GetKeyDown(KeyCode.Alpha4))
+            {
+                _healthStr += "4";
+            }
+            else if (Input.GetKeyDown(KeyCode.Alpha5))
+            {
+                _healthStr += "5";
+            }
+            else if (Input.GetKeyDown(KeyCode.Alpha6))
+            {
+                _healthStr += "6";
+            }
+            else if (Input.GetKeyDown(KeyCode.Alpha7))
+            {
+                _healthStr += "7";
+            }
+            else if (Input.GetKeyDown(KeyCode.Alpha8))
+            {
+                _healthStr += "8";
+            }
+            else if (Input.GetKeyDown(KeyCode.Alpha9))
+            {
+                _healthStr += "9";
+            }
+
+            if (Input.GetKeyDown(KeyCode.J))
+            {
+                print($"_setHealth = false");
+                _setHealth = false;
+                try
+                {
+                    SelectedBrick.SetHealth(Convert.ToInt32(_healthStr));
+                    _healthStr = "";
+                }
+                catch
+                {
+                    print($"Unable to convert {_healthStr} to int32");
+                }
+            }
+        }
+    }
 
     private void CreateDesignBrick(BrickType brickType)
     {
@@ -247,6 +258,14 @@ public class DesignLevel : MonoBehaviour
         SetSelectedBrick(brick);
     }
 
+    private void DeleteSelectedBrick()
+    {
+        DesignBricks.Remove(SelectedBrick);
+        Destroy(SelectedBrick.gameObject);
+
+        SetSelectedBrick(DesignBricks.OrderByDescending(x => x.SelectNumber).First()); // get most recently selected brick
+    }
+
     private void SetSelectedBrick(DesignBrick brick)
     {
         if (SelectedBrick != null)
@@ -254,6 +273,7 @@ public class DesignLevel : MonoBehaviour
             SelectedBrick.Selected = false;
         }
         brick.Selected = true;
+        brick.SelectNumber = _selectNumber++;
         SelectedBrick = brick;
     }
 
