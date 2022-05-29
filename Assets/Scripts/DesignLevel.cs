@@ -22,6 +22,7 @@ public class DesignLevel : MonoBehaviour
     private Camera _mainCamera;
     private bool _setHealth = false;
     private string _healthStr = "";
+    private bool _acceptCreateInput = false;
 
     private void Awake()
     {
@@ -56,16 +57,46 @@ public class DesignLevel : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            CreateDesignBrick();
+            _acceptCreateInput = true;
+            //CreateDesignBrick();
         }
         else if (Input.GetKeyDown(KeyCode.C))
         {
             CloneDesignBrick(SelectedBrick);
         }
+        
+        if (_acceptCreateInput)
+        {
+            _acceptCreateInput = false; // set to false to if input when input is given and else won't make true, then will remain false
+            if (Input.GetKeyDown(KeyCode.Q))
+            {
+                CreateDesignBrick(BrickType.Square);
+            }
+            else if (Input.GetKeyDown(KeyCode.W))
+            {
+                CreateDesignBrick(BrickType.Triangle0);
+            }
+            else if (Input.GetKeyDown(KeyCode.E))
+            {
+                CreateDesignBrick(BrickType.Triangle90);
+            }
+            else if (Input.GetKeyDown(KeyCode.R))
+            {
+                CreateDesignBrick(BrickType.Triangle180);
+            }
+            else if (Input.GetKeyDown(KeyCode.T))
+            {
+                CreateDesignBrick(BrickType.Triangle270);
+            }
+            else
+            {
+                _acceptCreateInput = true; // if no create brick input given, then try again
+            }
+        }
 
         if (DesignBricks.Count > 1) // check input for changing selected brick
         {
-            if (Input.GetKeyDown(KeyCode.RightArrow))
+            if (Input.GetKeyDown(KeyCode.D))
             {
                 for (int col = SelectedBrick.Col + 1; col < _grid.NumberOfDivisions; col++)
                 {
@@ -77,7 +108,7 @@ public class DesignLevel : MonoBehaviour
                     }
                 }
             }
-            else if (Input.GetKeyDown(KeyCode.LeftArrow))
+            else if (Input.GetKeyDown(KeyCode.A))
             {
                 for (int col = SelectedBrick.Col - 1; col >= 0; col--)
                 {
@@ -89,7 +120,7 @@ public class DesignLevel : MonoBehaviour
                     }
                 }
             }
-            else if (Input.GetKeyDown(KeyCode.UpArrow))
+            else if (Input.GetKeyDown(KeyCode.W))
             {
                 for (int row = SelectedBrick.Row - 1; row >= 0; row--)
                 {
@@ -101,7 +132,7 @@ public class DesignLevel : MonoBehaviour
                     }
                 }
             }
-            else if (Input.GetKeyDown(KeyCode.DownArrow))
+            else if (Input.GetKeyDown(KeyCode.S))
             {
                 for (int row = SelectedBrick.Row + 1; row < _grid.NumberOfDivisions; row++)
                 {
@@ -190,12 +221,14 @@ public class DesignLevel : MonoBehaviour
         }
     }
 
-    private void CreateDesignBrick()
+
+    private void CreateDesignBrick(BrickType brickType)
     {
         DesignBrick brick = Instantiate(DesignBrickPrefab).GetComponent<DesignBrick>();
         brick.name = $"DesignBrick {System.Guid.NewGuid()}";
         DesignBricks.Add(brick);
         brick.Initialize(ResourceLocator);
+        brick.SetType(brickType);
 
         SetSelectedBrick(brick);
     }
@@ -207,6 +240,7 @@ public class DesignLevel : MonoBehaviour
         DesignBricks.Add(brick);
         brick.Initialize(ResourceLocator);
 
+        brick.SetType(designBrick.BrickType);
         brick.SetPosition(designBrick.Col, designBrick.Row);
         brick.SetHealth(SelectedBrick.Health);
 

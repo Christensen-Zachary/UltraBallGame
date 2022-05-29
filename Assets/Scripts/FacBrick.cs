@@ -8,7 +8,15 @@ public class FacBrick : MonoBehaviour
     [field: SerializeField]
     public ResourceLocator ResourceLocator { get; set; }
     [field: SerializeField]
-    private GameObject BrickPrefab { get; set; }
+    private GameObject BrickPrefab0 { get; set; }
+    [field: SerializeField]
+    private GameObject BrickPrefab1 { get; set; }
+    [field: SerializeField]
+    private GameObject BrickPrefab2 { get; set; }
+    [field: SerializeField]
+    private GameObject BrickPrefab3 { get; set; }
+    [field: SerializeField]
+    private GameObject BrickPrefab4 { get; set; }
 
     private Grid _grid;
     private Transform _brickParent;
@@ -31,10 +39,22 @@ public class FacBrick : MonoBehaviour
         switch (brick.BrickType)
         {
             case BrickType.Square:
-                obj = Instantiate(BrickPrefab);
+                obj = Instantiate(BrickPrefab0);
+                break;
+            case BrickType.Triangle0:
+                obj = Instantiate(BrickPrefab1);
+                break;
+            case BrickType.Triangle90:
+                obj = Instantiate(BrickPrefab2);
+                break;
+            case BrickType.Triangle180:
+                obj = Instantiate(BrickPrefab3);
+                break;
+            case BrickType.Triangle270:
+                obj = Instantiate(BrickPrefab4);
                 break;
             default:
-                obj = Instantiate(BrickPrefab);
+                obj = Instantiate(BrickPrefab0);
                 break;
         }
         

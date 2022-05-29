@@ -5,7 +5,11 @@ using UnityEngine;
 
 public enum BrickType
 {
-    Square = 0
+    Square = 0,
+    Triangle0 = 1,
+    Triangle90 = 2,
+    Triangle180 = 3,
+    Triangle270 = 4
 }
 
 public class Brick

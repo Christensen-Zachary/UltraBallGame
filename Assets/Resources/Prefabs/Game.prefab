@@ -166,7 +166,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <ResourceLocator>k__BackingField: {fileID: 4516845128962790882}
-  <BrickPrefab>k__BackingField: {fileID: 728579221831963425, guid: 13f87f2953bf9b0479557f272c26a417, type: 3}
+  <BrickPrefab0>k__BackingField: {fileID: 728579221831963425, guid: 13f87f2953bf9b0479557f272c26a417, type: 3}
+  <BrickPrefab1>k__BackingField: {fileID: 6004766399811267286, guid: 1fc8bc89ad8c84d4ea6bc7d7fbd5ab1f, type: 3}
+  <BrickPrefab2>k__BackingField: {fileID: 6004766399811267286, guid: dc195514124b3a047823a3664494f2e2, type: 3}
+  <BrickPrefab3>k__BackingField: {fileID: 6004766399811267286, guid: e1505bbacbd428c42aaf7d6752189213, type: 3}
+  <BrickPrefab4>k__BackingField: {fileID: 6004766399811267286, guid: b9d4cfe858d0db54b9d848619143162f, type: 3}
 --- !u!1 &4516845130182519913
 GameObject:
   m_ObjectHideFlags: 0

@@ -14,6 +14,7 @@ public class DesignBrick : MonoBehaviour
     public int Row => Brick.Row;
     public int Col => Brick.Col;
     public int Health => Brick.Health;
+    public BrickType BrickType => Brick.BrickType;
 
 
     private Grid _grid;
@@ -38,19 +39,19 @@ public class DesignBrick : MonoBehaviour
     {
         if (_isInitialized && Selected)
         {
-            if (Input.GetKeyDown(KeyCode.W))
+            if (Input.GetKeyDown(KeyCode.UpArrow))
             {
                 SetPosition(Brick.Col, Brick.Row - 1);
             }
-            else if (Input.GetKeyDown(KeyCode.S))
+            else if (Input.GetKeyDown(KeyCode.DownArrow))
             {
                 SetPosition(Brick.Col, Brick.Row + 1);
             }
-            else if (Input.GetKeyDown(KeyCode.D))
+            else if (Input.GetKeyDown(KeyCode.RightArrow))
             {
                 SetPosition(Brick.Col + 1, Brick.Row);
             }
-            else if (Input.GetKeyDown(KeyCode.A))
+            else if (Input.GetKeyDown(KeyCode.LeftArrow))
             {
                 SetPosition(Brick.Col - 1, Brick.Row);
             }
@@ -67,6 +68,32 @@ public class DesignBrick : MonoBehaviour
         transform.localPosition = _grid.GetPosition(col, row);
         Brick.Col = col;
         Brick.Row = row;
+    }
+
+    public void SetType(BrickType brickType)
+    {
+        Brick.BrickType = brickType;
+
+        switch (brickType)
+        {
+            case BrickType.Square:
+                _sr.sprite = Resources.Load<Sprite>("Sprites/Square");
+                break;
+            case BrickType.Triangle0:
+                _sr.sprite = Resources.Load<Sprite>("Sprites/Triangle0");
+                break;
+            case BrickType.Triangle90:
+                _sr.sprite = Resources.Load<Sprite>("Sprites/Triangle90");
+                break;
+            case BrickType.Triangle180:
+                _sr.sprite = Resources.Load<Sprite>("Sprites/Triangle180");
+                break;
+            case BrickType.Triangle270:
+                _sr.sprite = Resources.Load<Sprite>("Sprites/Triangle270");
+                break;
+            default:
+                break;
+        }
     }
     
     public bool ContainsPoint(Vector3 point)
