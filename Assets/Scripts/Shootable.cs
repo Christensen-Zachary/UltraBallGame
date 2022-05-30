@@ -65,7 +65,7 @@ public class Shootable : MonoBehaviour
         }
         else
         {
-            print($"{hits.Length} hits {collision.contactCount} contacts");
+            //print($"{hits.Length} hits {collision.contactCount} contacts");
             for (int i = 0; i < hits.Length; i++)
             {
                 if (hits[i].collider.TryGetComponent(out Damageable damageable))
@@ -75,10 +75,6 @@ public class Shootable : MonoBehaviour
             }
         }
 
-        if (collision.collider.CompareTag("Brick"))
-        {
-            //if (collision.GetContact(0).point)
-        }
 
         if (RB.velocity.magnitude > MaxVelocity.magnitude)
         {

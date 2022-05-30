@@ -24,6 +24,8 @@ public class DesignLevel : MonoBehaviour
     private Camera _mainCamera;
     private bool _setHealth = false;
     private string _healthStr = "";
+    private bool _setLevel = false;
+    private string _levelStr = "";
     private bool _acceptCreateInput = false;
 
     private void Awake()
@@ -40,9 +42,108 @@ public class DesignLevel : MonoBehaviour
         _mainCamera = Camera.main;
     }
 
+    private void LoadLevel(int levelNumber)
+    {
+        Level level = LevelService.LoadLevel(levelNumber);
+        
+        DesignBricks.ForEach(x => Destroy(x.gameObject));
+        DesignBricks.Clear();
+
+        foreach (var brick in level.Bricks)
+        {
+            CreateDesignBrick(brick.BrickType);
+            
+            SelectedBrick.SetPosition(brick.Col, brick.Row);
+            SelectedBrick.SetHealth(brick.Health);
+        }
+    }
+
     void Update()
     {
+        LoadLevelRoutine();
 
+        SetSelectedBrickByClick();
+
+        CreateBrickRoutine();
+
+        if (DesignBricks.Count > 1) // check input for changing selected brick
+        {
+            ChangeBricksByKeypad();
+
+            SaveLevelRoutine();
+        }
+
+        if (SelectedBrick != null)
+        {
+            SetHealthRoutine();
+
+            DeleteSelectedBrickRoutine();
+        }
+    }
+
+    private void SaveLevelRoutine()
+    {
+        if (InputSaveLevel())
+        {
+            SaveLevel();
+            print($"Level saved");
+        }
+    }
+
+    private void ChangeBricksByKeypad()
+    {
+        if (InputSetSelectedRight())
+        {
+            for (int col = SelectedBrick.Col + 1; col < _grid.NumberOfDivisions; col++)
+            {
+                DesignBrick newBrick = DesignBricks.Find(x => x.Row == SelectedBrick.Row && x.Col == col);
+                if (newBrick != null)
+                {
+                    SetSelectedBrick(newBrick);
+                    break;
+                }
+            }
+        }
+        else if (InputSetSelectedLeft())
+        {
+            for (int col = SelectedBrick.Col - 1; col >= 0; col--)
+            {
+                DesignBrick newBrick = DesignBricks.Find(x => x.Row == SelectedBrick.Row && x.Col == col);
+                if (newBrick != null)
+                {
+                    SetSelectedBrick(newBrick);
+                    break;
+                }
+            }
+        }
+        else if (InputSetSelectedUp())
+        {
+            for (int row = SelectedBrick.Row - 1; row >= 0; row--)
+            {
+                DesignBrick newBrick = DesignBricks.Find(x => x.Row == row && x.Col == SelectedBrick.Col);
+                if (newBrick != null)
+                {
+                    SetSelectedBrick(newBrick);
+                    break;
+                }
+            }
+        }
+        else if (InputSetSelectedDown())
+        {
+            for (int row = SelectedBrick.Row + 1; row < _grid.NumberOfDivisions; row++)
+            {
+                DesignBrick newBrick = DesignBricks.Find(x => x.Row == row && x.Col == SelectedBrick.Col);
+                if (newBrick != null)
+                {
+                    SetSelectedBrick(newBrick);
+                    break;
+                }
+            }
+        }
+    }
+
+    private void SetSelectedBrickByClick()
+    {
         if (Input.GetMouseButtonDown(0))
         {
             Vector3 inputPos = _mainCamera.ScreenToWorldPoint(Input.mousePosition);
@@ -56,37 +157,39 @@ public class DesignLevel : MonoBehaviour
                 }
             }
         }
+    }
 
-        if (Input.GetKeyDown(KeyCode.Space))
+    private void CreateBrickRoutine()
+    {
+        if (InputBeginCreate())
         {
             _acceptCreateInput = true;
-            //CreateDesignBrick();
         }
-        else if (Input.GetKeyDown(KeyCode.C))
+        else if (InputCloneBrick())
         {
             CloneDesignBrick(SelectedBrick);
         }
-        
+
         if (_acceptCreateInput)
         {
             _acceptCreateInput = false; // set to false to if input when input is given and else won't make true, then will remain false
-            if (Input.GetKeyDown(KeyCode.Q))
+            if (InputSetSquare())
             {
                 CreateDesignBrick(BrickType.Square);
             }
-            else if (Input.GetKeyDown(KeyCode.W))
+            else if (InputSetTriangle0())
             {
                 CreateDesignBrick(BrickType.Triangle0);
             }
-            else if (Input.GetKeyDown(KeyCode.E))
+            else if (InputSetTriangle90())
             {
                 CreateDesignBrick(BrickType.Triangle90);
             }
-            else if (Input.GetKeyDown(KeyCode.R))
+            else if (InputSetTriangle180())
             {
                 CreateDesignBrick(BrickType.Triangle180);
             }
-            else if (Input.GetKeyDown(KeyCode.T))
+            else if (InputSetTriangle270())
             {
                 CreateDesignBrick(BrickType.Triangle270);
             }
@@ -95,79 +198,180 @@ public class DesignLevel : MonoBehaviour
                 _acceptCreateInput = true; // if no create brick input given, then try again
             }
         }
-
-        if (DesignBricks.Count > 1) // check input for changing selected brick
+        else
         {
-            if (Input.GetKeyDown(KeyCode.D))
+            if (InputSetSquare())
             {
-                for (int col = SelectedBrick.Col + 1; col < _grid.NumberOfDivisions; col++)
-                {
-                    DesignBrick newBrick = DesignBricks.Find(x => x.Row == SelectedBrick.Row && x.Col == col);
-                    if (newBrick != null)
-                    {
-                        SetSelectedBrick(newBrick);
-                        break;
-                    }
-                }
+                SelectedBrick.SetType(BrickType.Square);
             }
-            else if (Input.GetKeyDown(KeyCode.A))
+            else if (InputSetTriangle0())
             {
-                for (int col = SelectedBrick.Col - 1; col >= 0; col--)
-                {
-                    DesignBrick newBrick = DesignBricks.Find(x => x.Row == SelectedBrick.Row && x.Col == col);
-                    if (newBrick != null)
-                    {
-                        SetSelectedBrick(newBrick);
-                        break;
-                    }
-                }
+                SelectedBrick.SetType(BrickType.Triangle0);
             }
-            else if (Input.GetKeyDown(KeyCode.W))
+            else if (InputSetTriangle90())
             {
-                for (int row = SelectedBrick.Row - 1; row >= 0; row--)
-                {
-                    DesignBrick newBrick = DesignBricks.Find(x => x.Row == row && x.Col == SelectedBrick.Col);
-                    if (newBrick != null)
-                    {
-                        SetSelectedBrick(newBrick);
-                        break;
-                    }
-                }
+                SelectedBrick.SetType(BrickType.Triangle90);
             }
-            else if (Input.GetKeyDown(KeyCode.S))
+            else if (InputSetTriangle180())
             {
-                for (int row = SelectedBrick.Row + 1; row < _grid.NumberOfDivisions; row++)
-                {
-                    DesignBrick newBrick = DesignBricks.Find(x => x.Row == row && x.Col == SelectedBrick.Col);
-                    if (newBrick != null)
-                    {
-                        SetSelectedBrick(newBrick);
-                        break;
-                    }
-                }
+                SelectedBrick.SetType(BrickType.Triangle180);
             }
-
-            if (Input.GetKeyDown(KeyCode.Return))
+            else if (InputSetTriangle270())
             {
-                SaveLevel();
-                print($"Level saved");
-            }
-        }
-
-        if (SelectedBrick != null)
-        {
-            SetHealthRoutine();
-
-            if (Input.GetKeyDown(KeyCode.D))
-            {
-                DeleteSelectedBrick();
+                SelectedBrick.SetType(BrickType.Triangle270);
             }
         }
     }
 
+    private void LoadLevelRoutine()
+    {
+        
+
+        if (_setLevel)
+        {
+            if (Input0())
+            {
+                _levelStr += "0";
+            }
+            else if (Input1())
+            {
+                _levelStr += "1";
+            }
+            else if (Input2())
+            {
+                _levelStr += "2";
+            }
+            else if (Input3())
+            {
+                _levelStr += "3";
+            }
+            else if (Input4())
+            {
+                _levelStr += "4";
+            }
+            else if (Input5())
+            {
+                _levelStr += "5";
+            }
+            else if (Input6())
+            {
+                _levelStr += "6";
+            }
+            else if (Input7())
+            {
+                _levelStr += "7";
+            }
+            else if (Input8())
+            {
+                _levelStr += "8";
+            }
+            else if (Input9())
+            {
+                _levelStr += "9";
+            }
+            else if (InputLoadLevel())
+            {
+                _setLevel = false;
+                try
+                {
+                    int levelNumber = Convert.ToInt32(_levelStr);
+                    _levelStr = "";
+                    LoadLevel(levelNumber);
+                }
+                catch
+                {
+                    print($"Could not convert {_levelStr} to a number");
+                }
+            }
+        }
+
+        if (InputLoadLevel() && !_setLevel)
+        {
+            _setLevel = true;
+        }
+    }
+
+    private static bool InputLoadLevel()
+    {
+        return Input.GetKeyDown(KeyCode.L);
+    }
+
+    private void DeleteSelectedBrickRoutine()
+    {
+        if (InputDeletedSelectedBrick())
+        {
+            DeleteSelectedBrick();
+        }
+    }
+
+    private static bool InputDeletedSelectedBrick()
+    {
+        return Input.GetKeyDown(KeyCode.D);
+    }
+
+    private static bool InputSaveLevel()
+    {
+        return Input.GetKeyDown(KeyCode.Return);
+    }
+
+    private static bool InputSetSelectedDown()
+    {
+        return Input.GetKeyDown(KeyCode.Keypad2);
+    }
+
+    private static bool InputSetSelectedUp()
+    {
+        return Input.GetKeyDown(KeyCode.Keypad5);
+    }
+
+    private static bool InputSetSelectedLeft()
+    {
+        return Input.GetKeyDown(KeyCode.Keypad1);
+    }
+
+    private static bool InputSetSelectedRight()
+    {
+        return Input.GetKeyDown(KeyCode.Keypad3);
+    }
+
+    private static bool InputSetTriangle270()
+    {
+        return Input.GetKeyDown(KeyCode.T);
+    }
+
+    private static bool InputSetTriangle180()
+    {
+        return Input.GetKeyDown(KeyCode.R);
+    }
+
+    private static bool InputSetTriangle90()
+    {
+        return Input.GetKeyDown(KeyCode.E);
+    }
+
+    private static bool InputSetTriangle0()
+    {
+        return Input.GetKeyDown(KeyCode.W);
+    }
+
+    private static bool InputSetSquare()
+    {
+        return Input.GetKeyDown(KeyCode.Q);
+    }
+
+    private static bool InputCloneBrick()
+    {
+        return Input.GetKeyDown(KeyCode.C);
+    }
+
+    private static bool InputBeginCreate()
+    {
+        return Input.GetKeyDown(KeyCode.Space);
+    }
+
     private void SetHealthRoutine()
     {
-        if (Input.GetKeyDown(KeyCode.H))
+        if (InputStartSetHealth())
         {
             print($"_setHealth = true");
             _setHealth = true;
@@ -175,48 +379,48 @@ public class DesignLevel : MonoBehaviour
 
         if (_setHealth)
         {
-            if (Input.GetKeyDown(KeyCode.Alpha0))
+            if (Input0())
             {
                 _healthStr += "0";
             }
-            else if (Input.GetKeyDown(KeyCode.Alpha1))
+            else if (Input1())
             {
                 _healthStr += "1";
             }
-            else if (Input.GetKeyDown(KeyCode.Alpha2))
+            else if (Input2())
             {
                 _healthStr += "2";
             }
-            else if (Input.GetKeyDown(KeyCode.Alpha3))
+            else if (Input3())
             {
                 _healthStr += "3";
             }
-            else if (Input.GetKeyDown(KeyCode.Alpha4))
+            else if (Input4())
             {
                 _healthStr += "4";
             }
-            else if (Input.GetKeyDown(KeyCode.Alpha5))
+            else if (Input5())
             {
                 _healthStr += "5";
             }
-            else if (Input.GetKeyDown(KeyCode.Alpha6))
+            else if (Input6())
             {
                 _healthStr += "6";
             }
-            else if (Input.GetKeyDown(KeyCode.Alpha7))
+            else if (Input7())
             {
                 _healthStr += "7";
             }
-            else if (Input.GetKeyDown(KeyCode.Alpha8))
+            else if (Input8())
             {
                 _healthStr += "8";
             }
-            else if (Input.GetKeyDown(KeyCode.Alpha9))
+            else if (Input9())
             {
                 _healthStr += "9";
             }
 
-            if (Input.GetKeyDown(KeyCode.J))
+            if (InputEndSetHealth())
             {
                 print($"_setHealth = false");
                 _setHealth = false;
@@ -231,6 +435,66 @@ public class DesignLevel : MonoBehaviour
                 }
             }
         }
+    }
+
+    private static bool InputEndSetHealth()
+    {
+        return Input.GetKeyDown(KeyCode.J);
+    }
+
+    private static bool Input9()
+    {
+        return Input.GetKeyDown(KeyCode.Alpha9);
+    }
+
+    private static bool Input8()
+    {
+        return Input.GetKeyDown(KeyCode.Alpha8);
+    }
+
+    private static bool Input7()
+    {
+        return Input.GetKeyDown(KeyCode.Alpha7);
+    }
+
+    private static bool Input6()
+    {
+        return Input.GetKeyDown(KeyCode.Alpha6);
+    }
+
+    private static bool Input5()
+    {
+        return Input.GetKeyDown(KeyCode.Alpha5);
+    }
+
+    private static bool Input4()
+    {
+        return Input.GetKeyDown(KeyCode.Alpha4);
+    }
+
+    private static bool Input3()
+    {
+        return Input.GetKeyDown(KeyCode.Alpha3);
+    }
+
+    private static bool Input2()
+    {
+        return Input.GetKeyDown(KeyCode.Alpha2);
+    }
+
+    private static bool Input1()
+    {
+        return Input.GetKeyDown(KeyCode.Alpha1);
+    }
+
+    private static bool Input0()
+    {
+        return Input.GetKeyDown(KeyCode.Alpha0);
+    }
+
+    private static bool InputStartSetHealth()
+    {
+        return Input.GetKeyDown(KeyCode.H);
     }
 
     private void CreateDesignBrick(BrickType brickType)

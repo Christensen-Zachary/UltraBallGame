@@ -85,7 +85,7 @@ public class LevelService : MonoBehaviour
             }
 
             // balls added manually because they are not currently saved and loaded
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i < 25; i++)
             {
                 level.Balls.Add(new Ball(1, 0.8f));
             }

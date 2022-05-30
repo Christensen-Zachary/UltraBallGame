@@ -6,6 +6,8 @@ public class DesignBrick : MonoBehaviour
 {
     [field: SerializeField]
     public ResourceLocator ResourceLocator { get; set; }
+    [field: SerializeField]
+    public BrickNumber BrickNumber { get; set; }
     private bool _isInitialized = false;
 
     public bool Selected { get; set; } = false;
@@ -62,6 +64,7 @@ public class DesignBrick : MonoBehaviour
     public void SetHealth(int health)
     {
         Brick.Health = health;
+        BrickNumber.SetNumber(health);
     }
 
     public void SetPosition(int col, int row)
