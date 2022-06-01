@@ -19,7 +19,7 @@ public class AdvanceService : MonoBehaviour
 
     public IEnumerator Advance()
     {
-        Advanceables.ForEach(x => x.MoveDown());
+        Advanceables.ForEach(x => { if (x != null) x.MoveDown(); });
 
         yield return new WaitUntil(() => Advanceables.All(x => !x.IsMoving));
     }

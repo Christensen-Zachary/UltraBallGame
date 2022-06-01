@@ -11,7 +11,8 @@ public enum GState
     WaitingForPlayerInput,
     MovingPlayer,
     Aiming,
-    Firing
+    Firing,
+    EndTurn
 }
 
 
@@ -30,6 +31,7 @@ public class FSMGame : MonoBehaviour
     private AdvanceService _advanceService;
 
     private bool _isRunningSetupLevel = false;
+    private bool _isEndingTurn = false;
 
     void Start()
     {
@@ -105,9 +107,27 @@ public class FSMGame : MonoBehaviour
             if (_gameInput.ReturnFire() || _player.IsFireComplete())
             {
                 _player.EndFire();
-                _state = GState.WaitingForPlayerInput;
+                _state = GState.EndTurn;
             }
         }
+        else if (_state == GState.EndTurn)
+        {
+            if (!_isEndingTurn)
+            {
+                StartCoroutine(EndTurnRoutine());
+            }
+
+        }
+    }
+
+    private IEnumerator EndTurnRoutine()
+    {
+        _isEndingTurn = true;
+
+        yield return StartCoroutine(_advanceService.Advance());
+
+        _state = GState.WaitingForPlayerInput;
+        _isEndingTurn = false;
     }
 
     private IEnumerator SetupLevel()
@@ -128,7 +148,6 @@ public class FSMGame : MonoBehaviour
         _player.SetRadius();
 
         yield return StartCoroutine(_advanceService.Advance());
-        yield return null;
 
         // change states first so variable will always be true until after state change to avoid race condition, unless this happens atomically then it doesn't matter
         _state = GState.WaitingForPlayerInput;

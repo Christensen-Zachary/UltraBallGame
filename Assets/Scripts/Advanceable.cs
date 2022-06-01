@@ -9,7 +9,7 @@ public class Advanceable : MonoBehaviour
     private float _moveTime = 1f;
 
     public bool IsMoving => _isMoving;
-    public Grid _grid;
+    public Grid _grid; // set in FacBrick
 
     public void MoveDown()
     {
