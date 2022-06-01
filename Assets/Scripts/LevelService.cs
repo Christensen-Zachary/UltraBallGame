@@ -64,25 +64,75 @@ public class LevelService : MonoBehaviour
         try
         {
             level.NumberOfDivisions = Convert.ToInt32(levelString.Split(NUMBEROFDIVISIONS_DELIMITER)[0]);
+        }
+        catch (Exception ex)
+        {
+            print($"Could not get [0] from NUMBEROFDIVISIONS split {ex.Message}");
+            return null;
+        }
 
-            foreach (var item in levelString.Split(NUMBEROFDIVISIONS_DELIMITER)[1].Split(BRICK_TYPES_DELIMITER))
+        try
+        {
+            string str = levelString.Split(NUMBEROFDIVISIONS_DELIMITER)[1];
+        }
+        catch (Exception ex)
+        {
+            print($"Could not get [1] from NUMBEROFDIVISIONS split {ex.Message}");
+            return null;
+        }
+
+        try
+        {
+            string[] str = levelString.Split(NUMBEROFDIVISIONS_DELIMITER)[1].Split(BRICK_TYPES_DELIMITER);
+        }
+        catch (Exception ex)
+        {
+            print($"Could not get string[] from NUMBEROFDIVISIONS split BRICKTYPES split {ex.Message}");
+            return null;
+        }
+
+        foreach (var item in levelString.Split(NUMBEROFDIVISIONS_DELIMITER)[1].Split(BRICK_TYPES_DELIMITER))
+        {
+            if (item != "")
             {
-                if (item != "")
+                BrickType type;
+                try
                 {
-                    BrickType type = (BrickType)Convert.ToInt32(item.Split(BRICK_TYPE_DELIMITER)[0]);
-                    foreach (var item1 in item.Split(BRICK_TYPE_DELIMITER)[1].Split(BRICK_DELIMITER))
+                    type = (BrickType)Convert.ToInt32(item.Split(BRICK_TYPE_DELIMITER)[0]);
+                }
+                catch (Exception ex)
+                {
+                    print($"Could not get [0] from BRICKTYPE split {ex.Message}");
+                    return null;
+                }
+
+                try
+                {
+                    string[] str = item.Split(BRICK_TYPE_DELIMITER)[1].Split(BRICK_DELIMITER);
+                }
+                catch (Exception ex)
+                {
+                    print($"Could not get [1] from BRICKTYPE split BRICK_DELIMITER split {ex.Message}");
+                    foreach (var item1 in item.Split(BRICK_TYPE_DELIMITER))
                     {
-                        if (item1 != "")
-                        {
-                            level.Bricks.Add(new Brick(type,
-                                Convert.ToInt32(item1.Split(BRICK_PARAMS_DELIMITER)[0]),
-                                Convert.ToInt32(item1.Split(BRICK_PARAMS_DELIMITER)[1]),
-                                Convert.ToInt32(item1.Split(BRICK_PARAMS_DELIMITER)[2])
-                            ));
-                        }
+                        print($"{item1}");
+                    }
+                    return null;
+                }
+
+                foreach (var item1 in item.Split(BRICK_TYPE_DELIMITER)[1].Split(BRICK_DELIMITER))
+                {
+                    if (item1 != "")
+                    {
+                        level.Bricks.Add(new Brick(type,
+                            Convert.ToInt32(item1.Split(BRICK_PARAMS_DELIMITER)[0]),
+                            Convert.ToInt32(item1.Split(BRICK_PARAMS_DELIMITER)[1]),
+                            Convert.ToInt32(item1.Split(BRICK_PARAMS_DELIMITER)[2])
+                        ));
                     }
                 }
             }
+        }
 
             // balls added manually because they are not currently saved and loaded
             for (int i = 0; i < 25; i++)
@@ -91,12 +141,6 @@ public class LevelService : MonoBehaviour
             }
 
             return level;
-        }
-        catch
-        {
-            print("Error loading level");
-            return null;
-        }
     }
 
     public static void SaveLevel(Level level)

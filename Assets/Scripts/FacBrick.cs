@@ -21,6 +21,7 @@ public class FacBrick : MonoBehaviour
     private Grid _grid;
     private Transform _brickParent;
     private BrickFixCollision _brickFixCollision;
+    private AdvanceService _advanceService;
 
     public float MaxHealth { get; set; } = 10;
 
@@ -28,6 +29,7 @@ public class FacBrick : MonoBehaviour
     {
         _grid = ResourceLocator.GetResource<Grid>("Grid");
         _brickFixCollision = ResourceLocator.GetResource<BrickFixCollision>("BrickFixCollision");
+        _advanceService = ResourceLocator.GetResource<AdvanceService>("AdvanceService");
         ResourceLocator.AddResource("FacBrick", this);
 
         _brickParent = transform;
@@ -77,6 +79,12 @@ public class FacBrick : MonoBehaviour
             brickCollision.Col = brick.Col;
             brickCollision.Row = brick.Row;
             _brickFixCollision.Bricks.Add(brickCollision);
+        }
+
+        if (obj.TryGetComponent(out Advanceable advanceable))
+        {
+            advanceable._grid = _grid;
+            _advanceService.Advanceables.Add(advanceable);
         }
 
         return obj;

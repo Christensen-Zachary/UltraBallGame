@@ -99,10 +99,10 @@ Transform:
   m_Children:
   - {fileID: 4516845130182519915}
   - {fileID: 4516845130310491960}
+  - {fileID: 4516845129722876094}
   - {fileID: 4728839104468088956}
   - {fileID: 4516845130258000527}
   - {fileID: 4516845130371445006}
-  - {fileID: 4516845129722876094}
   - {fileID: 4516845130395365698}
   - {fileID: 769073130840709002}
   - {fileID: 2764742752242265150}
@@ -131,6 +131,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4516845129722876094}
   - component: {fileID: 4516845129722876081}
+  - component: {fileID: 351461757889611240}
   - component: {fileID: 3474184885164140202}
   - component: {fileID: 4730380971009756186}
   m_Layer: 9
@@ -153,7 +154,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4516845128962790883}
-  m_RootOrder: 5
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &4516845129722876081
 MonoBehaviour:
@@ -173,6 +174,19 @@ MonoBehaviour:
   <BrickPrefab2>k__BackingField: {fileID: 6004766399811267286, guid: dc195514124b3a047823a3664494f2e2, type: 3}
   <BrickPrefab3>k__BackingField: {fileID: 6004766399811267286, guid: e1505bbacbd428c42aaf7d6752189213, type: 3}
   <BrickPrefab4>k__BackingField: {fileID: 6004766399811267286, guid: b9d4cfe858d0db54b9d848619143162f, type: 3}
+--- !u!114 &351461757889611240
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4516845129722876095}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b6ad744e5a095a8499d6617bc7bd87fe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <ResourceLocator>k__BackingField: {fileID: 4516845128962790882}
 --- !u!50 &3474184885164140202
 Rigidbody2D:
   serializedVersion: 4
@@ -324,7 +338,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4516845128962790883}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &4516845130258000513
 MonoBehaviour:
@@ -495,7 +509,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 4516845128962790883}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &4516845130371445007
 MonoBehaviour:
@@ -687,7 +701,7 @@ PrefabInstance:
       objectReference: {fileID: 4516845128962790882}
     - target: {fileID: 9155598873502979002, guid: 333d70e9459a54a4d8b10dfb4a489593, type: 3}
       propertyPath: m_RootOrder
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 9155598873502979002, guid: 333d70e9459a54a4d8b10dfb4a489593, type: 3}
       propertyPath: m_LocalPosition.x

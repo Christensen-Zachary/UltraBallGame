@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
@@ -26,6 +27,9 @@ public class FSMGame : MonoBehaviour
     private BrickFixCollision _brickFixCollision;
     private FacBrick _facBrick;
     private FacBall _facBall;
+    private AdvanceService _advanceService;
+
+    private bool _isRunningSetupLevel = false;
 
     void Start()
     {
@@ -35,14 +39,15 @@ public class FSMGame : MonoBehaviour
         _brickFixCollision = ResourceLocator.GetResource<BrickFixCollision>("BrickFixCollision");
         _facBrick = ResourceLocator.GetResource<FacBrick>("FacBrick");
         _facBall = ResourceLocator.GetResource<FacBall>("FacBall");
+        _advanceService = ResourceLocator.GetResource<AdvanceService>("AdvanceService");
 
         //Time.timeScale = 0.3f;
     }
 
-    
+
     void Update()
     {
-        // print($"state: {_state}");
+        //print($"state: {_state}");
 
         /*
          * Use effectors to create directional collisions to create 'doors' for balls to go through and get trapped for maximum fun zone
@@ -50,20 +55,10 @@ public class FSMGame : MonoBehaviour
          */
         if (_state == GState.SetupLevel)
         {
-            _facBrick.MaxHealth = _levelService.Bricks.Select(x => x.Health).Max();
-
-            for (int i = 0; i < _levelService.NumberOfDivisions - 1; i++)
+            if (!_isRunningSetupLevel)
             {
-                _levelService.GetNextRow().ForEach(x => _facBrick.Create(x));
+                StartCoroutine(SetupLevel());
             }
-            //_brickFixCollision.SetProblemCorners();
-            //StartCoroutine(_brickFixCollision.SetPolygonColliderPaths());
-            //_brickFixCollision.SetPolygonColliderPaths();
-
-            _levelService.Balls.ForEach(x => _facBall.Create(x));
-            _player.SetRadius();
-
-            _state = GState.WaitingForPlayerInput;
         }
         else if (_state == GState.WaitingForPlayerInput)
         {
@@ -113,5 +108,30 @@ public class FSMGame : MonoBehaviour
                 _state = GState.WaitingForPlayerInput;
             }
         }
+    }
+
+    private IEnumerator SetupLevel()
+    {
+        _isRunningSetupLevel = true;
+
+        _facBrick.MaxHealth = _levelService.Bricks.Select(x => x.Health).Max();
+
+        for (int i = 0; i < _levelService.NumberOfDivisions - 1; i++)
+        {
+            _levelService.GetNextRow().ForEach(x => { x.Row--; _facBrick.Create(x); }); // subtract row so will advance down into position
+        }
+        //_brickFixCollision.SetProblemCorners();
+        //StartCoroutine(_brickFixCollision.SetPolygonColliderPaths());
+        //_brickFixCollision.SetPolygonColliderPaths();
+
+        _levelService.Balls.ForEach(x => _facBall.Create(x));
+        _player.SetRadius();
+
+        yield return StartCoroutine(_advanceService.Advance());
+        yield return null;
+
+        // change states first so variable will always be true until after state change to avoid race condition, unless this happens atomically then it doesn't matter
+        _state = GState.WaitingForPlayerInput;
+        _isRunningSetupLevel = false;
     }
 }
