@@ -10,6 +10,7 @@ public class Advanceable : MonoBehaviour
 
     public bool IsMoving => _isMoving;
     public Grid _grid; // set in FacBrick
+    public AdvanceService _advanceService; // set in FacBrick
 
     public void MoveDown()
     {
@@ -19,7 +20,6 @@ public class Advanceable : MonoBehaviour
             StartCoroutine(MoveDownRoutine()); 
         }
     }
-
 
     private IEnumerator MoveDownRoutine()
     {
@@ -36,6 +36,11 @@ public class Advanceable : MonoBehaviour
         transform.position = endPosition;
 
         _isMoving = false;
+    }
+
+    public void RemoveFromList()
+    {
+        _advanceService.Advanceables.Remove(this);
     }
     
 }

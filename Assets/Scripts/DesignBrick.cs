@@ -82,18 +82,31 @@ public class DesignBrick : MonoBehaviour
         {
             case BrickType.Square:
                 _sr.sprite = Resources.Load<Sprite>("Sprites/Square");
+                BrickNumber.Show();
                 break;
             case BrickType.Triangle0:
                 _sr.sprite = Resources.Load<Sprite>("Sprites/Triangle0");
+                BrickNumber.Show();
                 break;
             case BrickType.Triangle90:
                 _sr.sprite = Resources.Load<Sprite>("Sprites/Triangle90");
+                BrickNumber.Show();
                 break;
             case BrickType.Triangle180:
                 _sr.sprite = Resources.Load<Sprite>("Sprites/Triangle180");
+                BrickNumber.Show();
                 break;
             case BrickType.Triangle270:
                 _sr.sprite = Resources.Load<Sprite>("Sprites/Triangle270");
+                BrickNumber.Show();
+                break;
+            case BrickType.InvincibleSquare:
+                _sr.sprite = Resources.Load<Sprite>("Sprites/Square");
+                BrickNumber.Hide();
+                break;
+            case BrickType.FirePowerup:
+                _sr.sprite = Resources.Load<Sprite>("Sprites/PNG/sun");
+                BrickNumber.Hide();
                 break;
             default:
                 break;

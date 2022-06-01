@@ -9,7 +9,9 @@ public enum BrickType
     Triangle0 = 1,
     Triangle90 = 2,
     Triangle180 = 3,
-    Triangle270 = 4
+    Triangle270 = 4,
+    InvincibleSquare = 5,
+    FirePowerup = 6
 }
 
 public class Brick

@@ -63,6 +63,11 @@ public class Damageable : MonoBehaviour
 
             gameObject.transform.parent.position = Vector2.one * 100;
             Destroy(transform.parent.gameObject, 1);
+
+            if (transform.parent.TryGetComponent(out Advanceable advanceable))
+            {
+                advanceable.RemoveFromList();
+            }
         }
     }
 

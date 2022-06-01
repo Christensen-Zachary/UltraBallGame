@@ -193,6 +193,14 @@ public class DesignLevel : MonoBehaviour
             {
                 CreateDesignBrick(BrickType.Triangle270);
             }
+            else if (InputSetInvincibleSquare())
+            {
+                CreateDesignBrick(BrickType.InvincibleSquare);
+            }
+            else if (InputSetFirePowerup())
+            {
+                CreateDesignBrick(BrickType.FirePowerup);
+            }
             else
             {
                 _acceptCreateInput = true; // if no create brick input given, then try again
@@ -220,7 +228,25 @@ public class DesignLevel : MonoBehaviour
             {
                 SelectedBrick.SetType(BrickType.Triangle270);
             }
+            else if (InputSetInvincibleSquare())
+            {
+                SelectedBrick.SetType(BrickType.InvincibleSquare);
+            }
+            else if (InputSetFirePowerup())
+            {
+                SelectedBrick.SetType(BrickType.FirePowerup);
+            }
         }
+    }
+
+    private static bool InputSetFirePowerup()
+    {
+        return Input.GetKeyDown(KeyCode.U);
+    }
+
+    private static bool InputSetInvincibleSquare()
+    {
+        return Input.GetKeyDown(KeyCode.Y);
     }
 
     private void LoadLevelRoutine()

@@ -13,6 +13,7 @@ public class Shootable : MonoBehaviour
     [field: SerializeField]
     public float Damage { get; set; } = 1;
     public bool IsReturned { get; private set; }
+    public bool IsBuffed { get; set; } = false;
 
     private Vector2 _lagPosition = Vector2.zero;
     public Vector2 LagVelocity { get; set; } = Vector2.zero;
@@ -57,7 +58,7 @@ public class Shootable : MonoBehaviour
         RaycastHit2D[] hits = Physics2D.CircleCastAll(collision.contacts[0].point, _radius, LagVelocity.normalized, 0.05f, layerMask);
         if (hits.Length == 0)
         {
-            print("No hits");
+            //print("No hits");
             //GameObject obj = Instantiate(Resources.Load<GameObject>("Prefabs/MidPrediction"));
             //obj.transform.position = collision.contacts[0].point;
             //obj.transform.localScale = Vector3.one * 0.3f;
@@ -104,5 +105,13 @@ public class Shootable : MonoBehaviour
         IsReturned = true;
         RB.velocity = Vector3.zero;
         transform.localPosition = _offScreen;
+
+        PowerupAttachment powerupAttachment = GetComponentInChildren<PowerupAttachment>();
+        if (powerupAttachment != null)
+        {
+            //Destroy(powerupAttachment.gameObject);
+            Damage = 1;
+            IsBuffed = false;
+        }
     }
 }

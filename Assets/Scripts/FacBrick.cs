@@ -17,6 +17,10 @@ public class FacBrick : MonoBehaviour
     private GameObject BrickPrefab3 { get; set; }
     [field: SerializeField]
     private GameObject BrickPrefab4 { get; set; }
+    [field: SerializeField]
+    public GameObject BrickPrefab5 { get; set; }
+    [field: SerializeField]
+    public GameObject BrickPrefab6 { get; set; }
 
     private Grid _grid;
     private Transform _brickParent;
@@ -55,6 +59,12 @@ public class FacBrick : MonoBehaviour
             case BrickType.Triangle270:
                 obj = Instantiate(BrickPrefab4);
                 break;
+            case BrickType.InvincibleSquare:
+                obj = Instantiate(BrickPrefab5);
+                break;
+            case BrickType.FirePowerup:
+                obj = Instantiate(BrickPrefab6);
+                break;
             default:
                 obj = Instantiate(BrickPrefab0);
                 break;
@@ -84,8 +94,15 @@ public class FacBrick : MonoBehaviour
         if (obj.TryGetComponent(out Advanceable advanceable))
         {
             advanceable._grid = _grid;
+            advanceable._advanceService = _advanceService;
             _advanceService.Advanceables.Add(advanceable);
         }
+
+        if (obj.TryGetComponent(out FirePowerup firePowerup))
+        {
+            firePowerup.EndTurnDestroyService = ResourceLocator.GetResource<EndTurnDestroyService>("EndTurnDestroyService");
+        }
+
 
         return obj;
     }

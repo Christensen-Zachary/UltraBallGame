@@ -29,6 +29,7 @@ public class FSMGame : MonoBehaviour
     private FacBrick _facBrick;
     private FacBall _facBall;
     private AdvanceService _advanceService;
+    private EndTurnDestroyService _endTurnDestroyService;
 
     private bool _isRunningSetupLevel = false;
     private bool _isEndingTurn = false;
@@ -42,6 +43,7 @@ public class FSMGame : MonoBehaviour
         _facBrick = ResourceLocator.GetResource<FacBrick>("FacBrick");
         _facBall = ResourceLocator.GetResource<FacBall>("FacBall");
         _advanceService = ResourceLocator.GetResource<AdvanceService>("AdvanceService");
+        _endTurnDestroyService = ResourceLocator.GetResource<EndTurnDestroyService>("EndTurnDestroyService");
 
         //Time.timeScale = 0.3f;
     }
@@ -123,8 +125,11 @@ public class FSMGame : MonoBehaviour
     private IEnumerator EndTurnRoutine()
     {
         _isEndingTurn = true;
+        _endTurnDestroyService.DestroyGameObjects();
 
         yield return StartCoroutine(_advanceService.Advance());
+
+        print($"State here is {_state}");
 
         _state = GState.WaitingForPlayerInput;
         _isEndingTurn = false;
@@ -140,9 +145,6 @@ public class FSMGame : MonoBehaviour
         {
             _levelService.GetNextRow().ForEach(x => { x.Row--; _facBrick.Create(x); }); // subtract row so will advance down into position
         }
-        //_brickFixCollision.SetProblemCorners();
-        //StartCoroutine(_brickFixCollision.SetPolygonColliderPaths());
-        //_brickFixCollision.SetPolygonColliderPaths();
 
         _levelService.Balls.ForEach(x => _facBall.Create(x));
         _player.SetRadius();

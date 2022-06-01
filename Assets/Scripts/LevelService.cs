@@ -124,6 +124,7 @@ public class LevelService : MonoBehaviour
                 {
                     if (item1 != "")
                     {
+
                         level.Bricks.Add(new Brick(type,
                             Convert.ToInt32(item1.Split(BRICK_PARAMS_DELIMITER)[0]),
                             Convert.ToInt32(item1.Split(BRICK_PARAMS_DELIMITER)[1]),
@@ -135,7 +136,7 @@ public class LevelService : MonoBehaviour
         }
 
             // balls added manually because they are not currently saved and loaded
-            for (int i = 0; i < 25; i++)
+            for (int i = 0; i < 20; i++)
             {
                 level.Balls.Add(new Ball(1, 0.8f));
             }
