@@ -12,13 +12,18 @@ public class Player : MonoBehaviour
     private Grid _grid;
     private Aim _aim;
     private float _radius = 1;
-    
+
+    public PlayerHealth _playerHealth;
+    private float _health = 100;
+    public float Health { get { return _health; } set { _health = value; if (_playerHealth != null) { _playerHealth.SetNumber((int)value); } } }
 
     public List<Shootable> Shootables { get; private set; } = new List<Shootable>();
     public bool IsFireRunning { get; private set; } = true;
     void Awake()
     {
         ResourceLocator.AddResource("Player", this);
+
+        Health = 100f;
 
         _mainCamera = Camera.main;
         _grid = ResourceLocator.GetResource<Grid>("Grid");

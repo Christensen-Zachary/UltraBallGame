@@ -10,9 +10,12 @@ public class FirePowerup : MonoBehaviour
 
     private bool _hasCollided = false;
     public EndTurnDestroyService EndTurnDestroyService { get; set; }
+    public AdvanceService AdvanceService { get; set; }
     
     [field: SerializeField]
     public GameObject PSGameObject { get; set; }
+    [field: SerializeField]
+    public GameObject PSGameObjectToClone { get; set; }
 
 
     private void Start()
@@ -27,10 +30,8 @@ public class FirePowerup : MonoBehaviour
             if (!_hasCollided && !shootable.IsBuffed)
             {
                 _hasCollided = true;
-                //EndTurnDestroyService.AddGameObject(gameObject);
 
-                PSGameObject.SetActive(false);
-                GameObject clone = Instantiate(PSGameObject);
+                GameObject clone = Instantiate(PSGameObjectToClone);
                 clone.transform.position = shootable.transform.position;
                 EndTurnDestroyService.AddGameObject(clone);
                 shootable.IsBuffed = true;
@@ -38,9 +39,18 @@ public class FirePowerup : MonoBehaviour
                 clone.transform.SetParent(shootable.transform);
                 clone.SetActive(true);
 
-                Destroy(gameObject);
+                DestroyFirePowerup();
             }
 
         }
+    }
+
+    private void DestroyFirePowerup()
+    {
+        if (TryGetComponent(out Advanceable advanceable))
+        {
+            advanceable.RemoveFromList();
+        }
+        Destroy(gameObject);
     }
 }

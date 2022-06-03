@@ -125,11 +125,15 @@ public class FSMGame : MonoBehaviour
     private IEnumerator EndTurnRoutine()
     {
         _isEndingTurn = true;
-        _endTurnDestroyService.DestroyGameObjects();
 
         yield return StartCoroutine(_advanceService.Advance());
+        
+        _endTurnDestroyService.DestroyGameObjects();
 
-        print($"State here is {_state}");
+        if (_player.Health <= 0)
+        {
+            print($"You have lost the game");
+        }
 
         _state = GState.WaitingForPlayerInput;
         _isEndingTurn = false;

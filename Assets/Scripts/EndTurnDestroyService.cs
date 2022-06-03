@@ -15,7 +15,11 @@ public class EndTurnDestroyService : MonoBehaviour
 
     public void AddGameObject(GameObject gameObject)
     {
-        GameObjects.Add(gameObject);
+        //if (!GameObjects.Contains(gameObject))
+        if (true)
+        {
+            GameObjects.Add(gameObject);
+        }
     }
 
     public void DestroyGameObjects()
