@@ -22,8 +22,8 @@ public class LevelService : MonoBehaviour
     {
         ResourceLocator.AddResource("Level", this);
 
-        //int levelNum = ES3.Load<int>(BGStrings.ES_LEVELNUM, 1);
-        Level level = LoadLevel(_levelNumber);//ES3.Load<Level>($"{BGStrings.ES_LEVELNAME}{levelNum}", Level.GetDefault());
+        int levelNum = ES3.Load<int>(BGStrings.ES_LEVELNUM, 1);
+        Level level = LoadLevel(levelNum);//_levelNumber);//ES3.Load<Level>($"{BGStrings.ES_LEVELNAME}{levelNum}", Level.GetDefault());
 
         if (level == null)
         {
