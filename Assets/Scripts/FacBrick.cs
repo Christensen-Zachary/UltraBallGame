@@ -27,6 +27,7 @@ public class FacBrick : MonoBehaviour
     private BrickFixCollision _brickFixCollision;
     private AdvanceService _advanceService;
 
+
     public float MaxHealth { get; set; } = 10;
 
     private void Awake()
@@ -37,6 +38,17 @@ public class FacBrick : MonoBehaviour
         ResourceLocator.AddResource("FacBrick", this);
 
         _brickParent = transform;
+    }
+
+    public void DestroyBricks()
+    {
+        List<GameObject> bricks = new List<GameObject>();
+        for (int i = 0; i < _brickParent.childCount; i++)
+        {
+            bricks.Add(_brickParent.GetChild(i).gameObject);
+        }
+        _advanceService.Advanceables.Clear();
+        bricks.ForEach(x => Destroy(x));
     }
 
     public GameObject Create(Brick brick)

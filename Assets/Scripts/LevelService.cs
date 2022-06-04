@@ -9,7 +9,7 @@ using System;
 public class LevelService : MonoBehaviour
 {
 
-    public int _levelNumber = 0;
+    public int _levelNumber = -1;
     public int NumberOfDivisions { get; set; } = 12;
 
     public List<Brick> Bricks { get; set; }
@@ -23,6 +23,7 @@ public class LevelService : MonoBehaviour
         ResourceLocator.AddResource("Level", this);
 
         int levelNum = ES3.Load<int>(BGStrings.ES_LEVELNUM, 1);
+        if (_levelNumber >= 0) levelNum = _levelNumber;
         Level level = LoadLevel(levelNum);//_levelNumber);//ES3.Load<Level>($"{BGStrings.ES_LEVELNAME}{levelNum}", Level.GetDefault());
 
         if (level == null)
@@ -35,6 +36,10 @@ public class LevelService : MonoBehaviour
         Balls = level.Balls;
     }
 
+    public void ResetLevelService()
+    {
+        RowCounter = 0;
+    }
 
     public List<Brick> GetNextRow()
     {

@@ -23,6 +23,20 @@ public class FacBall : MonoBehaviour
         _ballParent = _player.transform;
     }
 
+    public void DestroyBalls()
+    {
+        List<GameObject> balls = new List<GameObject>();
+        for (int i = 0; i < _ballParent.childCount; i++)
+        {
+            if (_ballParent.GetChild(i).name.Contains("Ball"))
+            {
+                balls.Add(_ballParent.GetChild(i).gameObject);
+            }
+        }
+        _player.Shootables.Clear();
+        balls.ForEach(x => Destroy(x));
+    }
+
     public GameObject Create(Ball ball)
     {
         GameObject obj = Instantiate(BallPrefab);

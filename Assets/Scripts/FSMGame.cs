@@ -12,7 +12,8 @@ public enum GState
     MovingPlayer,
     Aiming,
     Firing,
-    EndTurn
+    EndTurn,
+    GameOver
 }
 
 
@@ -30,6 +31,7 @@ public class FSMGame : MonoBehaviour
     private FacBall _facBall;
     private AdvanceService _advanceService;
     private EndTurnDestroyService _endTurnDestroyService;
+    private GameUI _gameUI;
 
     private bool _isRunningSetupLevel = false;
     private bool _isEndingTurn = false;
@@ -44,6 +46,7 @@ public class FSMGame : MonoBehaviour
         _facBall = ResourceLocator.GetResource<FacBall>("FacBall");
         _advanceService = ResourceLocator.GetResource<AdvanceService>("AdvanceService");
         _endTurnDestroyService = ResourceLocator.GetResource<EndTurnDestroyService>("EndTurnDestroyService");
+        _gameUI = ResourceLocator.GetResource<GameUI>("GameUI");
 
         //Time.timeScale = 0.3f;
     }
@@ -120,6 +123,13 @@ public class FSMGame : MonoBehaviour
             }
 
         }
+        else if (_state == GState.GameOver)
+        {
+            if (_gameUI.ResetGame)
+            {
+                _state = GState.SetupLevel;
+            }
+        }
     }
 
     private IEnumerator EndTurnRoutine()
@@ -133,9 +143,19 @@ public class FSMGame : MonoBehaviour
         if (_player.Health <= 0)
         {
             print($"You have lost the game");
+            _gameUI.HideGame();
+            _gameUI.ShowGameOver();
+
+            _facBrick.DestroyBricks();
+            _facBall.DestroyBalls();
+
+            _state = GState.GameOver;
+        }
+        else
+        {
+            _state = GState.WaitingForPlayerInput;
         }
 
-        _state = GState.WaitingForPlayerInput;
         _isEndingTurn = false;
     }
 
@@ -143,11 +163,16 @@ public class FSMGame : MonoBehaviour
     {
         _isRunningSetupLevel = true;
 
+        _levelService.ResetLevelService();
+        _gameUI.ShowGame();
+        _player.Health = 100;
+
         _facBrick.MaxHealth = _levelService.Bricks.Select(x => x.Health).Max();
 
         for (int i = 0; i < _levelService.NumberOfDivisions - 1; i++)
         {
-            _levelService.GetNextRow().ForEach(x => { x.Row--; _facBrick.Create(x); }); // subtract row so will advance down into position
+            print($"i: {i}");
+            _levelService.GetNextRow().ForEach(x => { x.Row--; _facBrick.Create(x); x.Row++; }); // subtract row so will advance down into position
         }
 
         _levelService.Balls.ForEach(x => _facBall.Create(x));
