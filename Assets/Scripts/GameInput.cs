@@ -42,9 +42,9 @@ public class GameInput : MonoBehaviour, IStartFire, IGetFireDirection, IGetMouse
                 GGetMousePosition = playerInput;
                 GStartAim = playerInput;
                 GEndAim = playerInput;
-                GReturnFire = playerInput;
+                GReturnFire = gameUIInput;
                 GStartMove = gameUIInput;
-                GEndMove = playerInput;
+                GEndMove = gameUIInput;
                 GGetMovePosition = playerInput;
                 break;
             case InputSource.Robot:

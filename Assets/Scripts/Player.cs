@@ -88,7 +88,10 @@ public class Player : MonoBehaviour
 
     public void MovePlayer(Vector2 newPosition)
     {
-        newPosition = new Vector2(newPosition.x, transform.position.y);
-        transform.position = newPosition;
+        if (newPosition.y >= transform.position.y)
+        {
+            newPosition = new Vector2(newPosition.x, transform.position.y);
+            transform.position = newPosition;
+        }
     }
 }

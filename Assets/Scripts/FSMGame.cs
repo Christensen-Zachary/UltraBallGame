@@ -140,6 +140,10 @@ public class FSMGame : MonoBehaviour
             {
                 _state = GState.SetupLevel;
             }
+            else if (_gameUI.OpenMainMenu)
+            {
+                SceneManager.LoadScene("MainMenu");
+            }
         }
         else if (_state == GState.Win)
         {
