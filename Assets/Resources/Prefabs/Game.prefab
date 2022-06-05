@@ -355,6 +355,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <ResourceLocator>k__BackingField: {fileID: 4516845128962790882}
+  _playerHealth: {fileID: 0}
 --- !u!114 &4516845130258000512
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -445,6 +446,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4516845130310491960}
   - component: {fileID: 4516845130310491961}
+  - component: {fileID: 5832456314278588785}
   m_Layer: 0
   m_Name: LevelService
   m_TagString: Untagged
@@ -480,6 +482,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _levelNumber: 0
+  <ResourceLocator>k__BackingField: {fileID: 4516845128962790882}
+--- !u!114 &5832456314278588785
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4516845130310490310}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 61cc77e8bcaf79f4299712547bb45a55, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   <ResourceLocator>k__BackingField: {fileID: 4516845128962790882}
 --- !u!1 &4516845130371445004
 GameObject:

@@ -24,6 +24,7 @@ public class LevelService : MonoBehaviour
 
         int levelNum = ES3.Load<int>(BGStrings.ES_LEVELNUM, 1);
         if (_levelNumber >= 0) levelNum = _levelNumber;
+        else _levelNumber = levelNum;
         Level level = LoadLevel(levelNum);//_levelNumber);//ES3.Load<Level>($"{BGStrings.ES_LEVELNAME}{levelNum}", Level.GetDefault());
 
         if (level == null)

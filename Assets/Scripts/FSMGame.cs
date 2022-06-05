@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public enum GState
 {
@@ -13,7 +14,8 @@ public enum GState
     Aiming,
     Firing,
     EndTurn,
-    GameOver
+    GameOver,
+    Win
 }
 
 
@@ -32,6 +34,7 @@ public class FSMGame : MonoBehaviour
     private AdvanceService _advanceService;
     private EndTurnDestroyService _endTurnDestroyService;
     private GameUI _gameUI;
+    private WinService _winService;
 
     private bool _isRunningSetupLevel = false;
     private bool _isEndingTurn = false;
@@ -47,6 +50,7 @@ public class FSMGame : MonoBehaviour
         _advanceService = ResourceLocator.GetResource<AdvanceService>("AdvanceService");
         _endTurnDestroyService = ResourceLocator.GetResource<EndTurnDestroyService>("EndTurnDestroyService");
         _gameUI = ResourceLocator.GetResource<GameUI>("GameUI");
+        _winService = ResourceLocator.GetResource<WinService>("WinService");
 
         //Time.timeScale = 0.3f;
     }
@@ -130,6 +134,14 @@ public class FSMGame : MonoBehaviour
                 _state = GState.SetupLevel;
             }
         }
+        else if (_state == GState.Win)
+        {
+            if (_gameUI.NextLevel)
+            {
+                ES3.Save(BGStrings.ES_LEVELNUM, _levelService._levelNumber + 1);
+                SceneManager.LoadScene("Game");
+            }
+        }
     }
 
     private IEnumerator EndTurnRoutine()
@@ -142,14 +154,17 @@ public class FSMGame : MonoBehaviour
 
         if (_player.Health <= 0)
         {
-            print($"You have lost the game");
             _gameUI.HideGame();
             _gameUI.ShowGameOver();
 
-            _facBrick.DestroyBricks();
-            _facBall.DestroyBalls();
-
             _state = GState.GameOver;
+        }
+        else if (_winService.HasWon())
+        {
+            _gameUI.HideGame();
+            _gameUI.ShowWin();
+
+            _state = GState.Win;
         }
         else
         {
@@ -166,12 +181,15 @@ public class FSMGame : MonoBehaviour
         _levelService.ResetLevelService();
         _gameUI.ShowGame();
         _player.Health = 100;
+        _facBrick.DestroyBricks();
+        _facBall.DestroyBalls();
+        _winService.NumberOfBricksDestroyed = 0;
+        _winService.NumberOfBricksToWin = _levelService.Bricks.Where(x => Brick.IsDamageable(x.BrickType)).Count();
 
         _facBrick.MaxHealth = _levelService.Bricks.Select(x => x.Health).Max();
 
         for (int i = 0; i < _levelService.NumberOfDivisions - 1; i++)
         {
-            print($"i: {i}");
             _levelService.GetNextRow().ForEach(x => { x.Row--; _facBrick.Create(x); x.Row++; }); // subtract row so will advance down into position
         }
 

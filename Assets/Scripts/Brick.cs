@@ -16,6 +16,9 @@ public enum BrickType
 
 public class Brick
 {
+    public static System.Func<BrickType, bool> IsDamageable => (BrickType x) => { return x != BrickType.InvincibleSquare && x != BrickType.FirePowerup; };
+
+    public string ID { get; set; }
     public BrickType BrickType { get; set; } = BrickType.Square;
     public int Row { get; set; } = 0;
     public int Col { get; set; } = 0;

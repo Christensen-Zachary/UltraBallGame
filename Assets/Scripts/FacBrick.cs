@@ -26,6 +26,7 @@ public class FacBrick : MonoBehaviour
     private Transform _brickParent;
     private BrickFixCollision _brickFixCollision;
     private AdvanceService _advanceService;
+    private WinService _winService;
 
 
     public float MaxHealth { get; set; } = 10;
@@ -35,6 +36,7 @@ public class FacBrick : MonoBehaviour
         _grid = ResourceLocator.GetResource<Grid>("Grid");
         _brickFixCollision = ResourceLocator.GetResource<BrickFixCollision>("BrickFixCollision");
         _advanceService = ResourceLocator.GetResource<AdvanceService>("AdvanceService");
+        _winService = ResourceLocator.GetResource<WinService>("WinService");
         ResourceLocator.AddResource("FacBrick", this);
 
         _brickParent = transform;
@@ -83,6 +85,7 @@ public class FacBrick : MonoBehaviour
         }
         
         obj.name = $"Brick {System.Guid.NewGuid()}";
+        brick.ID = obj.name;
         obj.transform.SetParent(_brickParent);
         obj.transform.localScale = Vector3.one * _grid.UnitScale;
         obj.transform.localPosition = _grid.GetPosition(brick.Col, brick.Row);
@@ -90,6 +93,7 @@ public class FacBrick : MonoBehaviour
         Damageable damageable = obj.GetComponentInChildren<Damageable>();
         if (damageable != null)
         {
+            damageable.WinService = _winService;
             damageable.MaxColorValue = MaxHealth;
             damageable.SetColor(brick.Health);
             damageable.Health = brick.Health;

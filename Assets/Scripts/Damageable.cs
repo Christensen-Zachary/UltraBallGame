@@ -17,6 +17,9 @@ public class Damageable : MonoBehaviour
     public AudioSource HitSound { get; set; }
     [field: SerializeField]
     private ShrinkGrow ShrinkGrow { get; set; }
+    public WinService WinService { get; set; }
+
+
 
     public Color MaxColor { get; set; } = new Color(
         //Convert.ToInt32("4B", 16) / 256f, 
@@ -37,15 +40,7 @@ public class Damageable : MonoBehaviour
     [field: SerializeField]
     private SpriteRenderer SpriteRenderer { get; set; } // reference set on prefab in editor
 
-
-
-    private void OnTriggerEnter2D(Collider2D collider)//(Collision2D collision)
-    {
-        if (collider.TryGetComponent(out Shootable shootable))
-        {
-            //Damage(shootable.Damage);
-        }
-    }
+    private bool _destroyedFromThis = false; // used to increment wincounter when destroyed from outside, cause delay when destroy from inside will break win detection
 
     public void Damage(float damage)
     {
@@ -58,11 +53,11 @@ public class Damageable : MonoBehaviour
             GetComponent<PolygonCollider2D>().enabled = false;
             ShrinkGrow.HideSprite();
             BrickNumber.Hide();
-            //BrickFixCollision.Bricks.Remove(BrickCollision);
-            //BrickFixCollision.SetPolygonColliderPaths();
 
             gameObject.transform.parent.position = Vector2.one * 100;
-            Destroy(transform.parent.gameObject, 1);
+            _destroyedFromThis = true;
+            WinService.NumberOfBricksDestroyed++;
+            Destroy(transform.parent.gameObject, 1); // destroy after 1 second to show effects
 
             if (transform.parent.TryGetComponent(out Advanceable advanceable))
             {
@@ -76,5 +71,9 @@ public class Damageable : MonoBehaviour
         SpriteRenderer.color = Color.Lerp(MinColor, MaxColor, (value / MaxColorValue));
     }
 
+    private void OnDestroy()
+    {
+        if (!_destroyedFromThis) WinService.NumberOfBricksDestroyed++;
+    }
 
 }

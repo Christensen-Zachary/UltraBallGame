@@ -21,6 +21,8 @@ public class GameUI : MonoBehaviour
 
     public bool ResetGame { get; set; } = false;
     private int _resetGameCounter = 0;
+    public bool NextLevel { get; set; } = false;
+    private int _nextLevelCounter = 0;
 
     private void Awake()
     {
@@ -73,11 +75,25 @@ public class GameUI : MonoBehaviour
                 _resetGameCounter = 0;
             }
         }
+
+        if (NextLevel)
+        {
+            if (_nextLevelCounter++ > 0)
+            {
+                NextLevel = false;
+                _nextLevelCounter = 0;
+            }
+        }
     }
 
     public void ActivateResetGame()
     {
         ResetGame = true;
+    }
+
+    public void ActivateNextLevel()
+    {
+        NextLevel = true;
     }
 
     public void ActivateLandscape()
