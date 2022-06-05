@@ -40,11 +40,14 @@ public class ShrinkGrow : MonoBehaviour
 
     public void React()
     {
-        StartCoroutine(ShrinkGrowRoutine());
+        if (!_reactRunning)
+        {
+            StopAllCoroutines();
+            StartCoroutine(ShrinkGrowRoutine());
+        }
     }
     private IEnumerator ShrinkGrowRoutine()
     {
-        if (_reactRunning) yield break;
         _reactRunning = true;
 
         float shrinkByPercent = ShrinkByPercent;

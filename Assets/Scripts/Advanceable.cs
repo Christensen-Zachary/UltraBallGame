@@ -30,7 +30,8 @@ public class Advanceable : MonoBehaviour
         {
             timer += Time.deltaTime;
             transform.position = Vector2.Lerp(startPosition, endPosition, timer / _moveTime);
-            yield return null;
+            yield return new WaitForSeconds(0.08f);
+            timer += 0.08f;
         }
 
         transform.position = endPosition;
