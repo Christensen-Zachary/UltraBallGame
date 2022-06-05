@@ -189,6 +189,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <ResourceLocator>k__BackingField: {fileID: 4516845128962790882}
+  <AdvanceableParent>k__BackingField: {fileID: 0}
 --- !u!50 &3474184885164140202
 Rigidbody2D:
   serializedVersion: 4

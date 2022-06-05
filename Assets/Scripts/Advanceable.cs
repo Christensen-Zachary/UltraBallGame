@@ -10,6 +10,7 @@ public class Advanceable : MonoBehaviour
     public Grid _grid; // set in FacBrick
     public AdvanceService _advanceService; // set in FacBrick
 
+
     Vector2 startPosition;
     Vector2 endPosition;
     float timer;

@@ -22,6 +22,8 @@ public class FacBrick : MonoBehaviour
     [field: SerializeField]
     public GameObject BrickPrefab6 { get; set; }
 
+    private GameObject _advanceableParent;
+
     private Grid _grid;
     private Transform _brickParent;
     private BrickFixCollision _brickFixCollision;
@@ -39,7 +41,19 @@ public class FacBrick : MonoBehaviour
         _winService = ResourceLocator.GetResource<WinService>("WinService");
         ResourceLocator.AddResource("FacBrick", this);
 
+        CreateAdvanceableParent();
+
         _brickParent = transform;
+    }
+
+    private void CreateAdvanceableParent()
+    {
+        _advanceableParent = new GameObject($"AdvanceableParent {System.Guid.NewGuid()}");
+        _advanceableParent.transform.SetParent(_brickParent);
+        _advanceableParent.transform.localPosition = Vector3.zero;
+        
+        // okay to set here because advanceService isnt used until after facBrick would have been ready to create the bricks
+        _advanceService.AdvanceableParent = _advanceableParent;
     }
 
     public void DestroyBricks()
@@ -51,6 +65,8 @@ public class FacBrick : MonoBehaviour
         }
         _advanceService.Advanceables.Clear();
         bricks.ForEach(x => Destroy(x));
+
+        CreateAdvanceableParent();
     }
 
     public GameObject Create(Brick brick)
@@ -86,7 +102,14 @@ public class FacBrick : MonoBehaviour
         
         obj.name = $"Brick {System.Guid.NewGuid()}";
         brick.ID = obj.name;
-        obj.transform.SetParent(_brickParent);
+        if (obj.TryGetComponent<Advanceable>(out Advanceable advanceable1))
+        {
+            obj.transform.SetParent(_advanceableParent.transform);
+        }
+        else
+        {
+            obj.transform.SetParent(_brickParent);
+        }
         obj.transform.localScale = Vector3.one * _grid.UnitScale;
         obj.transform.localPosition = _grid.GetPosition(brick.Col, brick.Row);
 
