@@ -15,7 +15,8 @@ public enum GState
     Firing,
     EndTurn,
     GameOver,
-    Win
+    Win,
+    OptionsPanel
 }
 
 
@@ -81,6 +82,12 @@ public class FSMGame : MonoBehaviour
             {
                 _state = GState.MovingPlayer;
             }
+            else if (_gameUI.OpenMainMenuPanel)
+            {
+                _gameUI.ShowMainMenuOkayPanel();
+
+                _state = GState.OptionsPanel;
+            }
         }
         else if (_state == GState.MovingPlayer)
         {
@@ -140,6 +147,19 @@ public class FSMGame : MonoBehaviour
             {
                 ES3.Save(BGStrings.ES_LEVELNUM, _levelService._levelNumber + 1);
                 SceneManager.LoadScene("Game");
+            }
+        }
+        else if (_state == GState.OptionsPanel)
+        {
+            if (_gameUI.CloseMainMenuPanel)
+            {
+                _gameUI.HideMainMenuOkayPanel();
+                
+                _state = GState.WaitingForPlayerInput;
+            }
+            else if (_gameUI.OpenMainMenu)
+            {
+                _gameUI.LoadMainMenu();
             }
         }
     }

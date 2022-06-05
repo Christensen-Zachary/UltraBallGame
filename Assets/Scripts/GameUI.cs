@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameUI : MonoBehaviour
 {
@@ -15,6 +16,8 @@ public class GameUI : MonoBehaviour
     public GameObject GameOverPanel { get; set; }
     [field: SerializeField]
     public GameObject WinPanel { get; set; }
+    [field: SerializeField]
+    public GameObject MainMenuOkayPanel { get; set; }
 
     private float _height;
     private float _width;
@@ -23,6 +26,15 @@ public class GameUI : MonoBehaviour
     private int _resetGameCounter = 0;
     public bool NextLevel { get; set; } = false;
     private int _nextLevelCounter = 0;
+
+    public bool OpenMainMenuPanel { get; set; }
+    private int _openMainMenuPanelCounter = 0;
+
+    public bool CloseMainMenuPanel { get; set; }
+    private int _closeMainMenuPanelCounter = 0;
+
+    public bool OpenMainMenu { get; set; }
+    private int _openMainMenuCounter = 0;
 
     private void Awake()
     {
@@ -84,6 +96,65 @@ public class GameUI : MonoBehaviour
                 _nextLevelCounter = 0;
             }
         }
+
+        if (OpenMainMenuPanel)
+        {
+            if (_openMainMenuPanelCounter++ > 0)
+            {
+                OpenMainMenuPanel = false;
+                _openMainMenuPanelCounter = 0;
+            }
+        }
+        
+        if (CloseMainMenuPanel)
+        {
+            if (_closeMainMenuPanelCounter++ > 0)
+            {
+                CloseMainMenuPanel = false;
+                _closeMainMenuPanelCounter = 0;
+            }
+        }
+
+        if (OpenMainMenu)
+        {
+            if (_openMainMenuCounter++ > 0)
+            {
+                OpenMainMenu = false;
+                _openMainMenuCounter = 0;
+            }
+        }
+    }
+
+    public void ShowMainMenuOkayPanel()
+    {
+        MainMenuOkayPanel.SetActive(true);
+        HideGame();
+    }
+
+    public void HideMainMenuOkayPanel()
+    {
+        MainMenuOkayPanel.SetActive(false);
+        ShowGame();
+    }
+
+    public void LoadMainMenu()
+    {
+        SceneManager.LoadScene("MainMenu");
+    }
+
+    public void ActivateOpenMainMenuOkayPanel()
+    {
+        OpenMainMenuPanel = true;
+    }
+
+    public void ActivateOpenMainMenu()
+    {
+        OpenMainMenu = true;
+    }
+
+    public void ActivateCloseMainMenuPanel()
+    {
+        CloseMainMenuPanel = true;
     }
 
     public void ActivateResetGame()
