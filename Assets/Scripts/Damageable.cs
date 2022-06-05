@@ -56,7 +56,7 @@ public class Damageable : MonoBehaviour
 
             gameObject.transform.parent.position = Vector2.one * 100;
             _destroyedFromThis = true;
-            WinService.NumberOfBricksDestroyed++;
+            AddToDestroyed();
             Destroy(transform.parent.gameObject, 1); // destroy after 1 second to show effects
 
             if (transform.parent.TryGetComponent(out Advanceable advanceable))
@@ -66,14 +66,14 @@ public class Damageable : MonoBehaviour
         }
     }
 
+    public void AddToDestroyed()
+    {
+        WinService.NumberOfBricksDestroyed++;
+    }
+
     public void SetColor(float value)
     {
         SpriteRenderer.color = Color.Lerp(MinColor, MaxColor, (value / MaxColorValue));
-    }
-
-    private void OnDestroy()
-    {
-        if (!_destroyedFromThis) WinService.NumberOfBricksDestroyed++;
     }
 
 }

@@ -5,39 +5,33 @@ using UnityEngine;
 public class Advanceable : MonoBehaviour
 {
 
-    private bool _isMoving = false;
     private float _moveTime = 1f;
 
-    public bool IsMoving => _isMoving;
     public Grid _grid; // set in FacBrick
     public AdvanceService _advanceService; // set in FacBrick
 
+    Vector2 startPosition;
+    Vector2 endPosition;
+    float timer;
+    
+    public void StartMoveDown()
+    {
+        startPosition = transform.position;
+        endPosition = transform.position - new Vector3(0, _grid.UnitScale, 0);
+        timer = 0;
+    }
+
     public void MoveDown()
     {
-        if (!_isMoving)
-        {
-            _isMoving = true;
-            StartCoroutine(MoveDownRoutine()); 
-        }
+        timer += Time.deltaTime;
+        transform.position = Vector2.Lerp(startPosition, endPosition, timer / _moveTime);
     }
 
-    private IEnumerator MoveDownRoutine()
+    public void EndMoveDown()
     {
-        Vector2 startPosition = transform.position;
-        Vector2 endPosition = transform.position - new Vector3(0, _grid.UnitScale, 0);
-        float timer = 0;
-        while (timer < _moveTime)
-        {
-            timer += Time.deltaTime;
-            transform.position = Vector2.Lerp(startPosition, endPosition, timer / _moveTime);
-            yield return new WaitForSeconds(0.08f);
-            timer += 0.08f;
-        }
-
         transform.position = endPosition;
-
-        _isMoving = false;
     }
+
 
     public void RemoveFromList()
     {

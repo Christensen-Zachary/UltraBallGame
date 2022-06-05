@@ -25,6 +25,11 @@ public class EndTurnDestroyService : MonoBehaviour
             {
                 advanceable.RemoveFromList();
             }
+            Damageable damageable = x.GetComponentInChildren<Damageable>();
+            if (damageable != null)
+            {
+                damageable.AddToDestroyed();
+            }
             Destroy(x); 
         });
         GameObjects = new List<GameObject>();

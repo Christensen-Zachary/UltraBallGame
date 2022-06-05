@@ -192,6 +192,7 @@ public class FSMGame : MonoBehaviour
         }
         else
         {
+            print($"NumberOfBricksToWin: {_winService.NumberOfBricksToWin} NumberOfBricksDestroyed: {_winService.NumberOfBricksDestroyed}");
             _state = GState.WaitingForPlayerInput;
         }
 
@@ -204,7 +205,7 @@ public class FSMGame : MonoBehaviour
 
         _levelService.ResetLevelService();
         _gameUI.ShowGame();
-        _player.Health = 100;
+        _player.Health = 10000;
         _facBrick.DestroyBricks();
         _facBall.DestroyBalls();
         _winService.NumberOfBricksDestroyed = 0;

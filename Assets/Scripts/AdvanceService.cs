@@ -7,11 +7,12 @@ public class AdvanceService : MonoBehaviour
 {
     [field: SerializeField]
     public ResourceLocator ResourceLocator { get; set; }
-    public bool IsAdvancing => Advanceables.Any(x => x.IsMoving);
 
     public List<Advanceable> Advanceables { get; private set; } = new List<Advanceable>();
     private Player _player;
     private EndTurnDestroyService _endTurnDestroyService;
+
+    private float _moveTime = 1f;
 
     private void Awake()
     {
@@ -24,9 +25,17 @@ public class AdvanceService : MonoBehaviour
 
     public IEnumerator Advance()
     {
-        Advanceables.ForEach(x => { if (x != null) x.MoveDown(); });
+        Advanceables.ForEach(x => { if (x != null) x.StartMoveDown(); });
 
-        yield return new WaitUntil(() => Advanceables.All(x => !x.IsMoving));
+        float timer = 0;
+        while (timer < _moveTime)
+        {
+            timer += Time.deltaTime;
+            Advanceables.ForEach(x => { if (x != null) x.MoveDown(); });
+            yield return null;
+        }
+
+        Advanceables.ForEach(x => { if (x != null) x.EndMoveDown(); });
 
         Advanceables.ForEach(x =>
         {
