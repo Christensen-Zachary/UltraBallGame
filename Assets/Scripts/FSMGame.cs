@@ -172,8 +172,10 @@ public class FSMGame : MonoBehaviour
     {
         _isEndingTurn = true;
 
+        _facBrick.DisableCompositeCollider();
         yield return StartCoroutine(_advanceService.Advance());
-        
+        _facBrick.EnableCompositeCollider();
+
         _endTurnDestroyService.DestroyGameObjects();
 
         if (_player.Health <= 0)
@@ -221,7 +223,9 @@ public class FSMGame : MonoBehaviour
         _levelService.Balls.ForEach(x => _facBall.Create(x));
         _player.SetRadius();
 
+        _facBrick.DisableCompositeCollider();
         yield return StartCoroutine(_advanceService.Advance());
+        _facBrick.EnableCompositeCollider();
 
         // change states first so variable will always be true until after state change to avoid race condition, unless this happens atomically then it doesn't matter
         _state = GState.WaitingForPlayerInput;

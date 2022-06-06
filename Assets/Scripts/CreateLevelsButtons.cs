@@ -12,10 +12,8 @@ public class CreateLevelsButtons : MonoBehaviour
 
     public void CreateButtons(int from, int to)
     {
-        print("CreateButtons");
         for (int i = from; i <= to; i++)
         {
-            print($"i: {i}");
             GameObject obj = Instantiate(ButtonPrefab);
             obj.SetActive(true);
             obj.transform.SetParent(transform);
@@ -28,7 +26,6 @@ public class CreateLevelsButtons : MonoBehaviour
 
             setListener(i);
         }
-        print("End CreateButtons");
     }
 
     public void LoadLevel(int levelNumber)

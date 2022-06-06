@@ -24,6 +24,9 @@ public class FacBrick : MonoBehaviour
 
     private GameObject _advanceableParent;
 
+    [field: SerializeField]
+    public CompositeCollider2D CompositeCollider2D { get; set; }
+
     private Grid _grid;
     private Transform _brickParent;
     private BrickFixCollision _brickFixCollision;
@@ -42,6 +45,8 @@ public class FacBrick : MonoBehaviour
         ResourceLocator.AddResource("FacBrick", this);
 
         CreateAdvanceableParent();
+
+        CompositeCollider2D = GetComponent<CompositeCollider2D>();
 
         _brickParent = transform;
     }
@@ -116,6 +121,7 @@ public class FacBrick : MonoBehaviour
         Damageable damageable = obj.GetComponentInChildren<Damageable>();
         if (damageable != null)
         {
+            damageable.FacBrick = this;
             damageable.WinService = _winService;
             damageable.MaxColorValue = MaxHealth;
             damageable.SetColor(brick.Health);
@@ -142,7 +148,18 @@ public class FacBrick : MonoBehaviour
             firePowerup.EndTurnDestroyService = ResourceLocator.GetResource<EndTurnDestroyService>("EndTurnDestroyService");
         }
 
-
         return obj;
+    }
+
+    public void EnableCompositeCollider()
+    {
+        CompositeCollider2D.generationType = CompositeCollider2D.GenerationType.Synchronous;
+        CompositeCollider2D.GenerateGeometry();
+    }
+
+    public void DisableCompositeCollider()
+    {
+        CompositeCollider2D.generationType = CompositeCollider2D.GenerationType.Manual;
+        CompositeCollider2D.GenerateGeometry();
     }
 }

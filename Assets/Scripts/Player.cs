@@ -14,7 +14,7 @@ public class Player : MonoBehaviour
     private float _radius = 1;
 
     public PlayerHealth _playerHealth;
-    private float _health = 100;
+    public float _health = 100; // only public for the editor
     public float Health { get { return _health; } set { _health = value; if (_playerHealth != null) { _playerHealth.SetNumber((int)value); } } }
 
     public List<Shootable> Shootables { get; private set; } = new List<Shootable>();

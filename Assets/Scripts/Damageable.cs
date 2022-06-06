@@ -19,6 +19,9 @@ public class Damageable : MonoBehaviour
     private ShrinkGrow ShrinkGrow { get; set; }
     public WinService WinService { get; set; }
 
+    [field: SerializeField]
+    public FacBrick FacBrick { get; set; } // set from FacBrick
+
 
 
     public Color MaxColor { get; set; } = new Color(
@@ -75,5 +78,6 @@ public class Damageable : MonoBehaviour
     {
         SpriteRenderer.color = Color.Lerp(MinColor, MaxColor, (value / MaxColorValue));
     }
+
 
 }
