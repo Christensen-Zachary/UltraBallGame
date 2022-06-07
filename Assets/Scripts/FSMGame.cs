@@ -8,6 +8,7 @@ using UnityEngine.SceneManagement;
 
 public enum GState
 {
+    EmptyState,
     SetupLevel,
     WaitingForPlayerInput,
     MovingPlayer,
@@ -65,107 +66,106 @@ public class FSMGame : MonoBehaviour
          * Use effectors to create directional collisions to create 'doors' for balls to go through and get trapped for maximum fun zone
          * 
          */
-        if (_state == GState.SetupLevel)
+        switch (_state)
         {
-            if (!_isRunningSetupLevel)
-            {
-                StartCoroutine(SetupLevel());
-            }
-        }
-        else if (_state == GState.WaitingForPlayerInput)
-        {
-            if (_gameInput.StartAim())
-            {
-                _state = GState.Aiming;
-            }
-            else if (_gameInput.StartMove())
-            {
-                _state = GState.MovingPlayer;
-            }
-            else if (_gameUI.OpenMainMenuPanel)
-            {
-                _gameUI.ShowMainMenuOkayPanel();
+            case GState.EmptyState:
+                break;
+            case GState.SetupLevel:
+                if (!_isRunningSetupLevel)
+                {
+                    _isRunningSetupLevel = true;
+                    _state = GState.EmptyState;
+                    StartCoroutine(SetupLevel());
+                }
+                break;
+            case GState.WaitingForPlayerInput:
+                if (_gameInput.StartAim())
+                {
+                    _state = GState.Aiming;
+                }
+                else if (_gameInput.StartMove())
+                {
+                    _state = GState.MovingPlayer;
+                }
+                else if (_gameUI.OpenMainMenuPanel)
+                {
+                    _gameUI.ShowMainMenuOkayPanel();
 
-                _state = GState.OptionsPanel;
-            }
-        }
-        else if (_state == GState.MovingPlayer)
-        {
-            if (_gameInput.EndMove())
-            {
-                _state = GState.WaitingForPlayerInput;
-            }
-            else
-            {
-                _player.MovePlayer(_gameInput.GetMovePosition());
-            }
-        }
-        else if (_state == GState.Aiming)
-        {
-            if (_gameInput.StartFire())
-            {
-                _player.HideAim();
-                _player.RunFire(_gameInput.GetFireDirection());
-                _state = GState.Firing;
-            }
-            else if (_gameInput.EndAim())
-            {
-                _player.HideAim();
-                _state = GState.WaitingForPlayerInput;
-            }
-            else
-            {
-                _player.ShowAim(_gameInput.GetFireDirection());
-            }
-        }
-        else if (_state == GState.Firing)
-        {
-            if (_gameInput.ReturnFire() || _player.IsFireComplete())
-            {
-                _player.EndFire();
-                _state = GState.EndTurn;
-            }
-        }
-        else if (_state == GState.EndTurn)
-        {
-            if (!_isEndingTurn)
-            {
-                StartCoroutine(EndTurnRoutine());
-            }
+                    _state = GState.OptionsPanel;
+                }
+                break;
+            case GState.MovingPlayer:
+                if (_gameInput.EndMove())
+                {
+                    _state = GState.WaitingForPlayerInput;
+                }
+                else
+                {
+                    _player.MovePlayer(_gameInput.GetMovePosition());
+                }
+                break;
+            case GState.Aiming:
+                if (_gameInput.StartFire())
+                {
+                    _player.HideAim();
+                    _player.RunFire(_gameInput.GetFireDirection());
+                    _state = GState.Firing;
+                }
+                else if (_gameInput.EndAim())
+                {
+                    _player.HideAim();
+                    _state = GState.WaitingForPlayerInput;
+                }
+                else
+                {
+                    _player.ShowAim(_gameInput.GetFireDirection());
+                }
+                break;
+            case GState.Firing:
+                if (_gameInput.ReturnFire() || _player.IsFireComplete())
+                {
+                    _player.EndFire();
+                    _state = GState.EndTurn;
+                }
+                break;
+            case GState.EndTurn:
+                if (!_isEndingTurn)
+                {
+                    _state = GState.EmptyState;
+                    StartCoroutine(EndTurnRoutine());
+                }
+                break;
+            case GState.GameOver:
+                if (_gameUI.ResetGame)
+                {
+                    _state = GState.SetupLevel;
+                }
+                else if (_gameUI.OpenMainMenu)
+                {
+                    SceneManager.LoadScene("MainMenu");
+                }
+                break;
+            case GState.Win:
+                if (_gameUI.NextLevel)
+                {
+                    ES3.Save(BGStrings.ES_LEVELNUM, _levelService._levelNumber + 1);
+                    SceneManager.LoadScene("Game");
+                }
+                break;
+            case GState.OptionsPanel:
+                if (_gameUI.CloseMainMenuPanel)
+                {
+                    _gameUI.HideMainMenuOkayPanel();
 
+                    _state = GState.WaitingForPlayerInput;
+                }
+                else if (_gameUI.OpenMainMenu)
+                {
+                    _gameUI.LoadMainMenu();
+                }
+                break;
         }
-        else if (_state == GState.GameOver)
-        {
-            if (_gameUI.ResetGame)
-            {
-                _state = GState.SetupLevel;
-            }
-            else if (_gameUI.OpenMainMenu)
-            {
-                SceneManager.LoadScene("MainMenu");
-            }
-        }
-        else if (_state == GState.Win)
-        {
-            if (_gameUI.NextLevel)
-            {
-                ES3.Save(BGStrings.ES_LEVELNUM, _levelService._levelNumber + 1);
-                SceneManager.LoadScene("Game");
-            }
-        }
-        else if (_state == GState.OptionsPanel)
-        {
-            if (_gameUI.CloseMainMenuPanel)
-            {
-                _gameUI.HideMainMenuOkayPanel();
-                
-                _state = GState.WaitingForPlayerInput;
-            }
-            else if (_gameUI.OpenMainMenu)
-            {
-                _gameUI.LoadMainMenu();
-            }
-        }
+
     }
 
     private IEnumerator EndTurnRoutine()
@@ -203,8 +203,6 @@ public class FSMGame : MonoBehaviour
 
     private IEnumerator SetupLevel()
     {
-        _isRunningSetupLevel = true;
-
         _levelService.ResetLevelService();
         _gameUI.ShowGame();
         _player.Health = 10;

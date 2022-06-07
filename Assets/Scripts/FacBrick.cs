@@ -23,16 +23,14 @@ public class FacBrick : MonoBehaviour
     public GameObject BrickPrefab6 { get; set; }
 
     private GameObject _advanceableParent;
-
-    [field: SerializeField]
-    public CompositeCollider2D CompositeCollider2D { get; set; }
+    
+    private CompositeCollider2D CompositeCollider2D { get; set; }
 
     private Grid _grid;
     private Transform _brickParent;
     private BrickFixCollision _brickFixCollision;
     private AdvanceService _advanceService;
     private WinService _winService;
-
 
     public float MaxHealth { get; set; } = 10;
 
@@ -42,6 +40,7 @@ public class FacBrick : MonoBehaviour
         _brickFixCollision = ResourceLocator.GetResource<BrickFixCollision>("BrickFixCollision");
         _advanceService = ResourceLocator.GetResource<AdvanceService>("AdvanceService");
         _winService = ResourceLocator.GetResource<WinService>("WinService");
+
         ResourceLocator.AddResource("FacBrick", this);
 
         CreateAdvanceableParent();
@@ -127,6 +126,7 @@ public class FacBrick : MonoBehaviour
             damageable.SetColor(brick.Health);
             damageable.Health = brick.Health;
             damageable.BrickFixCollision = ResourceLocator.GetResource<BrickFixCollision>("BrickFixCollision");
+
         }
 
         if (obj.TryGetComponent(out BrickCollision brickCollision))

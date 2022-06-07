@@ -8,6 +8,7 @@ TagManager:
   - BottomWall
   - Ball
   - Brick
+  - Damageable
   layers:
   - Default
   - TransparentFX
@@ -50,6 +51,9 @@ TagManager:
     locked: 0
   - name: Bricks
     uniqueID: 3899301975
+    locked: 0
+  - name: Powerup
+    uniqueID: 4184311663
     locked: 0
   - name: Player
     uniqueID: 2843807281

@@ -176,7 +176,6 @@ MonoBehaviour:
   <BrickPrefab4>k__BackingField: {fileID: 6004766399811267286, guid: b9d4cfe858d0db54b9d848619143162f, type: 3}
   <BrickPrefab5>k__BackingField: {fileID: 728579221831963425, guid: 3b4b94c50359d6a42bd24e4e6495591b, type: 3}
   <BrickPrefab6>k__BackingField: {fileID: 728579221831963425, guid: fefa34a5723f3f84daf31dd407ad448b, type: 3}
-  <CompositeCollider2D>k__BackingField: {fileID: 0}
 --- !u!114 &351461757889611240
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -358,6 +357,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <ResourceLocator>k__BackingField: {fileID: 4516845128962790882}
   _playerHealth: {fileID: 0}
+  _health: 100
 --- !u!114 &4516845130258000512
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -425,7 +425,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1451160015
-  m_SortingLayer: 3
+  m_SortingLayer: 4
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 8b4dc461846ad114f860b67ecc1b4975, type: 3}
   m_Color: {r: 0.52507305, g: 0, b: 1, a: 1}

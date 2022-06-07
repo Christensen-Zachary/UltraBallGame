@@ -79,7 +79,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8c3f5bfcecbe114c908e8f7f4ffa8f6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <ResourceLocator>k__BackingField: {fileID: 0}
+  _grid: {fileID: 0}
+  _advanceService: {fileID: 0}
 --- !u!82 &4215252590375024037
 AudioSource:
   m_ObjectHideFlags: 0
@@ -379,7 +380,7 @@ MeshRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1451160015
-  m_SortingLayer: 3
+  m_SortingLayer: 4
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!114 &4902352124258469234
@@ -487,7 +488,7 @@ GameObject:
   - component: {fileID: 7502168991080866460}
   m_Layer: 8
   m_Name: TriggerCollider
-  m_TagString: Untagged
+  m_TagString: Damageable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -524,6 +525,7 @@ MonoBehaviour:
   <BrickNumber>k__BackingField: {fileID: 8321900511822536394}
   <HitSound>k__BackingField: {fileID: 4215252590375024037}
   <ShrinkGrow>k__BackingField: {fileID: 1971341260918529101}
+  <FacBrick>k__BackingField: {fileID: 0}
   <SpriteRenderer>k__BackingField: {fileID: 1319269856066853357}
 --- !u!60 &7502168991080866460
 PolygonCollider2D:

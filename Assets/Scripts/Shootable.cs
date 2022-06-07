@@ -41,7 +41,7 @@ public class Shootable : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        int layerMask = (1 << LayerMask.NameToLayer("Brick") | 1 << LayerMask.NameToLayer("Wall")) & ~(1 << LayerMask.NameToLayer("Ball"));
+        int layerMask = (1 << LayerMask.NameToLayer("Brick")) & ~(1 << LayerMask.NameToLayer("Ball"));
 
         //if (collision.contactCount > 1)
         //{
@@ -55,33 +55,25 @@ public class Shootable : MonoBehaviour
         //    }
         //}
 
-        RaycastHit2D[] hits = Physics2D.CircleCastAll(collision.contacts[0].point, _radius, LagVelocity.normalized, 0.05f, layerMask);
-        if (hits.Length == 0)
+        RaycastHit2D[] hits = Physics2D.RaycastAll(collision.contacts[0].point, LagVelocity.normalized, 0.05f, layerMask);
+        if (hits.Length != 0)
         {
-            //print("No hits");
-            //GameObject obj = Instantiate(Resources.Load<GameObject>("Prefabs/MidPrediction"));
-            //obj.transform.position = collision.contacts[0].point;
-            //obj.transform.localScale = Vector3.one * 0.3f;
-            //obj.GetComponent<SpriteRenderer>().color = Color.white;
-        }
-        else
-        {
-            //print($"{hits.Length} hits {collision.contactCount} contacts");
             for (int i = 0; i < hits.Length; i++)
             {
-                if (hits[i].collider.TryGetComponent(out Damageable damageable))
+                if (hits[i].collider.CompareTag("Damageable"))
                 {
-                    damageable.Damage(Damage);
+                    if (hits[i].collider.TryGetComponent(out Damageable damageable))
+                    {
+                        damageable.Damage(Damage); 
+                    }
+                }
+                else
+                {
+                    print($"Did not find {hits[i].collider.name} tag {hits[i].collider.tag}");
                 }
             }
         }
 
-
-        if (RB.velocity.magnitude > MaxVelocity.magnitude)
-        {
-            MaxVelocity = GetComponent<Rigidbody2D>().velocity;
-            //print($"New max velocity mag = {MaxVelocity.magnitude}");
-        }
     }
 
     public void Fire(Vector2 direction)

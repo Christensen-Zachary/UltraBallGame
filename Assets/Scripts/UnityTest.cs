@@ -70,5 +70,5 @@ public static class UnityTest
 	public static readonly string LEVEL62   = "12'0:0,2,10;~";
 	public static readonly string LEVEL63   = "12'0:4,4,15;~";
 	public static readonly string LEVEL64   = "12'0:6,6,20;~";
-
+	public static readonly string LEVEL65   = "14'0:0,2,10000;~5:0,1,10;1,1,10;2,1,10;3,1,10;4,1,10;5,1,10;8,1,10;7,1,10;9,1,10;10,1,10;11,1,10;12,1,10;13,1,10;~6:0,0,10;1,0,10;2,0,10;3,0,10;4,0,10;5,0,10;6,0,10;7,0,10;8,0,10;9,0,10;10,0,10;11,0,10;12,0,10;13,0,10;~";
 }
