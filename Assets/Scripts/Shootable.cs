@@ -62,10 +62,12 @@ public class Shootable : MonoBehaviour
             {
                 if (hits[i].collider.CompareTag("Damageable"))
                 {
-                    if (hits[i].collider.TryGetComponent(out Damageable damageable))
-                    {
-                        damageable.Damage(Damage); 
-                    }
+                    hits[i].collider.GetComponent<Damageable>().Damage(Damage);
+
+                    //if (hits[i].collider.TryGetComponent(out Damageable damageable))
+                    //{
+                    //    damageable.Damage(Damage); 
+                    //}
                 }
                 else
                 {

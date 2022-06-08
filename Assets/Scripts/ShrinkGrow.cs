@@ -9,6 +9,35 @@ public class ShrinkGrow : MonoBehaviour
     [field: SerializeField]
     public float ShrinkByPercent { get; set; } = 15;
     private bool _reactRunning = false;
+    private Vector2 _scale;
+    private Vector2 _shrunkScale;
+    private float _speed = 2.5f;
+    private bool _isShrinking = true;
+
+    private void Update()
+    {
+        if (_reactRunning)
+        {
+            if (_isShrinking)
+            {
+                SpriteTransform.localScale -= Vector3.one * Time.deltaTime * _speed;
+                if (SpriteTransform.localScale.x < _shrunkScale.x)
+                {
+                    _isShrinking = false;
+                }
+            }
+            else
+            {
+                SpriteTransform.localScale += Vector3.one * Time.deltaTime * _speed;
+                if (SpriteTransform.localScale.x > _scale.x)
+                {
+                    SpriteTransform.localScale = _scale;
+                    _isShrinking = true;
+                    _reactRunning = false;
+                }
+            }
+        }
+    }
 
     public void ShowSprite()
     {
@@ -40,34 +69,16 @@ public class ShrinkGrow : MonoBehaviour
 
     public void React()
     {
-        if (!_reactRunning)
-        {
-            StopAllCoroutines();
-            StartCoroutine(ShrinkGrowRoutine());
-        }
-    }
-    private IEnumerator ShrinkGrowRoutine()
-    {
         _reactRunning = true;
-
-        float shrinkByPercent = ShrinkByPercent;
-        float speed = 2.5f;
-
-        Vector2 scale = SpriteTransform.localScale;
-        Vector2 shrunkScale = SpriteTransform.localScale * (1f - shrinkByPercent / 100f);
-        while (SpriteTransform.localScale.x > shrunkScale.x)
-        {
-            SpriteTransform.localScale -= Vector3.one * Time.deltaTime * speed;
-            yield return null;
-        }
-        while (SpriteTransform.localScale.x < scale.x)
-        {
-            SpriteTransform.localScale += Vector3.one * Time.deltaTime * speed;
-            yield return null;
-        }
-        SpriteTransform.localScale = scale;
-
-        _reactRunning = false;
     }
+
+    // must be called before game runs
+    public void SetScales()
+    {
+        _scale = SpriteTransform.localScale;
+        _shrunkScale = SpriteTransform.localScale * (1f - ShrinkByPercent / 100f);
+    }
+
+    
 }
 

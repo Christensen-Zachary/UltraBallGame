@@ -148,6 +148,11 @@ public class FacBrick : MonoBehaviour
             firePowerup.EndTurnDestroyService = ResourceLocator.GetResource<EndTurnDestroyService>("EndTurnDestroyService");
         }
 
+        if (obj.TryGetComponent(out ShrinkGrow shrinkGrow))
+        {
+            shrinkGrow.SetScales();
+        }
+
         return obj;
     }
 

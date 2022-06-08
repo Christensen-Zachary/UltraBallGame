@@ -120,7 +120,7 @@ MonoBehaviour:
   m_MinSize: {x: 400, y: 200}
   m_MaxSize: {x: 32384, y: 16192}
   vertical: 0
-  controlID: 102
+  controlID: 64
 --- !u!114 &6
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -140,12 +140,12 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 0
-    width: 554.4
+    width: 643.2
     height: 730.8
   m_MinSize: {x: 200, y: 200}
   m_MaxSize: {x: 16192, y: 16192}
   vertical: 1
-  controlID: 107
+  controlID: 75
 --- !u!114 &7
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -165,12 +165,12 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 0
-    width: 554.4
+    width: 643.2
     height: 335.2
   m_MinSize: {x: 200, y: 100}
   m_MaxSize: {x: 16192, y: 8096}
   vertical: 0
-  controlID: 108
+  controlID: 76
 --- !u!114 &8
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -188,7 +188,7 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 0
-    width: 243.2
+    width: 280.8
     height: 335.2
   m_MinSize: {x: 201, y: 221}
   m_MaxSize: {x: 4001, y: 4021}
@@ -212,9 +212,9 @@ MonoBehaviour:
   m_Children: []
   m_Position:
     serializedVersion: 2
-    x: 243.2
+    x: 280.8
     y: 0
-    width: 311.2
+    width: 362.40002
     height: 335.2
   m_MinSize: {x: 102, y: 121}
   m_MaxSize: {x: 4002, y: 4021}
@@ -240,7 +240,7 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 335.2
-    width: 554.4
+    width: 643.2
     height: 395.59998
   m_MinSize: {x: 231, y: 271}
   m_MaxSize: {x: 10001, y: 10021}
@@ -265,14 +265,14 @@ MonoBehaviour:
   - {fileID: 12}
   m_Position:
     serializedVersion: 2
-    x: 554.4
+    x: 643.2
     y: 0
-    width: 617.6
+    width: 528.8
     height: 730.8
   m_MinSize: {x: 100, y: 100}
   m_MaxSize: {x: 8096, y: 8096}
   vertical: 0
-  controlID: 16
+  controlID: 65
 --- !u!114 &12
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -290,7 +290,7 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 0
-    width: 617.6
+    width: 528.8
     height: 730.8
   m_MinSize: {x: 202, y: 221}
   m_MaxSize: {x: 4002, y: 4021}
@@ -375,9 +375,9 @@ MonoBehaviour:
     m_Tooltip: 
   m_Pos:
     serializedVersion: 2
-    x: 554.4
+    x: 643.2
     y: 73.6
-    width: 615.6
+    width: 526.8
     height: 709.8
   m_ViewDataDictionary: {fileID: 0}
   m_OverlayCanvas:
@@ -425,23 +425,23 @@ MonoBehaviour:
       serializedVersion: 2
       x: 0
       y: 0
-      width: 615.6
+      width: 526.8
       height: 709.8
     m_Scale: {x: 0.69316405, y: 0.69316405}
-    m_Translation: {x: 307.8, y: 354.9}
+    m_Translation: {x: 263.4, y: 354.9}
     m_MarginLeft: 0
     m_MarginRight: 0
     m_MarginTop: 0
     m_MarginBottom: 0
     m_LastShownAreaInsideMargins:
       serializedVersion: 2
-      x: -444.05072
+      x: -379.9966
       y: -512
-      width: 888.10144
+      width: 759.9932
       height: 1024
     m_MinimalGUI: 1
   m_defaultScale: 0.69316405
-  m_LastWindowPixelSize: {x: 769.5, y: 887.25}
+  m_LastWindowPixelSize: {x: 658.5, y: 887.25}
   m_ClearInEditMode: 1
   m_NoCameraWarning: 1
   m_LowResolutionForAspectRatios: 01000000000000000000
@@ -469,7 +469,7 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 73.6
-    width: 242.2
+    width: 279.8
     height: 314.2
   m_ViewDataDictionary: {fileID: 0}
   m_OverlayCanvas:
@@ -524,9 +524,9 @@ MonoBehaviour:
     m_Tooltip: 
   m_Pos:
     serializedVersion: 2
-    x: 243.2
+    x: 280.80002
     y: 73.6
-    width: 309.2
+    width: 360.40002
     height: 314.2
   m_ViewDataDictionary: {fileID: 0}
   m_OverlayCanvas:
@@ -554,7 +554,7 @@ MonoBehaviour:
     serializedVersion: 2
     x: 0
     y: 408.80002
-    width: 553.4
+    width: 642.2
     height: 374.59998
   m_ViewDataDictionary: {fileID: 0}
   m_OverlayCanvas:
@@ -573,21 +573,21 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/_Scenes
+    - Assets/Resources/Prefabs
     m_Globs: []
     m_OriginalText: 
   m_ViewMode: 1
   m_StartGridSize: 64
   m_LastFolders:
-  - Assets/_Scenes
+  - Assets/Resources/Prefabs
   m_LastFoldersGridSize: -1
   m_LastProjectPath: C:\Users\Raiden\Desktop\ballgame\TheBallGame\BallGame
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
     scrollPos: {x: 0, y: 27.800018}
-    m_SelectedIDs: 8c6f0000
-    m_LastClickedID: 28556
+    m_SelectedIDs: 866f0000
+    m_LastClickedID: 28550
     m_ExpandedIDs: 00000000666f0000686f00006a6f00006c6f00006e6f0000706f0000726f000000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
@@ -692,9 +692,9 @@ MonoBehaviour:
     m_Tooltip: 
   m_Pos:
     serializedVersion: 2
-    x: 554.4
+    x: 643.2
     y: 73.6
-    width: 615.6
+    width: 526.8
     height: 709.8
   m_ViewDataDictionary: {fileID: 0}
   m_OverlayCanvas:
@@ -921,7 +921,7 @@ MonoBehaviour:
   m_Position:
     m_Target: {x: 0.385948, y: 0.05871542, z: -0.037521712}
     speed: 2
-    m_Value: {x: 0.385948, y: 0.05871542, z: -0.037521712}
+    m_Value: {x: 9.233498, y: -2.4272578, z: -0.004631624}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -974,7 +974,7 @@ MonoBehaviour:
   m_Size:
     m_Target: 4.081212
     speed: 2
-    m_Value: 4.081212
+    m_Value: 10
   m_Ortho:
     m_Target: 1
     speed: 2
