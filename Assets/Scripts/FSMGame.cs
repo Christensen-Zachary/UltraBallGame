@@ -205,7 +205,7 @@ public class FSMGame : MonoBehaviour
     {
         _levelService.ResetLevelService();
         _gameUI.ShowGame();
-        _player.Health = 10;
+        _player.Health = 100;
         _facBrick.DestroyBricks();
         _facBall.DestroyBalls();
         _winService.NumberOfBricksDestroyed = 0;

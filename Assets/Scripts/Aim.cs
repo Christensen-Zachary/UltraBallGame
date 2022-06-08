@@ -8,9 +8,9 @@ public class Aim : MonoBehaviour
     [field: SerializeField]
     public ResourceLocator ResourceLocator { get; set; }
     [field: SerializeField]
-    private GameObject EndPredictionSprite { get; set; }
+    public GameObject EndPredictionSprite { get; private set; }
     [field: SerializeField]
-    private GameObject MidPredictionSprite { get; set; }
+    public GameObject MidPredictionSprite { get; private set; }
     private List<GameObject> EndPointPredictionSprites { get; set; }
     private List<GameObject> MidPointPredictionSprites { get; set; }
     [field: SerializeField]
@@ -26,6 +26,8 @@ public class Aim : MonoBehaviour
 
         Background background = ResourceLocator.GetResource<Background>("Background");
         MaxDistance = Vector2.Distance(background.GetBounds.extents, -background.GetBounds.extents);
+
+        ThemeVisitor.Visit(this);
 
         EndPointPredictionSprites = new List<GameObject>();
         for (int i = 0; i < 5; i++)

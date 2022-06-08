@@ -123,6 +123,7 @@ public class FacBrick : MonoBehaviour
             damageable.FacBrick = this;
             damageable.WinService = _winService;
             damageable.MaxColorValue = MaxHealth;
+            ThemeVisitor.Visit(damageable);
             damageable.SetColor(brick.Health);
             damageable.Health = brick.Health;
             damageable.BrickFixCollision = ResourceLocator.GetResource<BrickFixCollision>("BrickFixCollision");

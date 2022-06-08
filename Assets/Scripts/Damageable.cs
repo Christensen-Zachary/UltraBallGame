@@ -41,7 +41,7 @@ public class Damageable : MonoBehaviour
     public float MaxColorValue { get; set; } = 10;
 
     [field: SerializeField]
-    private SpriteRenderer SpriteRenderer { get; set; } // reference set on prefab in editor
+    public SpriteRenderer SpriteRenderer { get; private set; } // reference set on prefab in editor
 
     private bool _destroyedFromThis = false; // used to increment wincounter when destroyed from outside, cause delay when destroy from inside will break win detection
 

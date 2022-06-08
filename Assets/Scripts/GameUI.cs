@@ -69,6 +69,7 @@ public class GameUI : MonoBehaviour
             {
                 PPanels[0].SetBottom(_height - _height * _leaveSidesOpenByPercent / 2f);
                 PPanels[1].SetTop(_height - _height * _leaveSidesOpenByPercent / 2f);
+
             }
             else
             {

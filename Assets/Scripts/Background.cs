@@ -35,6 +35,8 @@ public class Background : MonoBehaviour
         }
         transform.localScale = Vector2.one * scale;
         //transform.localPosition = Vector3.zero;
+
+        ThemeVisitor.Visit(this);
     }
 
 

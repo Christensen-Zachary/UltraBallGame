@@ -31,6 +31,8 @@ public class Player : MonoBehaviour
 
         transform.localPosition = _grid.GetPosition((_grid.NumberOfDivisions - 1) / 2f, _grid.NumberOfDivisions - 1);
         transform.localScale = _grid.UnitScale * Vector2.one;
+
+        ThemeVisitor.Visit(this);
     }
 
     public void SetRadius()

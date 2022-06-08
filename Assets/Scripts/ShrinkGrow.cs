@@ -5,7 +5,7 @@ using UnityEngine;
 public class ShrinkGrow : MonoBehaviour
 {
     [field: SerializeField]
-    private Transform SpriteTransform { get; set; }
+    public Transform SpriteTransform { get; private set; }
     [field: SerializeField]
     public float ShrinkByPercent { get; set; } = 15;
     private bool _reactRunning = false;

@@ -25,6 +25,8 @@ public class Shootable : MonoBehaviour
     {
         RB = GetComponent<Rigidbody2D>();
         _radius = GetComponent<CircleCollider2D>().radius * 0.6f;
+
+        ThemeVisitor.Visit(this);
     }
 
     private void FixedUpdate()
