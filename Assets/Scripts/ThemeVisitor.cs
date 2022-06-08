@@ -21,7 +21,8 @@ public enum ThemeColor
 public enum ThemeType
 {
     Default,
-    Theme1
+    Theme1,
+    JellyFish
 }
 
 public enum CustomColor
@@ -46,18 +47,18 @@ public class ThemeVisitor : MonoBehaviour
         GetThemeColors(ES3.Load<ThemeType>(BGStrings.ES_THEMETYPE, ThemeType.Default));
     }
 
-    public static Dictionary<ThemeColor, CustomColor> ThemeColors { get; private set; } = new Dictionary<ThemeColor, CustomColor>() {
+    public static Dictionary<ThemeColor, Color> ThemeColors { get; private set; } = new Dictionary<ThemeColor, Color>() {
         // default colors, are overwritten in GetThemeColors
-        { ThemeColor.Player, CustomColor.Orange },
-        { ThemeColor.Background, CustomColor.Grey },
-        { ThemeColor.MaxDamage, CustomColor.DarkGreen },
-        { ThemeColor.MinDamage, CustomColor.LightGreen },
-        { ThemeColor.PlayerMaxHealth, CustomColor.Green },
-        { ThemeColor.PlayerMinHealth, CustomColor.Red },
-        { ThemeColor.MidPrediction, CustomColor.LightYellow },
-        { ThemeColor.EndPrediction, CustomColor.LightYellow },
-        { ThemeColor.BasicBall, CustomColor.Orange },
-        { ThemeColor.Button, CustomColor.Brown }
+        { ThemeColor.Player, GetColor(CustomColor.Orange) },
+        { ThemeColor.Background, GetColor(CustomColor.Grey) },
+        { ThemeColor.MaxDamage, GetColor(CustomColor.DarkGreen) },
+        { ThemeColor.MinDamage, GetColor(CustomColor.LightGreen) },
+        { ThemeColor.PlayerMaxHealth, GetColor(CustomColor.Green) },
+        { ThemeColor.PlayerMinHealth, GetColor(CustomColor.Red) },
+        { ThemeColor.MidPrediction, GetColor(CustomColor.LightYellow) },
+        { ThemeColor.EndPrediction, GetColor(CustomColor.LightYellow) },
+        { ThemeColor.BasicBall, GetColor(CustomColor.Orange) },
+        { ThemeColor.Button, GetColor(CustomColor.Brown) }
     };
 
     public static void GetThemeColors(ThemeType themeType)
@@ -65,47 +66,64 @@ public class ThemeVisitor : MonoBehaviour
         switch (themeType)
         {
             case ThemeType.Theme1:
-                ThemeColors[ThemeColor.Player] = CustomColor.DarkGreen;
-                ThemeColors[ThemeColor.MaxDamage] = CustomColor.LightRed;
-                ThemeColors[ThemeColor.MinDamage] = CustomColor.Brown;
-                ThemeColors[ThemeColor.MidPrediction] = CustomColor.LightGreen;
-                ThemeColors[ThemeColor.EndPrediction] = CustomColor.LightGreen;
-                ThemeColors[ThemeColor.Button] = CustomColor.DarkGreen;
+                SetThemeColor(ThemeColor.Player, GetColor(CustomColor.DarkGreen));
+                SetThemeColor(ThemeColor.MaxDamage, GetColor(CustomColor.LightRed));
+                SetThemeColor(ThemeColor.MinDamage, GetColor(CustomColor.Brown));
+                SetThemeColor(ThemeColor.MidPrediction, GetColor(CustomColor.LightGreen));
+                SetThemeColor(ThemeColor.EndPrediction, GetColor(CustomColor.LightGreen));
+                SetThemeColor(ThemeColor.Button, GetColor(CustomColor.DarkGreen));
+                break;
+            case ThemeType.JellyFish:
+                SetThemeColor(ThemeColor.Player, GetColor(CustomColor.Orange));
+                SetThemeColor(ThemeColor.BasicBall, GetColor(CustomColor.Orange));
+                SetThemeColor(ThemeColor.Background, GetColor(CustomColor.Grey));
+                SetThemeColor(ThemeColor.MaxDamage, GetColor(CustomColor.DarkGreen));
+                SetThemeColor(ThemeColor.MinDamage, GetColor(CustomColor.LightGreen));
+                SetThemeColor(ThemeColor.PlayerMaxHealth, GetColor(CustomColor.Green));
+                SetThemeColor(ThemeColor.PlayerMinHealth, GetColor(CustomColor.Red));
+                SetThemeColor(ThemeColor.MidPrediction, GetColor(CustomColor.LightYellow));
+                SetThemeColor(ThemeColor.EndPrediction, GetColor(CustomColor.LightYellow));
+                SetThemeColor(ThemeColor.Button, GetColor(CustomColor.Brown));
                 break;
         }
     }
 
+    private static void SetThemeColor(ThemeColor themeColor, Color color)
+    {
+        ThemeColors[themeColor] = color;
+    }
+
     public static void Visit(Damageable damageable)
     {
-        damageable.MaxColor = GetColor(ThemeColors[ThemeColor.MaxDamage]);
-        damageable.MinColor = GetColor(ThemeColors[ThemeColor.MinDamage]);
+        damageable.MaxColor = ThemeColors[ThemeColor.MaxDamage];
+        damageable.MinColor = ThemeColors[ThemeColor.MinDamage];
     }
 
     public static void Visit(Player player)
     {
-        player.GetComponent<SpriteRenderer>().color = GetColor(ThemeColors[ThemeColor.Player]);
+        player.GetComponent<SpriteRenderer>().color = ThemeColors[ThemeColor.Player];
     }
 
     public static void Visit(Aim aim)
     {
-        aim.EndPredictionSprite.GetComponent<SpriteRenderer>().color = GetColor(ThemeColors[ThemeColor.EndPrediction]);
-        aim.MidPredictionSprite.GetComponent<SpriteRenderer>().color = GetColor(ThemeColors[ThemeColor.MidPrediction]);
+        aim.EndPredictionSprite.GetComponent<SpriteRenderer>().color = ThemeColors[ThemeColor.EndPrediction];
+        aim.MidPredictionSprite.GetComponent<SpriteRenderer>().color = ThemeColors[ThemeColor.MidPrediction];
     }
 
     public static void Visit(Background background)
     {
-        background.GetComponent<SpriteRenderer>().color = GetColor(ThemeColors[ThemeColor.Background]);
+        background.GetComponent<SpriteRenderer>().color = ThemeColors[ThemeColor.Background];
     }
 
     public static void Visit(Shootable shootable)
     {
-        shootable.GetComponent<SpriteRenderer>().color = GetColor(ThemeColors[ThemeColor.BasicBall]);
+        shootable.GetComponent<SpriteRenderer>().color = ThemeColors[ThemeColor.BasicBall];
     }
 
     public static void Visit(PlayerHealth playerHealth)
     {
-        playerHealth.MaxHealthColor = GetColor(ThemeColors[ThemeColor.MaxDamage]);
-        playerHealth.MinHealthColor = GetColor(ThemeColors[ThemeColor.MinDamage]);
+        playerHealth.MaxHealthColor = ThemeColors[ThemeColor.MaxDamage];
+        playerHealth.MinHealthColor = ThemeColors[ThemeColor.MinDamage];
     }
 
     public static Color GetColor(CustomColor customColor)
@@ -121,42 +139,27 @@ public class ThemeVisitor : MonoBehaviour
             case CustomColor.Grey:
                 return new Color(0.1f, 0.1f, 0.2f);
             case CustomColor.DarkGreen:
-                return new Color(
-                    Convert.ToInt32("0B", 16) / 256f,
-                    Convert.ToInt32("72", 16) / 256f,
-                    Convert.ToInt32("6D", 16) / 256f);
+                return ConvertToColor(0x0B, 0x72, 0x6D);
             case CustomColor.LightGreen:
-                return new Color(
-                    Convert.ToInt32("D5", 16) / 256f,
-                    Convert.ToInt32("FC", 16) / 256f,
-                    Convert.ToInt32("B4", 16) / 256f);
+                return ConvertToColor(0xD5, 0xFC, 0xD4);
             case CustomColor.LightRed:
-                return new Color(
-                    Convert.ToInt32("FF", 16) / 256f,
-                    Convert.ToInt32("91", 16) / 256f,
-                    Convert.ToInt32("A8", 16) / 256f);
+                return ConvertToColor(0xFF, 0x91, 0xA8);
             case CustomColor.Brown:
-                return new Color(
-                    Convert.ToInt32("4B", 16) / 256f,
-                    Convert.ToInt32("4B", 16) / 256f,
-                    Convert.ToInt32("4B", 16) / 256f);
+                return ConvertToColor(0x4B, 0x4B, 0x4B);
             case CustomColor.LightYellow:
-                return new Color(
-                    Convert.ToInt32("F1", 16) / 256f,
-                    Convert.ToInt32("DD", 16) / 256f,
-                    Convert.ToInt32("89", 16) / 256f);
+                return ConvertToColor(0xF1, 0xDD, 0x89);
             case CustomColor.Orange:
-                return new Color(
-                    Convert.ToInt32("FF", 16) / 256f,
-                    Convert.ToInt32("A5", 16) / 256f,
-                    Convert.ToInt32("00", 16) / 256f);
+                return ConvertToColor(0xFF, 0xA5, 0x00);
             default:
                 return Color.white;
         }
 
     }
 
-
+    private static Color ConvertToColor(int r, int g, int b)
+    {
+        return new Color(r / 256f, g / 256f, b / 256f);
+    }
 
 
 }

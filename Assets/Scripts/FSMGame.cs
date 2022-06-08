@@ -213,7 +213,7 @@ public class FSMGame : MonoBehaviour
 
         _facBrick.MaxHealth = _levelService.Bricks.Select(x => x.Health).Max();
 
-        for (int i = 0; i < _levelService.NumberOfDivisions - 1; i++)
+        for (int i = 0; i < _levelService.NumberOfDivisions; i++)
         {
             _levelService.GetNextRow().ForEach(x => { x.Row--; _facBrick.Create(x); x.Row++; }); // subtract row so will advance down into position
         }
