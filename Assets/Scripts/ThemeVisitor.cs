@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public enum ThemeColor
+public enum ThemeItem
 {
     Player,
     Background,
@@ -15,6 +15,7 @@ public enum ThemeColor
     MidPrediction,
     EndPrediction,
     BasicBall,
+    Camera,
     Button
 }
 
@@ -41,89 +42,118 @@ public enum CustomColor
 
 public class ThemeVisitor : MonoBehaviour
 {
+    [field: SerializeField]
+    public TMPro.TMP_FontAsset Font1 { get; set; } // set in prefab
+    [field: SerializeField]
+    public TMPro.TMP_FontAsset Font2 { get; set; } // set in prefab
+
+    private static ThemeType themeType;
     private void Awake()
     {
-        ES3.Save<ThemeType>(BGStrings.ES_THEMETYPE, ThemeType.Default);
-        GetThemeColors(ES3.Load<ThemeType>(BGStrings.ES_THEMETYPE, ThemeType.Default));
+        ES3.Save<ThemeType>(BGStrings.ES_THEMETYPE, ThemeType.JellyFish);
+        themeType = ES3.Load<ThemeType>(BGStrings.ES_THEMETYPE, ThemeType.Default);
+        SetThemeType(themeType);
+        
+        ThemeFonts = new Dictionary<ThemeType, TMPro.TMP_FontAsset>()
+        {
+            { ThemeType.Default, Font1 },
+            { ThemeType.JellyFish, Font2 }
+        };
+
     }
 
-    public static Dictionary<ThemeColor, Color> ThemeColors { get; private set; } = new Dictionary<ThemeColor, Color>() {
+    public static Dictionary<ThemeItem, Color> ThemeColors { get; private set; } = new Dictionary<ThemeItem, Color>() {
         // default colors, are overwritten in GetThemeColors
-        { ThemeColor.Player, GetColor(CustomColor.Orange) },
-        { ThemeColor.Background, GetColor(CustomColor.Grey) },
-        { ThemeColor.MaxDamage, GetColor(CustomColor.DarkGreen) },
-        { ThemeColor.MinDamage, GetColor(CustomColor.LightGreen) },
-        { ThemeColor.PlayerMaxHealth, GetColor(CustomColor.Green) },
-        { ThemeColor.PlayerMinHealth, GetColor(CustomColor.Red) },
-        { ThemeColor.MidPrediction, GetColor(CustomColor.LightYellow) },
-        { ThemeColor.EndPrediction, GetColor(CustomColor.LightYellow) },
-        { ThemeColor.BasicBall, GetColor(CustomColor.Orange) },
-        { ThemeColor.Button, GetColor(CustomColor.Brown) }
+        { ThemeItem.Player, GetColor(CustomColor.Orange) },
+        { ThemeItem.Background, GetColor(CustomColor.Grey) },
+        { ThemeItem.MaxDamage, GetColor(CustomColor.DarkGreen) },
+        { ThemeItem.MinDamage, GetColor(CustomColor.LightGreen) },
+        { ThemeItem.PlayerMaxHealth, GetColor(CustomColor.Green) },
+        { ThemeItem.PlayerMinHealth, GetColor(CustomColor.Red) },
+        { ThemeItem.MidPrediction, GetColor(CustomColor.LightYellow) },
+        { ThemeItem.EndPrediction, GetColor(CustomColor.LightYellow) },
+        { ThemeItem.BasicBall, GetColor(CustomColor.Orange) },
+        { ThemeItem.Camera, Color.black },
+        { ThemeItem.Button, GetColor(CustomColor.Brown) }
     };
 
-    public static void GetThemeColors(ThemeType themeType)
+    public static Dictionary<ThemeType, TMPro.TMP_FontAsset> ThemeFonts { get; private set; }
+    public static void SetThemeType(ThemeType themeType)
     {
         switch (themeType)
         {
             case ThemeType.Theme1:
-                SetThemeColor(ThemeColor.Player, GetColor(CustomColor.DarkGreen));
-                SetThemeColor(ThemeColor.MaxDamage, GetColor(CustomColor.LightRed));
-                SetThemeColor(ThemeColor.MinDamage, GetColor(CustomColor.Brown));
-                SetThemeColor(ThemeColor.MidPrediction, GetColor(CustomColor.LightGreen));
-                SetThemeColor(ThemeColor.EndPrediction, GetColor(CustomColor.LightGreen));
-                SetThemeColor(ThemeColor.Button, GetColor(CustomColor.DarkGreen));
+                SetThemeColor(ThemeItem.Player, GetColor(CustomColor.DarkGreen));
+                SetThemeColor(ThemeItem.MaxDamage, GetColor(CustomColor.LightRed));
+                SetThemeColor(ThemeItem.MinDamage, GetColor(CustomColor.Brown));
+                SetThemeColor(ThemeItem.MidPrediction, GetColor(CustomColor.LightGreen));
+                SetThemeColor(ThemeItem.EndPrediction, GetColor(CustomColor.LightGreen));
+                SetThemeColor(ThemeItem.Button, GetColor(CustomColor.DarkGreen));
                 break;
             case ThemeType.JellyFish:
-                SetThemeColor(ThemeColor.Player, GetColor(CustomColor.Orange));
-                SetThemeColor(ThemeColor.BasicBall, GetColor(CustomColor.Orange));
-                SetThemeColor(ThemeColor.Background, GetColor(CustomColor.Grey));
-                SetThemeColor(ThemeColor.MaxDamage, GetColor(CustomColor.DarkGreen));
-                SetThemeColor(ThemeColor.MinDamage, GetColor(CustomColor.LightGreen));
-                SetThemeColor(ThemeColor.PlayerMaxHealth, GetColor(CustomColor.Green));
-                SetThemeColor(ThemeColor.PlayerMinHealth, GetColor(CustomColor.Red));
-                SetThemeColor(ThemeColor.MidPrediction, GetColor(CustomColor.LightYellow));
-                SetThemeColor(ThemeColor.EndPrediction, GetColor(CustomColor.LightYellow));
-                SetThemeColor(ThemeColor.Button, GetColor(CustomColor.Brown));
+                SetThemeColor(ThemeItem.Player, ConvertToColor(0x3e, 0xa1, 0xb6)); // moonstone
+                SetThemeColor(ThemeItem.BasicBall, ConvertToColor(0x3e, 0xa1, 0xb6));
+                SetThemeColor(ThemeItem.Camera, ConvertToColor(9, 28, 42));
+                //SetThemeColor(ThemeColor.Background, ConvertToColor(19, 56, 85)); // space cadet
+                SetThemeColor(ThemeItem.Background, Color.black);
+                SetThemeColor(ThemeItem.MaxDamage, ConvertToColor(187, 144, 200)); // lenurple
+                SetThemeColor(ThemeItem.MinDamage, ConvertToColor(239, 216, 236)); // piggy pink
+                SetThemeColor(ThemeItem.PlayerMaxHealth, ConvertToColor(187, 144, 200));
+                SetThemeColor(ThemeItem.PlayerMinHealth, ConvertToColor(239, 216, 236)); 
+                SetThemeColor(ThemeItem.MidPrediction, ConvertToColor(107, 102, 158)); // Dark blue grey
+                SetThemeColor(ThemeItem.EndPrediction, ConvertToColor(107, 102, 158));
+                SetThemeColor(ThemeItem.Button, GetColor(CustomColor.Brown));
                 break;
         }
     }
 
-    private static void SetThemeColor(ThemeColor themeColor, Color color)
+    private static void SetThemeColor(ThemeItem themeItem, Color color)
     {
-        ThemeColors[themeColor] = color;
+        ThemeColors[themeItem] = color;
     }
 
     public static void Visit(Damageable damageable)
     {
-        damageable.MaxColor = ThemeColors[ThemeColor.MaxDamage];
-        damageable.MinColor = ThemeColors[ThemeColor.MinDamage];
+        damageable.MaxColor = ThemeColors[ThemeItem.MaxDamage];
+        damageable.MinColor = ThemeColors[ThemeItem.MinDamage];
     }
 
     public static void Visit(Player player)
     {
-        player.GetComponent<SpriteRenderer>().color = ThemeColors[ThemeColor.Player];
+        player.GetComponent<SpriteRenderer>().color = ThemeColors[ThemeItem.Player];
     }
 
     public static void Visit(Aim aim)
     {
-        aim.EndPredictionSprite.GetComponent<SpriteRenderer>().color = ThemeColors[ThemeColor.EndPrediction];
-        aim.MidPredictionSprite.GetComponent<SpriteRenderer>().color = ThemeColors[ThemeColor.MidPrediction];
+        aim.EndPredictionSprite.GetComponent<SpriteRenderer>().color = ThemeColors[ThemeItem.EndPrediction];
+        aim.MidPredictionSprite.GetComponent<SpriteRenderer>().color = ThemeColors[ThemeItem.MidPrediction];
     }
 
     public static void Visit(Background background)
     {
-        background.GetComponent<SpriteRenderer>().color = ThemeColors[ThemeColor.Background];
+        background.GetComponent<SpriteRenderer>().color = ThemeColors[ThemeItem.Background];
     }
 
     public static void Visit(Shootable shootable)
     {
-        shootable.GetComponent<SpriteRenderer>().color = ThemeColors[ThemeColor.BasicBall];
+        shootable.GetComponent<SpriteRenderer>().color = ThemeColors[ThemeItem.BasicBall];
     }
 
     public static void Visit(PlayerHealth playerHealth)
     {
-        playerHealth.MaxHealthColor = ThemeColors[ThemeColor.MaxDamage];
-        playerHealth.MinHealthColor = ThemeColors[ThemeColor.MinDamage];
+        playerHealth.MaxHealthColor = ThemeColors[ThemeItem.MaxDamage];
+        playerHealth.MinHealthColor = ThemeColors[ThemeItem.MinDamage];
+    }
+
+    public static void Visit(MainCamera mainCamera)
+    {
+        mainCamera.GetComponent<Camera>().backgroundColor = ThemeColors[ThemeItem.Camera];
+    }
+
+    public static void Visit(ThemeText themeText)
+    {
+        themeText.SetFont(ThemeFonts[themeType]);
+        themeText.SetFontColor(Color.white);
     }
 
     public static Color GetColor(CustomColor customColor)

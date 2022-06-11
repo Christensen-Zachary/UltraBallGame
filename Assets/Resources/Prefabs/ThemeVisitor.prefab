@@ -44,3 +44,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 28a61dc754502e44b9f0d3a5b9c60c2b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  <Font1>k__BackingField: {fileID: 11400000, guid: 84dd14695854bbc43a5faa24fcf93d0d, type: 2}
+  <Font2>k__BackingField: {fileID: 11400000, guid: ca60657c190bc8c4e89dfb3e23d76209, type: 2}

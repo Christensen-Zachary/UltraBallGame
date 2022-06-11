@@ -300,6 +300,7 @@ GameObject:
   - component: {fileID: 9105704316829928246}
   - component: {fileID: 3041070648029292349}
   - component: {fileID: 5986582506148427305}
+  - component: {fileID: 6219057932853835344}
   - component: {fileID: 2108245928270576773}
   m_Layer: 8
   m_Name: hitPoints
@@ -382,6 +383,18 @@ MeshRenderer:
   m_SortingLayer: 4
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &6219057932853835344
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8511503453024097558}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d63ed7e3cd07bbd4182651b26fde8aa2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &2108245928270576773
 MonoBehaviour:
   m_ObjectHideFlags: 0

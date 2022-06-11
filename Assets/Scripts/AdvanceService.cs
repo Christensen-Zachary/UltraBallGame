@@ -30,7 +30,6 @@ public class AdvanceService : MonoBehaviour
 
     public IEnumerator Advance()
     {
-        //Advanceables.ForEach(x => { if (x != null) x.StartMoveDown(); });
 
         Vector2 startPosition = AdvanceableParent.transform.position;
         Vector2 endPosition = startPosition - new Vector2(0, _grid.UnitScale);
@@ -39,12 +38,9 @@ public class AdvanceService : MonoBehaviour
         while (timer < _moveTime)
         {
             timer += Time.deltaTime;
-            //Advanceables.ForEach(x => { if (x != null) x.MoveDown(); });
             AdvanceableParent.transform.position = Vector2.Lerp(startPosition, endPosition, timer / _moveTime);
             yield return null;
         }
-
-        //Advanceables.ForEach(x => { if (x != null) x.EndMoveDown(); });
 
         Advanceables.ForEach(x =>
         {

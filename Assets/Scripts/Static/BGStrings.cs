@@ -9,4 +9,5 @@ public static class BGStrings
     public const string ES_LEVELSETNUMBER = "LevelSetNumber";
     public const string ES_THEMETYPE = "ThemeType";
     public const string TAG_BOTTOMWALL = "BottomWall";
+    public const string FONT1_NAME = "OpenSans-ExtraBold SDF";
 }
