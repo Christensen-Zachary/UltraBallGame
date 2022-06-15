@@ -36,6 +36,7 @@ public class FSMGame : MonoBehaviour
     private AdvanceService _advanceService;
     private EndTurnDestroyService _endTurnDestroyService;
     private GameUI _gameUI;
+    private GameUISwitcher _gameUISwitcher;
     private WinService _winService;
 
     private bool _isRunningSetupLevel = false;
@@ -52,6 +53,7 @@ public class FSMGame : MonoBehaviour
         _advanceService = ResourceLocator.GetResource<AdvanceService>("AdvanceService");
         _endTurnDestroyService = ResourceLocator.GetResource<EndTurnDestroyService>("EndTurnDestroyService");
         _gameUI = ResourceLocator.GetResource<GameUI>("GameUI");
+        _gameUISwitcher = ResourceLocator.GetResource<GameUISwitcher>("GameUISwitcher");
         _winService = ResourceLocator.GetResource<WinService>("WinService");
 
         //Time.timeScale = 0.3f;
@@ -85,6 +87,7 @@ public class FSMGame : MonoBehaviour
                 }
                 else if (_gameInput.StartMove())
                 {
+                    _gameUISwitcher.ShowMoveSlider(true);
                     _state = GState.MovingPlayer;
                 }
                 else if (_gameUI.OpenMainMenuPanel)
@@ -97,6 +100,7 @@ public class FSMGame : MonoBehaviour
             case GState.MovingPlayer:
                 if (_gameInput.EndMove())
                 {
+                    _gameUISwitcher.ShowMoveSlider(false);
                     _state = GState.WaitingForPlayerInput;
                 }
                 else
@@ -109,6 +113,7 @@ public class FSMGame : MonoBehaviour
                 {
                     _player.HideAim();
                     _player.RunFire(_gameInput.GetFireDirection());
+                    _gameUISwitcher.StartFire();
                     _state = GState.Firing;
                 }
                 else if (_gameInput.EndAim())
@@ -194,7 +199,7 @@ public class FSMGame : MonoBehaviour
         }
         else
         {
-            print($"NumberOfBricksToWin: {_winService.NumberOfBricksToWin} NumberOfBricksDestroyed: {_winService.NumberOfBricksDestroyed}");
+            _gameUISwitcher.StartTurn();
             _state = GState.WaitingForPlayerInput;
         }
 
@@ -205,6 +210,7 @@ public class FSMGame : MonoBehaviour
     {
         _levelService.ResetLevelService();
         _gameUI.ShowGame();
+        _gameUISwitcher.StartTurn();
         _player.Health = 100;
         _facBrick.DestroyBricks();
         _facBall.DestroyBalls();

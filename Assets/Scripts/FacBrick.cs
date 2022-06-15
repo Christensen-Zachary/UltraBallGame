@@ -43,8 +43,6 @@ public class FacBrick : MonoBehaviour
 
         ResourceLocator.AddResource("FacBrick", this);
 
-        CreateAdvanceableParent();
-
         CompositeCollider2D = GetComponent<CompositeCollider2D>();
 
         _brickParent = transform;
@@ -60,6 +58,7 @@ public class FacBrick : MonoBehaviour
         _advanceService.AdvanceableParent = _advanceableParent;
     }
 
+    // called during setup level
     public void DestroyBricks()
     {
         List<GameObject> bricks = new List<GameObject>();

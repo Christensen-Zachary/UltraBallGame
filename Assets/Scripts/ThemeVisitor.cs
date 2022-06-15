@@ -22,8 +22,9 @@ public enum ThemeItem
 public enum ThemeType
 {
     Default,
-    Theme1,
-    JellyFish
+    JellyFish,
+    Theme2,
+    VaporWave
 }
 
 public enum CustomColor
@@ -50,7 +51,7 @@ public class ThemeVisitor : MonoBehaviour
     private static ThemeType themeType;
     private void Awake()
     {
-        ES3.Save<ThemeType>(BGStrings.ES_THEMETYPE, ThemeType.JellyFish);
+        ES3.Save<ThemeType>(BGStrings.ES_THEMETYPE, ThemeType.Default);
         themeType = ES3.Load<ThemeType>(BGStrings.ES_THEMETYPE, ThemeType.Default);
         SetThemeType(themeType);
         
@@ -65,7 +66,7 @@ public class ThemeVisitor : MonoBehaviour
     public static Dictionary<ThemeItem, Color> ThemeColors { get; private set; } = new Dictionary<ThemeItem, Color>() {
         // default colors, are overwritten in GetThemeColors
         { ThemeItem.Player, GetColor(CustomColor.Orange) },
-        { ThemeItem.Background, GetColor(CustomColor.Grey) },
+        { ThemeItem.Background, ConvertToColor(90, 90, 90) },
         { ThemeItem.MaxDamage, GetColor(CustomColor.DarkGreen) },
         { ThemeItem.MinDamage, GetColor(CustomColor.LightGreen) },
         { ThemeItem.PlayerMaxHealth, GetColor(CustomColor.Green) },
@@ -73,7 +74,7 @@ public class ThemeVisitor : MonoBehaviour
         { ThemeItem.MidPrediction, GetColor(CustomColor.LightYellow) },
         { ThemeItem.EndPrediction, GetColor(CustomColor.LightYellow) },
         { ThemeItem.BasicBall, GetColor(CustomColor.Orange) },
-        { ThemeItem.Camera, Color.black },
+        { ThemeItem.Camera, ConvertToColor(35, 35, 35) },
         { ThemeItem.Button, GetColor(CustomColor.Brown) }
     };
 
@@ -82,14 +83,6 @@ public class ThemeVisitor : MonoBehaviour
     {
         switch (themeType)
         {
-            case ThemeType.Theme1:
-                SetThemeColor(ThemeItem.Player, GetColor(CustomColor.DarkGreen));
-                SetThemeColor(ThemeItem.MaxDamage, GetColor(CustomColor.LightRed));
-                SetThemeColor(ThemeItem.MinDamage, GetColor(CustomColor.Brown));
-                SetThemeColor(ThemeItem.MidPrediction, GetColor(CustomColor.LightGreen));
-                SetThemeColor(ThemeItem.EndPrediction, GetColor(CustomColor.LightGreen));
-                SetThemeColor(ThemeItem.Button, GetColor(CustomColor.DarkGreen));
-                break;
             case ThemeType.JellyFish:
                 SetThemeColor(ThemeItem.Player, ConvertToColor(0x3e, 0xa1, 0xb6)); // moonstone
                 SetThemeColor(ThemeItem.BasicBall, ConvertToColor(0x3e, 0xa1, 0xb6));
@@ -102,6 +95,32 @@ public class ThemeVisitor : MonoBehaviour
                 SetThemeColor(ThemeItem.PlayerMinHealth, ConvertToColor(239, 216, 236)); 
                 SetThemeColor(ThemeItem.MidPrediction, ConvertToColor(107, 102, 158)); // Dark blue grey
                 SetThemeColor(ThemeItem.EndPrediction, ConvertToColor(107, 102, 158));
+                SetThemeColor(ThemeItem.Button, GetColor(CustomColor.Brown));
+                break;
+            case ThemeType.Theme2: // https://www.schemecolor.com/working-back.php
+                SetThemeColor(ThemeItem.Player, ConvertToColor(151, 204, 184));
+                SetThemeColor(ThemeItem.Background, ConvertToColor(75, 72, 130));
+                SetThemeColor(ThemeItem.MaxDamage, ConvertToColor(221, 189, 152));
+                SetThemeColor(ThemeItem.MinDamage, ConvertToColor(240, 224, 201));
+                SetThemeColor(ThemeItem.PlayerMaxHealth, ConvertToColor(221, 189, 152));
+                SetThemeColor(ThemeItem.PlayerMinHealth, ConvertToColor(240, 224, 201));
+                SetThemeColor(ThemeItem.MidPrediction, ConvertToColor(188, 230, 194));
+                SetThemeColor(ThemeItem.EndPrediction, ConvertToColor(188, 230, 194));
+                SetThemeColor(ThemeItem.BasicBall, ConvertToColor(151, 204, 184));
+                SetThemeColor(ThemeItem.Camera, ConvertToColor(81, 125, 196));
+                SetThemeColor(ThemeItem.Button, GetColor(CustomColor.Brown));
+                break;
+            case ThemeType.VaporWave:
+                SetThemeColor(ThemeItem.Player, ConvertToColor(255, 113, 206));
+                SetThemeColor(ThemeItem.Background, ConvertToColor(1, 205, 254));
+                SetThemeColor(ThemeItem.MaxDamage, ConvertToColor(5, 255, 161));
+                SetThemeColor(ThemeItem.MinDamage, ConvertToColor(255, 251, 150));
+                SetThemeColor(ThemeItem.PlayerMaxHealth, ConvertToColor(5, 255, 161));
+                SetThemeColor(ThemeItem.PlayerMinHealth, ConvertToColor(255, 251, 150));
+                SetThemeColor(ThemeItem.MidPrediction, ConvertToColor(255, 113, 206));
+                SetThemeColor(ThemeItem.EndPrediction, ConvertToColor(255, 113, 206));
+                SetThemeColor(ThemeItem.BasicBall, ConvertToColor(255, 113, 206));
+                SetThemeColor(ThemeItem.Camera, ConvertToColor(1, 144, 178));
                 SetThemeColor(ThemeItem.Button, GetColor(CustomColor.Brown));
                 break;
         }
@@ -152,7 +171,9 @@ public class ThemeVisitor : MonoBehaviour
 
     public static void Visit(ThemeText themeText)
     {
-        themeText.SetFont(ThemeFonts[themeType]);
+        if (ThemeFonts.ContainsKey(themeType)) themeText.SetFont(ThemeFonts[themeType]);
+        else themeText.SetFont(ThemeFonts[ThemeType.Default]);
+
         themeText.SetFontColor(Color.white);
     }
 

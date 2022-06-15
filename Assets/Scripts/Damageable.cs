@@ -43,8 +43,6 @@ public class Damageable : MonoBehaviour
     [field: SerializeField]
     public SpriteRenderer SpriteRenderer { get; private set; } // reference set on prefab in editor
 
-    private bool _destroyedFromThis = false; // used to increment wincounter when destroyed from outside, cause delay when destroy from inside will break win detection
-
     public void Damage(float damage)
     {
         Health -= damage;
@@ -58,7 +56,6 @@ public class Damageable : MonoBehaviour
             BrickNumber.Hide();
 
             gameObject.transform.parent.position = Vector2.one * 100;
-            _destroyedFromThis = true;
             AddToDestroyed();
             Destroy(transform.parent.gameObject, 1); // destroy after 1 second to show effects
 
