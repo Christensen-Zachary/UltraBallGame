@@ -26,6 +26,7 @@ public class FSMGame : MonoBehaviour
     [field: SerializeField]
     public ResourceLocator ResourceLocator { get; set; }
     private GState _state = GState.SetupLevel;
+    private GState _stateBeforeOpeningOptions = GState.EmptyState;
 
     private Player _player;
     private GameInput _gameInput;
@@ -90,11 +91,9 @@ public class FSMGame : MonoBehaviour
                     _gameUISwitcher.ShowMoveSlider(true);
                     _state = GState.MovingPlayer;
                 }
-                else if (_gameUI.OpenMainMenuPanel)
+                else if (_gameUI.OpenOptions)
                 {
-                    _gameUI.ShowMainMenuOkayPanel();
-
-                    _state = GState.OptionsPanel;
+                    OpenOptions();
                 }
                 break;
             case GState.MovingPlayer:
@@ -102,6 +101,10 @@ public class FSMGame : MonoBehaviour
                 {
                     _gameUISwitcher.ShowMoveSlider(false);
                     _state = GState.WaitingForPlayerInput;
+                }
+                else if (_gameUI.OpenOptions)
+                {
+                    OpenOptions();
                 }
                 else
                 {
@@ -158,11 +161,21 @@ public class FSMGame : MonoBehaviour
                 }
                 break;
             case GState.OptionsPanel:
-                if (_gameUI.CloseMainMenuPanel)
+                if (_gameUI.OpenMainMenuPanel)
+                {
+                    _gameUI.ShowMainMenuOkayPanel();
+                }
+                else if (_gameUI.CloseMainMenuPanel)
                 {
                     _gameUI.HideMainMenuOkayPanel();
 
-                    _state = GState.WaitingForPlayerInput;
+                    _state = _stateBeforeOpeningOptions;
+                }
+                else if (_gameUI.CloseOptionsPanel)
+                {
+                    _gameUI.HideOptions();
+
+                    _state = _stateBeforeOpeningOptions;
                 }
                 else if (_gameUI.OpenMainMenu)
                 {
@@ -171,6 +184,14 @@ public class FSMGame : MonoBehaviour
                 break;
         }
 
+    }
+
+    private void OpenOptions()
+    {
+        _gameUI.ShowOptions();
+
+        _stateBeforeOpeningOptions = _state;
+        _state = GState.OptionsPanel;
     }
 
     private IEnumerator EndTurnRoutine()

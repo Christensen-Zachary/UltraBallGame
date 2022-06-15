@@ -17,6 +17,11 @@ public class GameUI : MonoBehaviour
     public GameObject WinPanel { get; set; }
     [field: SerializeField]
     public GameObject MainMenuOkayPanel { get; set; }
+    [field: SerializeField]
+    public GameObject OptionsPanel { get; set; }
+    
+    [field: SerializeField]
+    public GameObject OptionsButton { get; set; }
 
     private float _height;
     private float _width;
@@ -34,6 +39,13 @@ public class GameUI : MonoBehaviour
 
     public bool OpenMainMenu { get; set; }
     private int _openMainMenuCounter = 0;
+
+    public bool OpenOptions { get; set; }
+    private int _openOptionsCounter = 0;
+
+    public bool CloseOptionsPanel { get; set; }
+    private int _closeOptionsCounter = 0;
+
 
     private void Awake()
     {
@@ -123,11 +135,42 @@ public class GameUI : MonoBehaviour
                 _openMainMenuCounter = 0;
             }
         }
+
+        if (OpenOptions)
+        {
+            if (_openOptionsCounter++ > 0)
+            {
+                OpenOptions = false;
+                _openOptionsCounter = 0;
+            }
+        }
+
+        if (CloseOptionsPanel)
+        {
+            if (_closeOptionsCounter++ > 0)
+            {
+                CloseOptionsPanel = false;
+                _closeOptionsCounter = 0;
+            }
+        }
+    }
+
+    public void ShowOptions()
+    {
+        OptionsPanel.SetActive(true);
+        HideGame();
+    }
+
+    public void HideOptions()
+    {
+        OptionsPanel.SetActive(false);
+        ShowGame();
     }
 
     public void ShowMainMenuOkayPanel()
     {
         MainMenuOkayPanel.SetActive(true);
+        OptionsPanel.SetActive(false);
         HideGame();
     }
 
@@ -140,6 +183,16 @@ public class GameUI : MonoBehaviour
     public void LoadMainMenu()
     {
         SceneManager.LoadScene("MainMenu");
+    }
+
+    public void ActivateOpenOptionsPanel()
+    {
+        OpenOptions = true;
+    }
+    
+    public void ActivateCloseOptionsPanel()
+    {
+        CloseOptionsPanel = true;
     }
 
     public void ActivateOpenMainMenuOkayPanel()
