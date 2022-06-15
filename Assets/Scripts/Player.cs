@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
@@ -19,6 +20,13 @@ public class Player : MonoBehaviour
 
     public List<Shootable> Shootables { get; private set; } = new List<Shootable>();
     public bool IsFireRunning { get; private set; } = true;
+
+    public Slider _movePlayerSlider; // set in editor, checked for null so is not necessary
+
+    private Vector2 _leftMostPosition;
+    private Vector2 _rightMostPosition;
+    private float _distanceBetweenBounds;
+
     void Awake()
     {
         ResourceLocator.AddResource("Player", this);
@@ -31,6 +39,16 @@ public class Player : MonoBehaviour
 
         transform.localPosition = _grid.GetPosition((_grid.NumberOfDivisions - 1) / 2f, _grid.NumberOfDivisions - 1);
         transform.localScale = _grid.UnitScale * Vector2.one;
+
+        _leftMostPosition = _grid.GetPosition(0, _grid.NumberOfDivisions - 1);
+        _rightMostPosition = _grid.GetPosition(_grid.NumberOfDivisions - 1, _grid.NumberOfDivisions - 1);
+        _distanceBetweenBounds = Vector2.Distance(_leftMostPosition, _rightMostPosition);
+
+        if (_movePlayerSlider != null)
+        {
+            _movePlayerSlider.value = 0.5f;
+            _movePlayerSlider.onValueChanged.AddListener((float value) => { MovePlayerBySlider(value); });
+        }
 
         ThemeVisitor.Visit(this);
     }
@@ -90,10 +108,21 @@ public class Player : MonoBehaviour
 
     public void MovePlayer(Vector2 newPosition)
     {
-        if (newPosition.y >= transform.position.y)
+        if (newPosition.y >= transform.position.y && newPosition.x > _leftMostPosition.x && newPosition.x < _rightMostPosition.x)
         {
             newPosition = new Vector2(newPosition.x, transform.position.y);
             transform.position = newPosition;
+            
+            if (_movePlayerSlider != null)
+            {
+                _movePlayerSlider.SetValueWithoutNotify((newPosition.x - _leftMostPosition.x) / _distanceBetweenBounds);
+            }
         }
+    }
+
+
+    public void MovePlayerBySlider(float value)
+    {
+        transform.position = new Vector2(Vector2.Lerp(_leftMostPosition, _rightMostPosition, value).x, transform.position.y);
     }
 }
