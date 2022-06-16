@@ -15,7 +15,7 @@ public enum ThemeItem
     MidPrediction,
     EndPrediction,
     BasicBall,
-    Camera,
+    SuperBackground,
     Button
 }
 
@@ -51,7 +51,7 @@ public class ThemeVisitor : MonoBehaviour
     private static ThemeType themeType;
     private void Awake()
     {
-        ES3.Save<ThemeType>(BGStrings.ES_THEMETYPE, ThemeType.Default);
+        //ES3.Save<ThemeType>(BGStrings.ES_THEMETYPE, ThemeType.Default);
         themeType = ES3.Load<ThemeType>(BGStrings.ES_THEMETYPE, ThemeType.Default);
         SetThemeType(themeType);
         
@@ -74,7 +74,7 @@ public class ThemeVisitor : MonoBehaviour
         { ThemeItem.MidPrediction, GetColor(CustomColor.LightYellow) },
         { ThemeItem.EndPrediction, GetColor(CustomColor.LightYellow) },
         { ThemeItem.BasicBall, GetColor(CustomColor.Orange) },
-        { ThemeItem.Camera, ConvertToColor(35, 35, 35) },
+        { ThemeItem.SuperBackground, ConvertToColor(35, 35, 35) },
         { ThemeItem.Button, GetColor(CustomColor.Brown) }
     };
 
@@ -86,7 +86,7 @@ public class ThemeVisitor : MonoBehaviour
             case ThemeType.JellyFish:
                 SetThemeColor(ThemeItem.Player, ConvertToColor(0x3e, 0xa1, 0xb6)); // moonstone
                 SetThemeColor(ThemeItem.BasicBall, ConvertToColor(0x3e, 0xa1, 0xb6));
-                SetThemeColor(ThemeItem.Camera, ConvertToColor(9, 28, 42));
+                SetThemeColor(ThemeItem.SuperBackground, ConvertToColor(9, 28, 42));
                 //SetThemeColor(ThemeColor.Background, ConvertToColor(19, 56, 85)); // space cadet
                 SetThemeColor(ThemeItem.Background, Color.black);
                 SetThemeColor(ThemeItem.MaxDamage, ConvertToColor(187, 144, 200)); // lenurple
@@ -107,12 +107,13 @@ public class ThemeVisitor : MonoBehaviour
                 SetThemeColor(ThemeItem.MidPrediction, ConvertToColor(188, 230, 194));
                 SetThemeColor(ThemeItem.EndPrediction, ConvertToColor(188, 230, 194));
                 SetThemeColor(ThemeItem.BasicBall, ConvertToColor(151, 204, 184));
-                SetThemeColor(ThemeItem.Camera, ConvertToColor(81, 125, 196));
+                SetThemeColor(ThemeItem.SuperBackground, ConvertToColor(81, 125, 196));
                 SetThemeColor(ThemeItem.Button, GetColor(CustomColor.Brown));
                 break;
             case ThemeType.VaporWave:
                 SetThemeColor(ThemeItem.Player, ConvertToColor(255, 113, 206));
                 SetThemeColor(ThemeItem.Background, ConvertToColor(1, 205, 254));
+                SetThemeColor(ThemeItem.SuperBackground, ConvertToColor(1, 144, 178));
                 SetThemeColor(ThemeItem.MaxDamage, ConvertToColor(5, 255, 161));
                 SetThemeColor(ThemeItem.MinDamage, ConvertToColor(255, 251, 150));
                 SetThemeColor(ThemeItem.PlayerMaxHealth, ConvertToColor(5, 255, 161));
@@ -120,7 +121,6 @@ public class ThemeVisitor : MonoBehaviour
                 SetThemeColor(ThemeItem.MidPrediction, ConvertToColor(255, 113, 206));
                 SetThemeColor(ThemeItem.EndPrediction, ConvertToColor(255, 113, 206));
                 SetThemeColor(ThemeItem.BasicBall, ConvertToColor(255, 113, 206));
-                SetThemeColor(ThemeItem.Camera, ConvertToColor(1, 144, 178));
                 SetThemeColor(ThemeItem.Button, GetColor(CustomColor.Brown));
                 break;
         }
@@ -164,9 +164,9 @@ public class ThemeVisitor : MonoBehaviour
         playerHealth.MinHealthColor = ThemeColors[ThemeItem.MinDamage];
     }
 
-    public static void Visit(MainCamera mainCamera)
+    public static void Visit(SuperBackground superBackground)
     {
-        mainCamera.GetComponent<Camera>().backgroundColor = ThemeColors[ThemeItem.Camera];
+        superBackground.GetComponent<SpriteRenderer>().color = ThemeColors[ThemeItem.SuperBackground];
     }
 
     public static void Visit(ThemeText themeText)

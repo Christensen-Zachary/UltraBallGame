@@ -358,6 +358,7 @@ MonoBehaviour:
   <ResourceLocator>k__BackingField: {fileID: 4516845128962790882}
   _playerHealth: {fileID: 0}
   _health: 100
+  _movePlayerSlider: {fileID: 0}
 --- !u!114 &4516845130258000512
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -425,7 +426,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1451160015
-  m_SortingLayer: 4
+  m_SortingLayer: 6
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 8b4dc461846ad114f860b67ecc1b4975, type: 3}
   m_Color: {r: 0.52507305, g: 0, b: 1, a: 1}
@@ -483,7 +484,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7ea3f8087acfe84b83772aeab0331b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _levelNumber: 0
+  _levelNumber: -1
   <ResourceLocator>k__BackingField: {fileID: 4516845128962790882}
 --- !u!114 &5832456314278588785
 MonoBehaviour:
@@ -655,7 +656,7 @@ MonoBehaviour:
   m_Intensity: 1
   m_LightVolumeIntensity: 1
   m_LightVolumeIntensityEnabled: 0
-  m_ApplyToSortingLayers: 00000000d7390ab0310e81a9
+  m_ApplyToSortingLayers: 0000000081d2b7b097dc782dd7390ab057a06ae86f8767f9310e81a9
   m_LightCookieSprite: {fileID: 0}
   m_DeprecatedPointLightCookieSprite: {fileID: 0}
   m_LightOrder: 0
@@ -778,7 +779,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9155598873502979003, guid: 333d70e9459a54a4d8b10dfb4a489593, type: 3}
       propertyPath: m_SortingLayer
-      value: 1
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 9155598873502979003, guid: 333d70e9459a54a4d8b10dfb4a489593, type: 3}
       propertyPath: m_SortingLayerID

@@ -244,6 +244,7 @@ public class GameUI : MonoBehaviour
         }
 
         HideGameOver();
+        OptionsPanel.SetActive(false);
     }
 
     public void HideGame()

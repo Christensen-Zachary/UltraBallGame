@@ -28,6 +28,7 @@ public class FSMGame : MonoBehaviour
     private GState _state = GState.SetupLevel;
     private GState _stateBeforeOpeningOptions = GState.EmptyState;
 
+    private Grid _grid;
     private Player _player;
     private GameInput _gameInput;
     private LevelService _levelService;
@@ -45,6 +46,7 @@ public class FSMGame : MonoBehaviour
 
     void Start()
     {
+        _grid = ResourceLocator.GetResource<Grid>("Grid");
         _player = ResourceLocator.GetResource<Player>("Player");
         _gameInput = ResourceLocator.GetResource<GameInput>("GameInput");
         _levelService = ResourceLocator.GetResource<LevelService>("Level");
@@ -177,6 +179,10 @@ public class FSMGame : MonoBehaviour
 
                     _state = _stateBeforeOpeningOptions;
                 }
+                else if (_gameUI.ResetGame)
+                {
+                    _state = GState.SetupLevel;
+                }
                 else if (_gameUI.OpenMainMenu)
                 {
                     _gameUI.LoadMainMenu();
@@ -233,6 +239,7 @@ public class FSMGame : MonoBehaviour
         _gameUI.ShowGame();
         _gameUISwitcher.StartTurn();
         _player.Health = 100;
+        _player.MovePlayer(_grid.GetPosition((_grid.NumberOfDivisions - 1) / 2f, _grid.NumberOfDivisions - 1));
         _facBrick.DestroyBricks();
         _facBall.DestroyBalls();
         _winService.NumberOfBricksDestroyed = 0;

@@ -20,6 +20,8 @@ public class Aim : MonoBehaviour
     private float ContactOffset { get; set; }
     private float MaxDistance { get; set; } = 10;
 
+    
+
     private void Awake()
     {
         ResourceLocator.AddResource("Aim", this);
@@ -27,13 +29,16 @@ public class Aim : MonoBehaviour
         Background background = ResourceLocator.GetResource<Background>("Background");
         MaxDistance = Vector2.Distance(background.GetBounds.extents, -background.GetBounds.extents);
 
+
         ThemeVisitor.Visit(this);
 
+        Grid grid = ResourceLocator.GetResource<Grid>("Grid");
         EndPointPredictionSprites = new List<GameObject>();
         for (int i = 0; i < 5; i++)
         {
             GameObject obj = Instantiate(EndPredictionSprite);
             obj.transform.SetParent(transform);
+            obj.transform.localScale = grid.UnitScale * Vector2.one;
             EndPointPredictionSprites.Add(obj);
         }
 
