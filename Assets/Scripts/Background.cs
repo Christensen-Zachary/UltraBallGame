@@ -31,7 +31,8 @@ public class Background : MonoBehaviour
         else // is portrait
         {
             if ((height - width) < (LEAVE_SIDES_OPEN_BY_PERCENT * height)) scale = (1 - LEAVE_SIDES_OPEN_BY_PERCENT) * height;
-            else scale = width;
+            else scale = 0.9f * width;
+            scale = 0.9f * width;
         }
         transform.localScale = Vector2.one * scale;
         //transform.localPosition = Vector3.zero;

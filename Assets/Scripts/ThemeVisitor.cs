@@ -51,7 +51,7 @@ public class ThemeVisitor : MonoBehaviour
     private static ThemeType themeType;
     private void Awake()
     {
-        //ES3.Save<ThemeType>(BGStrings.ES_THEMETYPE, ThemeType.Default);
+        ES3.Save<ThemeType>(BGStrings.ES_THEMETYPE, ThemeType.JellyFish);
         themeType = ES3.Load<ThemeType>(BGStrings.ES_THEMETYPE, ThemeType.Default);
         SetThemeType(themeType);
         
@@ -66,7 +66,7 @@ public class ThemeVisitor : MonoBehaviour
     public static Dictionary<ThemeItem, Color> ThemeColors { get; private set; } = new Dictionary<ThemeItem, Color>() {
         // default colors, are overwritten in GetThemeColors
         { ThemeItem.Player, GetColor(CustomColor.Orange) },
-        { ThemeItem.Background, ConvertToColor(90, 90, 90) },
+        { ThemeItem.Background, ConvertToColor(60, 60, 60) },
         { ThemeItem.MaxDamage, GetColor(CustomColor.DarkGreen) },
         { ThemeItem.MinDamage, GetColor(CustomColor.LightGreen) },
         { ThemeItem.PlayerMaxHealth, GetColor(CustomColor.Green) },
@@ -148,10 +148,6 @@ public class ThemeVisitor : MonoBehaviour
         aim.MidPredictionSprite.GetComponent<SpriteRenderer>().color = ThemeColors[ThemeItem.MidPrediction];
     }
 
-    public static void Visit(Background background)
-    {
-        background.GetComponent<SpriteRenderer>().color = ThemeColors[ThemeItem.Background];
-    }
 
     public static void Visit(Shootable shootable)
     {
@@ -164,9 +160,53 @@ public class ThemeVisitor : MonoBehaviour
         playerHealth.MinHealthColor = ThemeColors[ThemeItem.MinDamage];
     }
 
+    public static void Visit(Background background)
+    {
+        background.GetComponent<SpriteRenderer>().color = ThemeColors[ThemeItem.Background];
+    }
     public static void Visit(SuperBackground superBackground)
     {
-        superBackground.GetComponent<SpriteRenderer>().color = ThemeColors[ThemeItem.SuperBackground];
+
+        switch (themeType)
+        {
+            case ThemeType.JellyFish:
+                SetSpriteSuperBackground("Sprites/PNG/bg4", superBackground.gameObject);
+                break;
+            case ThemeType.VaporWave:
+                SetSpriteSuperBackground("Sprites/PNG/bg1", superBackground.gameObject);
+                break;
+            default:
+                superBackground.GetComponent<SpriteRenderer>().color = ThemeColors[ThemeItem.SuperBackground];
+                break;
+        }
+
+    }
+
+    private static void SetSpriteSuperBackground(string spritePath, GameObject gameObject)
+    {
+        Sprite sprite = SetSprite(spritePath, gameObject);
+
+        (float height, float width) = BGUtils.GetScreenSize();
+        float spriteRatio = sprite.rect.height / sprite.rect.width;
+        float screenRatio = height / width;
+
+        if (spriteRatio > screenRatio) // sprite tall and narrow compared to screen. Fit to width
+        {
+            print("Fitting sprite to width");
+            gameObject.transform.localScale = spriteRatio * 0.95f * width * Vector2.one;
+        }
+        else // sprite short and wide compared to screen. Fit to height
+        {
+            print("Fitting sprite to height");
+            gameObject.transform.localScale = height * 0.95f * Vector2.one;
+        }
+    }
+
+    private static Sprite SetSprite(string spritePath, GameObject gameObject)
+    {
+        Sprite sprite = Resources.Load<Sprite>(spritePath);
+        gameObject.GetComponent<SpriteRenderer>().sprite = sprite;
+        return sprite;
     }
 
     public static void Visit(ThemeText themeText)
@@ -175,6 +215,27 @@ public class ThemeVisitor : MonoBehaviour
         else themeText.SetFont(ThemeFonts[ThemeType.Default]);
 
         themeText.SetFontColor(Color.white);
+    }
+
+    public static void Visit(ThemeGameBorder themeGameBorder)
+    {
+        Sprite sprite = Resources.Load<Sprite>("Sprites/PNG/bg2");
+        switch (themeType)
+        {
+            case ThemeType.Default:
+                SetSprite("Sprites/PNG/bg5", themeGameBorder.gameObject);
+                break;
+            case ThemeType.JellyFish:
+                SetSprite("Sprites/PNG/bg6", themeGameBorder.gameObject);
+                break;
+            case ThemeType.Theme2:
+                break;
+            case ThemeType.VaporWave:
+                SetSprite("Sprites/PNG/bg2", themeGameBorder.gameObject);
+                break;
+            default:
+                break;
+        }
     }
 
     public static Color GetColor(CustomColor customColor)
