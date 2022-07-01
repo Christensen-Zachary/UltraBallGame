@@ -57,7 +57,7 @@ public class Shootable : MonoBehaviour
         //    }
         //}
 
-        RaycastHit2D[] hits = Physics2D.RaycastAll(collision.contacts[0].point, LagVelocity.normalized, 0.05f, layerMask);
+        RaycastHit2D[] hits = Physics2D.CircleCastAll(collision.contacts[0].point, 0.25f, LagVelocity.normalized, 0.05f, layerMask);
         if (hits.Length != 0)
         {
             for (int i = 0; i < hits.Length; i++)

@@ -24,9 +24,25 @@ public class MainMenuUI : MonoBehaviour
     public GameObject ExitLevelMenus { get; set; }
 
 
+    private void Awake()
+    {
+        ThemeType b4Theme = ES3.Load(BGStrings.ES_THEMETYPEB4PREVIEW, ThemeType.Default);
+        ThemeType currentTheme = ES3.Load(BGStrings.ES_THEMETYPE, ThemeType.Default);
+
+        if (currentTheme != b4Theme)
+        {
+            ES3.Save(BGStrings.ES_THEMETYPE, b4Theme);
+        }
+    }
+
     public void PlayGame()
     {
         SceneManager.LoadScene("Game");
+    }
+
+    public void OpenThemeSelect()
+    {
+        SceneManager.LoadScene("ThemeSelect");
     }
 
     public void OpenLevelSetsMenu()

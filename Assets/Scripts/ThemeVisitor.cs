@@ -51,7 +51,7 @@ public class ThemeVisitor : MonoBehaviour
     private static ThemeType themeType;
     private void Awake()
     {
-        ES3.Save<ThemeType>(BGStrings.ES_THEMETYPE, ThemeType.JellyFish);
+        
         themeType = ES3.Load<ThemeType>(BGStrings.ES_THEMETYPE, ThemeType.Default);
         SetThemeType(themeType);
         
@@ -63,24 +63,26 @@ public class ThemeVisitor : MonoBehaviour
 
     }
 
-    public static Dictionary<ThemeItem, Color> ThemeColors { get; private set; } = new Dictionary<ThemeItem, Color>() {
-        // default colors, are overwritten in GetThemeColors
-        { ThemeItem.Player, GetColor(CustomColor.Orange) },
-        { ThemeItem.Background, ConvertToColor(60, 60, 60) },
-        { ThemeItem.MaxDamage, GetColor(CustomColor.DarkGreen) },
-        { ThemeItem.MinDamage, GetColor(CustomColor.LightGreen) },
-        { ThemeItem.PlayerMaxHealth, GetColor(CustomColor.Green) },
-        { ThemeItem.PlayerMinHealth, GetColor(CustomColor.Red) },
-        { ThemeItem.MidPrediction, GetColor(CustomColor.LightYellow) },
-        { ThemeItem.EndPrediction, GetColor(CustomColor.LightYellow) },
-        { ThemeItem.BasicBall, GetColor(CustomColor.Orange) },
-        { ThemeItem.SuperBackground, ConvertToColor(35, 35, 35) },
-        { ThemeItem.Button, GetColor(CustomColor.Brown) }
-    };
+    public static Dictionary<ThemeItem, Color> ThemeColors { get; private set; }
 
     public static Dictionary<ThemeType, TMPro.TMP_FontAsset> ThemeFonts { get; private set; }
     public static void SetThemeType(ThemeType themeType)
     {
+        ThemeColors = new Dictionary<ThemeItem, Color>() {
+            // default colors, are overwritten in GetThemeColors
+            { ThemeItem.Player, GetColor(CustomColor.Orange) },
+            { ThemeItem.Background, ConvertToColor(60, 60, 60) },
+            { ThemeItem.MaxDamage, GetColor(CustomColor.DarkGreen) },
+            { ThemeItem.MinDamage, GetColor(CustomColor.LightGreen) },
+            { ThemeItem.PlayerMaxHealth, GetColor(CustomColor.Green) },
+            { ThemeItem.PlayerMinHealth, GetColor(CustomColor.Red) },
+            { ThemeItem.MidPrediction, GetColor(CustomColor.LightYellow) },
+            { ThemeItem.EndPrediction, GetColor(CustomColor.LightYellow) },
+            { ThemeItem.BasicBall, GetColor(CustomColor.Orange) },
+            { ThemeItem.SuperBackground, ConvertToColor(35, 35, 35) },
+            { ThemeItem.Button, GetColor(CustomColor.Brown) }
+        };
+
         switch (themeType)
         {
             case ThemeType.JellyFish:
@@ -166,7 +168,6 @@ public class ThemeVisitor : MonoBehaviour
     }
     public static void Visit(SuperBackground superBackground)
     {
-
         switch (themeType)
         {
             case ThemeType.JellyFish:

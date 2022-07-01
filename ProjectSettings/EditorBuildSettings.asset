@@ -17,4 +17,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/_Scenes/LevelSelect.unity
     guid: dd9843b1d6ae4dc4abc5e9a25b8df63b
+  - enabled: 1
+    path: Assets/_Scenes/ThemePreview.unity
+    guid: ebe81a966c23dc8418dc0f4a7d2c0433
+  - enabled: 1
+    path: Assets/_Scenes/ThemeSelect.unity
+    guid: 93e52e7c0903dbc49b73f3c958365187
   m_configObjects: {}

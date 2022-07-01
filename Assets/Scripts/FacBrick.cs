@@ -46,6 +46,8 @@ public class FacBrick : MonoBehaviour
         CompositeCollider2D = GetComponent<CompositeCollider2D>();
 
         _brickParent = transform;
+
+        CreateAdvanceableParent();
     }
 
     private void CreateAdvanceableParent()
