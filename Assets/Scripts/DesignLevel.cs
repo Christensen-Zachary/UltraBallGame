@@ -78,6 +78,8 @@ public class DesignLevel : MonoBehaviour
             SetHealthRoutine();
 
             DeleteSelectedBrickRoutine();
+
+            ChangeSelectedBrick();
         }
     }
 
@@ -206,7 +208,11 @@ public class DesignLevel : MonoBehaviour
                 _acceptCreateInput = true; // if no create brick input given, then try again
             }
         }
-        else
+    }
+
+    private void ChangeSelectedBrick()
+    {
+        if (Brick.IsDamageable(SelectedBrick.BrickType))
         {
             if (InputSetSquare())
             {
@@ -228,14 +234,40 @@ public class DesignLevel : MonoBehaviour
             {
                 SelectedBrick.SetType(BrickType.Triangle270);
             }
-            else if (InputSetInvincibleSquare())
+        }
+        else if (Brick.IsInvincible(SelectedBrick.BrickType))
+        {
+            if (InputSetSquare())
             {
                 SelectedBrick.SetType(BrickType.InvincibleSquare);
             }
-            else if (InputSetFirePowerup())
+            else if (InputSetTriangle0())
             {
-                SelectedBrick.SetType(BrickType.FirePowerup);
+                SelectedBrick.SetType(BrickType.InvincibleTriangle0);
             }
+            else if (InputSetTriangle90())
+            {
+                SelectedBrick.SetType(BrickType.InvincibleTriangle90);
+            }
+            else if (InputSetTriangle180())
+            {
+                SelectedBrick.SetType(BrickType.InvincibleTriangle180);
+            }
+            else if (InputSetTriangle270())
+            {
+                SelectedBrick.SetType(BrickType.InvincibleTriangle270);
+            }
+        }
+        
+        if (InputSetInvincibleSquare())
+        {
+            if (Brick.IsInvincible(SelectedBrick.BrickType)) SelectedBrick.SetType(BrickType.Square);
+            else SelectedBrick.SetType(BrickType.InvincibleSquare);
+        }
+        
+        if (InputSetFirePowerup())
+        {
+            SelectedBrick.SetType(BrickType.FirePowerup);
         }
     }
 

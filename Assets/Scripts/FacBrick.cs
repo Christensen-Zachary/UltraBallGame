@@ -21,6 +21,14 @@ public class FacBrick : MonoBehaviour
     public GameObject BrickPrefab5 { get; set; }
     [field: SerializeField]
     public GameObject BrickPrefab6 { get; set; }
+    [field: SerializeField]
+    public GameObject BrickPrefab7 { get; set; }
+    [field: SerializeField]
+    public GameObject BrickPrefab8 { get; set; }
+    [field: SerializeField]
+    public GameObject BrickPrefab9 { get; set; }
+    [field: SerializeField]
+    public GameObject BrickPrefab10 { get; set; }
 
     private GameObject _advanceableParent;
     
@@ -99,6 +107,18 @@ public class FacBrick : MonoBehaviour
                 break;
             case BrickType.FirePowerup:
                 obj = Instantiate(BrickPrefab6);
+                break;
+            case BrickType.InvincibleTriangle0:
+                obj = Instantiate(BrickPrefab7);
+                break;
+            case BrickType.InvincibleTriangle90:
+                obj = Instantiate(BrickPrefab8);
+                break;
+            case BrickType.InvincibleTriangle180:
+                obj = Instantiate(BrickPrefab9);
+                break;
+            case BrickType.InvincibleTriangle270:
+                obj = Instantiate(BrickPrefab10);
                 break;
             default:
                 obj = Instantiate(BrickPrefab0);

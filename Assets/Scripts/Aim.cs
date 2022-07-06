@@ -38,7 +38,7 @@ public class Aim : MonoBehaviour
         {
             GameObject obj = Instantiate(EndPredictionSprite);
             obj.transform.SetParent(transform);
-            obj.transform.localScale = grid.UnitScale * Vector2.one;
+            //obj.transform.localScale = grid.UnitScale * Vector2.one;
             EndPointPredictionSprites.Add(obj);
         }
 

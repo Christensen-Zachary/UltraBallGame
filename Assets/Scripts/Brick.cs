@@ -11,12 +11,17 @@ public enum BrickType
     Triangle180 = 3,
     Triangle270 = 4,
     InvincibleSquare = 5,
-    FirePowerup = 6
+    FirePowerup = 6,
+    InvincibleTriangle0 = 7,
+    InvincibleTriangle90 = 8,
+    InvincibleTriangle180 = 9,
+    InvincibleTriangle270 = 10
 }
 
 public class Brick
 {
-    public static System.Func<BrickType, bool> IsDamageable => (BrickType x) => { return x != BrickType.InvincibleSquare && x != BrickType.FirePowerup; };
+    public static System.Func<BrickType, bool> IsDamageable => (BrickType x) => { return x == BrickType.Square || x == BrickType.Triangle0 || x == BrickType.Triangle90 || x == BrickType.Triangle180 || x == BrickType.Triangle270; };
+    public static System.Func<BrickType, bool> IsInvincible => (BrickType x) => { return x == BrickType.InvincibleSquare || x == BrickType.InvincibleTriangle0 || x == BrickType.InvincibleTriangle90 || x == BrickType.InvincibleTriangle180 || x == BrickType.InvincibleTriangle270; };
 
     public string ID { get; set; }
     public BrickType BrickType { get; set; } = BrickType.Square;

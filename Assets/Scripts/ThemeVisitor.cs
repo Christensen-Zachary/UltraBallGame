@@ -24,7 +24,8 @@ public enum ThemeType
     Default,
     JellyFish,
     Theme2,
-    VaporWave
+    VaporWave,
+    Theme3
 }
 
 public enum CustomColor
@@ -101,16 +102,17 @@ public class ThemeVisitor : MonoBehaviour
                 break;
             case ThemeType.Theme2: // https://www.schemecolor.com/working-back.php
                 SetThemeColor(ThemeItem.Player, ConvertToColor(151, 204, 184));
-                SetThemeColor(ThemeItem.Background, ConvertToColor(75, 72, 130));
+                SetThemeColor(ThemeItem.BasicBall, ConvertToColor(151, 204, 184));
+                SetThemeColor(ThemeItem.EndPrediction, ConvertToColor(188, 230, 194));
+                SetThemeColor(ThemeItem.MidPrediction, ConvertToColor(188, 230, 194));
+
                 SetThemeColor(ThemeItem.MaxDamage, ConvertToColor(221, 189, 152));
                 SetThemeColor(ThemeItem.MinDamage, ConvertToColor(240, 224, 201));
                 SetThemeColor(ThemeItem.PlayerMaxHealth, ConvertToColor(221, 189, 152));
                 SetThemeColor(ThemeItem.PlayerMinHealth, ConvertToColor(240, 224, 201));
-                SetThemeColor(ThemeItem.MidPrediction, ConvertToColor(188, 230, 194));
-                SetThemeColor(ThemeItem.EndPrediction, ConvertToColor(188, 230, 194));
-                SetThemeColor(ThemeItem.BasicBall, ConvertToColor(151, 204, 184));
-                SetThemeColor(ThemeItem.SuperBackground, ConvertToColor(81, 125, 196));
-                SetThemeColor(ThemeItem.Button, GetColor(CustomColor.Brown));
+
+                SetThemeColor(ThemeItem.Background, ConvertToColor(75, 72, 130));
+                SetThemeColor(ThemeItem.SuperBackground, ConvertToColor(8, 34, 19));
                 break;
             case ThemeType.VaporWave:
                 SetThemeColor(ThemeItem.Player, ConvertToColor(255, 113, 206));
@@ -124,6 +126,20 @@ public class ThemeVisitor : MonoBehaviour
                 SetThemeColor(ThemeItem.EndPrediction, ConvertToColor(255, 113, 206));
                 SetThemeColor(ThemeItem.BasicBall, ConvertToColor(255, 113, 206));
                 SetThemeColor(ThemeItem.Button, GetColor(CustomColor.Brown));
+                break;
+            case ThemeType.Theme3:
+                SetThemeColor(ThemeItem.Player, ConvertToColor(0xfe, 0x88, 0x04)); // orange
+                SetThemeColor(ThemeItem.BasicBall, ConvertToColor(0xfe, 0x88, 0x04));
+                SetThemeColor(ThemeItem.MidPrediction, ConvertToColor(0xfe, 0x88, 0x04));
+                SetThemeColor(ThemeItem.EndPrediction, ConvertToColor(0xfe, 0x88, 0x04));
+
+                SetThemeColor(ThemeItem.Background, ConvertToColor(75, 72, 130)); 
+                SetThemeColor(ThemeItem.SuperBackground, ConvertToColor(0xfe, 0x88, 0x04));
+
+                SetThemeColor(ThemeItem.MaxDamage, ConvertToColor(5, 255, 161));
+                SetThemeColor(ThemeItem.MinDamage, ConvertToColor(255, 251, 150));
+                SetThemeColor(ThemeItem.PlayerMaxHealth, ConvertToColor(5, 255, 161));
+                SetThemeColor(ThemeItem.PlayerMinHealth, ConvertToColor(255, 251, 150));
                 break;
         }
     }
@@ -141,7 +157,16 @@ public class ThemeVisitor : MonoBehaviour
 
     public static void Visit(Player player)
     {
-        player.GetComponent<SpriteRenderer>().color = ThemeColors[ThemeItem.Player];
+
+        switch (themeType)
+        {
+            case ThemeType.Theme3:
+                player.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Sprites/PNG/JackOLantern");
+                break;
+            default:
+                player.GetComponent<SpriteRenderer>().color = ThemeColors[ThemeItem.Player];
+                break;
+        }
     }
 
     public static void Visit(Aim aim)
@@ -229,10 +254,11 @@ public class ThemeVisitor : MonoBehaviour
             case ThemeType.JellyFish:
                 SetSprite("Sprites/PNG/bg6", themeGameBorder.gameObject);
                 break;
-            case ThemeType.Theme2:
-                break;
             case ThemeType.VaporWave:
                 SetSprite("Sprites/PNG/bg2", themeGameBorder.gameObject);
+                break;
+            case ThemeType.Theme3:
+                SetSprite("Sprites/PNG/bg5", themeGameBorder.gameObject);
                 break;
             default:
                 break;
