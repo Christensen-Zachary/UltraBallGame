@@ -19,6 +19,7 @@ public class Aim : MonoBehaviour
     public Vector2 Direction { get; private set; }
     private float ContactOffset { get; set; }
     private float MaxDistance { get; set; } = 10;
+    private int NumberOfPredictions { get; } = 3;
 
     
 
@@ -34,7 +35,7 @@ public class Aim : MonoBehaviour
 
         Grid grid = ResourceLocator.GetResource<Grid>("Grid");
         EndPointPredictionSprites = new List<GameObject>();
-        for (int i = 0; i < 5; i++)
+        for (int i = 0; i < NumberOfPredictions + 1; i++)
         {
             GameObject obj = Instantiate(EndPredictionSprite);
             obj.transform.SetParent(transform);
@@ -68,7 +69,7 @@ public class Aim : MonoBehaviour
         Direction.Normalize();
 
         HidePrediction();
-        List<Vector2> predictions = GetPredictions(from, to, 3, radius);
+        List<Vector2> predictions = GetPredictions(from, to, NumberOfPredictions, radius);
         for (int i = 0; i < predictions.Count; i++)
         {
             GameObject obj = EndPointPredictionSprites.Find(x => x.activeSelf == false);

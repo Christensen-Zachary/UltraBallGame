@@ -5,12 +5,14 @@ using TMPro;
 
 public class BrickNumber : MonoBehaviour
 {
-    private TextMeshPro TextMesh { get; set; }
+    public TextMeshPro TextMesh { get; private set; }
 
 
     private void Awake()
     {
         TextMesh = GetComponent<TextMeshPro>();
+        
+        ThemeVisitor.Visit(this);
     }
 
     public void SetNumber(int number)

@@ -16,6 +16,8 @@ public enum ThemeItem
     EndPrediction,
     BasicBall,
     SuperBackground,
+    GameBorder, // for colorless borders
+    InvincibleBrick,
     Button
 }
 
@@ -25,7 +27,8 @@ public enum ThemeType
     JellyFish,
     Theme2,
     VaporWave,
-    Theme3
+    Theme3,
+    Exterminate
 }
 
 public enum CustomColor
@@ -48,6 +51,8 @@ public class ThemeVisitor : MonoBehaviour
     public TMPro.TMP_FontAsset Font1 { get; set; } // set in prefab
     [field: SerializeField]
     public TMPro.TMP_FontAsset Font2 { get; set; } // set in prefab
+    [field: SerializeField]
+    public TMPro.TMP_FontAsset Font3 { get; set; } // set in prefab
 
     private static ThemeType themeType;
     private void Awake()
@@ -59,7 +64,8 @@ public class ThemeVisitor : MonoBehaviour
         ThemeFonts = new Dictionary<ThemeType, TMPro.TMP_FontAsset>()
         {
             { ThemeType.Default, Font1 },
-            { ThemeType.JellyFish, Font2 }
+            { ThemeType.JellyFish, Font2 },
+            { ThemeType.Exterminate, Font3 }
         };
 
     }
@@ -67,8 +73,15 @@ public class ThemeVisitor : MonoBehaviour
     public static Dictionary<ThemeItem, Color> ThemeColors { get; private set; }
 
     public static Dictionary<ThemeType, TMPro.TMP_FontAsset> ThemeFonts { get; private set; }
+    public static Color32 BrickTextColor;
+    public static Color32 ThemeFontColor;
+    public static Color32 ThemeButtonImageColor;
     public static void SetThemeType(ThemeType themeType)
     {
+        BrickTextColor = new Color32(255, 255, 255, 255);
+        ThemeFontColor = new Color32(0xff, 0xff, 0xff, 0xff);
+        ThemeButtonImageColor = new Color32(0xff, 0xff, 0xff, 0xff);
+
         ThemeColors = new Dictionary<ThemeItem, Color>() {
             // default colors, are overwritten in GetThemeColors
             { ThemeItem.Player, GetColor(CustomColor.Orange) },
@@ -81,6 +94,7 @@ public class ThemeVisitor : MonoBehaviour
             { ThemeItem.EndPrediction, GetColor(CustomColor.LightYellow) },
             { ThemeItem.BasicBall, GetColor(CustomColor.Orange) },
             { ThemeItem.SuperBackground, ConvertToColor(35, 35, 35) },
+            { ThemeItem.InvincibleBrick, Color.white },
             { ThemeItem.Button, GetColor(CustomColor.Brown) }
         };
 
@@ -89,15 +103,17 @@ public class ThemeVisitor : MonoBehaviour
             case ThemeType.JellyFish:
                 SetThemeColor(ThemeItem.Player, ConvertToColor(0x3e, 0xa1, 0xb6)); // moonstone
                 SetThemeColor(ThemeItem.BasicBall, ConvertToColor(0x3e, 0xa1, 0xb6));
-                SetThemeColor(ThemeItem.SuperBackground, ConvertToColor(9, 28, 42));
-                //SetThemeColor(ThemeColor.Background, ConvertToColor(19, 56, 85)); // space cadet
-                SetThemeColor(ThemeItem.Background, Color.black);
+                SetThemeColor(ThemeItem.MidPrediction, ConvertToColor(107, 102, 158)); // Dark blue grey
+                SetThemeColor(ThemeItem.EndPrediction, ConvertToColor(107, 102, 158));
+
                 SetThemeColor(ThemeItem.MaxDamage, ConvertToColor(187, 144, 200)); // lenurple
                 SetThemeColor(ThemeItem.MinDamage, ConvertToColor(239, 216, 236)); // piggy pink
                 SetThemeColor(ThemeItem.PlayerMaxHealth, ConvertToColor(187, 144, 200));
                 SetThemeColor(ThemeItem.PlayerMinHealth, ConvertToColor(239, 216, 236)); 
-                SetThemeColor(ThemeItem.MidPrediction, ConvertToColor(107, 102, 158)); // Dark blue grey
-                SetThemeColor(ThemeItem.EndPrediction, ConvertToColor(107, 102, 158));
+                
+                SetThemeColor(ThemeItem.SuperBackground, ConvertToColor(9, 28, 42));
+                SetThemeColor(ThemeItem.Background, Color.black);
+
                 SetThemeColor(ThemeItem.Button, GetColor(CustomColor.Brown));
                 break;
             case ThemeType.Theme2: // https://www.schemecolor.com/working-back.php
@@ -116,16 +132,17 @@ public class ThemeVisitor : MonoBehaviour
                 break;
             case ThemeType.VaporWave:
                 SetThemeColor(ThemeItem.Player, ConvertToColor(255, 113, 206));
-                SetThemeColor(ThemeItem.Background, ConvertToColor(1, 205, 254));
-                SetThemeColor(ThemeItem.SuperBackground, ConvertToColor(1, 144, 178));
+                SetThemeColor(ThemeItem.MidPrediction, ConvertToColor(255, 113, 206));
+                SetThemeColor(ThemeItem.EndPrediction, ConvertToColor(255, 113, 206));
+                SetThemeColor(ThemeItem.BasicBall, ConvertToColor(255, 113, 206));
+                
                 SetThemeColor(ThemeItem.MaxDamage, ConvertToColor(5, 255, 161));
                 SetThemeColor(ThemeItem.MinDamage, ConvertToColor(255, 251, 150));
                 SetThemeColor(ThemeItem.PlayerMaxHealth, ConvertToColor(5, 255, 161));
                 SetThemeColor(ThemeItem.PlayerMinHealth, ConvertToColor(255, 251, 150));
-                SetThemeColor(ThemeItem.MidPrediction, ConvertToColor(255, 113, 206));
-                SetThemeColor(ThemeItem.EndPrediction, ConvertToColor(255, 113, 206));
-                SetThemeColor(ThemeItem.BasicBall, ConvertToColor(255, 113, 206));
-                SetThemeColor(ThemeItem.Button, GetColor(CustomColor.Brown));
+
+                SetThemeColor(ThemeItem.Background, ConvertToColor(1, 205, 254));
+                SetThemeColor(ThemeItem.SuperBackground, ConvertToColor(1, 144, 178));
                 break;
             case ThemeType.Theme3:
                 SetThemeColor(ThemeItem.Player, ConvertToColor(0xfe, 0x88, 0x04)); // orange
@@ -133,13 +150,32 @@ public class ThemeVisitor : MonoBehaviour
                 SetThemeColor(ThemeItem.MidPrediction, ConvertToColor(0xfe, 0x88, 0x04));
                 SetThemeColor(ThemeItem.EndPrediction, ConvertToColor(0xfe, 0x88, 0x04));
 
-                SetThemeColor(ThemeItem.Background, ConvertToColor(75, 72, 130)); 
-                SetThemeColor(ThemeItem.SuperBackground, ConvertToColor(0xfe, 0x88, 0x04));
-
+                BrickTextColor = new Color32(75, 72, 130, 255);
                 SetThemeColor(ThemeItem.MaxDamage, ConvertToColor(5, 255, 161));
                 SetThemeColor(ThemeItem.MinDamage, ConvertToColor(255, 251, 150));
                 SetThemeColor(ThemeItem.PlayerMaxHealth, ConvertToColor(5, 255, 161));
                 SetThemeColor(ThemeItem.PlayerMinHealth, ConvertToColor(255, 251, 150));
+
+                SetThemeColor(ThemeItem.Background, ConvertToColor(75, 72, 130)); 
+                SetThemeColor(ThemeItem.SuperBackground, ConvertToColor(0xfe, 0x88, 0x04));
+                break;
+            case ThemeType.Exterminate:
+                BrickTextColor = new Color32(0xBB, 0xBB, 0x00, 0xff);
+                SetThemeColor(ThemeItem.MaxDamage, ConvertToColor(0xa1, 0x33, 0x33));
+                SetThemeColor(ThemeItem.MinDamage, ConvertToColor(0xb3, 0x54, 0x1e));
+                SetThemeColor(ThemeItem.PlayerMaxHealth, ConvertToColor(0xa1, 0x33, 0x33));
+                SetThemeColor(ThemeItem.PlayerMinHealth, ConvertToColor(0xb3, 0x54, 0x1e));
+                SetThemeColor(ThemeItem.InvincibleBrick, new Color(0.65f, 0.65f, 0.65f));
+
+                SetThemeColor(ThemeItem.MidPrediction, ConvertToColor(0x70, 0x70, 0x70));
+                SetThemeColor(ThemeItem.EndPrediction, ConvertToColor(0x70, 0x70, 0x70));
+
+                SetThemeColor(ThemeItem.GameBorder, ConvertToColor(0x46, 0x11, 0x11));
+                SetThemeColor(ThemeItem.SuperBackground, ConvertToColor(4, 3, 3));
+                SetThemeColor(ThemeItem.Background, ConvertToColor(4, 3, 3));
+
+                ThemeFontColor = new Color32(0xBB, 0xBB, 0x00, 0xff);
+                ThemeButtonImageColor = new Color32(0xBB, 0xBB, 0x00, 0xff);
                 break;
         }
     }
@@ -147,6 +183,25 @@ public class ThemeVisitor : MonoBehaviour
     private static void SetThemeColor(ThemeItem themeItem, Color color)
     {
         ThemeColors[themeItem] = color;
+    }
+
+    public static void Visit(ThemeButtonImage themeButtonImage)
+    {
+        themeButtonImage.GetComponent<UnityEngine.UI.Image>().color = ThemeButtonImageColor;
+    }
+
+    public static void Visit(ThemeFontColor themeFontColor)
+    {
+        themeFontColor.TextMesh.color = ThemeFontColor;
+    }
+
+    public static void Visit(InvincibleBrick invincibleBrick)
+    {
+        invincibleBrick.GetComponent<SpriteRenderer>().color = ThemeColors[ThemeItem.InvincibleBrick];
+    }
+    public static void Visit(BrickNumber brickNumber)
+    {
+        brickNumber.TextMesh.color = BrickTextColor;
     }
 
     public static void Visit(Damageable damageable)
@@ -239,26 +294,32 @@ public class ThemeVisitor : MonoBehaviour
     {
         if (ThemeFonts.ContainsKey(themeType)) themeText.SetFont(ThemeFonts[themeType]);
         else themeText.SetFont(ThemeFonts[ThemeType.Default]);
-
-        themeText.SetFontColor(Color.white);
     }
 
     public static void Visit(ThemeGameBorder themeGameBorder)
     {
-        Sprite sprite = Resources.Load<Sprite>("Sprites/PNG/bg2");
         switch (themeType)
         {
             case ThemeType.Default:
                 SetSprite("Sprites/PNG/bg5", themeGameBorder.gameObject);
+                themeGameBorder.GetComponent<SpriteRenderer>().sortingOrder = 0;
                 break;
             case ThemeType.JellyFish:
                 SetSprite("Sprites/PNG/bg6", themeGameBorder.gameObject);
+                themeGameBorder.GetComponent<SpriteRenderer>().sortingOrder = 0;
                 break;
             case ThemeType.VaporWave:
                 SetSprite("Sprites/PNG/bg2", themeGameBorder.gameObject);
+                themeGameBorder.GetComponent<SpriteRenderer>().sortingOrder = 0;
                 break;
             case ThemeType.Theme3:
                 SetSprite("Sprites/PNG/bg5", themeGameBorder.gameObject);
+                themeGameBorder.GetComponent<SpriteRenderer>().sortingOrder = 0;
+                break;
+            case ThemeType.Exterminate:
+                SetSprite("Sprites/PNG/bg0", themeGameBorder.gameObject);
+                themeGameBorder.GetComponent<SpriteRenderer>().color = ThemeColors[ThemeItem.GameBorder];
+                themeGameBorder.GetComponent<SpriteRenderer>().sortingOrder = -101;
                 break;
             default:
                 break;
