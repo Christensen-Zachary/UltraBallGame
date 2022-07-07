@@ -18,6 +18,7 @@ public class DesignLevel : MonoBehaviour
     private List<DesignBrick> DesignBricks { get; set; } = new List<DesignBrick>();
     private List<Ball> Balls { get; set; }
     private DesignBrick SelectedBrick { get; set; }
+    private List<DesignBrick> SelectedBricks { get; set; } = new List<DesignBrick>();
     
 
     private Grid _grid;
@@ -81,6 +82,41 @@ public class DesignLevel : MonoBehaviour
 
             ChangeSelectedBrick();
         }
+
+        if (Input.GetKeyDown(KeyCode.LeftControl))
+        {
+            SelectedBrick.Selected = false;
+        }
+        if (Input.GetKey(KeyCode.LeftControl))
+        {
+            DesignBrick designBrick = GetBrickFromClick();
+            if (designBrick != null)
+            {
+                if (SelectedBricks.Contains(designBrick))
+                {
+                    SelectedBricks.Remove(designBrick);
+                    designBrick.Selected = false;
+                }
+                else
+                {
+                    SelectedBricks.Add(designBrick);
+                    designBrick.Selected = true;
+                }
+            }
+
+            if (Input.GetKeyDown(KeyCode.A))
+            {
+                SelectedBricks.Clear();
+                DesignBricks.ForEach(x => { SelectedBricks.Add(x); x.Selected = true; });
+            }
+
+            if (Input.GetKeyDown(KeyCode.RightControl))
+            {
+                SelectedBricks.ForEach(x => x.Selected = false);
+                SelectedBricks.Clear();
+                SetSelectedBrick(DesignBricks.OrderByDescending(x => x.SelectNumber).First());
+            }
+        }
     }
 
     private void SaveLevelRoutine()
@@ -94,11 +130,12 @@ public class DesignLevel : MonoBehaviour
 
     private void ChangeBricksByKeypad()
     {
+        DesignBrick newBrick = null;
         if (InputSetSelectedRight())
         {
             for (int col = SelectedBrick.Col + 1; col < _grid.NumberOfDivisions; col++)
             {
-                DesignBrick newBrick = DesignBricks.Find(x => x.Row == SelectedBrick.Row && x.Col == col);
+                newBrick = DesignBricks.Find(x => x.Row == SelectedBrick.Row && x.Col == col);
                 if (newBrick != null)
                 {
                     SetSelectedBrick(newBrick);
@@ -110,7 +147,7 @@ public class DesignLevel : MonoBehaviour
         {
             for (int col = SelectedBrick.Col - 1; col >= 0; col--)
             {
-                DesignBrick newBrick = DesignBricks.Find(x => x.Row == SelectedBrick.Row && x.Col == col);
+                newBrick = DesignBricks.Find(x => x.Row == SelectedBrick.Row && x.Col == col);
                 if (newBrick != null)
                 {
                     SetSelectedBrick(newBrick);
@@ -122,7 +159,7 @@ public class DesignLevel : MonoBehaviour
         {
             for (int row = SelectedBrick.Row - 1; row >= 0; row--)
             {
-                DesignBrick newBrick = DesignBricks.Find(x => x.Row == row && x.Col == SelectedBrick.Col);
+                newBrick = DesignBricks.Find(x => x.Row == row && x.Col == SelectedBrick.Col);
                 if (newBrick != null)
                 {
                     SetSelectedBrick(newBrick);
@@ -134,7 +171,7 @@ public class DesignLevel : MonoBehaviour
         {
             for (int row = SelectedBrick.Row + 1; row < _grid.NumberOfDivisions; row++)
             {
-                DesignBrick newBrick = DesignBricks.Find(x => x.Row == row && x.Col == SelectedBrick.Col);
+                newBrick = DesignBricks.Find(x => x.Row == row && x.Col == SelectedBrick.Col);
                 if (newBrick != null)
                 {
                     SetSelectedBrick(newBrick);
@@ -146,6 +183,17 @@ public class DesignLevel : MonoBehaviour
 
     private void SetSelectedBrickByClick()
     {
+        DesignBrick selectedBrick = GetBrickFromClick();
+
+        if (selectedBrick != null && DesignBricks.Count == 0)
+        {
+            SetSelectedBrick(selectedBrick);
+        }
+    }
+
+    private DesignBrick GetBrickFromClick()
+    {
+        DesignBrick selectedBrick = null;
         if (Input.GetMouseButtonDown(0))
         {
             Vector3 inputPos = _mainCamera.ScreenToWorldPoint(Input.mousePosition);
@@ -154,11 +202,13 @@ public class DesignLevel : MonoBehaviour
             {
                 if (brick.ContainsPoint(inputPos))
                 {
-                    SetSelectedBrick(brick);
+                    selectedBrick = brick;
                     break;
                 }
             }
         }
+
+        return selectedBrick;
     }
 
     private void CreateBrickRoutine()
@@ -484,7 +534,15 @@ public class DesignLevel : MonoBehaviour
                 _setHealth = false;
                 try
                 {
-                    SelectedBrick.SetHealth(Convert.ToInt32(_healthStr));
+                    if (SelectedBricks.Count > 0)
+                    {
+                        SelectedBricks.ForEach(x => x.SetHealth(Convert.ToInt32(_healthStr)));
+                    }
+                    else
+                    {
+                        SelectedBrick.SetHealth(Convert.ToInt32(_healthStr));
+                    }
+                    
                     _healthStr = "";
                 }
                 catch
