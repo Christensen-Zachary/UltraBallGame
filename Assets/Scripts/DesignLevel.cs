@@ -101,6 +101,7 @@ public class DesignLevel : MonoBehaviour
                 {
                     SelectedBricks.Add(designBrick);
                     designBrick.Selected = true;
+                    SelectedBrick = designBrick;
                 }
             }
 
@@ -138,7 +139,6 @@ public class DesignLevel : MonoBehaviour
                 newBrick = DesignBricks.Find(x => x.Row == SelectedBrick.Row && x.Col == col);
                 if (newBrick != null)
                 {
-                    SetSelectedBrick(newBrick);
                     break;
                 }
             }
@@ -150,7 +150,6 @@ public class DesignLevel : MonoBehaviour
                 newBrick = DesignBricks.Find(x => x.Row == SelectedBrick.Row && x.Col == col);
                 if (newBrick != null)
                 {
-                    SetSelectedBrick(newBrick);
                     break;
                 }
             }
@@ -162,7 +161,6 @@ public class DesignLevel : MonoBehaviour
                 newBrick = DesignBricks.Find(x => x.Row == row && x.Col == SelectedBrick.Col);
                 if (newBrick != null)
                 {
-                    SetSelectedBrick(newBrick);
                     break;
                 }
             }
@@ -174,9 +172,23 @@ public class DesignLevel : MonoBehaviour
                 newBrick = DesignBricks.Find(x => x.Row == row && x.Col == SelectedBrick.Col);
                 if (newBrick != null)
                 {
-                    SetSelectedBrick(newBrick);
                     break;
                 }
+            }
+        }
+
+        if (newBrick != null) 
+        {
+            if (DesignBricks.Count > 0)
+            {
+                print($"Adding {newBrick.name} to DesignBricks");
+                DesignBricks.Add(newBrick);
+                newBrick.Selected = true;
+                SelectedBrick = newBrick;
+            }
+            else
+            {
+                SetSelectedBrick(newBrick);
             }
         }
     }
