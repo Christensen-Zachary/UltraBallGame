@@ -123,6 +123,10 @@ public class DesignBrick : MonoBehaviour
                 _sr.sprite = Resources.Load<Sprite>("Sprites/PNG/sun");
                 BrickNumber.Hide();
                 break;
+            case BrickType.DirectionalBrick0:
+                _sr.sprite = Resources.Load<Sprite>("Sprites/PNG/DirectionalBrick0");
+                BrickNumber.Hide();
+                break;
             default:
                 break;
         }

@@ -59,7 +59,7 @@ public class FSMGame : MonoBehaviour
         _gameUISwitcher = ResourceLocator.GetResource<GameUISwitcher>("GameUISwitcher");
         _winService = ResourceLocator.GetResource<WinService>("WinService");
 
-        //Time.timeScale = 0.3f;
+        //Time.timeScale = 2f;
     }
 
 

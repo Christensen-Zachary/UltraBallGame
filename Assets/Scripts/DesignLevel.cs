@@ -83,6 +83,11 @@ public class DesignLevel : MonoBehaviour
             ChangeSelectedBrick();
         }
 
+        MultiSelectRoutine();
+    }
+
+    private void MultiSelectRoutine()
+    {
         if (Input.GetKeyDown(KeyCode.LeftControl))
         {
             SelectedBrick.Selected = false;
@@ -197,7 +202,7 @@ public class DesignLevel : MonoBehaviour
     {
         DesignBrick selectedBrick = GetBrickFromClick();
 
-        if (selectedBrick != null && DesignBricks.Count == 0)
+        if (selectedBrick != null && SelectedBricks.Count == 0)
         {
             SetSelectedBrick(selectedBrick);
         }
@@ -265,6 +270,10 @@ public class DesignLevel : MonoBehaviour
             {
                 CreateDesignBrick(BrickType.FirePowerup);
             }
+            else if (InputSetDirectional0())
+            {
+                CreateDesignBrick(BrickType.DirectionalBrick0);
+            }
             else
             {
                 _acceptCreateInput = true; // if no create brick input given, then try again
@@ -320,17 +329,27 @@ public class DesignLevel : MonoBehaviour
                 SelectedBrick.SetType(BrickType.InvincibleTriangle270);
             }
         }
-        
+
         if (InputSetInvincibleSquare())
         {
             if (Brick.IsInvincible(SelectedBrick.BrickType)) SelectedBrick.SetType(BrickType.Square);
             else SelectedBrick.SetType(BrickType.InvincibleSquare);
         }
-        
+
         if (InputSetFirePowerup())
         {
             SelectedBrick.SetType(BrickType.FirePowerup);
         }
+
+        if (InputSetDirectional0())
+        {
+            SelectedBrick.SetType(BrickType.DirectionalBrick0);
+        }
+    }
+
+    private static bool InputSetDirectional0()
+    {
+        return Input.GetKeyDown(KeyCode.I);
     }
 
     private static bool InputSetFirePowerup()

@@ -135,7 +135,8 @@ public class ThemeVisitor : MonoBehaviour
                 SetThemeColor(ThemeItem.MidPrediction, ConvertToColor(255, 113, 206));
                 SetThemeColor(ThemeItem.EndPrediction, ConvertToColor(255, 113, 206));
                 SetThemeColor(ThemeItem.BasicBall, ConvertToColor(255, 113, 206));
-                
+
+                BrickTextColor = new Color32(255, 113, 206, 255);
                 SetThemeColor(ThemeItem.MaxDamage, ConvertToColor(5, 255, 161));
                 SetThemeColor(ThemeItem.MinDamage, ConvertToColor(255, 251, 150));
                 SetThemeColor(ThemeItem.PlayerMaxHealth, ConvertToColor(5, 255, 161));

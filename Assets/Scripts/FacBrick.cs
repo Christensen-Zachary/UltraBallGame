@@ -29,6 +29,8 @@ public class FacBrick : MonoBehaviour
     public GameObject BrickPrefab9 { get; set; }
     [field: SerializeField]
     public GameObject BrickPrefab10 { get; set; }
+    [field: SerializeField]
+    public GameObject BrickPrefab11 { get; set; }
 
     private GameObject _advanceableParent;
     
@@ -119,6 +121,9 @@ public class FacBrick : MonoBehaviour
                 break;
             case BrickType.InvincibleTriangle270:
                 obj = Instantiate(BrickPrefab10);
+                break;
+            case BrickType.DirectionalBrick0:
+                obj = Instantiate(BrickPrefab11);
                 break;
             default:
                 obj = Instantiate(BrickPrefab0);
