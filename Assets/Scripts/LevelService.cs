@@ -44,14 +44,14 @@ public class LevelService : MonoBehaviour
         Balls = level.Balls;
 
         BallCounter = Balls.Count;
-        ExtraBallPowerUpCount = 1;
+        ExtraBallPowerUpCount = 20;
     }
 
     public void ResetLevelService()
     {
         RowCounter = 0;
         BallCounter = Balls.Count;
-        ExtraBallPowerUpCount = 1;
+        ExtraBallPowerUpCount = 20;
     }
 
     public List<Brick> GetNextRow()

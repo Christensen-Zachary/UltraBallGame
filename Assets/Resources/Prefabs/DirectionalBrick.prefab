@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 4215252590375024037}
   - component: {fileID: 3644392938269526543}
   - component: {fileID: 2506466163367582627}
+  - component: {fileID: 8857968284011870104}
   m_Layer: 8
   m_Name: DirectionalBrick
   m_TagString: Brick
@@ -209,6 +210,18 @@ PlatformEffector2D:
   m_UseSideFriction: 0
   m_UseSideBounce: 1
   m_SideArc: 0
+--- !u!114 &8857968284011870104
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 728579221831963425}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b0915c0bc54db0440b83075df7b7cbb2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2474276278835700764
 GameObject:
   m_ObjectHideFlags: 0
