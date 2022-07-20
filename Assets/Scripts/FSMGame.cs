@@ -262,6 +262,7 @@ public class FSMGame : MonoBehaviour
 
     private IEnumerator SetupLevel()
     {
+        _endTurnDestroyService.DestroyGameObjects(); // this is important so that when the game is reset before the end of turn, then potential objects that had been added will be destroyed. Otherwise this service will cause an error if objects had been added
         _levelService.ResetLevelService();
         _gameUI.ShowGame();
         _gameUISwitcher.StartTurn();
