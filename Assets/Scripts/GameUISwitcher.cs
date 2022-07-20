@@ -14,6 +14,14 @@ public class GameUISwitcher : MonoBehaviour
     public GameObject MoveSlider { get; set; }
     [field: SerializeField]
     public GameObject BtnReturnBalls { get; set; }
+    [field: SerializeField]
+    public GameObject AimSlider { get; set; }
+    [field: SerializeField]
+    public GameObject BtnStartAim { get; set; }
+    [field: SerializeField]
+    public GameObject BtnEndAim { get; set; }
+    [field: SerializeField]
+    public GameObject BtnFire { get; set; }
 
 
     private void Awake()
@@ -21,9 +29,20 @@ public class GameUISwitcher : MonoBehaviour
         ResourceLocator.AddResource("GameUISwitcher", this);
     }
 
+    public void ShowAimSlider(bool bit)
+    {
+        BtnStartMove.SetActive(!bit);
+        BtnStartAim.SetActive(!bit);
+
+        BtnEndAim.SetActive(bit);
+        BtnFire.SetActive(bit);
+        AimSlider.SetActive(bit);
+    }
+
     public void ShowMoveSlider(bool bit)
     {
         BtnStartMove.SetActive(!bit);
+        BtnStartAim.SetActive(!bit);
         
         BtnEndMove.SetActive(bit);
         MoveSlider.SetActive(bit);
@@ -31,19 +50,21 @@ public class GameUISwitcher : MonoBehaviour
 
     public void StartFire()
     {
-        BtnEndMove.SetActive(false);
         BtnStartMove.SetActive(false);
-        MoveSlider.SetActive(false);
+        BtnStartAim.SetActive(false);
+        BtnEndAim.SetActive(false);
+        AimSlider.SetActive(false);
+        BtnFire.SetActive(false);
 
         BtnReturnBalls.SetActive(true);
     }
     
     public void StartTurn()
     {
-        MoveSlider.SetActive(false);
         BtnReturnBalls.SetActive(false);
 
         BtnStartMove.SetActive(true);
+        BtnStartAim.SetActive(true);
     }
 
 }

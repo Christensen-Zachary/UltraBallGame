@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class GameUI : MonoBehaviour
 {
@@ -22,6 +23,8 @@ public class GameUI : MonoBehaviour
     
     [field: SerializeField]
     public GameObject OptionsButton { get; set; }
+
+    public Slider _aimSlider;
 
     private float _height;
     private float _width;
@@ -46,6 +49,14 @@ public class GameUI : MonoBehaviour
     public bool CloseOptionsPanel { get; set; }
     private int _closeOptionsCounter = 0;
 
+    public bool StartSliderAim { get; set; }
+    private int _startSliderAimCounter = 0;
+
+    public bool EndSliderAim { get; set; }
+    private int _endSliderAimCounter = 0;
+
+    public bool StartFire { get; set; }
+    private int _startFireCounter = 0;
 
     private void Awake()
     {
@@ -153,6 +164,39 @@ public class GameUI : MonoBehaviour
                 _closeOptionsCounter = 0;
             }
         }
+
+        if (StartSliderAim)
+        {
+            if (_startSliderAimCounter++ > 0)
+            {
+                StartSliderAim = false;
+                _startSliderAimCounter = 0;
+            }
+        }
+
+        if (EndSliderAim)
+        {
+            if (_endSliderAimCounter++ > 0)
+            {
+                EndSliderAim = false;
+                _endSliderAimCounter = 0;
+            }
+        }
+
+        if (StartFire)
+        {
+            if (_startFireCounter++ > 0)
+            {
+                StartFire = false;
+                _startFireCounter = 0;
+            }
+        }
+    }
+
+    public Vector2 GetFireDirection()
+    {
+        float angle = Mathf.Deg2Rad * _aimSlider.value;// * 180f;
+        return new Vector2(Mathf.Cos(angle), Mathf.Sin(angle));
     }
 
     public void ShowOptions()
@@ -183,6 +227,21 @@ public class GameUI : MonoBehaviour
     public void LoadMainMenu()
     {
         SceneManager.LoadScene("MainMenu");
+    }
+
+    public void ActivateStartSliderAim()
+    {
+        StartSliderAim = true;
+    }
+
+    public void ActivateEndSliderAim()
+    {
+        EndSliderAim = true;
+    }
+
+    public void ActivateStartFire()
+    {
+        StartFire = true;
     }
 
     public void ActivateOpenOptionsPanel()

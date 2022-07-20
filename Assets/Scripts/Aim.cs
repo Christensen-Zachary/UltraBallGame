@@ -116,6 +116,7 @@ public class Aim : MonoBehaviour
             {
                 if (hit.collider.CompareTag(BGStrings.TAG_BOTTOMWALL))
                 {
+                    predictions.Add(hit.centroid);
                     return predictions;
                 }
                 //else if (hit.collider.name.Equals(lastName))

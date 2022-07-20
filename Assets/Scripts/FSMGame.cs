@@ -13,6 +13,7 @@ public enum GState
     WaitingForPlayerInput,
     MovingPlayer,
     Aiming,
+    SliderAiming,
     Firing,
     EndTurn,
     GameOver,
@@ -41,7 +42,6 @@ public class FSMGame : MonoBehaviour
     private GameUISwitcher _gameUISwitcher;
     private WinService _winService;
 
-    private bool _isRunningSetupLevel = false;
     private bool _isEndingTurn = false;
 
     void Start()
@@ -67,21 +67,13 @@ public class FSMGame : MonoBehaviour
     {
         //print($"state: {_state}");
 
-        /*
-         * Use effectors to create directional collisions to create 'doors' for balls to go through and get trapped for maximum fun zone
-         * 
-         */
         switch (_state)
         {
             case GState.EmptyState:
                 break;
             case GState.SetupLevel:
-                if (!_isRunningSetupLevel)
-                {
-                    _isRunningSetupLevel = true;
-                    _state = GState.EmptyState;
-                    StartCoroutine(SetupLevel());
-                }
+                _state = GState.EmptyState;
+                StartCoroutine(SetupLevel());
                 break;
             case GState.WaitingForPlayerInput:
                 if (_gameInput.StartAim())
@@ -96,6 +88,11 @@ public class FSMGame : MonoBehaviour
                 else if (_gameUI.OpenOptions)
                 {
                     OpenOptions();
+                }
+                else if (_gameUI.StartSliderAim)
+                {
+                    _gameUISwitcher.ShowAimSlider(true);
+                    _state = GState.SliderAiming;
                 }
                 break;
             case GState.MovingPlayer:
@@ -131,6 +128,26 @@ public class FSMGame : MonoBehaviour
                     _player.ShowAim(_gameInput.GetFireDirection());
                 }
                 break;
+            case GState.SliderAiming:
+                if (_gameUI.StartFire)
+                {
+                    _player.HideAim();
+                    _player.RunFire(_gameUI.GetFireDirection());
+                    _gameUISwitcher.StartFire();
+                    _state = GState.Firing;
+                }
+                else if (_gameUI.EndSliderAim)
+                {
+                    _gameUISwitcher.ShowAimSlider(false);
+                    _player.HideAim();
+                    _state = GState.WaitingForPlayerInput;
+                }
+                else
+                {
+                    print($"FireDirection {_gameUI.GetFireDirection()}");
+                    _player.ShowAim(_gameUI.GetFireDirection());
+                }
+                break;
             case GState.Firing:
                 if (_gameInput.ReturnFire() || _player.IsFireComplete())
                 {
@@ -139,11 +156,8 @@ public class FSMGame : MonoBehaviour
                 }
                 break;
             case GState.EndTurn:
-                if (!_isEndingTurn)
-                {
-                    _state = GState.EmptyState;
-                    StartCoroutine(EndTurnRoutine());
-                }
+                _state = GState.EmptyState;
+                StartCoroutine(EndTurnRoutine());
                 break;
             case GState.GameOver:
                 if (_gameUI.ResetGame)
@@ -261,6 +275,5 @@ public class FSMGame : MonoBehaviour
 
         // change states first so variable will always be true until after state change to avoid race condition, unless this happens atomically then it doesn't matter
         _state = GState.WaitingForPlayerInput;
-        _isRunningSetupLevel = false;
     }
 }
