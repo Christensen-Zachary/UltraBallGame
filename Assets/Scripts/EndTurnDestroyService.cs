@@ -8,8 +8,12 @@ public class EndTurnDestroyService : MonoBehaviour
     public ResourceLocator ResourceLocator { get; set; }
     private List<GameObject> GameObjects { get; set; } = new List<GameObject>();
 
+    private FacBall _facBall;
+
     private void Awake()
     {
+        _facBall = ResourceLocator.GetResource<FacBall>("FacBall");
+
         ResourceLocator.AddResource("EndTurnDestroyService", this);
     }
 
@@ -29,6 +33,11 @@ public class EndTurnDestroyService : MonoBehaviour
             if (damageable != null)
             {
                 damageable.AddToDestroyed();
+            }
+            Shootable shootable = x.GetComponent<Shootable>();
+            if (shootable != null)
+            {
+                _facBall.DestroyBall(shootable);
             }
             Destroy(x); 
         });

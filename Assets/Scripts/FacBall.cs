@@ -11,12 +11,14 @@ public class FacBall : MonoBehaviour
 
     private Grid _grid;
     private Player _player;
+    private LevelService _levelService;
     private Transform _ballParent;
 
     private void Awake()
     {
         _grid = ResourceLocator.GetResource<Grid>("Grid");
         _player = ResourceLocator.GetResource<Player>("Player");
+        _levelService = ResourceLocator.GetResource<LevelService>("Level");
 
         ResourceLocator.AddResource("FacBall", this);
 
@@ -37,6 +39,11 @@ public class FacBall : MonoBehaviour
         balls.ForEach(x => Destroy(x));
     }
 
+    public void DestroyBall(Shootable shootable)
+    {
+        _player.Shootables.Remove(shootable);
+    }
+
     public GameObject Create(Ball ball)
     {
         GameObject obj = Instantiate(BallPrefab);
@@ -46,6 +53,7 @@ public class FacBall : MonoBehaviour
         
         if (obj.TryGetComponent(out Shootable shootable))
         {
+            shootable._levelService = _levelService;
             shootable.Damage = ball.Damage;
             shootable.Return();
             _player.Shootables.Add(shootable);

@@ -58,6 +58,9 @@ public class GameUI : MonoBehaviour
     public bool StartFire { get; set; }
     private int _startFireCounter = 0;
 
+    public bool GiveExtraBalls { get; set; }
+    private int _giveExtraBallsCounter = 0;
+
     private void Awake()
     {
         ResourceLocator.AddResource("GameUI", this);
@@ -191,6 +194,15 @@ public class GameUI : MonoBehaviour
                 _startFireCounter = 0;
             }
         }
+
+        if (GiveExtraBalls)
+        {
+            if (_giveExtraBallsCounter++ > 0)
+            {
+                GiveExtraBalls = false;
+                _giveExtraBallsCounter = 0;
+            }
+        }
     }
 
     public Vector2 GetFireDirection()
@@ -227,6 +239,11 @@ public class GameUI : MonoBehaviour
     public void LoadMainMenu()
     {
         SceneManager.LoadScene("MainMenu");
+    }
+
+    public void ActivateGiveExtraBalls()
+    {
+        GiveExtraBalls = true;
     }
 
     public void ActivateStartSliderAim()

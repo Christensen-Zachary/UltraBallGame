@@ -21,6 +21,8 @@ public class Shootable : MonoBehaviour
 
     private Vector2 MaxVelocity = Vector2.zero;
 
+    public LevelService _levelService;
+
     void Awake()
     {
         RB = GetComponent<Rigidbody2D>();
@@ -28,6 +30,7 @@ public class Shootable : MonoBehaviour
 
         ThemeVisitor.Visit(this);
     }
+
 
     private void FixedUpdate()
     {
@@ -90,6 +93,7 @@ public class Shootable : MonoBehaviour
         }
         else
         {
+            _levelService.BallCounter--;
             IsReturned = false;
             transform.localPosition = Vector3.zero; // from zero because are children of parent shooting from
             RB.AddForce(direction * Speed);

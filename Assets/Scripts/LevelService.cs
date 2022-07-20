@@ -11,6 +11,11 @@ public class LevelService : MonoBehaviour
 
     public int _levelNumber = -1;
     public int NumberOfDivisions { get; set; } = 12;
+    private int _extraBallPowerUpCount = 0;
+    public int ExtraBallPowerUpCount { get { return _extraBallPowerUpCount; } set { _extraBallPowerUpCount = value; } }
+    private int _ballCounter = 0;
+    public int BallCounter { get { return _ballCounter; } set { if (_ballCount != null) { _ballCount.SetNumber(value); } _ballCounter = value; } }
+    public BallCount _ballCount;
 
     public List<Brick> Bricks { get; set; }
     public List<Ball> Balls { get; set; }
@@ -35,6 +40,9 @@ public class LevelService : MonoBehaviour
         NumberOfDivisions = level.NumberOfDivisions;
         Bricks = level.Bricks;
         Balls = level.Balls;
+
+        BallCounter = Balls.Count;
+        ExtraBallPowerUpCount = 1;
     }
 
     public void ResetLevelService()

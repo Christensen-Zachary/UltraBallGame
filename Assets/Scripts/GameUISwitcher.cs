@@ -22,6 +22,8 @@ public class GameUISwitcher : MonoBehaviour
     public GameObject BtnEndAim { get; set; }
     [field: SerializeField]
     public GameObject BtnFire { get; set; }
+    [field: SerializeField]
+    public GameObject BtnExtraBalls { get; set; }
 
 
     private void Awake()
@@ -33,6 +35,7 @@ public class GameUISwitcher : MonoBehaviour
     {
         BtnStartMove.SetActive(!bit);
         BtnStartAim.SetActive(!bit);
+        BtnExtraBalls.SetActive(!bit);
 
         BtnEndAim.SetActive(bit);
         BtnFire.SetActive(bit);
@@ -43,7 +46,8 @@ public class GameUISwitcher : MonoBehaviour
     {
         BtnStartMove.SetActive(!bit);
         BtnStartAim.SetActive(!bit);
-        
+        BtnExtraBalls.SetActive(!bit);
+
         BtnEndMove.SetActive(bit);
         MoveSlider.SetActive(bit);
     }
@@ -55,6 +59,7 @@ public class GameUISwitcher : MonoBehaviour
         BtnEndAim.SetActive(false);
         AimSlider.SetActive(false);
         BtnFire.SetActive(false);
+        BtnExtraBalls.SetActive(false);
 
         BtnReturnBalls.SetActive(true);
     }
@@ -65,6 +70,7 @@ public class GameUISwitcher : MonoBehaviour
 
         BtnStartMove.SetActive(true);
         BtnStartAim.SetActive(true);
+        BtnExtraBalls.SetActive(true);
     }
 
 }

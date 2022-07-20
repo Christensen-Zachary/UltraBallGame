@@ -94,6 +94,18 @@ public class FSMGame : MonoBehaviour
                     _gameUISwitcher.ShowAimSlider(true);
                     _state = GState.SliderAiming;
                 }
+                else if (_gameUI.GiveExtraBalls)
+                {
+                    if (_levelService.ExtraBallPowerUpCount > 0)
+                    {
+                        _levelService.ExtraBallPowerUpCount--;
+                        for (int i = 0; i < _levelService.Balls.Count; i++)
+                        {
+                            _endTurnDestroyService.AddGameObject(_facBall.Create(_levelService.Balls[i]));
+                            _levelService.BallCounter++;
+                        }
+                    }
+                }
                 break;
             case GState.MovingPlayer:
                 if (_gameInput.EndMove())
@@ -144,7 +156,6 @@ public class FSMGame : MonoBehaviour
                 }
                 else
                 {
-                    print($"FireDirection {_gameUI.GetFireDirection()}");
                     _player.ShowAim(_gameUI.GetFireDirection());
                 }
                 break;
@@ -217,6 +228,8 @@ public class FSMGame : MonoBehaviour
     private IEnumerator EndTurnRoutine()
     {
         _isEndingTurn = true;
+
+        _levelService.BallCounter = _levelService.Balls.Count;
 
         _facBrick.DisableCompositeCollider();
         yield return StartCoroutine(_advanceService.Advance());
