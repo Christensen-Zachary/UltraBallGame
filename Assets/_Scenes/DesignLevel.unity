@@ -277,7 +277,7 @@ PrefabInstance:
       objectReference: {fileID: 1733505164}
     - target: {fileID: 1349530109351846865, guid: 333d70e9459a54a4d8b10dfb4a489593, type: 3}
       propertyPath: <NumberOfDivisions>k__BackingField
-      value: 17
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 9155598873502978996, guid: 333d70e9459a54a4d8b10dfb4a489593, type: 3}
       propertyPath: m_Name
