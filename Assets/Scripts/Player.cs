@@ -56,6 +56,15 @@ public class Player : MonoBehaviour
         ThemeVisitor.Visit(this);
     }
 
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.TryGetComponent(out EvilBrickAttackBall evilBrickAttackBall))
+        {
+            Health -= 25f;
+        }
+    }
+
     public void SetRadius()
     {
         Shootable shootable = Shootables.First();

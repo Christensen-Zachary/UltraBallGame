@@ -38,6 +38,7 @@ public class FSMGame : MonoBehaviour
     private FacBall _facBall;
     private AdvanceService _advanceService;
     private EndTurnDestroyService _endTurnDestroyService;
+    private EndTurnAttackService _endTurnAttackService;
     private GameUI _gameUI;
     private GameUISwitcher _gameUISwitcher;
     private WinService _winService;
@@ -53,6 +54,7 @@ public class FSMGame : MonoBehaviour
         _facBall = ResourceLocator.GetResource<FacBall>("FacBall");
         _advanceService = ResourceLocator.GetResource<AdvanceService>("AdvanceService");
         _endTurnDestroyService = ResourceLocator.GetResource<EndTurnDestroyService>("EndTurnDestroyService");
+        _endTurnAttackService = ResourceLocator.GetResource<EndTurnAttackService>("EndTurnAttackService");
         _gameUI = ResourceLocator.GetResource<GameUI>("GameUI");
         _gameUISwitcher = ResourceLocator.GetResource<GameUISwitcher>("GameUISwitcher");
         _winService = ResourceLocator.GetResource<WinService>("WinService");
@@ -269,6 +271,8 @@ public class FSMGame : MonoBehaviour
     {
         _levelService.BallCounter = _levelService.Balls.Count;
 
+        yield return StartCoroutine(_endTurnAttackService.Attack());
+
         CreateNextRow();
 
         _facBrick.DisableCompositeCollider();
@@ -300,6 +304,7 @@ public class FSMGame : MonoBehaviour
 
     private IEnumerator SetupLevel()
     {
+        _endTurnAttackService.ResetAttackService();
         _endTurnDestroyService.DestroyGameObjects(); // this is important so that when the game is reset before the end of turn, then potential objects that had been added will be destroyed. Otherwise this service will cause an error if objects had been added
         _levelService.ResetLevelService();
         _gameUI.ShowGame();

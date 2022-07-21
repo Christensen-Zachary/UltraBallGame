@@ -41,6 +41,11 @@ public class EndTurnDestroyService : MonoBehaviour
                 {
                     _facBall.DestroyBall(shootable);
                 }
+                EvilBrick evilBrick = x.GetComponent<EvilBrick>();
+                if (evilBrick != null)
+                {
+                    evilBrick.RemoveFromList();
+                }
                 Destroy(x);  
             }
         });

@@ -46,6 +46,7 @@ public class FacBrick : MonoBehaviour
     private AdvanceService _advanceService;
     private WinService _winService;
     private EndTurnDestroyService _endTurnDestroyService;
+    private EndTurnAttackService _endTurnAttackService;
 
     public float MaxHealth { get; set; } = 10;
 
@@ -56,6 +57,7 @@ public class FacBrick : MonoBehaviour
         _advanceService = ResourceLocator.GetResource<AdvanceService>("AdvanceService");
         _winService = ResourceLocator.GetResource<WinService>("WinService");
         _endTurnDestroyService = ResourceLocator.GetResource<EndTurnDestroyService>("EndTurnDestroyService");
+        _endTurnAttackService = ResourceLocator.GetResource<EndTurnAttackService>("EndTurnAttackService");
 
         ResourceLocator.AddResource("FacBrick", this);
 
@@ -200,6 +202,13 @@ public class FacBrick : MonoBehaviour
         if (obj.TryGetComponent(out DestroyTurnAfterHit destroyTurnAfterHit))
         {
             destroyTurnAfterHit._endTurnDestroyService = _endTurnDestroyService;
+        }
+
+        if (obj.TryGetComponent(out EvilBrick evilBrick))
+        {
+            evilBrick.Radius = _grid.UnitScale / 2f;
+            evilBrick._endTurnAttackService = _endTurnAttackService;
+            _endTurnAttackService.Attacks.Add(evilBrick);
         }
 
         return obj;

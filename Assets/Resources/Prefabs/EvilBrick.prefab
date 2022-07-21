@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 728579221831963431}
   - component: {fileID: 1144669951532253889}
+  - component: {fileID: 2739497680741439622}
   m_Layer: 8
   m_Name: EvilBrick
   m_TagString: Brick
@@ -47,6 +48,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _grid: {fileID: 0}
   _advanceService: {fileID: 0}
+--- !u!114 &2739497680741439622
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 728579221831963425}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cb060473d9962d6498bc1dee1a139799, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _endTurnAttackService: {fileID: 0}
+  <EvilBrickAttackBall>k__BackingField: {fileID: 307598244713760443, guid: 02c84a55781cf30478618a2f4d34af09, type: 3}
 --- !u!1 &2474276278835700764
 GameObject:
   m_ObjectHideFlags: 0
