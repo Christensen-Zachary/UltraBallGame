@@ -60,6 +60,7 @@ MonoBehaviour:
   <BrickPrefab9>k__BackingField: {fileID: 728579221831963425, guid: dd7e22c3f93113e4a83375b26feeaf8c, type: 3}
   <BrickPrefab10>k__BackingField: {fileID: 728579221831963425, guid: 0627e0bcc27895b44864a682eb676bab, type: 3}
   <BrickPrefab11>k__BackingField: {fileID: 728579221831963425, guid: 2c155bd60a756f54aa5d225160a0bcd9, type: 3}
+  <BrickPrefab12>k__BackingField: {fileID: 728579221831963425, guid: 49a82489e68b8c74990ebaf2e4fe1279, type: 3}
 --- !u!114 &1768273176542081527
 MonoBehaviour:
   m_ObjectHideFlags: 0

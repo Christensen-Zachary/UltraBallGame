@@ -317,7 +317,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3411395919096507617}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.4, y: 0.4, z: 1}
   m_ConstrainProportionsScale: 0
@@ -539,6 +539,7 @@ MonoBehaviour:
   <HitSound>k__BackingField: {fileID: 4215252590375024037}
   <ShrinkGrow>k__BackingField: {fileID: 1971341260918529101}
   <FacBrick>k__BackingField: {fileID: 0}
+  _doesCountTowardsWinning: 1
   <SpriteRenderer>k__BackingField: {fileID: 1319269856066853357}
 --- !u!60 &7502168991080866460
 PolygonCollider2D:

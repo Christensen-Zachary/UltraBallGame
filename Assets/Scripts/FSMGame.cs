@@ -42,8 +42,6 @@ public class FSMGame : MonoBehaviour
     private GameUISwitcher _gameUISwitcher;
     private WinService _winService;
 
-    private int _turnCounter = 0;
-
     void Start()
     {
         _grid = ResourceLocator.GetResource<Grid>("Grid");
@@ -247,14 +245,8 @@ public class FSMGame : MonoBehaviour
         for (int i = 0; i < _grid.NumberOfDivisions; i++)
         {
             BrickType brickType = BrickType.Square;
-            if (i == closestColumn - 1)
-            {
-                brickType = BrickType.Triangle0;
-            }
-            else if (i == closestColumn + 1)
-            {
-                brickType = BrickType.Triangle90;
-            }
+            if (i == closestColumn - 1) brickType = BrickType.Triangle0;
+            else if (i == closestColumn + 1) brickType = BrickType.Triangle90;
 
             if (i != closestColumn)
             {
@@ -275,9 +267,9 @@ public class FSMGame : MonoBehaviour
 
     private IEnumerator EndTurnRoutine()
     {
-        _turnCounter++;
-
         _levelService.BallCounter = _levelService.Balls.Count;
+
+        CreateNextRow();
 
         _facBrick.DisableCompositeCollider();
         yield return StartCoroutine(_advanceService.Advance());
@@ -308,8 +300,6 @@ public class FSMGame : MonoBehaviour
 
     private IEnumerator SetupLevel()
     {
-        _turnCounter = 2;
-
         _endTurnDestroyService.DestroyGameObjects(); // this is important so that when the game is reset before the end of turn, then potential objects that had been added will be destroyed. Otherwise this service will cause an error if objects had been added
         _levelService.ResetLevelService();
         _gameUI.ShowGame();
@@ -325,7 +315,7 @@ public class FSMGame : MonoBehaviour
 
         for (int i = 0; i < _levelService.NumberOfDivisions - 1; i++)
         {
-            _levelService.GetNextRow().ForEach(x => { x.Row--; _facBrick.Create(x); x.Row++; }); // subtract row so will advance down into position
+            CreateNextRow();
         }
 
         _levelService.Balls.ForEach(x => _facBall.Create(x));
@@ -337,5 +327,10 @@ public class FSMGame : MonoBehaviour
 
         // change states first so variable will always be true until after state change to avoid race condition, unless this happens atomically then it doesn't matter
         _state = GState.WaitingForPlayerInput;
+    }
+
+    private void CreateNextRow()
+    {
+        _levelService.GetNextRow().ForEach(x => { x.Row--; _facBrick.Create(x); x.Row++; }); // subtract row so will advance down into position
     }
 }

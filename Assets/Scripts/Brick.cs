@@ -16,7 +16,8 @@ public enum BrickType
     InvincibleTriangle90 = 8,
     InvincibleTriangle180 = 9,
     InvincibleTriangle270 = 10,
-    DirectionalBrick0 = 11
+    DirectionalBrick0 = 11,
+    EvilBrick = 12
 }
 
 public class Brick

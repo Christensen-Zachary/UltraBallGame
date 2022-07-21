@@ -38,6 +38,8 @@ public class LevelService : MonoBehaviour
     [field: SerializeField]
     public ResourceLocator ResourceLocator { get; set; }
 
+    private bool _ifTrueIncrementRowCounterElseDecrement = true;
+
     private void Awake()
     {
         ResourceLocator.AddResource("Level", this);
@@ -72,11 +74,24 @@ public class LevelService : MonoBehaviour
         BallCounter = Balls.Count;
         ExtraBallPowerUpCount = 20;
         FloorBricksPowerUpCount = 2;
+        _ifTrueIncrementRowCounterElseDecrement = true;
     }
 
     public List<Brick> GetNextRow()
     {
-        RowCounter++;
+        if (RowCounter > NumberOfDivisions - 2)
+        {
+            RowCounter = 0;
+            _ifTrueIncrementRowCounterElseDecrement = false;
+        }
+        else if (_ifTrueIncrementRowCounterElseDecrement)
+        {
+            RowCounter++;
+        }
+        else
+        {
+            RowCounter--;
+        }
         return Bricks.Where(x => x.Row == RowCounter - 1).ToList();
     }
 

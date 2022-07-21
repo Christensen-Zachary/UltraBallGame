@@ -274,11 +274,20 @@ public class DesignLevel : MonoBehaviour
             {
                 CreateDesignBrick(BrickType.DirectionalBrick0);
             }
+            else if (InputEvilBrick())
+            {
+                CreateDesignBrick(BrickType.EvilBrick);
+            }
             else
             {
                 _acceptCreateInput = true; // if no create brick input given, then try again
             }
         }
+    }
+
+    private static bool InputEvilBrick()
+    {
+        return Input.GetKeyDown(KeyCode.O);
     }
 
     private void ChangeSelectedBrick()
@@ -344,6 +353,11 @@ public class DesignLevel : MonoBehaviour
         if (InputSetDirectional0())
         {
             SelectedBrick.SetType(BrickType.DirectionalBrick0);
+        }
+
+        if (InputEvilBrick())
+        {
+            SelectedBrick.SetType(BrickType.EvilBrick);
         }
     }
 
