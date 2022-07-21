@@ -18,8 +18,8 @@ public class EvilBrickAttackBall : MonoBehaviour
         _psGameObject.SetActive(true);   
     }
 
-    public void Shoot(Vector2 direction)
+    public void Shoot(Vector2 magnitude)
     {
-        _rb.AddForce(direction.normalized * 200f);
+        _rb.AddForce(magnitude);
     }
 }

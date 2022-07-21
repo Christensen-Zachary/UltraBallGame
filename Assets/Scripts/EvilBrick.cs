@@ -6,8 +6,11 @@ public class EvilBrick : MonoBehaviour, IAttack
 {
     public float Radius { get; set; }
     public EndTurnAttackService _endTurnAttackService;
+    public Grid _grid;
     [field: SerializeField]
     public GameObject EvilBrickAttackBall { get; set; }
+
+
 
     public void RemoveFromList()
     {
@@ -27,7 +30,7 @@ public class EvilBrick : MonoBehaviour, IAttack
         GameObject attackBall = Instantiate(EvilBrickAttackBall);
         attackBall.transform.SetParent(transform);
         attackBall.transform.localPosition = Vector2.zero;
-        attackBall.GetComponent<EvilBrickAttackBall>().Shoot(new Vector2(0, -1));
+        attackBall.GetComponent<EvilBrickAttackBall>().Shoot(new Vector2(0, -1).normalized * 24.5f * _grid.UnitScale * _grid.NumberOfDivisions);
     }
 
     public GameObject GetGameObject()

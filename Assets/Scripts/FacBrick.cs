@@ -208,6 +208,7 @@ public class FacBrick : MonoBehaviour
         {
             evilBrick.Radius = _grid.UnitScale / 2f;
             evilBrick._endTurnAttackService = _endTurnAttackService;
+            evilBrick._grid = _grid;
             _endTurnAttackService.Attacks.Add(evilBrick);
         }
 

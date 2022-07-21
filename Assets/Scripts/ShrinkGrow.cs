@@ -16,6 +16,7 @@ public class ShrinkGrow : MonoBehaviour
 
     private void Update()
     {
+
         if (_reactRunning)
         {
             if (_isShrinking)
