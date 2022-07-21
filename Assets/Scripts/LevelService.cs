@@ -10,9 +10,22 @@ public class LevelService : MonoBehaviour
 {
 
     public int _levelNumber = -1;
+    public int LevelNumber { get { return _levelNumber; } set
+        {
+            if (_levelNumberText != null)
+            {
+                _levelNumberText.SetNumber(value);
+            }
+            _levelNumber = value;
+        }
+    }
+    public LevelNumberText _levelNumberText;
     public int NumberOfDivisions { get; set; } = 12;
     private int _extraBallPowerUpCount = 0;
     public int ExtraBallPowerUpCount { get { return _extraBallPowerUpCount; } set { if (_extraBallsText != null) { _extraBallsText.SetNumber(value); } _extraBallPowerUpCount = value; } }
+    public FloorBricksText _floorBricksText;
+    private int _floorBricksPowerUpCount = 0;
+    public int FloorBricksPowerUpCount { get { return _floorBricksPowerUpCount; } set { if (_floorBricksText != null) { _floorBricksText.SetNumber(value); } _floorBricksPowerUpCount = value; } }
     public ExtraBallsText _extraBallsText;
     private int _ballCounter = 0;
     public int BallCounter { get { return _ballCounter; } set { if (_ballCount != null) { _ballCount.SetNumber(value); } _ballCounter = value; } }
@@ -30,8 +43,13 @@ public class LevelService : MonoBehaviour
         ResourceLocator.AddResource("Level", this);
 
         int levelNum = ES3.Load<int>(BGStrings.ES_LEVELNUM, 1);
-        if (_levelNumber >= 0) levelNum = _levelNumber;
-        else _levelNumber = levelNum;
+        if (LevelNumber >= 0)
+        {
+            levelNum = LevelNumber;
+            LevelNumber = LevelNumber;
+        }
+        else LevelNumber = levelNum;
+
         Level level = LoadLevel(levelNum);//_levelNumber);//ES3.Load<Level>($"{BGStrings.ES_LEVELNAME}{levelNum}", Level.GetDefault());
 
         if (level == null)
@@ -45,6 +63,7 @@ public class LevelService : MonoBehaviour
 
         BallCounter = Balls.Count;
         ExtraBallPowerUpCount = 20;
+        FloorBricksPowerUpCount = 2;
     }
 
     public void ResetLevelService()
@@ -52,6 +71,7 @@ public class LevelService : MonoBehaviour
         RowCounter = 0;
         BallCounter = Balls.Count;
         ExtraBallPowerUpCount = 20;
+        FloorBricksPowerUpCount = 2;
     }
 
     public List<Brick> GetNextRow()

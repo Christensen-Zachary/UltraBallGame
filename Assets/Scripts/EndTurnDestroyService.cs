@@ -25,21 +25,24 @@ public class EndTurnDestroyService : MonoBehaviour
     public void DestroyGameObjects()
     {
         GameObjects.ForEach(x => {
-            if (x.TryGetComponent(out Advanceable advanceable))
+            if (x != null)
             {
-                advanceable.RemoveFromList();
+                if (x.TryGetComponent(out Advanceable advanceable))
+                {
+                    advanceable.RemoveFromList();
+                }
+                Damageable damageable = x.GetComponentInChildren<Damageable>();
+                if (damageable != null)
+                {
+                    damageable.AddToDestroyed();
+                }
+                Shootable shootable = x.GetComponent<Shootable>();
+                if (shootable != null)
+                {
+                    _facBall.DestroyBall(shootable);
+                }
+                Destroy(x);  
             }
-            Damageable damageable = x.GetComponentInChildren<Damageable>();
-            if (damageable != null)
-            {
-                damageable.AddToDestroyed();
-            }
-            Shootable shootable = x.GetComponent<Shootable>();
-            if (shootable != null)
-            {
-                _facBall.DestroyBall(shootable);
-            }
-            Destroy(x); 
         });
         GameObjects = new List<GameObject>();
     }

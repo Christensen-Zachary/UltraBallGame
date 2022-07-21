@@ -42,7 +42,7 @@ public class FSMGame : MonoBehaviour
     private GameUISwitcher _gameUISwitcher;
     private WinService _winService;
 
-    private bool _isEndingTurn = false;
+    private int _turnCounter = 0;
 
     void Start()
     {
@@ -101,9 +101,19 @@ public class FSMGame : MonoBehaviour
                         _levelService.ExtraBallPowerUpCount--;
                         for (int i = 0; i < _levelService.Balls.Count; i++)
                         {
-                            _endTurnDestroyService.AddGameObject(_facBall.Create(_levelService.Balls[i]));
+                            _endTurnDestroyService.AddGameObject(
+                                _facBall.Create(_levelService.Balls[i])
+                            );
                             _levelService.BallCounter++;
                         }
+                    }
+                }
+                else if (_gameUI.GiveFloorBricks)
+                {
+                    if (_levelService.FloorBricksPowerUpCount > 0)
+                    {
+                        _levelService.FloorBricksPowerUpCount--;
+                        AddFloorBricks(); 
                     }
                 }
                 break;
@@ -217,6 +227,44 @@ public class FSMGame : MonoBehaviour
 
     }
 
+    private void AddFloorBricks()
+    {
+        int closestColumn = 0;
+        float closestColumnDistance = 100;
+        Vector2 playerPosition = new Vector2(_player.transform.position.x, 0);
+        for (int i = 0; i < _grid.NumberOfDivisions; i++)
+        {
+            Vector2 position = new Vector2(_grid.GetPosition(i, 0).x, 0);
+            if (Vector2.Distance(playerPosition, position) < closestColumnDistance)
+            {
+                closestColumn = i;
+                closestColumnDistance = Vector2.Distance(playerPosition, position);
+            }
+
+        }
+        _player.MovePlayer(new Vector2(_grid.GetPosition(closestColumn, 0).x, _player.transform.position.y));
+
+        for (int i = 0; i < _grid.NumberOfDivisions; i++)
+        {
+            BrickType brickType = BrickType.Square;
+            if (i == closestColumn - 1)
+            {
+                brickType = BrickType.Triangle0;
+            }
+            else if (i == closestColumn + 1)
+            {
+                brickType = BrickType.Triangle90;
+            }
+
+            if (i != closestColumn)
+            {
+                GameObject obj = _facBrick.Create(new Brick { BrickType = brickType, Col = i, Row = _grid.NumberOfDivisions - 1, Health = 250 }, new Type[] { typeof(Advanceable) });
+                _endTurnDestroyService.AddGameObject(obj);
+                obj.GetComponentInChildren<Damageable>()._doesCountTowardsWinning = false;
+            }
+        }
+    }
+
     private void OpenOptions()
     {
         _gameUI.ShowOptions();
@@ -227,7 +275,7 @@ public class FSMGame : MonoBehaviour
 
     private IEnumerator EndTurnRoutine()
     {
-        _isEndingTurn = true;
+        _turnCounter++;
 
         _levelService.BallCounter = _levelService.Balls.Count;
 
@@ -256,12 +304,12 @@ public class FSMGame : MonoBehaviour
             _gameUISwitcher.StartTurn();
             _state = GState.WaitingForPlayerInput;
         }
-
-        _isEndingTurn = false;
     }
 
     private IEnumerator SetupLevel()
     {
+        _turnCounter = 2;
+
         _endTurnDestroyService.DestroyGameObjects(); // this is important so that when the game is reset before the end of turn, then potential objects that had been added will be destroyed. Otherwise this service will cause an error if objects had been added
         _levelService.ResetLevelService();
         _gameUI.ShowGame();

@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class FacBrick : MonoBehaviour
@@ -86,7 +88,7 @@ public class FacBrick : MonoBehaviour
         CreateAdvanceableParent();
     }
 
-    public GameObject Create(Brick brick)
+    public GameObject Create(Brick brick, params Type[] removeBehaviours)
     {
         GameObject obj;
         switch (brick.BrickType)
@@ -136,7 +138,15 @@ public class FacBrick : MonoBehaviour
         brick.ID = obj.name;
         if (obj.TryGetComponent<Advanceable>(out Advanceable advanceable1))
         {
-            obj.transform.SetParent(_advanceableParent.transform);
+            if (removeBehaviours.Contains(typeof(Advanceable)))
+            {
+                obj.transform.SetParent(_brickParent);
+                Destroy(advanceable1);
+            }
+            else
+            {
+                obj.transform.SetParent(_advanceableParent.transform);
+            }
         }
         else
         {
@@ -165,7 +175,7 @@ public class FacBrick : MonoBehaviour
             _brickFixCollision.Bricks.Add(brickCollision);
         }
 
-        if (obj.TryGetComponent(out Advanceable advanceable))
+        if (obj.TryGetComponent(out Advanceable advanceable) && !removeBehaviours.Contains(typeof(Advanceable)))
         {
             advanceable._grid = _grid;
             advanceable._advanceService = _advanceService;

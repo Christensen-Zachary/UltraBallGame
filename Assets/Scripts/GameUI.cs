@@ -61,6 +61,9 @@ public class GameUI : MonoBehaviour
     public bool GiveExtraBalls { get; set; }
     private int _giveExtraBallsCounter = 0;
 
+    public bool GiveFloorBricks { get; set; }
+    private int _giveFloorBricksCounter = 0;
+
     private void Awake()
     {
         ResourceLocator.AddResource("GameUI", this);
@@ -203,6 +206,15 @@ public class GameUI : MonoBehaviour
                 _giveExtraBallsCounter = 0;
             }
         }
+
+        if (GiveFloorBricks)
+        {
+            if (_giveFloorBricksCounter++ > 0)
+            {
+                GiveFloorBricks = false;
+                _giveFloorBricksCounter = 0;
+            }
+        }
     }
 
     public Vector2 GetFireDirection()
@@ -239,6 +251,11 @@ public class GameUI : MonoBehaviour
     public void LoadMainMenu()
     {
         SceneManager.LoadScene("MainMenu");
+    }
+
+    public void ActivateGiveFloorBricks()
+    {
+        GiveFloorBricks = true;
     }
 
     public void ActivateGiveExtraBalls()

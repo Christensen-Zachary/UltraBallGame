@@ -22,6 +22,8 @@ public class Damageable : MonoBehaviour
     [field: SerializeField]
     public FacBrick FacBrick { get; set; } // set from FacBrick
 
+    public bool _doesCountTowardsWinning = true;
+
 
 
     public Color MaxColor { get; set; } = new Color(
@@ -68,7 +70,7 @@ public class Damageable : MonoBehaviour
 
     public void AddToDestroyed()
     {
-        WinService.NumberOfBricksDestroyed++;
+        if (_doesCountTowardsWinning) WinService.NumberOfBricksDestroyed++;
     }
 
     public void SetColor(float value)

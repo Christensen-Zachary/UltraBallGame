@@ -567,10 +567,12 @@ public class DesignLevel : MonoBehaviour
                 {
                     if (SelectedBricks.Count > 0)
                     {
+                        print("Health set for many bricks");
                         SelectedBricks.ForEach(x => x.SetHealth(Convert.ToInt32(_healthStr)));
                     }
                     else
                     {
+                        print("Health set for one brick");
                         SelectedBrick.SetHealth(Convert.ToInt32(_healthStr));
                     }
                     
