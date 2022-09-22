@@ -193,7 +193,7 @@ public class FSMGame : MonoBehaviour
             case GState.Win:
                 if (_gameUI.NextLevel)
                 {
-                    ES3.Save(BGStrings.ES_LEVELNUM, _levelService._levelNumber + 1);
+                    
                     SceneManager.LoadScene("Game");
                 }
                 break;
@@ -290,6 +290,8 @@ public class FSMGame : MonoBehaviour
         }
         else if (_winService.HasWon())
         {
+            ES3.Save(BGStrings.ES_LEVELNUM, _levelService._levelNumber + 1);
+
             _gameUI.HideGame();
             _gameUI.ShowWin();
 
