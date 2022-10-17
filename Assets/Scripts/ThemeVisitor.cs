@@ -147,7 +147,8 @@ public class ThemeVisitor : MonoBehaviour
 
                 SetThemeColor(ThemeItem.Background, ConvertToColor(1, 205, 254));
                 SetThemeColor(ThemeItem.SuperBackground, ConvertToColor(1, 144, 178));
-                SetThemeColor(ThemeItem.GameBorder, ConvertToColor(255, 113, 206));
+                // SetThemeColor(ThemeItem.GameBorder, ConvertToColor(255, 113, 206));
+                SetThemeColor(ThemeItem.GameBorder, Color.white);
                 break;
             case ThemeType.Theme3:
                 SetThemeColor(ThemeItem.Player, ConvertToColor(0xfe, 0x88, 0x04)); // orange
@@ -317,7 +318,7 @@ public class ThemeVisitor : MonoBehaviour
                 themeGameBorder.GetComponent<SpriteRenderer>().sortingOrder = -101;
                 break;
             case ThemeType.VaporWave:
-                SetSprite("Sprites/background2", themeGameBorder.gameObject);
+                SetSprite("Sprites/background3", themeGameBorder.gameObject);
                 themeGameBorder.GetComponent<SpriteRenderer>().color = ThemeColors[ThemeItem.GameBorder];
                 themeGameBorder.GetComponent<SpriteRenderer>().sortingOrder = -101;
                 break;

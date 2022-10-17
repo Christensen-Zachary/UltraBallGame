@@ -49,7 +49,7 @@ public class Damageable : MonoBehaviour
     {
         Health -= damage;
         SetColor(Health);
-        HitSound.Play();
+        //HitSound.Play();
         ShrinkGrow.React();
         if (Health <= 0)
         {
