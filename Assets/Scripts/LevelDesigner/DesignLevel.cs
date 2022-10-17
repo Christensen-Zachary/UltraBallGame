@@ -11,6 +11,8 @@ public class DesignLevel : MonoBehaviour
     private int _levelNumber = 1;
     private int _selectNumber = 0;
 
+    private DesignerInputs _designerInputs = new DesignerInputs();
+
 
     [field: SerializeField]
     public GameObject DesignBrickPrefab { get; set; }
@@ -22,16 +24,16 @@ public class DesignLevel : MonoBehaviour
     
 
     private Grid _grid;
+    private NumberInputService _numberInputService;
     private Camera _mainCamera;
     private bool _setHealth = false;
-    private string _healthStr = "";
     private bool _setLevel = false;
-    private string _levelStr = "";
     private bool _acceptCreateInput = false;
 
     private void Awake()
     {
         _grid = ResourceLocator.GetResource<Grid>("Grid");
+        _numberInputService = ResourceLocator.GetResource<NumberInputService>("NumberInputService");
 
         Balls = new List<Ball>();
 
@@ -127,7 +129,7 @@ public class DesignLevel : MonoBehaviour
 
     private void SaveLevelRoutine()
     {
-        if (InputSaveLevel())
+        if (_designerInputs.InputSaveLevel())
         {
             SaveLevel();
             print($"Level saved");
@@ -137,7 +139,7 @@ public class DesignLevel : MonoBehaviour
     private void ChangeBricksByKeypad()
     {
         DesignBrick newBrick = null;
-        if (InputSetSelectedRight())
+        if (_designerInputs.InputSetSelectedRight())
         {
             for (int col = SelectedBrick.Col + 1; col < _grid.NumberOfDivisions; col++)
             {
@@ -148,7 +150,7 @@ public class DesignLevel : MonoBehaviour
                 }
             }
         }
-        else if (InputSetSelectedLeft())
+        else if (_designerInputs.InputSetSelectedLeft())
         {
             for (int col = SelectedBrick.Col - 1; col >= 0; col--)
             {
@@ -159,7 +161,7 @@ public class DesignLevel : MonoBehaviour
                 }
             }
         }
-        else if (InputSetSelectedUp())
+        else if (_designerInputs.InputSetSelectedUp())
         {
             for (int row = SelectedBrick.Row - 1; row >= 0; row--)
             {
@@ -170,7 +172,7 @@ public class DesignLevel : MonoBehaviour
                 }
             }
         }
-        else if (InputSetSelectedDown())
+        else if (_designerInputs.InputSetSelectedDown())
         {
             for (int row = SelectedBrick.Row + 1; row < _grid.NumberOfDivisions; row++)
             {
@@ -230,11 +232,11 @@ public class DesignLevel : MonoBehaviour
 
     private void CreateBrickRoutine()
     {
-        if (InputBeginCreate())
+        if (_designerInputs.InputBeginCreate())
         {
             _acceptCreateInput = true;
         }
-        else if (InputCloneBrick())
+        else if (_designerInputs.InputCloneBrick())
         {
             CloneDesignBrick(SelectedBrick);
         }
@@ -242,39 +244,39 @@ public class DesignLevel : MonoBehaviour
         if (_acceptCreateInput)
         {
             _acceptCreateInput = false; // set to false to if input when input is given and else won't make true, then will remain false
-            if (InputSetSquare())
+            if (_designerInputs.InputSetSquare())
             {
                 CreateDesignBrick(BrickType.Square);
             }
-            else if (InputSetTriangle0())
+            else if (_designerInputs.InputSetTriangle0())
             {
                 CreateDesignBrick(BrickType.Triangle0);
             }
-            else if (InputSetTriangle90())
+            else if (_designerInputs.InputSetTriangle90())
             {
                 CreateDesignBrick(BrickType.Triangle90);
             }
-            else if (InputSetTriangle180())
+            else if (_designerInputs.InputSetTriangle180())
             {
                 CreateDesignBrick(BrickType.Triangle180);
             }
-            else if (InputSetTriangle270())
+            else if (_designerInputs.InputSetTriangle270())
             {
                 CreateDesignBrick(BrickType.Triangle270);
             }
-            else if (InputSetInvincibleSquare())
+            else if (_designerInputs.InputSetInvincibleSquare())
             {
                 CreateDesignBrick(BrickType.InvincibleSquare);
             }
-            else if (InputSetFirePowerup())
+            else if (_designerInputs.InputSetFirePowerup())
             {
                 CreateDesignBrick(BrickType.FirePowerup);
             }
-            else if (InputSetDirectional0())
+            else if (_designerInputs.InputSetDirectional0())
             {
                 CreateDesignBrick(BrickType.DirectionalBrick0);
             }
-            else if (InputEvilBrick())
+            else if (_designerInputs.InputEvilBrick())
             {
                 CreateDesignBrick(BrickType.EvilBrick);
             }
@@ -285,380 +287,146 @@ public class DesignLevel : MonoBehaviour
         }
     }
 
-    private static bool InputEvilBrick()
-    {
-        return Input.GetKeyDown(KeyCode.O);
-    }
+    
 
     private void ChangeSelectedBrick()
     {
         if (Brick.IsDamageable(SelectedBrick.BrickType))
         {
-            if (InputSetSquare())
+            if (_designerInputs.InputSetSquare())
             {
                 SelectedBrick.SetType(BrickType.Square);
             }
-            else if (InputSetTriangle0())
+            else if (_designerInputs.InputSetTriangle0())
             {
                 SelectedBrick.SetType(BrickType.Triangle0);
             }
-            else if (InputSetTriangle90())
+            else if (_designerInputs.InputSetTriangle90())
             {
                 SelectedBrick.SetType(BrickType.Triangle90);
             }
-            else if (InputSetTriangle180())
+            else if (_designerInputs.InputSetTriangle180())
             {
                 SelectedBrick.SetType(BrickType.Triangle180);
             }
-            else if (InputSetTriangle270())
+            else if (_designerInputs.InputSetTriangle270())
             {
                 SelectedBrick.SetType(BrickType.Triangle270);
             }
         }
         else if (Brick.IsInvincible(SelectedBrick.BrickType))
         {
-            if (InputSetSquare())
+            if (_designerInputs.InputSetSquare())
             {
                 SelectedBrick.SetType(BrickType.InvincibleSquare);
             }
-            else if (InputSetTriangle0())
+            else if (_designerInputs.InputSetTriangle0())
             {
                 SelectedBrick.SetType(BrickType.InvincibleTriangle0);
             }
-            else if (InputSetTriangle90())
+            else if (_designerInputs.InputSetTriangle90())
             {
                 SelectedBrick.SetType(BrickType.InvincibleTriangle90);
             }
-            else if (InputSetTriangle180())
+            else if (_designerInputs.InputSetTriangle180())
             {
                 SelectedBrick.SetType(BrickType.InvincibleTriangle180);
             }
-            else if (InputSetTriangle270())
+            else if (_designerInputs.InputSetTriangle270())
             {
                 SelectedBrick.SetType(BrickType.InvincibleTriangle270);
             }
         }
 
-        if (InputSetInvincibleSquare())
+        if (_designerInputs.InputSetInvincibleSquare())
         {
             if (Brick.IsInvincible(SelectedBrick.BrickType)) SelectedBrick.SetType(BrickType.Square);
             else SelectedBrick.SetType(BrickType.InvincibleSquare);
         }
 
-        if (InputSetFirePowerup())
+        if (_designerInputs.InputSetFirePowerup())
         {
             SelectedBrick.SetType(BrickType.FirePowerup);
         }
 
-        if (InputSetDirectional0())
+        if (_designerInputs.InputSetDirectional0())
         {
             SelectedBrick.SetType(BrickType.DirectionalBrick0);
         }
 
-        if (InputEvilBrick())
+        if (_designerInputs.InputEvilBrick())
         {
             SelectedBrick.SetType(BrickType.EvilBrick);
         }
     }
 
-    private static bool InputSetDirectional0()
-    {
-        return Input.GetKeyDown(KeyCode.I);
-    }
-
-    private static bool InputSetFirePowerup()
-    {
-        return Input.GetKeyDown(KeyCode.U);
-    }
-
-    private static bool InputSetInvincibleSquare()
-    {
-        return Input.GetKeyDown(KeyCode.Y);
-    }
+    
 
     private void LoadLevelRoutine()
     {
         
-
         if (_setLevel)
         {
-            if (Input0())
-            {
-                _levelStr += "0";
-            }
-            else if (Input1())
-            {
-                _levelStr += "1";
-            }
-            else if (Input2())
-            {
-                _levelStr += "2";
-            }
-            else if (Input3())
-            {
-                _levelStr += "3";
-            }
-            else if (Input4())
-            {
-                _levelStr += "4";
-            }
-            else if (Input5())
-            {
-                _levelStr += "5";
-            }
-            else if (Input6())
-            {
-                _levelStr += "6";
-            }
-            else if (Input7())
-            {
-                _levelStr += "7";
-            }
-            else if (Input8())
-            {
-                _levelStr += "8";
-            }
-            else if (Input9())
-            {
-                _levelStr += "9";
-            }
-            else if (InputLoadLevel())
+            if (_designerInputs.InputLoadLevel())
             {
                 _setLevel = false;
-                try
-                {
-                    int levelNumber = Convert.ToInt32(_levelStr);
-                    _levelStr = "";
-                    LoadLevel(levelNumber);
-                }
-                catch
-                {
-                    print($"Could not convert {_levelStr} to a number");
-                }
+
+                int levelNumber = _numberInputService.GetNumber();
+                LoadLevel(levelNumber);
+
+                _numberInputService.ResetNumber();
             }
         }
 
-        if (InputLoadLevel() && !_setLevel)
+        if (_designerInputs.InputLoadLevel() && !_setLevel)
         {
             _setLevel = true;
+            _numberInputService.AcceptInput = true;
         }
-    }
-
-    private static bool InputLoadLevel()
-    {
-        return Input.GetKeyDown(KeyCode.L);
     }
 
     private void DeleteSelectedBrickRoutine()
     {
-        if (InputDeletedSelectedBrick())
+        if (_designerInputs.InputDeletedSelectedBrick())
         {
             DeleteSelectedBrick();
         }
     }
 
-    private static bool InputDeletedSelectedBrick()
-    {
-        return Input.GetKeyDown(KeyCode.D);
-    }
-
-    private static bool InputSaveLevel()
-    {
-        return Input.GetKeyDown(KeyCode.Return);
-    }
-
-    private static bool InputSetSelectedDown()
-    {
-        return Input.GetKeyDown(KeyCode.Keypad2);
-    }
-
-    private static bool InputSetSelectedUp()
-    {
-        return Input.GetKeyDown(KeyCode.Keypad5);
-    }
-
-    private static bool InputSetSelectedLeft()
-    {
-        return Input.GetKeyDown(KeyCode.Keypad1);
-    }
-
-    private static bool InputSetSelectedRight()
-    {
-        return Input.GetKeyDown(KeyCode.Keypad3);
-    }
-
-    private static bool InputSetTriangle270()
-    {
-        return Input.GetKeyDown(KeyCode.T);
-    }
-
-    private static bool InputSetTriangle180()
-    {
-        return Input.GetKeyDown(KeyCode.R);
-    }
-
-    private static bool InputSetTriangle90()
-    {
-        return Input.GetKeyDown(KeyCode.E);
-    }
-
-    private static bool InputSetTriangle0()
-    {
-        return Input.GetKeyDown(KeyCode.W);
-    }
-
-    private static bool InputSetSquare()
-    {
-        return Input.GetKeyDown(KeyCode.Q);
-    }
-
-    private static bool InputCloneBrick()
-    {
-        return Input.GetKeyDown(KeyCode.C);
-    }
-
-    private static bool InputBeginCreate()
-    {
-        return Input.GetKeyDown(KeyCode.Space);
-    }
-
     private void SetHealthRoutine()
     {
-        if (InputStartSetHealth())
-        {
-            print($"_setHealth = true");
-            _setHealth = true;
-        }
-
         if (_setHealth)
         {
-            if (Input0())
-            {
-                _healthStr += "0";
-            }
-            else if (Input1())
-            {
-                _healthStr += "1";
-            }
-            else if (Input2())
-            {
-                _healthStr += "2";
-            }
-            else if (Input3())
-            {
-                _healthStr += "3";
-            }
-            else if (Input4())
-            {
-                _healthStr += "4";
-            }
-            else if (Input5())
-            {
-                _healthStr += "5";
-            }
-            else if (Input6())
-            {
-                _healthStr += "6";
-            }
-            else if (Input7())
-            {
-                _healthStr += "7";
-            }
-            else if (Input8())
-            {
-                _healthStr += "8";
-            }
-            else if (Input9())
-            {
-                _healthStr += "9";
-            }
-
-            if (InputEndSetHealth())
+            if (_designerInputs.InputEndSetHealth())
             {
                 print($"_setHealth = false");
                 _setHealth = false;
-                try
+                
+                int health = _numberInputService.GetNumber();
+                if (SelectedBricks.Count > 0)
                 {
-                    if (SelectedBricks.Count > 0)
-                    {
-                        print("Health set for many bricks");
-                        SelectedBricks.ForEach(x => x.SetHealth(Convert.ToInt32(_healthStr)));
-                    }
-                    else
-                    {
-                        print("Health set for one brick");
-                        SelectedBrick.SetHealth(Convert.ToInt32(_healthStr));
-                    }
-                    
-                    _healthStr = "";
+                    print("Health set for many bricks");
+                    if (health > 0) SelectedBricks.ForEach(x => x.SetHealth(health));
                 }
-                catch
+                else
                 {
-                    print($"Unable to convert {_healthStr} to int32");
+                    print("Health set for one brick");
+                    if (health > 0) SelectedBrick.SetHealth(health);
                 }
+
+                _numberInputService.ResetNumber();
             }
         }
+
+        if (_designerInputs.InputStartSetHealth())
+        {
+            print($"_setHealth = true");
+            _setHealth = true;
+            _numberInputService.AcceptInput = true;
+        }
+
     }
 
-    private static bool InputEndSetHealth()
-    {
-        return Input.GetKeyDown(KeyCode.J);
-    }
-
-    private static bool Input9()
-    {
-        return Input.GetKeyDown(KeyCode.Alpha9);
-    }
-
-    private static bool Input8()
-    {
-        return Input.GetKeyDown(KeyCode.Alpha8);
-    }
-
-    private static bool Input7()
-    {
-        return Input.GetKeyDown(KeyCode.Alpha7);
-    }
-
-    private static bool Input6()
-    {
-        return Input.GetKeyDown(KeyCode.Alpha6);
-    }
-
-    private static bool Input5()
-    {
-        return Input.GetKeyDown(KeyCode.Alpha5);
-    }
-
-    private static bool Input4()
-    {
-        return Input.GetKeyDown(KeyCode.Alpha4);
-    }
-
-    private static bool Input3()
-    {
-        return Input.GetKeyDown(KeyCode.Alpha3);
-    }
-
-    private static bool Input2()
-    {
-        return Input.GetKeyDown(KeyCode.Alpha2);
-    }
-
-    private static bool Input1()
-    {
-        return Input.GetKeyDown(KeyCode.Alpha1);
-    }
-
-    private static bool Input0()
-    {
-        return Input.GetKeyDown(KeyCode.Alpha0);
-    }
-
-    private static bool InputStartSetHealth()
-    {
-        return Input.GetKeyDown(KeyCode.H);
-    }
 
     private void CreateDesignBrick(BrickType brickType)
     {
