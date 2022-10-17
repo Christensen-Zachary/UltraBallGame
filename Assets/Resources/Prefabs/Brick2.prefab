@@ -258,6 +258,7 @@ MonoBehaviour:
   <HitSound>k__BackingField: {fileID: 7149125952951077970}
   <ShrinkGrow>k__BackingField: {fileID: 4761085074247214522}
   <FacBrick>k__BackingField: {fileID: 0}
+  _doesCountTowardsWinning: 1
   <SpriteRenderer>k__BackingField: {fileID: 5406471543159726106}
 --- !u!60 &3554561912683797355
 PolygonCollider2D:
@@ -539,7 +540,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -560,7 +561,7 @@ SpriteRenderer:
   m_SortingLayerID: -395665321
   m_SortingLayer: 4
   m_SortingOrder: 10
-  m_Sprite: {fileID: 21300000, guid: ef720facfa659924988b74a4460e2540, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 02d8d11bce53f4474b021a3f0e52026b, type: 3}
   m_Color: {r: 0.990566, g: 0.990566, b: 0.990566, a: 1}
   m_FlipX: 0
   m_FlipY: 0

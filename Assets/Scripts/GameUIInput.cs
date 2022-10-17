@@ -2,35 +2,40 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// separate class from GameUI because implements interfaces
 public class GameUIInput : MonoBehaviour, IStartMove, IEndMove, IReturnFire
 {
     [field: SerializeField]
     private ResourceLocator ResourceLocator { get; set; }
 
+    private bool PStartMove { get { if (_startMove) { _startMove = false; return true; } return false; } set { _startMove = false; }}
     private bool _startMove = false;
-    private int _startMoveCounter = 0;
 
+    private bool PEndMove { get { if (_endMove) { _endMove  = false; return true; } return false; } set { _endMove = value; }}
     private bool _endMove = false;
-    private int _endMoveCounter = 0;
 
+    private bool PReturnFire { get { if (_returnFire) { _returnFire = false; return true; } return false; } set { _returnFire = value; } }
     private bool _returnFire = false;
-    private int _returnFireCounter = 0;
-    public bool StartMove()
-    {
-        return _startMove;   
-    }
-
-    public bool EndMove()
-    {
-        return _endMove;
-    }
 
     private void Awake()
     {
         ResourceLocator.AddResource("GameUIInput", this);
     }
-    
-    
+
+    public bool StartMove()
+    {
+        return PStartMove;   
+    }
+
+    public bool EndMove()
+    {
+        return PEndMove;
+    }
+
+    public bool ReturnFire()
+    {
+        return PReturnFire;
+    }
 
     public void DoStartMove()
     {
@@ -47,38 +52,5 @@ public class GameUIInput : MonoBehaviour, IStartMove, IEndMove, IReturnFire
         _returnFire = true;
     }
 
-    private void Update()
-    {
-        if (_startMove)
-        {
-            if (_startMoveCounter++ > 1)
-            {
-                _startMoveCounter = 0;
-                _startMove = false;
-            }
-        }
-
-        if (_endMove)
-        {
-            if (_endMoveCounter++ > 1)
-            {
-                _endMoveCounter = 0;
-                _endMove = false;
-            }
-        }
-
-        if (_returnFire)
-        {
-            if (_returnFireCounter++ > 1)
-            {
-                _returnFireCounter = 0;
-                _returnFire = false;
-            }
-        }
-    }
-
-    public bool ReturnFire()
-    {
-        return _returnFire;
-    }
+    
 }
