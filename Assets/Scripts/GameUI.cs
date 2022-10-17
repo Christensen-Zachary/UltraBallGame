@@ -29,40 +29,41 @@ public class GameUI : MonoBehaviour
     private float _height;
     private float _width;
 
-    public bool ResetGame { get; set; } = false;
-    private int _resetGameCounter = 0;
-    public bool NextLevel { get; set; } = false;
-    private int _nextLevelCounter = 0;
+    public bool ResetGame { get { if (_resetGame) { _resetGame = false; return true; } return false; } set { _resetGame = value; } }
+    private bool _resetGame = false;
+    public bool NextLevel { get { if (_nextLevel) { _nextLevel = false; return true; } return false; } set { _nextLevel = value; } }
+    private bool _nextLevel = false;
 
-    public bool OpenMainMenuPanel { get; set; }
-    private int _openMainMenuPanelCounter = 0;
+    public bool OpenMainMenuPanel { get { if (_openMainMenuPanel) { _openMainMenuPanel = false; return true; } return false; } set { _openMainMenuPanel = value; } }
+    private bool _openMainMenuPanel = false;
 
-    public bool CloseMainMenuPanel { get; set; }
-    private int _closeMainMenuPanelCounter = 0;
+    public bool CloseMainMenuPanel { get { if (_closeMainMenuPanel) { _closeMainMenuPanel = false; return true; } return false; } set { _closeMainMenuPanel = value; } }
+    private bool _closeMainMenuPanel = false;
 
-    public bool OpenMainMenu { get; set; }
-    private int _openMainMenuCounter = 0;
+    public bool OpenMainMenu { get { if (_openMainMenu) { _openMainMenu = false; return true; } return false; } set { _openMainMenu = value; } }
+    private bool _openMainMenu = false;
 
-    public bool OpenOptions { get; set; }
-    private int _openOptionsCounter = 0;
+    public bool OpenOptions { get { if (_openOptions) { _openOptions = false; return true; } return false; } set { _openOptions = value; } }
+    private bool _openOptions = false;
 
-    public bool CloseOptionsPanel { get; set; }
-    private int _closeOptionsCounter = 0;
+    public bool CloseOptionsPanel { get { if (_closeOptions) { _closeOptions = false; return true; } return false; } set { _closeOptions = value; } }
+    private bool _closeOptions = false;
 
-    public bool StartSliderAim { get; set; }
-    private int _startSliderAimCounter = 0;
+    public bool StartSliderAim { get { if (_startSliderAim) { _startSliderAim = false; return true; } return false; } set {_startSliderAim = value; } }
+    private bool _startSliderAim = false;
 
-    public bool EndSliderAim { get; set; }
-    private int _endSliderAimCounter = 0;
+    public bool EndSliderAim { get { if (_endSliderAim) { _endSliderAim = false; return true; } return false; } set { _endSliderAim = value; } }
+    private bool _endSliderAim = false;
 
-    public bool StartFire { get; set; }
-    private int _startFireCounter = 0;
+    public bool StartFire { get { if (_startFire) { _startFire = false; return true; } return false; } set { _startFire = value; } }
+    private bool _startFire = false;
 
-    public bool GiveExtraBalls { get; set; }
-    private int _giveExtraBallsCounter = 0;
+    public bool GiveExtraBalls { get { if (_giveExtraBalls) { _giveExtraBalls = false; return true; } return false; } set { _giveExtraBalls = value; } }
+    private bool _giveExtraBalls = false;
 
-    public bool GiveFloorBricks { get; set; }
-    private int _giveFloorBricksCounter = 0;
+    public bool GiveFloorBricks { get { if (_giveFloorBricks) { _giveFloorBricks = false; return true; } return false; } set { _giveFloorBricks = value; } }
+    private bool _giveFloorBricks = false;
+    
 
     private void Awake()
     {
@@ -102,117 +103,6 @@ public class GameUI : MonoBehaviour
             else
             {
                 Debug.LogError("VPanels.Count != 2");
-            }
-        }
-    }
-
-    private void Update()
-    {
-        if (ResetGame)
-        {
-            if (_resetGameCounter++ > 0)
-            {
-                ResetGame = false;
-                _resetGameCounter = 0;
-            }
-        }
-
-        if (NextLevel)
-        {
-            if (_nextLevelCounter++ > 0)
-            {
-                NextLevel = false;
-                _nextLevelCounter = 0;
-            }
-        }
-
-        if (OpenMainMenuPanel)
-        {
-            if (_openMainMenuPanelCounter++ > 0)
-            {
-                OpenMainMenuPanel = false;
-                _openMainMenuPanelCounter = 0;
-            }
-        }
-        
-        if (CloseMainMenuPanel)
-        {
-            if (_closeMainMenuPanelCounter++ > 0)
-            {
-                CloseMainMenuPanel = false;
-                _closeMainMenuPanelCounter = 0;
-            }
-        }
-
-        if (OpenMainMenu)
-        {
-            if (_openMainMenuCounter++ > 0)
-            {
-                OpenMainMenu = false;
-                _openMainMenuCounter = 0;
-            }
-        }
-
-        if (OpenOptions)
-        {
-            if (_openOptionsCounter++ > 0)
-            {
-                OpenOptions = false;
-                _openOptionsCounter = 0;
-            }
-        }
-
-        if (CloseOptionsPanel)
-        {
-            if (_closeOptionsCounter++ > 0)
-            {
-                CloseOptionsPanel = false;
-                _closeOptionsCounter = 0;
-            }
-        }
-
-        if (StartSliderAim)
-        {
-            if (_startSliderAimCounter++ > 0)
-            {
-                StartSliderAim = false;
-                _startSliderAimCounter = 0;
-            }
-        }
-
-        if (EndSliderAim)
-        {
-            if (_endSliderAimCounter++ > 0)
-            {
-                EndSliderAim = false;
-                _endSliderAimCounter = 0;
-            }
-        }
-
-        if (StartFire)
-        {
-            if (_startFireCounter++ > 0)
-            {
-                StartFire = false;
-                _startFireCounter = 0;
-            }
-        }
-
-        if (GiveExtraBalls)
-        {
-            if (_giveExtraBallsCounter++ > 0)
-            {
-                GiveExtraBalls = false;
-                _giveExtraBallsCounter = 0;
-            }
-        }
-
-        if (GiveFloorBricks)
-        {
-            if (_giveFloorBricksCounter++ > 0)
-            {
-                GiveFloorBricks = false;
-                _giveFloorBricksCounter = 0;
             }
         }
     }
