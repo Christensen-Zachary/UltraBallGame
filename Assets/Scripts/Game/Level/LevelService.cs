@@ -97,6 +97,10 @@ public class LevelService : MonoBehaviour
 
 
     private static readonly string NUMBEROFDIVISIONS_DELIMITER = "'";
+    private static readonly string POWERUPS_DELIMITER = "\"";
+    private static readonly string POWERUP_TYPES_DELIMETER = "~";
+    private static readonly string POWERUP_TYPE_DELIMETER = ";";
+    // private static readonly string POWERUP_PARAMS_DELIMETER = ",";
     private static readonly string BRICK_TYPES_DELIMITER = "~";
     private static readonly string BRICK_TYPE_DELIMITER = ":";
     private static readonly string BRICK_DELIMITER = ";";
@@ -212,6 +216,9 @@ public class LevelService : MonoBehaviour
                 }
                 sw.Write(BRICK_TYPES_DELIMITER);
             }
+
+            sw.Write(POWERUPS_DELIMITER);
+
 
             sw.Write("\n");
         }

@@ -223,7 +223,7 @@ public class ThemeVisitor : MonoBehaviour
         switch (themeType)
         {
             case ThemeType.Theme3:
-                player.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Sprites/PNG/JackOLantern");
+                player.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Sprites/PNG/Player/JackOLantern");
                 break;
             default:
                 player.GetComponent<SpriteRenderer>().color = ThemeColors[ThemeItem.Player];
@@ -258,10 +258,10 @@ public class ThemeVisitor : MonoBehaviour
         switch (themeType)
         {
             case ThemeType.JellyFish:
-                SetSpriteSuperBackground("Sprites/PNG/bg4", superBackground.gameObject);
+                SetSpriteSuperBackground("Sprites/Background/bg4", superBackground.gameObject);
                 break;
             case ThemeType.VaporWave:
-                SetSpriteSuperBackground("Sprites/PNG/bg1", superBackground.gameObject);
+                SetSpriteSuperBackground("Sprites/Background/bg1", superBackground.gameObject);
                 break;
             default:
                 superBackground.GetComponent<SpriteRenderer>().color = ThemeColors[ThemeItem.SuperBackground];
@@ -308,32 +308,32 @@ public class ThemeVisitor : MonoBehaviour
         switch (themeType)
         {
             case ThemeType.Default:
-                SetSprite("Sprites/background2", themeGameBorder.gameObject);
+                SetSprite("Sprites/Background/background2", themeGameBorder.gameObject);
                 themeGameBorder.GetComponent<SpriteRenderer>().color = ThemeColors[ThemeItem.GameBorder];
                 themeGameBorder.GetComponent<SpriteRenderer>().sortingOrder = -101;
                 break;
             case ThemeType.JellyFish:
-                SetSprite("Sprites/background2", themeGameBorder.gameObject);
+                SetSprite("Sprites/Background/background2", themeGameBorder.gameObject);
                 themeGameBorder.GetComponent<SpriteRenderer>().color = ThemeColors[ThemeItem.GameBorder];
                 themeGameBorder.GetComponent<SpriteRenderer>().sortingOrder = -101;
                 break;
             case ThemeType.VaporWave:
-                SetSprite("Sprites/background3", themeGameBorder.gameObject);
+                SetSprite("Sprites/Background/background3", themeGameBorder.gameObject);
                 themeGameBorder.GetComponent<SpriteRenderer>().color = ThemeColors[ThemeItem.GameBorder];
                 themeGameBorder.GetComponent<SpriteRenderer>().sortingOrder = -101;
                 break;
             case ThemeType.Theme2:
-                SetSprite("Sprites/background2", themeGameBorder.gameObject);
+                SetSprite("Sprites/Background/background2", themeGameBorder.gameObject);
                 themeGameBorder.GetComponent<SpriteRenderer>().color = ThemeColors[ThemeItem.GameBorder];
                 themeGameBorder.GetComponent<SpriteRenderer>().sortingOrder = -101;
                 break;
             case ThemeType.Theme3:
-                SetSprite("Sprites/background2", themeGameBorder.gameObject);
+                SetSprite("Sprites/Background/background2", themeGameBorder.gameObject);
                 themeGameBorder.GetComponent<SpriteRenderer>().color = ThemeColors[ThemeItem.GameBorder];
                 themeGameBorder.GetComponent<SpriteRenderer>().sortingOrder = -101;
                 break;
             case ThemeType.Exterminate:
-                SetSprite("Sprites/background2", themeGameBorder.gameObject);
+                SetSprite("Sprites/Background/background2", themeGameBorder.gameObject);
                 themeGameBorder.GetComponent<SpriteRenderer>().color = ThemeColors[ThemeItem.GameBorder];
                 themeGameBorder.GetComponent<SpriteRenderer>().sortingOrder = -101;
                 break;
