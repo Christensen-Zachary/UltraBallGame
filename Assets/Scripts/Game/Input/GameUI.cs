@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class GameUI : MonoBehaviour
+public class GameUI : MonoBehaviour, IResetGame, INextLevel, IOpenMainMenu, ICloseMainMenuPanel, IOpenMainMenuPanel, IOpenOptions, ICloseOptionsPanel, IStartSliderAim, IEndSliderAim, IStartFireUI, IGiveExtraBalls, IGiveFloorBricks
 {
     [field: SerializeField]
     public ResourceLocator ResourceLocator { get; set; }
@@ -31,6 +31,7 @@ public class GameUI : MonoBehaviour
 
     public bool ResetGame { get { if (_resetGame) { _resetGame = false; return true; } return false; } set { _resetGame = value; } }
     private bool _resetGame = false;
+
     public bool NextLevel { get { if (_nextLevel) { _nextLevel = false; return true; } return false; } set { _nextLevel = value; } }
     private bool _nextLevel = false;
 
@@ -254,5 +255,65 @@ public class GameUI : MonoBehaviour
     public void HideWin()
     {
         WinPanel.SetActive(false);
+    }
+
+    bool IResetGame.ResetGame()
+    {
+        return ResetGame;
+    }
+
+    bool IOpenMainMenu.OpenMainMenu()
+    {
+        return OpenMainMenu;
+    }
+
+    bool INextLevel.NextLevel()
+    {
+        return NextLevel;
+    }
+
+    bool IGiveFloorBricks.GiveFloorBricks()
+    {
+        return GiveFloorBricks;
+    }
+
+    bool IGiveExtraBalls.GiveExtraBalls()
+    {
+        return GiveExtraBalls;
+    }
+
+    bool IStartFireUI.StartFire()
+    {
+        return StartFire;
+    }
+
+    bool IEndSliderAim.EndSliderAim()
+    {
+        return EndSliderAim;
+    }
+
+    bool IStartSliderAim.StartSliderAim()
+    {
+        return StartSliderAim;
+    }
+
+    bool ICloseOptionsPanel.CloseOptionsPanel()
+    {
+        return CloseOptionsPanel;
+    }
+
+    bool IOpenOptions.OpenOptions()
+    {
+        return OpenOptions;
+    }
+
+    bool IOpenMainMenuPanel.OpenMainMenuPanel()
+    {
+        return OpenMainMenuPanel;
+    }
+
+    bool ICloseMainMenuPanel.CloseMainMenuPanel()
+    {
+        return CloseMainMenuPanel;
     }
 }

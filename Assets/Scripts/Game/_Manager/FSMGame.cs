@@ -41,6 +41,7 @@ public class FSMGame : MonoBehaviour
     private EndTurnAttackService _endTurnAttackService;
     private GameUI _gameUI;
     private GameUISwitcher _gameUISwitcher;
+    private GameUIComposition _gameUIComposition;
     private WinService _winService;
 
     void Start()
@@ -57,6 +58,7 @@ public class FSMGame : MonoBehaviour
         _endTurnAttackService = ResourceLocator.GetResource<EndTurnAttackService>("EndTurnAttackService");
         _gameUI = ResourceLocator.GetResource<GameUI>("GameUI");
         _gameUISwitcher = ResourceLocator.GetResource<GameUISwitcher>("GameUISwitcher");
+        _gameUIComposition = ResourceLocator.GetResource<GameUIComposition>("GameUIComposition");
         _winService = ResourceLocator.GetResource<WinService>("WinService");
 
         //Time.timeScale = 2f;
@@ -82,19 +84,19 @@ public class FSMGame : MonoBehaviour
                 }
                 else if (_gameInput.StartMove())
                 {
-                    _gameUISwitcher.ShowMoveSlider(true);
+                    if (_gameUISwitcher != null) _gameUISwitcher.ShowMoveSlider(true);
                     _state = GState.MovingPlayer;
                 }
-                else if (_gameUI.OpenOptions)
+                else if (_gameUIComposition.OpenOptions())
                 {
                     OpenOptions();
                 }
-                else if (_gameUI.StartSliderAim)
+                else if (_gameUIComposition.StartSliderAim())
                 {
                     _gameUISwitcher.ShowAimSlider(true);
                     _state = GState.SliderAiming;
                 }
-                else if (_gameUI.GiveExtraBalls)
+                else if (_gameUIComposition.GiveExtraBalls())
                 {
                     if (_levelService.ExtraBallPowerUpCount > 0)
                     {
@@ -108,7 +110,7 @@ public class FSMGame : MonoBehaviour
                         }
                     }
                 }
-                else if (_gameUI.GiveFloorBricks)
+                else if (_gameUIComposition.GiveFloorBricks())
                 {
                     if (_levelService.FloorBricksPowerUpCount > 0)
                     {
@@ -120,10 +122,10 @@ public class FSMGame : MonoBehaviour
             case GState.MovingPlayer:
                 if (_gameInput.EndMove())
                 {
-                    _gameUISwitcher.ShowMoveSlider(false);
+                    if (_gameUISwitcher != null) _gameUISwitcher.ShowMoveSlider(false);
                     _state = GState.WaitingForPlayerInput;
                 }
-                else if (_gameUI.OpenOptions)
+                else if (_gameUIComposition.OpenOptions())
                 {
                     OpenOptions();
                 }
@@ -137,7 +139,7 @@ public class FSMGame : MonoBehaviour
                 {
                     _player.HideAim();
                     _player.RunFire(_gameInput.GetFireDirection());
-                    _gameUISwitcher.StartFire();
+                    if (_gameUISwitcher != null) _gameUISwitcher.StartFire();
                     _state = GState.Firing;
                 }
                 else if (_gameInput.EndAim())
@@ -151,14 +153,14 @@ public class FSMGame : MonoBehaviour
                 }
                 break;
             case GState.SliderAiming:
-                if (_gameUI.StartFire)
+                if (_gameUIComposition.StartFire())
                 {
                     _player.HideAim();
                     _player.RunFire(_gameUI.GetFireDirection());
                     _gameUISwitcher.StartFire();
                     _state = GState.Firing;
                 }
-                else if (_gameUI.EndSliderAim)
+                else if (_gameUIComposition.EndSliderAim())
                 {
                     _gameUISwitcher.ShowAimSlider(false);
                     _player.HideAim();
@@ -181,44 +183,44 @@ public class FSMGame : MonoBehaviour
                 StartCoroutine(EndTurnRoutine());
                 break;
             case GState.GameOver:
-                if (_gameUI.ResetGame)
+                if (_gameUIComposition.ResetGame())
                 {
                     _state = GState.SetupLevel;
                 }
-                else if (_gameUI.OpenMainMenu)
+                else if (_gameUIComposition.OpenMainMenu())
                 {
                     SceneManager.LoadScene("MainMenu");
                 }
                 break;
             case GState.Win:
-                if (_gameUI.NextLevel)
+                if (_gameUIComposition.NextLevel())
                 {
                     
                     SceneManager.LoadScene("Game");
                 }
                 break;
             case GState.OptionsPanel:
-                if (_gameUI.OpenMainMenuPanel)
+                if (_gameUIComposition.OpenMainMenuPanel())
                 {
                     _gameUI.ShowMainMenuOkayPanel();
                 }
-                else if (_gameUI.CloseMainMenuPanel)
+                else if (_gameUIComposition.CloseMainMenuPanel())
                 {
                     _gameUI.HideMainMenuOkayPanel();
 
                     _state = _stateBeforeOpeningOptions;
                 }
-                else if (_gameUI.CloseOptionsPanel)
+                else if (_gameUIComposition.CloseOptionsPanel())
                 {
                     _gameUI.HideOptions();
 
                     _state = _stateBeforeOpeningOptions;
                 }
-                else if (_gameUI.ResetGame)
+                else if (_gameUIComposition.ResetGame())
                 {
                     _state = GState.SetupLevel;
                 }
-                else if (_gameUI.OpenMainMenu)
+                else if (_gameUIComposition.OpenMainMenu())
                 {
                     _gameUI.LoadMainMenu();
                 }
@@ -283,8 +285,8 @@ public class FSMGame : MonoBehaviour
 
         if (_player.Health <= 0)
         {
-            _gameUI.HideGame();
-            _gameUI.ShowGameOver();
+            if (_gameUI != null) _gameUI.HideGame();
+            if (_gameUI != null) _gameUI.ShowGameOver();
 
             _state = GState.GameOver;
         }
@@ -292,14 +294,14 @@ public class FSMGame : MonoBehaviour
         {
             ES3.Save(BGStrings.ES_LEVELNUM, _levelService._levelNumber + 1);
 
-            _gameUI.HideGame();
-            _gameUI.ShowWin();
+            if (_gameUI != null) _gameUI.HideGame();
+            if (_gameUI != null) _gameUI.ShowWin();
 
             _state = GState.Win;
         }
         else
         {
-            _gameUISwitcher.StartTurn();
+            if (_gameUISwitcher != null) _gameUISwitcher.StartTurn();
             _state = GState.WaitingForPlayerInput;
         }
     }
@@ -309,8 +311,8 @@ public class FSMGame : MonoBehaviour
         _endTurnAttackService.ResetAttackService();
         _endTurnDestroyService.DestroyGameObjects(); // this is important so that when the game is reset before the end of turn, then potential objects that had been added will be destroyed. Otherwise this service will cause an error if objects had been added
         _levelService.ResetLevelService();
-        _gameUI.ShowGame();
-        _gameUISwitcher.StartTurn();
+        if (_gameUI != null) _gameUI.ShowGame();
+        if (_gameUISwitcher != null) _gameUISwitcher.StartTurn();
         _player.Health = 100;
         _player.MovePlayer(_grid.GetPosition((_grid.NumberOfDivisions - 1) / 2f, _grid.NumberOfDivisions - 1));
         _facBrick.DestroyBricks();

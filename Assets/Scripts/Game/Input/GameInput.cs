@@ -5,7 +5,9 @@ using UnityEngine;
 public enum InputSource
 {
     Player,
-    Robot
+    PlayerMKB,
+    Robot,
+    Empty
 }
 
 public class GameInput : MonoBehaviour, IStartFire, IGetFireDirection, IGetMousePosition, IStartAim, IEndAim, IReturnFire, IStartMove, IEndMove, IGetMovePosition
@@ -33,6 +35,7 @@ public class GameInput : MonoBehaviour, IStartFire, IGetFireDirection, IGetMouse
         PlayerInput playerInput = ResourceLocator.GetResource<PlayerInput>("PlayerInput");
         RobotInput robotInput = ResourceLocator.GetResource<RobotInput>("RobotInput");
         GameUIInput gameUIInput = ResourceLocator.GetResource<GameUIInput>("GameUIInput");
+        EmptyInput emptyInput = ResourceLocator.GetResource<EmptyInput>("EmptyInput");
         RandomFireDirection randomFireDirection = ResourceLocator.GetResource<RandomFireDirection>("RandomFireDirection");
         switch (_inputSource)
         {
@@ -47,6 +50,17 @@ public class GameInput : MonoBehaviour, IStartFire, IGetFireDirection, IGetMouse
                 GEndMove = gameUIInput;
                 GGetMovePosition = playerInput;
                 break;
+            case InputSource.PlayerMKB:
+                GStartFire = playerInput;
+                GGetFireDirection = playerInput;
+                GGetMousePosition = playerInput;
+                GStartAim = playerInput;
+                GEndAim = playerInput;
+                GReturnFire = playerInput;
+                GStartMove = playerInput;
+                GEndMove = playerInput;
+                GGetMovePosition = playerInput;
+                break;
             case InputSource.Robot:
                 GStartFire = robotInput;
                 GGetFireDirection = robotInput;
@@ -59,6 +73,18 @@ public class GameInput : MonoBehaviour, IStartFire, IGetFireDirection, IGetMouse
                 GGetMovePosition = robotInput;
 
                 Time.timeScale = RobotSpeed;
+                break;
+            case InputSource.Empty:
+                GStartFire = emptyInput;
+                GGetFireDirection = emptyInput;
+                GGetMousePosition = emptyInput;
+                GStartAim = emptyInput;
+                GEndAim = emptyInput;
+                GReturnFire = playerInput;
+                GStartMove = emptyInput;
+                GEndMove = emptyInput;
+                GGetMovePosition = emptyInput;
+
                 break;
         }
     }

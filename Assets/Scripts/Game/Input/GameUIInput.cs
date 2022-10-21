@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-// separate class from GameUI because implements interfaces
+// separate class from GameUI because implements interfaces, which is no longer true. Now it should be refactored alongside GameUI. Need to fix references in UI components in game scene
 public class GameUIInput : MonoBehaviour, IStartMove, IEndMove, IReturnFire
 {
     [field: SerializeField]
