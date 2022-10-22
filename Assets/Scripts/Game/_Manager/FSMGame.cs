@@ -93,7 +93,7 @@ public class FSMGame : MonoBehaviour
                 }
                 else if (_gameUIComposition.StartSliderAim())
                 {
-                    _gameUISwitcher.ShowAimSlider(true);
+                    if (_gameUISwitcher != null) _gameUISwitcher.ShowAimSlider(true);
                     _state = GState.SliderAiming;
                 }
                 else if (_gameUIComposition.GiveExtraBalls())
@@ -263,7 +263,7 @@ public class FSMGame : MonoBehaviour
 
     private void OpenOptions()
     {
-        _gameUI.ShowOptions();
+        if (_gameUI != null) _gameUI.ShowOptions();
 
         _stateBeforeOpeningOptions = _state;
         _state = GState.OptionsPanel;

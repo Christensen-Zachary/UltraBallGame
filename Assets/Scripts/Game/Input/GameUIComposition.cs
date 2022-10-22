@@ -5,6 +5,7 @@ using UnityEngine;
 public enum GameUIType
 {
     Game,
+    MKB,
     Empty
 }
 
@@ -20,6 +21,7 @@ public class GameUIComposition : MonoBehaviour, IResetGame, INextLevel, IOpenMai
     private GameUI _gameUI;
     private GameUIInput _gameUIInput;
     private EmptyGameUI _emptyGameUI;
+    private GameUIMKB _gameUIMKB;
 
     private IResetGame GResetGame;
     private INextLevel GNextLevel;
@@ -44,6 +46,7 @@ public class GameUIComposition : MonoBehaviour, IResetGame, INextLevel, IOpenMai
         _gameUI = ResourceLocator.GetResource<GameUI>("GameUI");
         _gameUIInput = ResourceLocator.GetResource<GameUIInput>("GameUIInput");
         _emptyGameUI = ResourceLocator.GetResource<EmptyGameUI>("EmptyGameUI");
+        _gameUIMKB = ResourceLocator.GetResource<GameUIMKB>("GameUIMKB");
 
         switch (GameUIType)
         {
@@ -63,6 +66,23 @@ public class GameUIComposition : MonoBehaviour, IResetGame, INextLevel, IOpenMai
                 GStartMove = _gameUIInput;
                 GEndMove = _gameUIInput;
                 GReturnFire = _gameUIInput;
+                break;
+            case GameUIType.MKB:
+                GResetGame = _gameUIMKB;
+                GNextLevel = _gameUIMKB;
+                GOpenMainMenu = _gameUIMKB;
+                GCloseMainMenuPanel = _gameUIMKB;
+                GOpenMainMenuPanel = _gameUIMKB;
+                GOpenOptions = _gameUIMKB;
+                GCloseOptionsPanel = _gameUIMKB;
+                GStartSliderAim = _gameUIMKB;
+                GEndSliderAim = _gameUIMKB;
+                GStartFireUI = _gameUIMKB;
+                GGiveExtraBalls = _gameUIMKB;
+                GGiveFloorBricks = _gameUIMKB;
+                GStartMove = _gameUIMKB;
+                GEndMove = _gameUIMKB;
+                GReturnFire = _gameUIMKB;
                 break;
             default:
                 GResetGame = _emptyGameUI;
@@ -94,6 +114,7 @@ public class GameUIComposition : MonoBehaviour, IResetGame, INextLevel, IOpenMai
         return GCloseOptionsPanel.CloseOptionsPanel(); ;
     }
 
+    // I think this is unused and can be removed
     public bool EndMove()
     {
         return GEndMove.EndMove();
