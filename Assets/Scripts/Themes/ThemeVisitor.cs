@@ -223,7 +223,7 @@ public class ThemeVisitor : MonoBehaviour
         switch (themeType)
         {
             case ThemeType.Theme3:
-                player.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Sprites/PNG/Player/JackOLantern");
+                player.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Sprites/Player/JackOLantern");
                 break;
             default:
                 player.GetComponent<SpriteRenderer>().color = ThemeColors[ThemeItem.Player];

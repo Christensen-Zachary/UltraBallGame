@@ -24,6 +24,9 @@ public class GameUI : MonoBehaviour, IResetGame, INextLevel, IOpenMainMenu, IClo
     [field: SerializeField]
     public GameObject OptionsButton { get; set; }
 
+    [field: SerializeField]
+    public GameObject Dim { get; set; }
+
     public Slider _aimSlider;
 
     private float _height;
@@ -114,30 +117,7 @@ public class GameUI : MonoBehaviour, IResetGame, INextLevel, IOpenMainMenu, IClo
         return new Vector2(Mathf.Cos(angle), Mathf.Sin(angle));
     }
 
-    public void ShowOptions()
-    {
-        OptionsPanel.SetActive(true);
-        HideGame();
-    }
-
-    public void HideOptions()
-    {
-        OptionsPanel.SetActive(false);
-        ShowGame();
-    }
-
-    public void ShowMainMenuOkayPanel()
-    {
-        MainMenuOkayPanel.SetActive(true);
-        OptionsPanel.SetActive(false);
-        HideGame();
-    }
-
-    public void HideMainMenuOkayPanel()
-    {
-        MainMenuOkayPanel.SetActive(false);
-        ShowGame();
-    }
+    
 
     public void LoadMainMenu()
     {
@@ -227,14 +207,42 @@ public class GameUI : MonoBehaviour, IResetGame, INextLevel, IOpenMainMenu, IClo
             ActivatePortrait();
         }
 
+        Dim.SetActive(false);
         HideGameOver();
         OptionsPanel.SetActive(false);
     }
 
     public void HideGame()
     {
+        Dim.SetActive(true);
+
         LPanels.ForEach(x => x.gameObject.SetActive(false));
         PPanels.ForEach(x => x.gameObject.SetActive(false));
+    }
+
+    public void ShowOptions()
+    {
+        OptionsPanel.SetActive(true);
+        HideGame();
+    }
+
+    public void HideOptions()
+    {
+        OptionsPanel.SetActive(false);
+        ShowGame();
+    }
+
+    public void ShowMainMenuOkayPanel()
+    {
+        MainMenuOkayPanel.SetActive(true);
+        OptionsPanel.SetActive(false);
+        HideGame();
+    }
+
+    public void HideMainMenuOkayPanel()
+    {
+        MainMenuOkayPanel.SetActive(false);
+        ShowGame();
     }
 
     public void ShowGameOver()

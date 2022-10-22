@@ -26,6 +26,7 @@ public class GameUISwitcher : MonoBehaviour
     public GameObject BtnExtraBalls { get; set; }
     [field: SerializeField]
     public GameObject BtnFloorBricks { get; set; }
+    
 
 
     private void Awake()
