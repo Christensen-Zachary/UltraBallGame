@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerInput : MonoBehaviour, IStartFire, IGetFireDirection, IGetMousePosition, IStartAim, IEndAim, IReturnFire, IStartMove, IEndMove, IGetMovePosition
+public class PlayerInput : MonoBehaviour, ITouchingGameboard, IStartFire, IGetFireDirection, IGetMousePosition, IStartAim, IEndAim, IReturnFire, IStartMove, IEndMove, IGetMovePosition
 {
     [field: SerializeField]
     private ResourceLocator ResourceLocator { get; set; }
@@ -63,5 +63,10 @@ public class PlayerInput : MonoBehaviour, IStartFire, IGetFireDirection, IGetMou
     public Vector2 GetFireDirection()
     {
         return GetMousePosition() - _player.transform.position;
+    }
+
+    public bool TouchingGameboard()
+    {
+        return Input.GetMouseButton(0) && _grid.Contains(GetMousePosition());
     }
 }

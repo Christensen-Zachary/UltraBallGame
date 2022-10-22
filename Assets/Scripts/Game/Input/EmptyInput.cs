@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-public class EmptyInput : MonoBehaviour, IStartFire, IGetFireDirection, IGetMousePosition, IStartAim, IEndAim, IReturnFire, IStartMove, IEndMove, IGetMovePosition
+public class EmptyInput : MonoBehaviour, ITouchingGameboard, IStartFire, IGetFireDirection, IGetMousePosition, IStartAim, IEndAim, IReturnFire, IStartMove, IEndMove, IGetMovePosition
 {
     [field: SerializeField]
     public ResourceLocator ResourceLocator { get; set; }
@@ -54,5 +54,10 @@ public class EmptyInput : MonoBehaviour, IStartFire, IGetFireDirection, IGetMous
     public Vector2 GetFireDirection()
     {
         return Vector2.zero;
+    }
+
+    public bool TouchingGameboard()
+    {
+        return false;
     }
 }

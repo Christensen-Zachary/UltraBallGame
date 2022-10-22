@@ -37,7 +37,7 @@ public class GameUISwitcher : MonoBehaviour
     public void ShowAimSlider(bool bit)
     {
         BtnStartMove.SetActive(!bit);
-        BtnStartAim.SetActive(!bit);
+        //BtnStartAim.SetActive(!bit);
         BtnExtraBalls.SetActive(!bit);
         BtnFloorBricks.SetActive(!bit);
 
@@ -49,7 +49,7 @@ public class GameUISwitcher : MonoBehaviour
     public void ShowMoveSlider(bool bit)
     {
         BtnStartMove.SetActive(!bit);
-        BtnStartAim.SetActive(!bit);
+        //BtnStartAim.SetActive(!bit);
         BtnExtraBalls.SetActive(!bit);
         BtnFloorBricks.SetActive(!bit);
 
@@ -60,7 +60,7 @@ public class GameUISwitcher : MonoBehaviour
     public void StartFire()
     {
         BtnStartMove.SetActive(false);
-        BtnStartAim.SetActive(false);
+        //BtnStartAim.SetActive(false);
         BtnEndAim.SetActive(false);
         AimSlider.SetActive(false);
         BtnFire.SetActive(false);
@@ -75,7 +75,7 @@ public class GameUISwitcher : MonoBehaviour
         BtnReturnBalls.SetActive(false);
 
         BtnStartMove.SetActive(true);
-        BtnStartAim.SetActive(true);
+        //BtnStartAim.SetActive(true);
         BtnExtraBalls.SetActive(true);
         BtnFloorBricks.SetActive(true);
     }

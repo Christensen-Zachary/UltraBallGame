@@ -1,6 +1,11 @@
 
 using UnityEngine;
 
+public interface ITouchingGameboard
+{
+    bool TouchingGameboard();
+}
+
 public interface IStartFire
 {
     bool StartFire();

@@ -80,7 +80,9 @@ public class FSMGame : MonoBehaviour
             case GState.WaitingForPlayerInput:
                 if (_gameInput.StartAim())
                 {
-                    _state = GState.Aiming;
+                    //_state = GState.Aiming;
+                    if (_gameUISwitcher != null) _gameUISwitcher.ShowAimSlider(true);
+                    _state = GState.SliderAiming;
                 }
                 else if (_gameInput.StartMove())
                 {
@@ -134,6 +136,7 @@ public class FSMGame : MonoBehaviour
                     _player.MovePlayer(_gameInput.GetMovePosition());
                 }
                 break;
+            // this state is now unused. Aiming routine is entirely in slider aiming routine
             case GState.Aiming:
                 if (_gameInput.StartFire())
                 {
@@ -165,6 +168,12 @@ public class FSMGame : MonoBehaviour
                     _gameUISwitcher.ShowAimSlider(false);
                     _player.HideAim();
                     _state = GState.WaitingForPlayerInput;
+                }
+                else if (_gameInput.TouchingGameboard())
+                {
+                    Vector2 direction = _gameInput.GetFireDirection();
+                    _gameUI.SetSliderValue(Mathf.Clamp(Mathf.Rad2Deg * Mathf.Atan2(direction.y, direction.x), 1, 179));
+                    _player.ShowAim(_gameUI.GetFireDirection());
                 }
                 else
                 {

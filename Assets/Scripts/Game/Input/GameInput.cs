@@ -10,7 +10,7 @@ public enum InputSource
     Empty
 }
 
-public class GameInput : MonoBehaviour, IStartFire, IGetFireDirection, IGetMousePosition, IStartAim, IEndAim, IReturnFire, IStartMove, IEndMove, IGetMovePosition
+public class GameInput : MonoBehaviour, ITouchingGameboard, IStartFire, IGetFireDirection, IGetMousePosition, IStartAim, IEndAim, IReturnFire, IStartMove, IEndMove, IGetMovePosition
 {
     [field: SerializeField]
     private ResourceLocator ResourceLocator { get; set; }
@@ -18,6 +18,7 @@ public class GameInput : MonoBehaviour, IStartFire, IGetFireDirection, IGetMouse
     [field: SerializeField]
     public float RobotSpeed { get; set; } = 4;
 
+    private ITouchingGameboard GTouchingGameboard { get; set; }
     private IStartFire GStartFire { get; set; }
     private IGetFireDirection GGetFireDirection { get; set; }
     private IGetMousePosition GGetMousePosition { get; set; }
@@ -40,6 +41,7 @@ public class GameInput : MonoBehaviour, IStartFire, IGetFireDirection, IGetMouse
         switch (_inputSource)
         {
             case InputSource.Player:
+                GTouchingGameboard = playerInput;
                 GStartFire = playerInput;
                 GGetFireDirection = playerInput;
                 GGetMousePosition = playerInput;
@@ -51,6 +53,7 @@ public class GameInput : MonoBehaviour, IStartFire, IGetFireDirection, IGetMouse
                 GGetMovePosition = playerInput;
                 break;
             case InputSource.PlayerMKB:
+                GTouchingGameboard = playerInput;
                 GStartFire = playerInput;
                 GGetFireDirection = playerInput;
                 GGetMousePosition = playerInput;
@@ -62,6 +65,7 @@ public class GameInput : MonoBehaviour, IStartFire, IGetFireDirection, IGetMouse
                 GGetMovePosition = playerInput;
                 break;
             case InputSource.Robot:
+                GTouchingGameboard = emptyInput;
                 GStartFire = robotInput;
                 GGetFireDirection = robotInput;
                 GGetMousePosition = robotInput;
@@ -75,6 +79,7 @@ public class GameInput : MonoBehaviour, IStartFire, IGetFireDirection, IGetMouse
                 Time.timeScale = RobotSpeed;
                 break;
             case InputSource.Empty:
+                GTouchingGameboard = emptyInput;
                 GStartFire = emptyInput;
                 GGetFireDirection = emptyInput;
                 GGetMousePosition = emptyInput;
@@ -132,5 +137,10 @@ public class GameInput : MonoBehaviour, IStartFire, IGetFireDirection, IGetMouse
     public Vector2 GetFireDirection()
     {
         return GGetFireDirection.GetFireDirection();
+    }
+
+    public bool TouchingGameboard()
+    {
+        return GTouchingGameboard.TouchingGameboard();
     }
 }
