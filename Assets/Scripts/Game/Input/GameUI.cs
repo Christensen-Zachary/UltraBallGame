@@ -28,6 +28,7 @@ public class GameUI : MonoBehaviour, IResetGame, INextLevel, IOpenMainMenu, IClo
     public GameObject Dim { get; set; }
 
     public Slider _aimSlider;
+    public Slider _movePlayerSlider; // used here for responsive design, otherwise is controlled by player class
 
     private float _height;
     private float _width;
@@ -92,7 +93,7 @@ public class GameUI : MonoBehaviour, IResetGame, INextLevel, IOpenMainMenu, IClo
             }
             else
             {
-                Debug.LogError("HPanels.Count != 2");
+                Debug.LogError("LPanels.Count != 2");
             }
         }
         else // is portrait
@@ -100,13 +101,38 @@ public class GameUI : MonoBehaviour, IResetGame, INextLevel, IOpenMainMenu, IClo
             ActivatePortrait();
             if (PPanels.Count == 2)
             {
-                PPanels[0].SetBottom(_height - _height * Background.LEAVE_SIDES_OPEN_BY_PERCENT / 2f);
-                PPanels[1].SetTop(_height - _height * Background.LEAVE_SIDES_OPEN_BY_PERCENT / 2f);
+                (float height, float width) = BGUtils.GetScreenSize();
+                if (height / width < 1.9f)//(height - width) < (Background.LEAVE_SIDES_OPEN_BY_PERCENT * height))
+                {
+                    print($"Setting top to 0");
+                    PPanels[0].SetTop(0);
+                    PPanels[1].SetBottom(0);
 
+                    
+                    PPanels[0].SetBottom(_height - _height * Background.LEAVE_SIDES_OPEN_BY_PERCENT / 2.1f);
+                    PPanels[1].SetTop(_height - _height * Background.LEAVE_SIDES_OPEN_BY_PERCENT / 2.1f);
+
+                    Vector2 size = _aimSlider.GetComponent<RectTransform>().sizeDelta;
+                    _aimSlider.GetComponent<RectTransform>().sizeDelta = new Vector2(290, size.y);
+
+                    size = _movePlayerSlider.GetComponent<RectTransform>().sizeDelta;
+                    _movePlayerSlider.GetComponent<RectTransform>().sizeDelta = new Vector2(290, size.y);
+
+                    if (0.9f * width < height * (1 - Background.LEAVE_SIDES_OPEN_BY_PERCENT))
+                    {
+                        PPanels[0].SetBottom(465);
+                        PPanels[1].SetTop(465);
+                    }
+                }
+                else
+                {
+                    PPanels[0].SetBottom(_height - _height * Background.LEAVE_SIDES_OPEN_BY_PERCENT / 2f);
+                    PPanels[1].SetTop(_height - _height * Background.LEAVE_SIDES_OPEN_BY_PERCENT / 1.7f);
+                }
             }
             else
             {
-                Debug.LogError("VPanels.Count != 2");
+                Debug.LogError("PPanels.Count != 2");
             }
         }
     }
