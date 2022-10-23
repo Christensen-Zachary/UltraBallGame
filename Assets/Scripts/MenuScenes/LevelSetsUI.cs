@@ -18,7 +18,8 @@ public class LevelSetsUI : MonoBehaviour
             obj.SetActive(transform);
             obj.GetComponent<BtnLoadLevel>().SetText((i * 50 + 1).ToString() + " - " + ((i + 1) * 50).ToString());
             obj.transform.SetParent(LevelSetsMenu.transform);
-
+            obj.transform.localScale = Vector3.one;
+            
             System.Action<int> setListener = (capturedi) => { obj.GetComponent<UnityEngine.UI.Button>().onClick.AddListener(() => OpenLevelSets(capturedi)); };
             setListener(i);
         }

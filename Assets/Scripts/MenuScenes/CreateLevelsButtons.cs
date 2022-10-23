@@ -17,6 +17,7 @@ public class CreateLevelsButtons : MonoBehaviour
             GameObject obj = Instantiate(ButtonPrefab);
             obj.SetActive(true);
             obj.transform.SetParent(transform);
+            obj.transform.localScale = Vector3.one;
 
             Action<int> setListener = (capturedi) =>
             {
