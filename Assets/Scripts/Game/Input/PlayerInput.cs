@@ -62,7 +62,10 @@ public class PlayerInput : MonoBehaviour, ITouchingGameboard, IStartFire, IGetFi
 
     public Vector2 GetFireDirection()
     {
-        return GetMousePosition() - _player.transform.position;
+        Vector2 direction = GetMousePosition() - _player.transform.position;
+        // without clamped y value, aiming left and underneath the player causes aim to aim far right. Clamp y to be positive to fix this
+        direction = new Vector2(direction.x, Mathf.Clamp(direction.y, 0, Mathf.Infinity));
+        return direction;
     }
 
     public bool TouchingGameboard()
