@@ -27,6 +27,7 @@ public class EndTurnDestroyService : MonoBehaviour
         GameObjects.ForEach(x => {
             if (x != null)
             {
+                float destroyTime = 0;
                 if (x.TryGetComponent(out Advanceable advanceable))
                 {
                     advanceable.RemoveFromList();
@@ -40,13 +41,15 @@ public class EndTurnDestroyService : MonoBehaviour
                 if (shootable != null)
                 {
                     _facBall.DestroyBall(shootable);
+                    shootable.transform.localPosition = Vector3.one * 1000;
+                    destroyTime = 3f;
                 }
                 EvilBrick evilBrick = x.GetComponent<EvilBrick>();
                 if (evilBrick != null)
                 {
                     evilBrick.RemoveFromList();
                 }
-                Destroy(x);  
+                Destroy(x, destroyTime);  
             }
         });
         GameObjects = new List<GameObject>();

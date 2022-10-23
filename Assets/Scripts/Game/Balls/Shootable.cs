@@ -21,6 +21,10 @@ public class Shootable : MonoBehaviour
 
     private Vector2 MaxVelocity = Vector2.zero;
 
+    [field: SerializeField]
+    public ParticleSystem PSReturn { get; set; }
+    public int ReturnEmitCount { get; set; } = 6;
+
     public LevelService _levelService;
 
     void Awake()
@@ -103,8 +107,11 @@ public class Shootable : MonoBehaviour
     public void Return()
     {
         IsReturned = true;
+        PSReturn.Emit(ReturnEmitCount);
+
         RB.velocity = Vector3.zero;
         transform.localPosition = _offScreen;
+
 
         PowerupAttachment powerupAttachment = GetComponentInChildren<PowerupAttachment>();
         if (powerupAttachment != null)

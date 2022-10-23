@@ -241,6 +241,18 @@ public class ThemeVisitor : MonoBehaviour
     public static void Visit(Shootable shootable)
     {
         shootable.GetComponent<SpriteRenderer>().color = ThemeColors[ThemeItem.BasicBall];
+
+        GameObject psReturn = Resources.Load<GameObject>($"ParticleSystems/Balls/psReturn{(int)themeType}");
+        if (psReturn == null)
+        {
+            psReturn = Resources.Load<GameObject>($"ParticleSystems/Balls/psReturn0");
+        }
+        psReturn = Instantiate(psReturn);
+        psReturn.transform.SetParent(shootable.transform);
+        psReturn.transform.localScale = Vector3.one;
+        psReturn.transform.localPosition = new Vector3(0, 0, 1);
+        shootable.PSReturn = psReturn.GetComponent<ParticleSystem>();
+        psReturn.SetActive(true);
     }
 
     public static void Visit(PlayerHealth playerHealth)
