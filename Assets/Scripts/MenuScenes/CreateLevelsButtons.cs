@@ -10,6 +10,8 @@ public class CreateLevelsButtons : MonoBehaviour
     [field: SerializeField]
     public GameObject ButtonPrefab { get; set; } // set in editor
 
+    public Animator animator;
+
     public void CreateButtons(int from, int to)
     {
         for (int i = from; i <= to; i++)
@@ -31,6 +33,15 @@ public class CreateLevelsButtons : MonoBehaviour
 
     public void LoadLevel(int levelNumber)
     {
+        StartCoroutine(LoadLevelCoroutine(levelNumber));
+    }
+
+    private IEnumerator LoadLevelCoroutine(int levelNumber)
+    {
+        animator.SetTrigger("Close");
+
+        yield return new WaitForSeconds(1);
+
         ES3.Save(BGStrings.ES_LEVELNUM, levelNumber);
         UnityEngine.SceneManagement.SceneManager.LoadScene("Game");
     }

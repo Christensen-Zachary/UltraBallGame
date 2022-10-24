@@ -26,6 +26,7 @@ public class GameUI : MonoBehaviour, IResetGame, INextLevel, IOpenMainMenu, IClo
 
     [field: SerializeField]
     public GameObject Dim { get; set; }
+    public Animator animator;
 
     public Slider _aimSlider;
     public Slider _movePlayerSlider; // used here for responsive design, otherwise is controlled by player class
@@ -152,7 +153,16 @@ public class GameUI : MonoBehaviour, IResetGame, INextLevel, IOpenMainMenu, IClo
 
     public void LoadMainMenu()
     {
-        SceneManager.LoadScene("MainMenu");
+        StartCoroutine(LoadMainMenuCoroutine());
+    }
+
+    private IEnumerator LoadMainMenuCoroutine()
+    {
+        animator.SetTrigger("Close");
+
+        yield return new WaitForSeconds(1);
+
+        MainMenuUI.LoadMainMenu();
     }
 
     public void ActivateGiveFloorBricks()

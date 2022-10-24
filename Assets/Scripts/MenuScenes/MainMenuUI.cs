@@ -38,6 +38,15 @@ public class MainMenuUI : MonoBehaviour
 
     public void PlayGame()
     {
+        StartCoroutine(PlayGameCoroutine());
+    }
+
+    private IEnumerator PlayGameCoroutine()
+    {
+        animator.SetTrigger("Close");
+
+        yield return new WaitForSeconds(1f);
+
         SceneManager.LoadScene("Game");
     }
 
@@ -56,7 +65,7 @@ public class MainMenuUI : MonoBehaviour
     {
         animator.SetTrigger("Close");
 
-        yield return new WaitForSeconds(2.5f);
+        yield return new WaitForSeconds(1f);
 
         LevelSetsUI.LoadLevelSets();
     }

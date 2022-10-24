@@ -9,6 +9,8 @@ public class LevelSetsUI : MonoBehaviour
     [field: SerializeField]
     public GameObject LevelSetsMenu{ get; set; }
 
+    public Animator animator;
+
     private void Awake()
     {
         for (int i = 0; i < 6; i++)
@@ -29,13 +31,31 @@ public class LevelSetsUI : MonoBehaviour
 
     public void OpenMainMenu()
     {
-        MainMenuUI.LoadMainMenu();
+        StartCoroutine(OpenMainMenuCoroutine());
     }
 
     private void OpenLevelSets(int setNumber)
     {
+        StartCoroutine(OpenLevelSetsCoroutine(setNumber));   
+    }
+
+    private IEnumerator OpenLevelSetsCoroutine(int setNumber)
+    {
+        animator.SetTrigger("Close");
+
+        yield return new WaitForSeconds(1f);
+
         ES3.Save(BGStrings.ES_LEVELSETNUMBER, setNumber);
         LevelSelectUI.LoadLevelSelect();
+    }
+
+    private IEnumerator OpenMainMenuCoroutine()
+    {
+        animator.SetTrigger("Close");
+
+        yield return new WaitForSeconds(1f);
+
+        MainMenuUI.LoadMainMenu();
     }
 
     public static void LoadLevelSets()
