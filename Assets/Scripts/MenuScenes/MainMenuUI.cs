@@ -23,6 +23,7 @@ public class MainMenuUI : MonoBehaviour
     [field: SerializeField]
     public GameObject ExitLevelMenus { get; set; }
 
+    public Animator animator;
 
     private void Awake()
     {
@@ -47,9 +48,18 @@ public class MainMenuUI : MonoBehaviour
 
     public void OpenLevelSetsMenu()
     {
-        LevelSetsUI.LoadLevelSets();
+        StartCoroutine(OpenLevelSetsCoroutine());
+        
     }
 
+    private IEnumerator OpenLevelSetsCoroutine()
+    {
+        animator.SetTrigger("Close");
+
+        yield return new WaitForSeconds(2.5f);
+
+        LevelSetsUI.LoadLevelSets();
+    }
     
     public static void LoadMainMenu()
     {
