@@ -160,7 +160,7 @@ public class GameUI : MonoBehaviour, IResetGame, INextLevel, IOpenMainMenu, IClo
     {
         animator.SetTrigger("Close");
 
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(MainMenuUI.SCENE_TRANSITION_WAIT_TIME);
 
         MainMenuUI.LoadMainMenu();
     }

@@ -45,7 +45,7 @@ public class MainMenuUI : MonoBehaviour
     {
         animator.SetTrigger("Close");
 
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(MainMenuUI.SCENE_TRANSITION_WAIT_TIME);
 
         SceneManager.LoadScene("Game");
     }
@@ -65,7 +65,7 @@ public class MainMenuUI : MonoBehaviour
     {
         animator.SetTrigger("Close");
 
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(MainMenuUI.SCENE_TRANSITION_WAIT_TIME);
 
         LevelSetsUI.LoadLevelSets();
     }
@@ -74,5 +74,7 @@ public class MainMenuUI : MonoBehaviour
     {
         SceneManager.LoadScene("MainMenu");
     }
+
+    public static readonly float SCENE_TRANSITION_WAIT_TIME = 0.5F;
 
 }

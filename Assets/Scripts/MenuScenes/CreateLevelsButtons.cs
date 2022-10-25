@@ -40,7 +40,7 @@ public class CreateLevelsButtons : MonoBehaviour
     {
         animator.SetTrigger("Close");
 
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(MainMenuUI.SCENE_TRANSITION_WAIT_TIME);
 
         ES3.Save(BGStrings.ES_LEVELNUM, levelNumber);
         UnityEngine.SceneManagement.SceneManager.LoadScene("Game");
