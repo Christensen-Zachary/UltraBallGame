@@ -61,6 +61,7 @@ public class FSMGame : MonoBehaviour
         _gameUIComposition = ResourceLocator.GetResource<GameUIComposition>("GameUIComposition");
         _winService = ResourceLocator.GetResource<WinService>("WinService");
 
+        Application.targetFrameRate = 60;
         //Time.timeScale = 2f;
     }
 
