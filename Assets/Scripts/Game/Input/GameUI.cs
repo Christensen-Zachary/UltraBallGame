@@ -165,64 +165,184 @@ public class GameUI : MonoBehaviour, IResetGame, INextLevel, IOpenMainMenu, IClo
         MainMenuUI.LoadMainMenu();
     }
 
+    public IEnumerator SetGiveFloorBricks()
+    {
+        _giveFloorBricks = true;
+        yield return null;
+        _giveFloorBricks = false;
+    }
+
+    public IEnumerator SetGiveExtraBalls()
+    {
+        _giveExtraBalls = true;
+        yield return null;
+        _giveExtraBalls = false;
+    }
+
+    public IEnumerator SetStartSliderAim()
+    {
+        _startSliderAim = true;
+        yield return null;
+        _startSliderAim = false;
+    }
+
+    public IEnumerator SetEndSliderAim()
+    {
+        _endSliderAim = true;
+        yield return null;
+        _endSliderAim = false;
+    }
+
+    public IEnumerator SetStartFire()
+    {
+        _startFire = true;
+        yield return null;
+        _startFire = false;
+    }
+
+    public IEnumerator SetOpenOptionsPanel()
+    {
+        _openOptions = true;
+        yield return null;
+        _openOptions = false;
+    }
+
+    public IEnumerator SetCloseOptionsPanel()
+    {
+        _closeOptions = true;
+        yield return null;
+        _closeOptions = false;
+    }
+
+    public IEnumerator SetOpenMainMenuOkayPanel()
+    {
+        _openMainMenuPanel = true;
+        yield return null;
+        _openMainMenuPanel = false;
+    }
+
+    public IEnumerator SetOpenMainMenu()
+    {
+        _openMainMenu = true;
+        yield return null;
+        _openMainMenu = false;
+    }
+
+    public IEnumerator SetCloseMainMenuOkayPanel()
+    {
+        _closeMainMenuPanel = true;
+        yield return null;
+        _closeMainMenuPanel = false;
+    }
+
+    public IEnumerator SetResetGame()
+    {
+        _resetGame = true;
+        yield return null;
+        _resetGame = false;
+    }
+
+    public IEnumerator SetNextLevel()
+    {
+        _nextLevel = true;
+        yield return null;
+        _nextLevel = false;
+    }
+
     public void ActivateGiveFloorBricks()
     {
-        GiveFloorBricks = true;
+        if (!GiveFloorBricks)
+        {
+            StartCoroutine(SetGiveFloorBricks());
+        }
     }
 
     public void ActivateGiveExtraBalls()
     {
-        GiveExtraBalls = true;
+        if (!GiveExtraBalls)
+        {
+            StartCoroutine(SetGiveExtraBalls());
+        }
     }
 
     public void ActivateStartSliderAim()
     {
-        StartSliderAim = true;
+        if (!StartSliderAim)
+        {
+            StartCoroutine(SetStartSliderAim());
+        }
     }
 
     public void ActivateEndSliderAim()
     {
-        EndSliderAim = true;
+        if (!EndSliderAim)
+        {
+            StartCoroutine(SetEndSliderAim());
+        }
     }
 
     public void ActivateStartFire()
     {
-        StartFire = true;
+        if (!StartFire)
+        {
+            StartCoroutine(SetStartFire());
+        }
     }
 
     public void ActivateOpenOptionsPanel()
     {
-        OpenOptions = true;
+        if (!OpenOptions)
+        {
+            StartCoroutine(SetOpenOptionsPanel());
+        }
     }
-    
+
     public void ActivateCloseOptionsPanel()
     {
-        CloseOptionsPanel = true;
+        if (!CloseOptionsPanel)
+        {
+            StartCoroutine(SetCloseOptionsPanel());
+        }
     }
 
     public void ActivateOpenMainMenuOkayPanel()
     {
-        OpenMainMenuPanel = true;
+        if (!OpenMainMenuPanel)
+        {
+            StartCoroutine(SetOpenMainMenuOkayPanel());
+        }
     }
 
     public void ActivateOpenMainMenu()
     {
-        OpenMainMenu = true;
+        if (!OpenMainMenu)
+        {
+            StartCoroutine(SetOpenMainMenu());
+        }
     }
 
     public void ActivateCloseMainMenuPanel()
     {
-        CloseMainMenuPanel = true;
+        if (!CloseMainMenuPanel)
+        {
+            StartCoroutine(SetCloseMainMenuOkayPanel());
+        }
     }
 
     public void ActivateResetGame()
     {
-        ResetGame = true;
+        if (!ResetGame)
+        {
+            StartCoroutine(SetResetGame());
+        }
     }
 
     public void ActivateNextLevel()
     {
-        NextLevel = true;
+        if (!NextLevel)
+        {
+            StartCoroutine(SetNextLevel());
+        }
     }
 
     public void ActivateLandscape()

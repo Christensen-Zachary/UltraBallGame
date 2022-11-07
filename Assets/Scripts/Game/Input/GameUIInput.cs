@@ -8,7 +8,7 @@ public class GameUIInput : MonoBehaviour, IStartMove, IEndMove, IReturnFire
     [field: SerializeField]
     private ResourceLocator ResourceLocator { get; set; }
 
-    private bool PStartMove { get { if (_startMove) { _startMove = false; return true; } return false; } set { _startMove = false; }}
+    private bool PStartMove { get { if (_startMove) { _startMove = false; return true; } return false; } set { _startMove = value; }}
     private bool _startMove = false;
 
     private bool PEndMove { get { if (_endMove) { _endMove  = false; return true; } return false; } set { _endMove = value; }}
@@ -17,6 +17,27 @@ public class GameUIInput : MonoBehaviour, IStartMove, IEndMove, IReturnFire
     private bool PReturnFire { get { if (_returnFire) { _returnFire = false; return true; } return false; } set { _returnFire = value; } }
     private bool _returnFire = false;
 
+    private IEnumerator SetReturnFireRoutine()
+    {
+        PReturnFire = true;
+        yield return null;
+        PReturnFire = false;
+    }
+
+    private IEnumerator SetStartMoveRoutine()
+    {
+        PStartMove = true;
+        yield return null;
+        PStartMove = false;
+    }
+
+    private IEnumerator SetEndMoveRoutine()
+    {
+        PEndMove = true;
+        yield return null;
+        PEndMove = false;
+    }
+
     private void Awake()
     {
         ResourceLocator.AddResource("GameUIInput", this);
@@ -24,7 +45,7 @@ public class GameUIInput : MonoBehaviour, IStartMove, IEndMove, IReturnFire
 
     public bool StartMove()
     {
-        return PStartMove;   
+        return PStartMove;
     }
 
     public bool EndMove()
@@ -39,18 +60,27 @@ public class GameUIInput : MonoBehaviour, IStartMove, IEndMove, IReturnFire
 
     public void DoStartMove()
     {
-        _startMove = true;
+        if (!PStartMove)
+        {
+            StartCoroutine(SetStartMoveRoutine());
+        }
     }
 
     public void DoEndMove()
     {
-        _endMove = true;
+        if (!PEndMove)
+        {
+            StartCoroutine(SetEndMoveRoutine());
+        }
     }
 
     public void DoReturnFire()
     {
-        _returnFire = true;
+        if (!PReturnFire)
+        {
+            StartCoroutine(SetReturnFireRoutine());
+        }
     }
 
-    
+
 }
