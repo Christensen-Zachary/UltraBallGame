@@ -90,45 +90,45 @@ public class DesignBrick : MonoBehaviour
         switch (brickType)
         {
             case BrickType.Square:
-                _sr.sprite = Resources.Load<Sprite>("Sprites/Square");
+                _sr.sprite = Resources.Load<Sprite>("Sprites/Bricks/Square");
                 break;
             case BrickType.InvincibleSquare:
-                _sr.sprite = Resources.Load<Sprite>("Sprites/Square");
+                _sr.sprite = Resources.Load<Sprite>("Sprites/Bricks/Square");
                 break;
             case BrickType.Triangle0:
-                _sr.sprite = Resources.Load<Sprite>("Sprites/Triangle0");
+                _sr.sprite = Resources.Load<Sprite>("Sprites/Bricks/Triangle0");
                 break;
             case BrickType.InvincibleTriangle0:
-                _sr.sprite = Resources.Load<Sprite>("Sprites/Triangle0");
+                _sr.sprite = Resources.Load<Sprite>("Sprites/Bricks/Triangle0");
                 break;
             case BrickType.Triangle90:
-                _sr.sprite = Resources.Load<Sprite>("Sprites/Triangle90");
+                _sr.sprite = Resources.Load<Sprite>("Sprites/Bricks/Triangle90");
                 break;
             case BrickType.InvincibleTriangle90:
-                _sr.sprite = Resources.Load<Sprite>("Sprites/Triangle90");
+                _sr.sprite = Resources.Load<Sprite>("Sprites/Bricks/Triangle90");
                 break;
             case BrickType.Triangle180:
-                _sr.sprite = Resources.Load<Sprite>("Sprites/Triangle180");
+                _sr.sprite = Resources.Load<Sprite>("Sprites/Bricks/Triangle180");
                 break;
             case BrickType.InvincibleTriangle180:
-                _sr.sprite = Resources.Load<Sprite>("Sprites/Triangle180");
+                _sr.sprite = Resources.Load<Sprite>("Sprites/Bricks/Triangle180");
                 break;
             case BrickType.Triangle270:
-                _sr.sprite = Resources.Load<Sprite>("Sprites/Triangle270");
+                _sr.sprite = Resources.Load<Sprite>("Sprites/Bricks/Triangle270");
                 break;
             case BrickType.InvincibleTriangle270:
-                _sr.sprite = Resources.Load<Sprite>("Sprites/Triangle270");
+                _sr.sprite = Resources.Load<Sprite>("Sprites/Bricks/Triangle270");
                 break;
             case BrickType.FirePowerup:
-                _sr.sprite = Resources.Load<Sprite>("Sprites/PNG/sun");
+                _sr.sprite = Resources.Load<Sprite>("Sprites/Balls/orange");
                 BrickNumber.Hide();
                 break;
             case BrickType.DirectionalBrick0:
-                _sr.sprite = Resources.Load<Sprite>("Sprites/PNG/DirectionalBrick0");
+                _sr.sprite = Resources.Load<Sprite>("Sprites/Bricks/DirectionalBrick0");
                 BrickNumber.Hide();
                 break;
             case BrickType.EvilBrick:
-                _sr.sprite = Resources.Load<Sprite>("Sprites/PNG/evilSquare");
+                _sr.sprite = Resources.Load<Sprite>("Sprites/Bricks/evilSquare");
                 BrickNumber.Hide();
                 break;
             default:

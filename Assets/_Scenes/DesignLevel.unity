@@ -324,6 +324,10 @@ PrefabInstance:
       propertyPath: <NumberOfDivisions>k__BackingField
       value: 14
       objectReference: {fileID: 0}
+    - target: {fileID: 1581486204546027585, guid: 333d70e9459a54a4d8b10dfb4a489593, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: b62b63fef8fc54c01b1c95794789556b, type: 3}
     - target: {fileID: 9155598873502978996, guid: 333d70e9459a54a4d8b10dfb4a489593, type: 3}
       propertyPath: m_Name
       value: Background
