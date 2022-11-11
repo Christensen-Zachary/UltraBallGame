@@ -88,15 +88,15 @@ public class ThemeVisitor : MonoBehaviour
             { ThemeItem.Background, ConvertToColor(60, 60, 60) },
             { ThemeItem.MaxDamage, GetColor(CustomColor.DarkGreen) },
             { ThemeItem.MinDamage, GetColor(CustomColor.LightGreen) },
-            { ThemeItem.PlayerMaxHealth, GetColor(CustomColor.Green) },
-            { ThemeItem.PlayerMinHealth, GetColor(CustomColor.Red) },
+            { ThemeItem.PlayerMaxHealth, GetColor(CustomColor.DarkGreen) },
+            { ThemeItem.PlayerMinHealth, GetColor(CustomColor.LightGreen) },
             { ThemeItem.MidPrediction, GetColor(CustomColor.LightYellow) },
             { ThemeItem.EndPrediction, GetColor(CustomColor.LightYellow) },
             { ThemeItem.BasicBall, GetColor(CustomColor.Orange) },
-            { ThemeItem.SuperBackground, ConvertToColor(35, 35, 35) },
+            { ThemeItem.SuperBackground, ConvertToColor(25, 25, 25) },
             { ThemeItem.InvincibleBrick, Color.white },
             { ThemeItem.Button, GetColor(CustomColor.Brown) },
-            { ThemeItem.GameBorder, GetColor(CustomColor.DarkGreen) }
+            { ThemeItem.GameBorder, ConvertToColor(45, 45, 45) }
         };
 
         switch (themeType)
@@ -104,8 +104,8 @@ public class ThemeVisitor : MonoBehaviour
             case ThemeType.JellyFish:
                 SetThemeColor(ThemeItem.Player, ConvertToColor(0x3e, 0xa1, 0xb6)); // moonstone
                 SetThemeColor(ThemeItem.BasicBall, ConvertToColor(0x3e, 0xa1, 0xb6));
-                SetThemeColor(ThemeItem.MidPrediction, ConvertToColor(107, 102, 158)); // Dark blue grey
-                SetThemeColor(ThemeItem.EndPrediction, ConvertToColor(107, 102, 158));
+                SetThemeColor(ThemeItem.MidPrediction, ConvertToColor(0x3e, 0xa1, 0xb6)); // Dark blue grey
+                SetThemeColor(ThemeItem.EndPrediction, ConvertToColor(0x3e, 0xa1, 0xb6));
 
                 SetThemeColor(ThemeItem.MaxDamage, ConvertToColor(187, 144, 200)); // lenurple
                 SetThemeColor(ThemeItem.MinDamage, ConvertToColor(239, 216, 236)); // piggy pink
@@ -113,8 +113,8 @@ public class ThemeVisitor : MonoBehaviour
                 SetThemeColor(ThemeItem.PlayerMinHealth, ConvertToColor(239, 216, 236)); 
                 
                 SetThemeColor(ThemeItem.SuperBackground, ConvertToColor(9, 28, 42));
-                SetThemeColor(ThemeItem.Background, Color.black);
-                SetThemeColor(ThemeItem.GameBorder, ConvertToColor(187, 144, 200));
+                SetThemeColor(ThemeItem.Background, ConvertToColor(56, 67, 123));
+                SetThemeColor(ThemeItem.GameBorder, ConvertToColor(70, 90, 165));
 
                 SetThemeColor(ThemeItem.Button, GetColor(CustomColor.Brown));
                 break;
@@ -148,7 +148,7 @@ public class ThemeVisitor : MonoBehaviour
                 SetThemeColor(ThemeItem.Background, ConvertToColor(1, 205, 254));
                 SetThemeColor(ThemeItem.SuperBackground, ConvertToColor(1, 144, 178));
                 // SetThemeColor(ThemeItem.GameBorder, ConvertToColor(255, 113, 206));
-                SetThemeColor(ThemeItem.GameBorder, Color.white);
+                SetThemeColor(ThemeItem.GameBorder, ConvertToColor(1, 205, 254));
                 break;
             case ThemeType.Theme3:
                 SetThemeColor(ThemeItem.Player, ConvertToColor(0xfe, 0x88, 0x04)); // orange
