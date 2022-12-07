@@ -34,7 +34,7 @@ public class Background : MonoBehaviour
         {
             if (height / width < 1.9f)//(height - width) < (LEAVE_SIDES_OPEN_BY_PERCENT * height))
             {
-                scale = (1 - LEAVE_SIDES_OPEN_BY_PERCENT) * height;
+                scale = (1 - LEAVE_SIDES_OPEN_BY_PERCENT) * height * 2f / 3f;
                 print("Leave sides open scale set");
             }
             else
