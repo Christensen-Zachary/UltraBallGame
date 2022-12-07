@@ -12,6 +12,7 @@ public class Background : MonoBehaviour
     private SpriteRenderer _sr;
     public float GetWidth => transform.localScale.x;
     public Vector2 GetTopLeftCorner =>  new Vector2(-_sr.bounds.extents.x, _sr.bounds.extents.y);
+    public Vector2 GetBottomLeftCorner => new Vector2(-_sr.bounds.extents.x, -_sr.bounds.extents.y);
     public Bounds GetBounds => _sr.bounds;
 
     private void Awake()

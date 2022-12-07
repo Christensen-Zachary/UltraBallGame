@@ -38,7 +38,7 @@ public class ThemeVisitor : MonoBehaviour
     public static void Visit(Player player)
     {
 
-        switch (ThemeData.themeType)
+        switch (ThemeData.ThemeType)
         {
             case ThemeType.Theme3:
                 player.GetComponent<SpriteRenderer>().sprite = Resources.Load<Sprite>("Sprites/Player/JackOLantern");
@@ -60,7 +60,7 @@ public class ThemeVisitor : MonoBehaviour
     {
         shootable.GetComponent<SpriteRenderer>().color = ThemeData.ThemeColors[ThemeItem.BasicBall];
 
-        GameObject psReturn = Resources.Load<GameObject>($"ParticleSystems/Balls/psReturn{(int)ThemeData.themeType}");
+        GameObject psReturn = Resources.Load<GameObject>($"ParticleSystems/Balls/psReturn{(int)ThemeData.ThemeType}");
         if (psReturn == null)
         {
             psReturn = Resources.Load<GameObject>($"ParticleSystems/Balls/psReturn0");
@@ -85,7 +85,7 @@ public class ThemeVisitor : MonoBehaviour
     }
     public static void Visit(SuperBackground superBackground)
     {
-        switch (ThemeData.themeType)
+        switch (ThemeData.ThemeType)
         {
             case ThemeType.JellyFish:
                 SetSpriteSuperBackground("Sprites/Background/bg4", superBackground.gameObject);
@@ -129,13 +129,13 @@ public class ThemeVisitor : MonoBehaviour
 
     public static void Visit(ThemeText themeText)
     {
-        if (ThemeData.ThemeFonts.ContainsKey(ThemeData.themeType)) themeText.SetFont(ThemeData.ThemeFonts[ThemeData.themeType]);
+        if (ThemeData.ThemeFonts.ContainsKey(ThemeData.ThemeType)) themeText.SetFont(ThemeData.ThemeFonts[ThemeData.ThemeType]);
         else themeText.SetFont(ThemeData.ThemeFonts[ThemeType.Default]);
     }
 
     public static void Visit(ThemeGameBorder themeGameBorder)
     {
-        switch (ThemeData.themeType)
+        switch (ThemeData.ThemeType)
         {
             case ThemeType.Default:
                 themeGameBorder.GetComponent<SpriteRenderer>().color = ThemeData.ThemeColors[ThemeItem.GameBorder];

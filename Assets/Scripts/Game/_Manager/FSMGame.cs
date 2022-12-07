@@ -30,6 +30,7 @@ public class FSMGame : MonoBehaviour
     private GState _stateBeforeOpeningOptions = GState.EmptyState;
 
     private Grid _grid;
+    private Background _background;
     private Player _player;
     private GameInput _gameInput;
     private LevelService _levelService;
@@ -47,6 +48,7 @@ public class FSMGame : MonoBehaviour
     void Start()
     {
         _grid = ResourceLocator.GetResource<Grid>("Grid");
+        _background = ResourceLocator.GetResource<Background>("Background");
         _player = ResourceLocator.GetResource<Player>("Player");
         _gameInput = ResourceLocator.GetResource<GameInput>("GameInput");
         _levelService = ResourceLocator.GetResource<LevelService>("Level");
@@ -324,7 +326,7 @@ public class FSMGame : MonoBehaviour
         if (_gameUI != null) _gameUI.ShowGame();
         if (_gameUISwitcher != null) _gameUISwitcher.StartTurn();
         _player.Health = 100;
-        _player.MovePlayer(_grid.GetPosition((_grid.NumberOfDivisions - 1) / 2f, _grid.NumberOfDivisions - 1));
+        _player.MovePlayer(_grid.GetPosition((_grid.NumberOfDivisions - 1) / 2f, 0));
         _facBrick.DestroyBricks();
         _facBall.DestroyBalls();
         _winService.NumberOfBricksDestroyed = 0;
@@ -350,6 +352,6 @@ public class FSMGame : MonoBehaviour
 
     private void CreateNextRow()
     {
-        _levelService.GetNextRow().ForEach(x => { x.Row--; _facBrick.Create(x); x.Row++; }); // subtract row so will advance down into position
+        _levelService.GetNextRow().ForEach(x => { x.Row--; x.Row *= -1; x.Row += (int)_grid.GameBoardHeight - 1; _facBrick.Create(x); x.Row *= -1; x.Row -= (int)_grid.GameBoardHeight - 1; x.Row++; }); // subtract row so will advance down into position
     }
 }

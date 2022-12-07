@@ -11,12 +11,12 @@ public class ThemeData : MonoBehaviour
     [field: SerializeField]
     public TMPro.TMP_FontAsset Font3 { get; set; } // set in prefab
 
-    public static ThemeType themeType;
+    public static ThemeType ThemeType;
 
     private void Awake()
     {
-        themeType = ES3.Load<ThemeType>(BGStrings.ES_THEMETYPE, ThemeType.Default);
-        SetThemeType(themeType);
+        ThemeType = ES3.Load<ThemeType>(BGStrings.ES_THEMETYPE, ThemeType.Default);
+        SetThemeType(ThemeType);
 
         ThemeFonts = new Dictionary<ThemeType, TMPro.TMP_FontAsset>()
         {

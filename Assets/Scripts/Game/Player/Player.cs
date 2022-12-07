@@ -39,13 +39,13 @@ public class Player : MonoBehaviour
         _grid = ResourceLocator.GetResource<Grid>("Grid");
         _aim = ResourceLocator.GetResource<Aim>("Aim");
 
-        transform.localPosition = _grid.GetPosition((_grid.NumberOfDivisions - 1) / 2f, _grid.NumberOfDivisions - 1);
+        transform.localPosition = _grid.GetPosition((_grid.NumberOfDivisions - 1) / 2f, 0);
         transform.localScale = _grid.UnitScale * Vector2.one;
 
         _leftMostPosition = _grid.GetPosition(0, _grid.NumberOfDivisions - 1);
         _rightMostPosition = _grid.GetPosition(_grid.NumberOfDivisions - 1, _grid.NumberOfDivisions - 1);
         _distanceBetweenBounds = Vector2.Distance(_leftMostPosition, _rightMostPosition);
-        _maxYForMovePlayer = _grid.GetPosition(0, 0).y;
+        _maxYForMovePlayer = _grid.GetPosition(0, _grid.GameBoardHeight).y;
 
         if (_movePlayerSlider != null)
         {
@@ -122,13 +122,13 @@ public class Player : MonoBehaviour
     {
         if (newPosition.y >= transform.position.y && newPosition.x > _leftMostPosition.x && newPosition.x < _rightMostPosition.x && newPosition.y < _maxYForMovePlayer)
         {
-            newPosition = new Vector2(newPosition.x, transform.position.y);
-            transform.position = newPosition;
-            
             if (_movePlayerSlider != null)
             {
                 _movePlayerSlider.SetValueWithoutNotify((newPosition.x - _leftMostPosition.x) / _distanceBetweenBounds);
             }
+
+            newPosition = new Vector2(newPosition.x, transform.position.y);
+            transform.position = newPosition;
         }
     }
 

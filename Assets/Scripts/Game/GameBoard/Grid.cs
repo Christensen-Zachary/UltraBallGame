@@ -9,6 +9,9 @@ public class Grid : MonoBehaviour
     [field: SerializeField]
     public int NumberOfDivisions { get; private set; }
     [field: SerializeField]
+    public float GameBoardRatio { get; set; } = 3f / 2f;
+    public float GameBoardHeight => NumberOfDivisions * GameBoardRatio;
+    [field: SerializeField]
     public float UnitScale { get; private set; }
     
     public Vector2 Origin { get; private set; } // origin is the location of GetPosition(0, 0). It is set to the top left corner
@@ -29,12 +32,12 @@ public class Grid : MonoBehaviour
         }
 
         UnitScale = _background.GetWidth / NumberOfDivisions;
-        Origin = _background.GetTopLeftCorner + new Vector2(1, -1) * UnitScale / 2;
+        Origin = _background.GetBottomLeftCorner + Vector2.one * UnitScale / 2;
     }
 
     public Vector2 GetPosition(float col, float row)
     {
-        return Origin + new Vector2(col, -row) * UnitScale;
+        return Origin + new Vector2(col, row) * UnitScale;
     }
 
     public bool Contains(Vector2 point)
