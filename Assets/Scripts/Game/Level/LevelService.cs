@@ -79,19 +79,8 @@ public class LevelService : MonoBehaviour
 
     public List<Brick> GetNextRow()
     {
-        if (RowCounter > NumberOfDivisions - 2)
-        {
-            RowCounter = 0;
-            _ifTrueIncrementRowCounterElseDecrement = false;
-        }
-        else if (_ifTrueIncrementRowCounterElseDecrement)
-        {
-            RowCounter++;
-        }
-        else
-        {
-            RowCounter--;
-        }
+        RowCounter++;
+        print($"LevelService: Getting Row {RowCounter-1}, Bricks.Count={Bricks.Count}");
         return Bricks.Where(x => x.Row == RowCounter - 1).ToList();
     }
 

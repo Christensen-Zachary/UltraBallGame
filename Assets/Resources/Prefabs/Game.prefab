@@ -260,6 +260,8 @@ GameObject:
   - component: {fileID: 4516845130371445007}
   - component: {fileID: 3563451561644839022}
   - component: {fileID: 9181738519922133991}
+  - component: {fileID: 6136620601269964408}
+  - component: {fileID: 56831578179017067}
   m_Layer: 0
   m_Name: FSM
   m_TagString: Untagged
@@ -295,6 +297,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <ResourceLocator>k__BackingField: {fileID: 4516845128962790882}
+  FSMGameComposition: {fileID: 56831578179017067}
 --- !u!114 &3563451561644839022
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -321,6 +324,33 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <ResourceLocator>k__BackingField: {fileID: 4516845128962790882}
+--- !u!114 &6136620601269964408
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4516845130371445004}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 847b9eb04c7274fcda4d6b9ecbe1ad1c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <ResourceLocator>k__BackingField: {fileID: 4516845128962790882}
+--- !u!114 &56831578179017067
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4516845130371445004}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2a819be70e8f546ee9a536a675bf935d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <ResourceLocator>k__BackingField: {fileID: 4516845128962790882}
+  <GameType>k__BackingField: 0
 --- !u!1001 &667063131722708683
 PrefabInstance:
   m_ObjectHideFlags: 0
