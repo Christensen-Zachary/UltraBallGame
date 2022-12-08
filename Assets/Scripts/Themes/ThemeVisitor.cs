@@ -1,6 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 
@@ -129,7 +126,10 @@ public class ThemeVisitor : MonoBehaviour
 
     public static void Visit(ThemeText themeText)
     {
-        if (ThemeData.ThemeFonts.ContainsKey(ThemeData.ThemeType)) themeText.SetFont(ThemeData.ThemeFonts[ThemeData.ThemeType]);
+        if (ThemeData.ThemeFonts.ContainsKey(ThemeData.ThemeType)) 
+        {
+            themeText.SetFont(ThemeData.ThemeFonts[ThemeData.ThemeType]);
+        }
         else themeText.SetFont(ThemeData.ThemeFonts[ThemeType.Default]);
     }
 

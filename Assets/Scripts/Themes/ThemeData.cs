@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
 using System.Collections.Generic;
 
 public class ThemeData : MonoBehaviour
@@ -12,6 +11,12 @@ public class ThemeData : MonoBehaviour
     public TMPro.TMP_FontAsset Font3 { get; set; } // set in prefab
 
     public static ThemeType ThemeType;
+    public static Dictionary<ThemeItem, Color> ThemeColors { get; private set; }
+
+    public static Dictionary<ThemeType, TMPro.TMP_FontAsset> ThemeFonts { get; private set; }
+    public static Color32 BrickTextColor;
+    public static Color32 ThemeFontColor;
+    public static Color32 ThemeButtonImageColor;
 
     private void Awake()
     {
@@ -28,12 +33,6 @@ public class ThemeData : MonoBehaviour
     }
 
 
-    public static Dictionary<ThemeItem, Color> ThemeColors { get; private set; }
-
-    public static Dictionary<ThemeType, TMPro.TMP_FontAsset> ThemeFonts { get; private set; }
-    public static Color32 BrickTextColor;
-    public static Color32 ThemeFontColor;
-    public static Color32 ThemeButtonImageColor;
     public static void SetThemeType(ThemeType themeType)
     {
         BrickTextColor = new Color32(255, 255, 255, 255);
