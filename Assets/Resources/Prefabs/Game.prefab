@@ -257,11 +257,13 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4516845130371445006}
+  - component: {fileID: 56831578179017067}
   - component: {fileID: 4516845130371445007}
+  - component: {fileID: 1073348068064990529}
   - component: {fileID: 3563451561644839022}
   - component: {fileID: 9181738519922133991}
-  - component: {fileID: 6136620601269964408}
-  - component: {fileID: 56831578179017067}
+  - component: {fileID: 1240106920942074238}
+  - component: {fileID: 5023107123763026535}
   m_Layer: 0
   m_Name: FSM
   m_TagString: Untagged
@@ -284,6 +286,20 @@ Transform:
   m_Father: {fileID: 4516845128962790883}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &56831578179017067
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4516845130371445004}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2a819be70e8f546ee9a536a675bf935d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <ResourceLocator>k__BackingField: {fileID: 4516845128962790882}
+  <GameType>k__BackingField: 0
 --- !u!114 &4516845130371445007
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -298,6 +314,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <ResourceLocator>k__BackingField: {fileID: 4516845128962790882}
   FSMGameComposition: {fileID: 56831578179017067}
+--- !u!114 &1073348068064990529
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4516845130371445004}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 617ad5bfa03704852b85edd0cc00299e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &3563451561644839022
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -324,7 +352,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <ResourceLocator>k__BackingField: {fileID: 4516845128962790882}
---- !u!114 &6136620601269964408
+--- !u!114 &1240106920942074238
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -337,7 +365,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <ResourceLocator>k__BackingField: {fileID: 4516845128962790882}
---- !u!114 &56831578179017067
+  <GameState>k__BackingField: {fileID: 1073348068064990529}
+--- !u!114 &5023107123763026535
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -346,11 +375,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 4516845130371445004}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2a819be70e8f546ee9a536a675bf935d, type: 3}
+  m_Script: {fileID: 11500000, guid: 79c8dd90dbe824f4888c3c0170c4371a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   <ResourceLocator>k__BackingField: {fileID: 4516845128962790882}
-  <GameType>k__BackingField: 0
+  <GameState>k__BackingField: {fileID: 1073348068064990529}
+  <FSMGameComposition>k__BackingField: {fileID: 56831578179017067}
+  <NormalGame>k__BackingField: {fileID: 1240106920942074238}
 --- !u!1001 &667063131722708683
 PrefabInstance:
   m_ObjectHideFlags: 0

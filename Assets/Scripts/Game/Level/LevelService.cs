@@ -80,7 +80,6 @@ public class LevelService : MonoBehaviour
     public List<Brick> GetNextRow()
     {
         RowCounter++;
-        print($"LevelService: Getting Row {RowCounter-1}, Bricks.Count={Bricks.Count}");
         return Bricks.Where(x => x.Row == RowCounter - 1).ToList();
     }
 

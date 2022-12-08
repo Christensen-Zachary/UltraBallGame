@@ -10,8 +10,8 @@ public class NormalGame : MonoBehaviour, IGetState, IEmpty, ISetupLevel, IWaitin
     [field: SerializeField]
     public ResourceLocator ResourceLocator { get; set; }
 
-    public GState State { get; set; } = GState.SetupLevel;
-    private GState _stateBeforeOptions = GState.EmptyState;
+    [field: SerializeField]
+    private GameState GameState { get; set;} // reference set in editor
 
     private Grid _grid;
     private Background _background;
@@ -58,12 +58,12 @@ public class NormalGame : MonoBehaviour, IGetState, IEmpty, ISetupLevel, IWaitin
             _player.HideAim();
             _player.RunFire(_gameInput.GetFireDirection());
             if (_gameUISwitcher != null) _gameUISwitcher.StartFire();
-            State = GState.Firing;
+            GameState.State = GState.Firing;
         }
         else if (_gameInput.EndAim())
         {
             _player.HideAim();
-            State = GState.WaitingForPlayerInput;
+            GameState.State = GState.WaitingForPlayerInput;
         }
         else
         {
@@ -78,7 +78,7 @@ public class NormalGame : MonoBehaviour, IGetState, IEmpty, ISetupLevel, IWaitin
 
     public void EndTurn()
     {
-        State = GState.EmptyState;
+        GameState.State = GState.EmptyState;
         StartCoroutine(EndTurnRoutine());
     }
 
@@ -87,7 +87,7 @@ public class NormalGame : MonoBehaviour, IGetState, IEmpty, ISetupLevel, IWaitin
         if (_gameInput.ReturnFire() || _player.IsFireComplete())
         {
             _player.EndFire();
-            State = GState.EndTurn;
+            GameState.State = GState.EndTurn;
         }
     }
 
@@ -95,7 +95,7 @@ public class NormalGame : MonoBehaviour, IGetState, IEmpty, ISetupLevel, IWaitin
     {
         if (_gameUIComposition.ResetGame())
         {
-            State = GState.SetupLevel;
+            GameState.State = GState.SetupLevel;
         }
         else if (_gameUIComposition.OpenMainMenu())
         {
@@ -108,7 +108,7 @@ public class NormalGame : MonoBehaviour, IGetState, IEmpty, ISetupLevel, IWaitin
         if (_gameInput.EndMove())
         {
             if (_gameUISwitcher != null) _gameUISwitcher.ShowMoveSlider(false);
-            State = GState.WaitingForPlayerInput;
+            GameState.State = GState.WaitingForPlayerInput;
         }
         else if (_gameUIComposition.OpenOptions())
         {
@@ -130,17 +130,17 @@ public class NormalGame : MonoBehaviour, IGetState, IEmpty, ISetupLevel, IWaitin
         {
             _gameUI.HideMainMenuOkayPanel();
 
-            State = _stateBeforeOptions;
+            GameState.State = GameState.StateBeforeOptions;
         }
         else if (_gameUIComposition.CloseOptionsPanel())
         {
             _gameUI.HideOptions();
 
-            State = _stateBeforeOptions;
+            GameState.State = GameState.StateBeforeOptions;
         }
         else if (_gameUIComposition.ResetGame())
         {
-            State = GState.SetupLevel;
+            GameState.State = GState.SetupLevel;
         }
         else if (_gameUIComposition.OpenMainMenu())
         {
@@ -150,7 +150,7 @@ public class NormalGame : MonoBehaviour, IGetState, IEmpty, ISetupLevel, IWaitin
 
     public void SetupLevel()
     {
-        State = GState.EmptyState;
+        GameState.State = GState.EmptyState;
         StartCoroutine(SetupLevelRoutine());
     }
 
@@ -161,13 +161,13 @@ public class NormalGame : MonoBehaviour, IGetState, IEmpty, ISetupLevel, IWaitin
             _player.HideAim();
             _player.RunFire(_gameUI.GetFireDirection());
             _gameUISwitcher.StartFire();
-            State = GState.Firing;
+            GameState.State = GState.Firing;
         }
         else if (_gameUIComposition.EndSliderAim())
         {
             _gameUISwitcher.ShowAimSlider(false);
             _player.HideAim();
-            State = GState.WaitingForPlayerInput;
+            GameState.State = GState.WaitingForPlayerInput;
         }
         else if (_gameInput.TouchingGameboard())
         {
@@ -187,12 +187,12 @@ public class NormalGame : MonoBehaviour, IGetState, IEmpty, ISetupLevel, IWaitin
         {
             //_state = GState.Aiming;
             if (_gameUISwitcher != null) _gameUISwitcher.ShowAimSlider(true);
-            State = GState.SliderAiming;
+            GameState.State = GState.SliderAiming;
         }
         else if (_gameInput.StartMove())
         {
             if (_gameUISwitcher != null) _gameUISwitcher.ShowMoveSlider(true);
-            State = GState.MovingPlayer;
+            GameState.State = GState.MovingPlayer;
         }
         else if (_gameUIComposition.OpenOptions())
         {
@@ -201,7 +201,7 @@ public class NormalGame : MonoBehaviour, IGetState, IEmpty, ISetupLevel, IWaitin
         else if (_gameUIComposition.StartSliderAim())
         {
             if (_gameUISwitcher != null) _gameUISwitcher.ShowAimSlider(true);
-            State = GState.SliderAiming;
+            GameState.State = GState.SliderAiming;
         }
         else if (_gameUIComposition.GiveExtraBalls())
         {
@@ -237,11 +237,11 @@ public class NormalGame : MonoBehaviour, IGetState, IEmpty, ISetupLevel, IWaitin
 
     public GState GetState()
     {
-        return State;
+        return GameState.State;
     }
 
 
-    private void AddFloorBricks()
+    public void AddFloorBricks()
     {
         int closestColumn = 0;
         float closestColumnDistance = 100;
@@ -266,7 +266,7 @@ public class NormalGame : MonoBehaviour, IGetState, IEmpty, ISetupLevel, IWaitin
 
             if (i != closestColumn)
             {
-                GameObject obj = _facBrick.Create(new Brick { BrickType = brickType, Col = i, Row = _grid.NumberOfDivisions - 1, Health = 250 }, new Type[] { typeof(Advanceable) });
+                GameObject obj = _facBrick.Create(new Brick { BrickType = brickType, Col = i, Row = 0, Health = 250 }, new Type[] { typeof(Advanceable) });
                 _endTurnDestroyService.AddGameObject(obj);
                 obj.GetComponentInChildren<Damageable>()._doesCountTowardsWinning = false;
             }
@@ -277,8 +277,8 @@ public class NormalGame : MonoBehaviour, IGetState, IEmpty, ISetupLevel, IWaitin
     {
         if (_gameUI != null) _gameUI.ShowOptions();
 
-        _stateBeforeOptions = State;
-        State = GState.OptionsPanel;
+        GameState.StateBeforeOptions = GameState.State;
+        GameState.State = GState.OptionsPanel;
     }
 
     private IEnumerator EndTurnRoutine()
@@ -300,7 +300,7 @@ public class NormalGame : MonoBehaviour, IGetState, IEmpty, ISetupLevel, IWaitin
             if (_gameUI != null) _gameUI.HideGame();
             if (_gameUI != null) _gameUI.ShowGameOver();
 
-            State = GState.GameOver;
+            GameState.State = GState.GameOver;
         }
         else if (_winService.HasWon())
         {
@@ -309,12 +309,12 @@ public class NormalGame : MonoBehaviour, IGetState, IEmpty, ISetupLevel, IWaitin
             if (_gameUI != null) _gameUI.HideGame();
             if (_gameUI != null) _gameUI.ShowWin();
 
-            State = GState.Win;
+            GameState.State = GState.Win;
         }
         else
         {
             if (_gameUISwitcher != null) _gameUISwitcher.StartTurn();
-            State = GState.WaitingForPlayerInput;
+            GameState.State = GState.WaitingForPlayerInput;
         }
     }
 
@@ -347,7 +347,7 @@ public class NormalGame : MonoBehaviour, IGetState, IEmpty, ISetupLevel, IWaitin
         _facBrick.EnableCompositeCollider();
 
         // change states first so variable will always be true until after state change to avoid race condition, unless this happens atomically then it doesn't matter
-        State = GState.WaitingForPlayerInput;
+        GameState.State = GState.WaitingForPlayerInput;
     }
 
     private void CreateNextRow()

@@ -1,9 +1,9 @@
-using Mono.Cecil;
 using UnityEngine;
 
 public enum GameType
 {
-    Normal
+    Normal,
+    MKB
 }
 
 public class FSMGameComposition : MonoBehaviour, IGetState, IEmpty, ISetupLevel, IWaitingForPlayerInput, IMovingPlayer, IAiming, ISliderAiming, IFiring, IEndTurn, IGameOver, IWin, IOptionsPanel
@@ -28,10 +28,12 @@ public class FSMGameComposition : MonoBehaviour, IGetState, IEmpty, ISetupLevel,
     public GameType GameType { get; set; } = GameType.Normal;
 
     private NormalGame _normalGame;
+    private MKBGame _mkbGame;
 
     private void Awake() 
     {
         _normalGame = ResourceLocator.GetResource<NormalGame>("NormalGame");
+        _mkbGame = ResourceLocator.GetResource<MKBGame>("MKBGame");
 
         switch (GameType)
         {
@@ -40,6 +42,20 @@ public class FSMGameComposition : MonoBehaviour, IGetState, IEmpty, ISetupLevel,
                 GEmpty = _normalGame;
                 GSetupLevel = _normalGame;
                 GWaitingForPlayerInput = _normalGame;
+                GMovingPlayer = _normalGame;
+                GAiming = _normalGame;
+                GSliderAiming = _normalGame;
+                GFiring = _normalGame;
+                GEndTurn = _normalGame;
+                GGameOver = _normalGame;
+                GWin = _normalGame;
+                GOptionsPanel = _normalGame;
+                break;
+            case GameType.MKB:
+                GGetState = _normalGame;
+                GEmpty = _normalGame;
+                GSetupLevel = _normalGame;
+                GWaitingForPlayerInput = _mkbGame;
                 GMovingPlayer = _normalGame;
                 GAiming = _normalGame;
                 GSliderAiming = _normalGame;
