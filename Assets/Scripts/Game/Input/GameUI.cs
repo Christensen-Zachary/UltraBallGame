@@ -146,7 +146,7 @@ public class GameUI : MonoBehaviour, IResetGame, INextLevel, IOpenMainMenu, IClo
 
     public void SetSliderValue(float value)
     {
-        value = Mathf.Clamp(value, 1, 179);
+        value = Mathf.Clamp(value, 0, 180);
         _aimSlider.value = value;
     }
     

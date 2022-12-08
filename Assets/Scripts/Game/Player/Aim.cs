@@ -22,6 +22,7 @@ public class Aim : MonoBehaviour
     private int NumberOfPredictions { get; } = 3;
 
     
+    
 
     private void Awake()
     {
@@ -105,13 +106,17 @@ public class Aim : MonoBehaviour
         direction = direction.normalized;
         List<Vector2> predictions = new List<Vector2>() { from };
 
-        int layerMask = (1 << LayerMask.NameToLayer("Wall") | 1 << LayerMask.NameToLayer("Reflect")) & ~(1 << LayerMask.NameToLayer("Ball"));
+        int layerMaskWithPlayer = (1 << LayerMask.NameToLayer("Wall") | 1 << LayerMask.NameToLayer("Reflect") | 1 << LayerMask.NameToLayer("PlayerReflect")) & ~(1 << LayerMask.NameToLayer("Ball"));
+        int layerMaskWithoutPlayer = (1 << LayerMask.NameToLayer("Wall") | 1 << LayerMask.NameToLayer("Reflect")) & ~(1 << LayerMask.NameToLayer("Ball"));
         string lastName = "";
         for (int i = 0; i < predictionCount; i++)
         {
             from += ContactOffset * direction;
             // predictions.Add(from); // used to see contactoffset
-            RaycastHit2D hit = Physics2D.CircleCast(from, radius, direction, Mathf.Infinity, layerMask);
+            RaycastHit2D hit;
+            if (i == 0) hit = Physics2D.CircleCast(from, radius, direction, Mathf.Infinity, layerMaskWithoutPlayer);
+            else hit = Physics2D.CircleCast(from, radius, direction, Mathf.Infinity, layerMaskWithPlayer);
+
             if (hit)
             {
                 if (hit.collider.CompareTag(BGStrings.TAG_BOTTOMWALL))
