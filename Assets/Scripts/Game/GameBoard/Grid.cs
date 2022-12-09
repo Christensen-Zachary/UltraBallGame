@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Grid : MonoBehaviour
@@ -6,9 +7,7 @@ public class Grid : MonoBehaviour
     public ResourceLocator ResourceLocator { get; set; }
     [field: SerializeField]
     public int NumberOfDivisions { get; private set; }
-    [field: SerializeField]
-    public float GameBoardRatio { get; set; } = 3f / 2f;
-    public float GameBoardHeight => NumberOfDivisions * GameBoardRatio;
+    public float GameBoardHeight => NumberOfDivisions * Background.BACKGROUND_RATIO;
     [field: SerializeField]
     public float UnitScale { get; private set; }
     

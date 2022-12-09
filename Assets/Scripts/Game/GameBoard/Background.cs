@@ -9,6 +9,7 @@ public class Background : MonoBehaviour
     public ResourceLocator ResourceLocator { get; set; }
 
     public static readonly float LEAVE_SIDES_OPEN_BY_PERCENT = (1 - (2 / (1 + Mathf.Sqrt(5)))); // percent of the side that should not be overlapped by square. amount is for both sides combined
+    public static readonly float BACKGROUND_RATIO = 3f / 2f;
     private SpriteRenderer _sr;
     public float GetWidth => transform.localScale.x;
     public Vector2 GetTopLeftCorner =>  new Vector2(-_sr.bounds.extents.x, _sr.bounds.extents.y);
@@ -34,7 +35,7 @@ public class Background : MonoBehaviour
         {
             if (height / width < 1.9f)//(height - width) < (LEAVE_SIDES_OPEN_BY_PERCENT * height))
             {
-                scale = (1 - LEAVE_SIDES_OPEN_BY_PERCENT) * height * 2f / 3f;
+                scale = (1 - LEAVE_SIDES_OPEN_BY_PERCENT) * height / BACKGROUND_RATIO;
                 print("Leave sides open scale set");
             }
             else

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Data;
 using UnityEngine;
 
 
@@ -40,6 +41,15 @@ public class Brick
         Col = col;
         Row = row;
         Health = health;
+    }
+
+
+    public void CopySelfInto(Brick brick)
+    {
+        brick.BrickType = BrickType;
+        brick.Row = Row;
+        brick.Col = Col;
+        brick.Health = Health;
     }
     
 }

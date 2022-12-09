@@ -397,6 +397,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <ResourceLocator>k__BackingField: {fileID: 4516845128962790882}
   <GameState>k__BackingField: {fileID: 1073348068064990529}
+  <SelectedCursorPrefab>k__BackingField: {fileID: 6973641529905390008, guid: 88265434b140349c0a2da053bed48149, type: 3}
 --- !u!1001 &667063131722708683
 PrefabInstance:
   m_ObjectHideFlags: 0
