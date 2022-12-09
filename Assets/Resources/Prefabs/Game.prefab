@@ -264,6 +264,7 @@ GameObject:
   - component: {fileID: 9181738519922133991}
   - component: {fileID: 1240106920942074238}
   - component: {fileID: 5023107123763026535}
+  - component: {fileID: 926872766640765769}
   m_Layer: 0
   m_Name: FSM
   m_TagString: Untagged
@@ -382,6 +383,20 @@ MonoBehaviour:
   <GameState>k__BackingField: {fileID: 1073348068064990529}
   <FSMGameComposition>k__BackingField: {fileID: 56831578179017067}
   <NormalGame>k__BackingField: {fileID: 1240106920942074238}
+--- !u!114 &926872766640765769
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4516845130371445004}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a19d4337a80b4a1194959fa66cd7d58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <ResourceLocator>k__BackingField: {fileID: 4516845128962790882}
+  <GameState>k__BackingField: {fileID: 1073348068064990529}
 --- !u!1001 &667063131722708683
 PrefabInstance:
   m_ObjectHideFlags: 0

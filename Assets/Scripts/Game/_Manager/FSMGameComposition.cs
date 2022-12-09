@@ -1,9 +1,11 @@
+using Mono.Cecil;
 using UnityEngine;
 
 public enum GameType
 {
     Normal,
-    MKB
+    MKB,
+    DesignLevel
 }
 
 public class FSMGameComposition : MonoBehaviour, IGetState, IEmpty, ISetupLevel, IWaitingForPlayerInput, IMovingPlayer, IAiming, ISliderAiming, IFiring, IEndTurn, IGameOver, IWin, IOptionsPanel
@@ -29,14 +31,30 @@ public class FSMGameComposition : MonoBehaviour, IGetState, IEmpty, ISetupLevel,
 
     private NormalGame _normalGame;
     private MKBGame _mkbGame;
+    private DesignLevelGame _designLevelGame;
 
     private void Awake() 
     {
         _normalGame = ResourceLocator.GetResource<NormalGame>("NormalGame");
         _mkbGame = ResourceLocator.GetResource<MKBGame>("MKBGame");
+        _designLevelGame = ResourceLocator.GetResource<DesignLevelGame>("DesignLevelGame");
 
         switch (GameType)
         {
+            case GameType.DesignLevel:
+                GGetState = _normalGame;
+                GEmpty = _normalGame;
+                GSetupLevel = _normalGame;
+                GWaitingForPlayerInput = _designLevelGame;
+                GMovingPlayer = _normalGame;
+                GAiming = _normalGame;
+                GSliderAiming = _normalGame;
+                GFiring = _normalGame;
+                GEndTurn = _normalGame;
+                GGameOver = _normalGame;
+                GWin = _normalGame;
+                GOptionsPanel = _normalGame;
+                break;
             case GameType.Normal:
                 GGetState = _normalGame;
                 GEmpty = _normalGame;
