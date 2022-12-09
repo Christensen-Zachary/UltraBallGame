@@ -48,7 +48,6 @@ public class FSMGame : MonoBehaviour
             case GState.MovingPlayer:
                 FSMGameComposition.MovingPlayer();
                 break;
-            // this state is now unused. Aiming routine is entirely in slider aiming routine
             case GState.Aiming:
                 FSMGameComposition.Aiming();
                 break;
