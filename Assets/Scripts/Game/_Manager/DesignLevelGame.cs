@@ -1,6 +1,4 @@
-using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class DesignLevelGame : MonoBehaviour, IWaitingForPlayerInput, ISetupLevel, IMovingPlayer
@@ -109,7 +107,7 @@ public class DesignLevelGame : MonoBehaviour, IWaitingForPlayerInput, ISetupLeve
     public void SetupLevel()
     {
         _selectedCursor = Instantiate(SelectedCursorPrefab).transform;
-        
+
         GameState.State = GState.WaitingForPlayerInput;
     }
 }

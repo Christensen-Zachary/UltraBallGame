@@ -5,6 +5,7 @@ public enum GameType
 {
     Normal,
     MKB,
+    ThemePreview,
     DesignLevel
 }
 
@@ -32,12 +33,14 @@ public class FSMGameComposition : MonoBehaviour, IGetState, IEmpty, ISetupLevel,
     private NormalGame _normalGame;
     private MKBGame _mkbGame;
     private DesignLevelGame _designLevelGame;
+    private ThemePreviewGame _themePreviewGame;
 
     private void Awake() 
     {
         _normalGame = ResourceLocator.GetResource<NormalGame>("NormalGame");
         _mkbGame = ResourceLocator.GetResource<MKBGame>("MKBGame");
         _designLevelGame = ResourceLocator.GetResource<DesignLevelGame>("DesignLevelGame");
+        _themePreviewGame = ResourceLocator.GetResource<ThemePreviewGame>("ThemePreviewGame");
 
         switch (GameType)
         {
@@ -53,6 +56,20 @@ public class FSMGameComposition : MonoBehaviour, IGetState, IEmpty, ISetupLevel,
                 GEndTurn = _normalGame;
                 GGameOver = _normalGame;
                 GWin = _normalGame;
+                GOptionsPanel = _normalGame;
+                break;
+            case GameType.ThemePreview:
+                GGetState = _normalGame;
+                GEmpty = _normalGame;
+                GSetupLevel = _normalGame;
+                GWaitingForPlayerInput = _mkbGame;
+                GMovingPlayer = _normalGame;
+                GAiming = _normalGame;
+                GSliderAiming = _normalGame;
+                GFiring = _normalGame;
+                GEndTurn = _normalGame;
+                GGameOver = _normalGame;
+                GWin = _themePreviewGame;
                 GOptionsPanel = _normalGame;
                 break;
             case GameType.Normal:
