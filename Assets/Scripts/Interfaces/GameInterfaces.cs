@@ -44,6 +44,11 @@ public interface IEndTurn
     void EndTurn();
 }
 
+public interface ICheckWinLose
+{
+    void CheckWinLose();
+}
+
 public interface IGameOver
 {
     void GameOver();

@@ -4,7 +4,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class NormalGame : MonoBehaviour, IGetState, IEmpty, ISetupLevel, IWaitingForPlayerInput, IMovingPlayer, IAiming, ISliderAiming, IFiring, IEndTurn, IGameOver, IWin, IOptionsPanel
+public class NormalGame : MonoBehaviour, IGetState, IEmpty, ISetupLevel, IWaitingForPlayerInput, IMovingPlayer, IAiming, ISliderAiming, IFiring, IEndTurn, ICheckWinLose, IGameOver, IWin, IOptionsPanel
 {
     [field: SerializeField]
     public ResourceLocator ResourceLocator { get; set; }
@@ -280,7 +280,7 @@ public class NormalGame : MonoBehaviour, IGetState, IEmpty, ISetupLevel, IWaitin
         GameState.State = GState.OptionsPanel;
     }
 
-    private IEnumerator EndTurnRoutine()
+    public IEnumerator EndTurnRoutine()
     {
         _levelService.BallCounter = _levelService.Balls.Count;
 
@@ -294,27 +294,7 @@ public class NormalGame : MonoBehaviour, IGetState, IEmpty, ISetupLevel, IWaitin
 
         _endTurnDestroyService.DestroyGameObjects();
 
-        if (_player.Health <= 0)
-        {
-            if (_gameUI != null) _gameUI.HideGame();
-            if (_gameUI != null) _gameUI.ShowGameOver();
-
-            GameState.State = GState.GameOver;
-        }
-        else if (_winService.HasWon())
-        {
-            ES3.Save(BGStrings.ES_LEVELNUM, _levelService._levelNumber + 1);
-
-            if (_gameUI != null) _gameUI.HideGame();
-            if (_gameUI != null) _gameUI.ShowWin();
-
-            GameState.State = GState.Win;
-        }
-        else
-        {
-            if (_gameUISwitcher != null) _gameUISwitcher.StartTurn();
-            GameState.State = GState.WaitingForPlayerInput;
-        }
+        GameState.State = GState.CheckWinLose;
     }
 
     private IEnumerator SetupLevelRoutine()
@@ -352,5 +332,30 @@ public class NormalGame : MonoBehaviour, IGetState, IEmpty, ISetupLevel, IWaitin
     private void CreateNextRow()
     {
         _levelService.GetNextRow().ForEach(x => { int row = x.Row; x.Row = --x.Row * -1 + (int)_grid.GameBoardHeight - 1; _facBrick.Create(x); x.Row = row; }); // subtract row so will advance down into position
+    }
+
+    public void CheckWinLose()
+    {
+        if (_player.Health <= 0)
+        {
+            if (_gameUI != null) _gameUI.HideGame();
+            if (_gameUI != null) _gameUI.ShowGameOver();
+
+            GameState.State = GState.GameOver;
+        }
+        else if (_winService.HasWon())
+        {
+            ES3.Save(BGStrings.ES_LEVELNUM, _levelService._levelNumber + 1);
+
+            if (_gameUI != null) _gameUI.HideGame();
+            if (_gameUI != null) _gameUI.ShowWin();
+
+            GameState.State = GState.Win;
+        }
+        else
+        {
+            if (_gameUISwitcher != null) _gameUISwitcher.StartTurn();
+            GameState.State = GState.WaitingForPlayerInput;
+        }
     }
 }

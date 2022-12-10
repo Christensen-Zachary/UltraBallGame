@@ -9,7 +9,7 @@ public enum GameType
     DesignLevel
 }
 
-public class FSMGameComposition : MonoBehaviour, IGetState, IEmpty, ISetupLevel, IWaitingForPlayerInput, IMovingPlayer, IAiming, ISliderAiming, IFiring, IEndTurn, IGameOver, IWin, IOptionsPanel
+public class FSMGameComposition : MonoBehaviour, IGetState, IEmpty, ISetupLevel, IWaitingForPlayerInput, IMovingPlayer, IAiming, ISliderAiming, IFiring, IEndTurn, ICheckWinLose, IGameOver, IWin, IOptionsPanel
 {
     [field: SerializeField]
     public ResourceLocator ResourceLocator { get; set; }
@@ -23,6 +23,7 @@ public class FSMGameComposition : MonoBehaviour, IGetState, IEmpty, ISetupLevel,
     public ISliderAiming GSliderAiming { get; set; }
     public IFiring GFiring { get; set; }
     public IEndTurn GEndTurn { get; set; }
+    public ICheckWinLose GCheckWinLose { get; set; }
     public IGameOver GGameOver { get; set; }
     public IWin GWin { get; set; }
     public IOptionsPanel GOptionsPanel { get; set; }
@@ -54,6 +55,7 @@ public class FSMGameComposition : MonoBehaviour, IGetState, IEmpty, ISetupLevel,
                 GSliderAiming = _normalGame;
                 GFiring = _normalGame;
                 GEndTurn = _normalGame;
+                GCheckWinLose = _normalGame;
                 GGameOver = _normalGame;
                 GWin = _normalGame;
                 GOptionsPanel = _normalGame;
@@ -68,8 +70,9 @@ public class FSMGameComposition : MonoBehaviour, IGetState, IEmpty, ISetupLevel,
                 GSliderAiming = _normalGame;
                 GFiring = _normalGame;
                 GEndTurn = _normalGame;
+                GCheckWinLose = _themePreviewGame;
                 GGameOver = _normalGame;
-                GWin = _themePreviewGame;
+                GWin = _normalGame;
                 GOptionsPanel = _normalGame;
                 break;
             case GameType.Normal:
@@ -82,6 +85,7 @@ public class FSMGameComposition : MonoBehaviour, IGetState, IEmpty, ISetupLevel,
                 GSliderAiming = _normalGame;
                 GFiring = _normalGame;
                 GEndTurn = _normalGame;
+                GCheckWinLose = _normalGame;
                 GGameOver = _normalGame;
                 GWin = _normalGame;
                 GOptionsPanel = _normalGame;
@@ -96,6 +100,7 @@ public class FSMGameComposition : MonoBehaviour, IGetState, IEmpty, ISetupLevel,
                 GSliderAiming = _normalGame;
                 GFiring = _normalGame;
                 GEndTurn = _normalGame;
+                GCheckWinLose = _normalGame;
                 GGameOver = _normalGame;
                 GWin = _normalGame;
                 GOptionsPanel = _normalGame;
@@ -110,6 +115,7 @@ public class FSMGameComposition : MonoBehaviour, IGetState, IEmpty, ISetupLevel,
                 GSliderAiming = _normalGame;
                 GFiring = _normalGame;
                 GEndTurn = _normalGame;
+                GCheckWinLose = _normalGame;
                 GGameOver = _normalGame;
                 GWin = _normalGame;
                 GOptionsPanel = _normalGame;
@@ -174,5 +180,10 @@ public class FSMGameComposition : MonoBehaviour, IGetState, IEmpty, ISetupLevel,
     public GState GetState()
     {
         return GGetState.GetState();
+    }
+
+    public void CheckWinLose()
+    {
+        GCheckWinLose.CheckWinLose();
     }
 }

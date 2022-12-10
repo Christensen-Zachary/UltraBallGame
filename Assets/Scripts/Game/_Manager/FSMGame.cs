@@ -10,6 +10,7 @@ public enum GState
     SliderAiming,
     Firing,
     EndTurn,
+    CheckWinLose,
     GameOver,
     Win,
     OptionsPanel
@@ -59,6 +60,9 @@ public class FSMGame : MonoBehaviour
                 break;
             case GState.EndTurn:
                 FSMGameComposition.EndTurn();
+                break;
+            case GState.CheckWinLose:
+                FSMGameComposition.CheckWinLose();
                 break;
             case GState.GameOver:
                 FSMGameComposition.GameOver();
