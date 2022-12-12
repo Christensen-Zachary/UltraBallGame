@@ -23,7 +23,8 @@ public enum ThemeType
     Theme2,
     VaporWave,
     Theme3,
-    Retro
+    Retro,
+    BlackAndWhite
 }
 
 public enum CustomColor

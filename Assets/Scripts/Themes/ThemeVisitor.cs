@@ -135,35 +135,8 @@ public class ThemeVisitor : MonoBehaviour
 
     public static void Visit(ThemeGameBorder themeGameBorder)
     {
-        switch (ThemeData.ThemeType)
-        {
-            case ThemeType.Default:
-                themeGameBorder.GetComponent<SpriteRenderer>().color = ThemeData.ThemeColors[ThemeItem.GameBorder];
-                themeGameBorder.GetComponent<SpriteRenderer>().sortingOrder = -101;
-                break;
-            case ThemeType.JellyFish:
-                themeGameBorder.GetComponent<SpriteRenderer>().color = ThemeData.ThemeColors[ThemeItem.GameBorder];
-                themeGameBorder.GetComponent<SpriteRenderer>().sortingOrder = -101;
-                break;
-            case ThemeType.VaporWave:
-                themeGameBorder.GetComponent<SpriteRenderer>().color = ThemeData.ThemeColors[ThemeItem.GameBorder];
-                themeGameBorder.GetComponent<SpriteRenderer>().sortingOrder = -101;
-                break;
-            case ThemeType.Theme2:
-                themeGameBorder.GetComponent<SpriteRenderer>().color = ThemeData.ThemeColors[ThemeItem.GameBorder];
-                themeGameBorder.GetComponent<SpriteRenderer>().sortingOrder = -101;
-                break;
-            case ThemeType.Theme3:
-                themeGameBorder.GetComponent<SpriteRenderer>().color = ThemeData.ThemeColors[ThemeItem.GameBorder];
-                themeGameBorder.GetComponent<SpriteRenderer>().sortingOrder = -101;
-                break;
-            case ThemeType.Retro:
-                themeGameBorder.GetComponent<SpriteRenderer>().color = ThemeData.ThemeColors[ThemeItem.GameBorder];
-                themeGameBorder.GetComponent<SpriteRenderer>().sortingOrder = -101;
-                break;
-            default:
-                break;
-        }
+        themeGameBorder.GetComponent<SpriteRenderer>().color = ThemeData.ThemeColors[ThemeItem.GameBorder];
+        themeGameBorder.GetComponent<SpriteRenderer>().sortingOrder = -101;
     }
 
 }

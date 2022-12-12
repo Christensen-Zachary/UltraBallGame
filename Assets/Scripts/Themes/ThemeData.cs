@@ -26,8 +26,8 @@ public class ThemeData : MonoBehaviour
         ThemeFonts = new Dictionary<ThemeType, TMPro.TMP_FontAsset>()
         {
             { ThemeType.Default, Font1 },
-            { ThemeType.JellyFish, Font2 },
-            { ThemeType.Retro, Font3 }
+            { ThemeType.Retro, Font2 },
+            { ThemeType.JellyFish, Font3 }
         };
 
     }
@@ -58,6 +58,25 @@ public class ThemeData : MonoBehaviour
 
         switch (themeType)
         {
+            case ThemeType.BlackAndWhite:
+                SetThemeColor(ThemeItem.Player, Color.black);
+                SetThemeColor(ThemeItem.BasicBall, Color.black);
+                SetThemeColor(ThemeItem.MidPrediction, Color.black);
+                SetThemeColor(ThemeItem.EndPrediction, Color.black);
+
+                BrickTextColor = new Color32(255, 255, 255, 255);
+                SetThemeColor(ThemeItem.MaxDamage, Color.black);
+                SetThemeColor(ThemeItem.MinDamage, ConvertToColor(80, 80,80));
+                SetThemeColor(ThemeItem.PlayerMaxHealth, Color.black);
+                SetThemeColor(ThemeItem.PlayerMinHealth, Color.black);
+
+                SetThemeColor(ThemeItem.SuperBackground, ConvertToColor(0x2c, 0x2c, 0x2c));
+                SetThemeColor(ThemeItem.Background, ConvertToColor(0x5a, 0x5a, 0x5a));
+                SetThemeColor(ThemeItem.GameBorder, ConvertToColor(0x5a, 0x5a, 0x5a));
+
+                SetThemeColor(ThemeItem.Button, GetColor(CustomColor.Brown));
+                break;
+
             case ThemeType.JellyFish:
                 SetThemeColor(ThemeItem.Player, ConvertToColor(0x3e, 0xa1, 0xb6)); // moonstone
                 SetThemeColor(ThemeItem.BasicBall, ConvertToColor(0x3e, 0xa1, 0xb6));

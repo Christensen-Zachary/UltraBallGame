@@ -23,6 +23,7 @@ public enum BrickType
 
 public class Brick
 {
+    // because damageable bricks that don't count towards winning are never in the bricks list, this function works to count those bricks to know how many bricks to destroy to win the level
     public static System.Func<BrickType, bool> IsDamageable => (BrickType x) => { return x == BrickType.Square || x == BrickType.Triangle0 || x == BrickType.Triangle90 || x == BrickType.Triangle180 || x == BrickType.Triangle270; };
     public static System.Func<BrickType, bool> IsInvincible => (BrickType x) => { return x == BrickType.InvincibleSquare || x == BrickType.InvincibleTriangle0 || x == BrickType.InvincibleTriangle90 || x == BrickType.InvincibleTriangle180 || x == BrickType.InvincibleTriangle270; };
 
