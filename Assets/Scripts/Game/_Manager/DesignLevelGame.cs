@@ -30,17 +30,29 @@ public class DesignLevelGame : MonoBehaviour, IWaitingForPlayerInput, ISetupLeve
         
         _designBrickManager.TryClickSelectSingle();
 
+        if (Input.GetKeyDown(KeyCode.LeftControl))
+        {
+            GameState.State = GState.MovingPlayer; // multiple brick editing state
+        }
     }
 
     // multiple brick edit
     public void MovingPlayer()
     {
+        _designBrickManager.TryMoveBricks();
 
+        _designBrickManager.TryClickAddBrick();
+
+        if (Input.GetKeyDown(KeyCode.LeftControl))
+        {
+            _designBrickManager.SetSelectedSingleBrick();
+            GameState.State = GState.WaitingForPlayerInput; // multiple brick editing state
+        }
     }
 
     public void SetupLevel()
     {
-        _designBrickManager.SetupLevel();
+        
 
         GameState.State = GState.WaitingForPlayerInput;
     }

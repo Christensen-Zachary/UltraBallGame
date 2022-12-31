@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class DesignBrickManager : MonoBehaviour
@@ -9,12 +10,7 @@ public class DesignBrickManager : MonoBehaviour
 
     public List<DesignerBrick> Bricks { get; } = new List<DesignerBrick>();
     public List<DesignerBrick> Selected { get; } = new List<DesignerBrick>();
-
-
-    [field: SerializeField]
-    public GameObject SelectedCursorPrefab { get; set; } // reference set in editor in prefab
-    private Transform _selectedCursor;
-
+    
 
     private BrickType _brickType = BrickType.Square;
     private Brick _currentBrickInfo = new Brick(BrickType.Square, 0, 1);
@@ -25,12 +21,14 @@ public class DesignBrickManager : MonoBehaviour
 
     private Grid _grid;
     private FacBrick _facBrick;
+    private SelectedCursorManager _selectedCursorManager;
 
     private void Awake()
     {
 
         _grid = ResourceLocator.GetResource<Grid>("Grid");
         _facBrick = ResourceLocator.GetResource<FacBrick>("FacBrick");
+        _selectedCursorManager = ResourceLocator.GetResource<SelectedCursorManager>("SelectedCursorManager");
         
         ResourceLocator.AddResource("DesignBrickManager", this);
 
@@ -39,13 +37,6 @@ public class DesignBrickManager : MonoBehaviour
 
         _mainCamera = Camera.main;
     }
-
-    public void SetupLevel()
-    {
-        _selectedCursor = Instantiate(SelectedCursorPrefab).transform;
-
-    }
-
 
 
     private Brick GetCurrentBrickInfo()
@@ -74,22 +65,46 @@ public class DesignBrickManager : MonoBehaviour
     private DesignerBrick SetSingleSelected(DesignerBrick designerBrick)
     {
         Selected.Clear();
-        Selected.Add(designerBrick);
-        _selectedCursor.transform.SetParent(designerBrick.transform);
-        _selectedCursor.transform.localPosition = Vector3.zero;
-        _selectedCursor.transform.localScale = Vector3.one;
+        _selectedCursorManager.ReturnSelectedCursors();
+        AddBrick(designerBrick);
         return Selected[0];
+    }
+
+    private void AddBrick(DesignerBrick designerBrick)
+    {
+        if (Selected.Contains(designerBrick)) 
+        {
+            Selected.Remove(designerBrick);
+            SelectedCursor cursor = designerBrick.GetComponentInChildren<SelectedCursor>();
+            if (cursor != null)
+            {
+                cursor.ReturnSelectedCursor();
+            }
+            return;
+        }
+
+        Selected.Add(designerBrick);
+        SelectedCursor selectedCursor = _selectedCursorManager.GetSelectedCursor();
+        selectedCursor.transform.SetParent(designerBrick.transform);
+        selectedCursor.transform.localPosition = Vector3.zero;
+    }
+
+    public void TryClickAddBrick()
+    {
+        if (!Input.GetMouseButtonDown(0)) return;
+    
+        Vector3 mousePosition = _mainCamera.ScreenToWorldPoint(Input.mousePosition);
+        mousePosition = new Vector3(mousePosition.x, mousePosition.y, 0);
+        Bricks.ForEach(x => { if (x.SpriteRenderer.bounds.Contains(mousePosition)) AddBrick(x); });
     }
 
     public void TryClickSelectSingle()
     {
-        if (Input.GetMouseButtonDown(0))
-        {
-            Vector3 mousePosition = _mainCamera.ScreenToWorldPoint(Input.mousePosition);
-            mousePosition = new Vector3(mousePosition.x, mousePosition.y, 0);
-
-            Bricks.ForEach(x => { if (x.SpriteRenderer.bounds.Contains(mousePosition)) SetSingleSelected(x); });
-        }
+        if (!Input.GetMouseButtonDown(0)) return;
+        
+        Vector3 mousePosition = _mainCamera.ScreenToWorldPoint(Input.mousePosition);
+        mousePosition = new Vector3(mousePosition.x, mousePosition.y, 0);
+        Bricks.ForEach(x => { if (x.SpriteRenderer.bounds.Contains(mousePosition)) SetSingleSelected(x); });
     }
 
     public void TryMoveBricks()
@@ -102,5 +117,11 @@ public class DesignBrickManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.RightArrow)) MoveSelected(moveAmount, 0);
     }
 
+    public void SetSelectedSingleBrick()
+    {
+        if (Selected.Count == 0) return;
+
+        SetSingleSelected(Selected.Last());
+    }
 
 }
