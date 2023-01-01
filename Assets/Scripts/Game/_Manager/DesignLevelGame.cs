@@ -24,11 +24,13 @@ public class DesignLevelGame : MonoBehaviour, IWaitingForPlayerInput, ISetupLeve
     public void WaitingForPlayerInput()
     {
         if (Input.GetKeyDown(KeyCode.Space))
-            _designBrickManager.CreateBrick();
+            _designBrickManager.CreateBrickAndSingleSelect();
 
         _designBrickManager.TryMoveBricks();
         
         _designBrickManager.TryClickSelectSingle();
+
+        _designBrickManager.TryUpdateBrickOptions();
 
         if (Input.GetKeyDown(KeyCode.LeftControl))
         {
@@ -43,10 +45,22 @@ public class DesignLevelGame : MonoBehaviour, IWaitingForPlayerInput, ISetupLeve
 
         _designBrickManager.TryClickAddBrick();
 
+        _designBrickManager.TryUpdateBrickOptions();
+
         if (Input.GetKeyDown(KeyCode.LeftControl))
         {
             _designBrickManager.SetSelectedSingleBrick();
             GameState.State = GState.WaitingForPlayerInput; // multiple brick editing state
+            return;
+        }
+
+        if (Input.GetKey(KeyCode.LeftAlt) && Input.GetKeyDown(KeyCode.A))
+        {
+            _designBrickManager.SelectAllBricks();
+        }
+        else if (Input.GetKey(KeyCode.LeftAlt) && Input.GetKeyDown(KeyCode.S))
+        {
+            _designBrickManager.InvertBrickSelection();
         }
     }
 
