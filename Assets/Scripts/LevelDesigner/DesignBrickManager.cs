@@ -87,6 +87,7 @@ public class DesignBrickManager : MonoBehaviour
         SelectedCursor selectedCursor = _selectedCursorManager.GetSelectedCursor();
         selectedCursor.transform.SetParent(designerBrick.transform);
         selectedCursor.transform.localPosition = Vector3.zero;
+        selectedCursor.transform.localScale = Vector3.one;
     }
 
     public void TryClickAddBrick()
