@@ -32,6 +32,8 @@ public class DesignLevelGame : MonoBehaviour, IWaitingForPlayerInput, ISetupLeve
 
         _designBrickManager.TryUpdateBrickOptions();
 
+        _designBrickManager.TryDeleteBricks();
+
         if (Input.GetKeyDown(KeyCode.LeftControl))
         {
             GameState.State = GState.MovingPlayer; // multiple brick editing state
@@ -46,6 +48,8 @@ public class DesignLevelGame : MonoBehaviour, IWaitingForPlayerInput, ISetupLeve
         _designBrickManager.TryClickAddBrick();
 
         _designBrickManager.TryUpdateBrickOptions();
+
+        _designBrickManager.TryDeleteBricks();
 
         if (Input.GetKeyDown(KeyCode.LeftControl))
         {

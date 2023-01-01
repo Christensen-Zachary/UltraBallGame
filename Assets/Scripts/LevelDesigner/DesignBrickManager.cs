@@ -150,6 +150,15 @@ public class DesignBrickManager : MonoBehaviour
         SetSingleSelected(Selected.Last());
     }
 
+    public void TryDeleteBricks()
+    {
+        if (!Input.GetKeyDown(KeyCode.Backspace)) return;
+
+        _selectedCursorManager.ReturnSelectedCursors();
+        Selected.ForEach(x => { Bricks.Remove(x); Destroy(x.gameObject); });
+        Selected.Clear();
+    }
+
     public void TryUpdateBrickOptions()
     {
         BrickType newBrickType = BrickType.Square;
