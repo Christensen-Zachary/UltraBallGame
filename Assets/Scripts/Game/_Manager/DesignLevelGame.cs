@@ -34,6 +34,11 @@ public class DesignLevelGame : MonoBehaviour, IWaitingForPlayerInput, ISetupLeve
 
         _designBrickManager.TryDeleteBricks();
 
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+            _designBrickManager.CloneSelected();
+        }
+
         if (Input.GetKeyDown(KeyCode.LeftControl))
         {
             GameState.State = GState.MovingPlayer; // multiple brick editing state
@@ -65,6 +70,10 @@ public class DesignLevelGame : MonoBehaviour, IWaitingForPlayerInput, ISetupLeve
         else if (Input.GetKey(KeyCode.LeftAlt) && Input.GetKeyDown(KeyCode.S))
         {
             _designBrickManager.InvertBrickSelection();
+        }
+        else if (Input.GetKeyDown(KeyCode.C))
+        {
+            _designBrickManager.CloneSelected();
         }
     }
 

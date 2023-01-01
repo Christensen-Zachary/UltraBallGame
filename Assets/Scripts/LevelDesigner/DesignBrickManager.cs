@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Assertions.Must;
 
 public class DesignBrickManager : MonoBehaviour
 {
@@ -60,6 +61,21 @@ public class DesignBrickManager : MonoBehaviour
 
         Bricks.Add(designerBrick);
         SelectBrick(designerBrick);
+    }
+
+    private void CreateBrickAndSelect(DesignerBrick x, BrickType newBrickType)
+    {
+        x.Brick.BrickType = newBrickType;
+        x.Brick.CopySelfInto(GetCurrentBrickInfo());
+        CreateBrickAndSelect();
+    }
+
+    public void CloneSelected()
+    {
+        List<DesignerBrick> bricks = new List<DesignerBrick>(); // copy previous bricks to be cloned
+        Selected.ForEach(x => bricks.Add(x));
+        DeselectAll();
+        bricks.ForEach(x => { CreateBrickAndSelect(x, x.Brick.BrickType); });
     }
 
     public void MoveSelected(int col, int row)
@@ -217,13 +233,10 @@ public class DesignBrickManager : MonoBehaviour
 
         List<DesignerBrick> oldBricks = new List<DesignerBrick>(); // copy previous bricks to be removed/destroyed later
         Selected.ForEach(x => oldBricks.Add(x));
-        Selected.Clear();
-        _selectedCursorManager.ReturnSelectedCursors();
-        oldBricks.ForEach(x => 
-        { 
-            x.Brick.BrickType = newBrickType; 
-            x.Brick.CopySelfInto(GetCurrentBrickInfo()); 
-            CreateBrickAndSelect(); 
+        DeselectAll();
+        oldBricks.ForEach(x =>
+        {
+            CreateBrickAndSelect(x, newBrickType);
         }); // to create brick of choice, copy values to current brick info, then create brick
         oldBricks.ForEach(x => 
         {
@@ -234,6 +247,12 @@ public class DesignBrickManager : MonoBehaviour
         // reset row and column
         GetCurrentBrickInfo().Row = _startRow;
         GetCurrentBrickInfo().Col = 0;
+    }
+
+    private void DeselectAll()
+    {
+        Selected.Clear();
+        _selectedCursorManager.ReturnSelectedCursors();
     }
 
 }
