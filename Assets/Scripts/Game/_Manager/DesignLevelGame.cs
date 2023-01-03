@@ -11,6 +11,9 @@ public class DesignLevelGame : MonoBehaviour, IWaitingForPlayerInput, ISetupLeve
     
     private DesignBrickManager _designBrickManager;
 
+    private DesignerInputs _designerInputs = new DesignerInputs();
+
+
     private void Awake() 
     {
         ResourceLocator.AddResource("DesignLevelGame", this);
@@ -23,7 +26,7 @@ public class DesignLevelGame : MonoBehaviour, IWaitingForPlayerInput, ISetupLeve
     // single brick editing
     public void WaitingForPlayerInput()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (_designerInputs.InputBeginCreate())
             _designBrickManager.CreateBrickAndSingleSelect();
 
         _designBrickManager.TryMoveBricks();
@@ -34,12 +37,14 @@ public class DesignLevelGame : MonoBehaviour, IWaitingForPlayerInput, ISetupLeve
 
         _designBrickManager.TryDeleteBricks();
 
-        if (Input.GetKeyDown(KeyCode.C))
+        _designBrickManager.TrySetHealth();
+
+        if (_designerInputs.InputCloneBrick())
         {
             _designBrickManager.CloneSelected();
         }
 
-        if (Input.GetKeyDown(KeyCode.LeftControl))
+        if (_designerInputs.InputSwitchSelectMode())
         {
             GameState.State = GState.MovingPlayer; // multiple brick editing state
         }
@@ -56,22 +61,24 @@ public class DesignLevelGame : MonoBehaviour, IWaitingForPlayerInput, ISetupLeve
 
         _designBrickManager.TryDeleteBricks();
 
-        if (Input.GetKeyDown(KeyCode.LeftControl))
+        _designBrickManager.TrySetHealth();
+
+        if (_designerInputs.InputSwitchSelectMode())
         {
             _designBrickManager.SetSelectedSingleBrick();
             GameState.State = GState.WaitingForPlayerInput; // multiple brick editing state
             return;
         }
 
-        if (Input.GetKey(KeyCode.LeftAlt) && Input.GetKeyDown(KeyCode.A))
+        if (_designerInputs.InputSelectAllBricks())
         {
             _designBrickManager.SelectAllBricks();
         }
-        else if (Input.GetKey(KeyCode.LeftAlt) && Input.GetKeyDown(KeyCode.S))
+        else if (_designerInputs.InputInvertBrickSelect())
         {
             _designBrickManager.InvertBrickSelection();
         }
-        else if (Input.GetKeyDown(KeyCode.C))
+        else if (_designerInputs.InputCloneBrick())
         {
             _designBrickManager.CloneSelected();
         }

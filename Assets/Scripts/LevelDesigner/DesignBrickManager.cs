@@ -22,6 +22,8 @@ public class DesignBrickManager : MonoBehaviour
     private Grid _grid;
     private FacBrick _facBrick;
     private SelectedCursorManager _selectedCursorManager;
+    private NumberInputService _numberInputService;
+    private DesignerInputs _designerInputs = new DesignerInputs();
 
     private void Awake()
     {
@@ -31,6 +33,8 @@ public class DesignBrickManager : MonoBehaviour
         _selectedCursorManager = ResourceLocator.GetResource<SelectedCursorManager>("SelectedCursorManager");
         
         ResourceLocator.AddResource("DesignBrickManager", this);
+
+        _numberInputService = gameObject.AddComponent<NumberInputService>();
 
         _startRow = (int)(_grid.NumberOfDivisions * Background.BACKGROUND_RATIO / 2f);
         _currentBrickInfo.Row = _startRow;
@@ -152,11 +156,44 @@ public class DesignBrickManager : MonoBehaviour
     public void TryMoveBricks()
     {
         int moveAmount = 1;
-        if (Input.GetKey(KeyCode.RightAlt)) moveAmount = 3;
-        if (Input.GetKeyDown(KeyCode.UpArrow)) MoveSelected(0, moveAmount);
-        if (Input.GetKeyDown(KeyCode.DownArrow)) MoveSelected(0, -moveAmount);
-        if (Input.GetKeyDown(KeyCode.LeftArrow)) MoveSelected(-moveAmount, 0);
-        if (Input.GetKeyDown(KeyCode.RightArrow)) MoveSelected(moveAmount, 0);
+        if (_designerInputs.InputMoveRun()) moveAmount = 3;
+        if (_designerInputs.InputMoveUp()) MoveSelected(0, moveAmount);
+        if (_designerInputs.InputMoveDown()) MoveSelected(0, -moveAmount);
+        if (_designerInputs.InputMoveLeft()) MoveSelected(-moveAmount, 0);
+        if (_designerInputs.InputMoveRight()) MoveSelected(moveAmount, 0);
+    }
+
+    public void TrySetHealth()
+    {
+        _numberInputService.AcceptInput = true;
+
+        if (_designerInputs.InputEndSetHealth()) // only resets number
+        {
+            print($"Resetting health number");
+            _numberInputService.ResetNumber();
+        }
+        
+        if (_designerInputs.InputStartSetHealth()) // only sets health to current number
+        {
+            print($"Trying to set health to {_numberInputService.GetNumber()}");
+            if (_numberInputService.GetNumber() < 0) return;
+
+            Selected.ForEach(x =>
+            {
+                x.Brick.Health = _numberInputService.GetNumber();
+                Damageable damageable = x.gameObject.GetComponentInChildren<Damageable>();
+                if (damageable != null)
+                {
+                    damageable.Health = _numberInputService.GetNumber();
+                }
+            });
+        }
+        
+    }
+
+    public void ResetHealthInput()
+    {
+        _numberInputService.ResetNumber();
     }
 
     public void SetSelectedSingleBrick()
@@ -168,7 +205,7 @@ public class DesignBrickManager : MonoBehaviour
 
     public void TryDeleteBricks()
     {
-        if (!Input.GetKeyDown(KeyCode.Backspace)) return;
+        if (!_designerInputs.InputDeletedSelectedBrick()) return;
 
         _selectedCursorManager.ReturnSelectedCursors();
         Selected.ForEach(x => { Bricks.Remove(x); Destroy(x.gameObject); });
@@ -177,66 +214,14 @@ public class DesignBrickManager : MonoBehaviour
 
     public void TryUpdateBrickOptions()
     {
-        BrickType newBrickType = BrickType.Square;
-        if (Input.GetKeyDown(KeyCode.Alpha1))
-        {
-            newBrickType = BrickType.Square;
-        }
-        else if (Input.GetKeyDown(KeyCode.Alpha2))
-        {
-            newBrickType = BrickType.Triangle0;
-        }
-        else if (Input.GetKeyDown(KeyCode.Alpha3))
-        {
-            newBrickType = BrickType.Triangle90;
-        }
-        else if (Input.GetKeyDown(KeyCode.Alpha4))
-        {
-            newBrickType = BrickType.Triangle180;
-        }
-        else if (Input.GetKeyDown(KeyCode.Alpha5))
-        {
-            newBrickType = BrickType.Triangle270;
-        }
-        else if (Input.GetKeyDown(KeyCode.Alpha6))
-        {
-            newBrickType = BrickType.EvilBrick;
-        }
-        else if (Input.GetKeyDown(KeyCode.Alpha7))
-        {
-            newBrickType = BrickType.FirePowerup;
-        }
-        else if (Input.GetKeyDown(KeyCode.Q))
-        {
-            newBrickType = BrickType.InvincibleSquare;
-        }
-        else if (Input.GetKeyDown(KeyCode.W))
-        {
-            newBrickType = BrickType.InvincibleTriangle0;
-        }
-        else if (Input.GetKeyDown(KeyCode.E))
-        {
-            newBrickType = BrickType.InvincibleTriangle90;
-        }
-        else if (Input.GetKeyDown(KeyCode.R))
-        {
-            newBrickType = BrickType.InvincibleTriangle180;
-        }
-        else if (Input.GetKeyDown(KeyCode.T))
-        {
-            newBrickType = BrickType.InvincibleTriangle270;
-        }
-        else
-        {
-            return;
-        }
-
-        List<DesignerBrick> oldBricks = new List<DesignerBrick>(); // copy previous bricks to be removed/destroyed later
-        Selected.ForEach(x => oldBricks.Add(x));
+        if (_designerInputs.InputGetBrickType() < 0) return;
+        
+        List<DesignerBrick> oldBricks = new List<DesignerBrick>();
+        Selected.ForEach(x => oldBricks.Add(x)); // copy previous bricks to be removed/destroyed later
         DeselectAll();
         oldBricks.ForEach(x =>
         {
-            CreateBrickAndSelect(x, newBrickType);
+            CreateBrickAndSelect(x, (BrickType)_designerInputs.InputGetBrickType());
         }); // to create brick of choice, copy values to current brick info, then create brick
         oldBricks.ForEach(x => 
         {

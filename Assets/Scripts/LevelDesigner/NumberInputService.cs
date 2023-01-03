@@ -4,19 +4,13 @@ using UnityEngine;
 
 public class NumberInputService : MonoBehaviour
 {
-    [field: SerializeField]
-    public ResourceLocator ResourceLocator { get; set; }
-
+    
     public bool AcceptInput { get; set; } = false;
 
     private DesignerInputs _designerInputs = new DesignerInputs();
     private string _numberString = "";
 
 
-    private void Awake()
-    {
-        ResourceLocator.AddResource("NumberInputService", this);
-    }
 
     public int GetNumber()
     {
