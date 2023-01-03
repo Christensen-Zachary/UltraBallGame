@@ -82,6 +82,15 @@ public class DesignLevelGame : MonoBehaviour, IWaitingForPlayerInput, ISetupLeve
         {
             _designBrickManager.CloneSelected();
         }
+
+        if (_designerInputs.InputHoverSelect())
+        {
+            _designBrickManager.HoverSelect();
+        }
+        else if (_designerInputs.InputHoverDeselect())
+        {
+            _designBrickManager.HoverDeselect();
+        }
     }
 
     public void SetupLevel()

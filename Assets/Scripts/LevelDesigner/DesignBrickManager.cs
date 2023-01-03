@@ -11,7 +11,7 @@ public class DesignBrickManager : MonoBehaviour
 
     public List<DesignerBrick> Bricks { get; } = new List<DesignerBrick>();
     public List<DesignerBrick> Selected { get; } = new List<DesignerBrick>();
-    
+
 
     private Brick _currentBrickInfo = new Brick(BrickType.Square, 0, 1);
     private int _startRow = 1;
@@ -31,7 +31,7 @@ public class DesignBrickManager : MonoBehaviour
         _grid = ResourceLocator.GetResource<Grid>("Grid");
         _facBrick = ResourceLocator.GetResource<FacBrick>("FacBrick");
         _selectedCursorManager = ResourceLocator.GetResource<SelectedCursorManager>("SelectedCursorManager");
-        
+
         ResourceLocator.AddResource("DesignBrickManager", this);
 
         _numberInputService = gameObject.AddComponent<NumberInputService>();
@@ -67,10 +67,10 @@ public class DesignBrickManager : MonoBehaviour
         SelectBrick(designerBrick);
     }
 
-    private void CreateBrickAndSelect(DesignerBrick x, BrickType newBrickType)
+    private void CreateBrickAndSelect(Brick x, BrickType newBrickType)
     {
-        x.Brick.BrickType = newBrickType;
-        x.Brick.CopySelfInto(GetCurrentBrickInfo());
+        x.BrickType = newBrickType;
+        x.CopySelfInto(GetCurrentBrickInfo());
         CreateBrickAndSelect();
     }
 
@@ -79,7 +79,7 @@ public class DesignBrickManager : MonoBehaviour
         List<DesignerBrick> bricks = new List<DesignerBrick>(); // copy previous bricks to be cloned
         Selected.ForEach(x => bricks.Add(x));
         DeselectAll();
-        bricks.ForEach(x => { CreateBrickAndSelect(x, x.Brick.BrickType); });
+        bricks.ForEach(x => { CreateBrickAndSelect(x.Brick, x.Brick.BrickType); });
     }
 
     public void MoveSelected(int col, int row)
@@ -100,18 +100,25 @@ public class DesignBrickManager : MonoBehaviour
 
     private void SelectRemoveBrick(DesignerBrick designerBrick)
     {
-        if (Selected.Contains(designerBrick)) 
+        if (Selected.Contains(designerBrick))
         {
-            Selected.Remove(designerBrick);
-            SelectedCursor cursor = designerBrick.GetComponentInChildren<SelectedCursor>();
-            if (cursor != null)
-            {
-                cursor.ReturnSelectedCursor();
-            }
+            DeselectBrick(designerBrick);
             return;
         }
 
         SelectBrick(designerBrick);
+    }
+
+    private void DeselectBrick(DesignerBrick designerBrick)
+    {
+        if (!Selected.Contains(designerBrick)) return;
+
+        Selected.Remove(designerBrick);
+        SelectedCursor cursor = designerBrick.GetComponentInChildren<SelectedCursor>();
+        if (cursor != null)
+        {
+            cursor.ReturnSelectedCursor();
+        }
     }
 
     private void SelectBrick(DesignerBrick designerBrick)
@@ -123,6 +130,20 @@ public class DesignBrickManager : MonoBehaviour
         selectedCursor.transform.SetParent(designerBrick.transform);
         selectedCursor.transform.localPosition = Vector3.zero;
         selectedCursor.transform.localScale = Vector3.one;
+    }
+
+    public void HoverSelect()
+    {
+        Vector3 mousePosition = _mainCamera.ScreenToWorldPoint(Input.mousePosition);
+        mousePosition = new Vector3(mousePosition.x, mousePosition.y, 0);
+        Bricks.ForEach(x => { if (x.SpriteRenderer.bounds.Contains(mousePosition)) SelectBrick(x); });
+    }
+
+    public void HoverDeselect()
+    {
+        Vector3 mousePosition = _mainCamera.ScreenToWorldPoint(Input.mousePosition);
+        mousePosition = new Vector3(mousePosition.x, mousePosition.y, 0);
+        Bricks.ForEach(x => { if (x.SpriteRenderer.bounds.Contains(mousePosition)) DeselectBrick(x); });
     }
 
     public void SelectAllBricks()
@@ -221,13 +242,10 @@ public class DesignBrickManager : MonoBehaviour
         DeselectAll();
         oldBricks.ForEach(x =>
         {
-            CreateBrickAndSelect(x, (BrickType)_designerInputs.InputGetBrickType());
-        }); // to create brick of choice, copy values to current brick info, then create brick
-        oldBricks.ForEach(x => 
-        {
+            CreateBrickAndSelect(x.Brick, (BrickType)_designerInputs.InputGetBrickType());
             Bricks.Remove(x);
-            Destroy(x.gameObject); 
-        }); // remove then destroy each of the old bricks
+            Destroy(x.gameObject);
+        }); // to create brick of choice, copy values to current brick info, then create brick, then remove and destroy each of the old bricks
 
         // reset row and column
         GetCurrentBrickInfo().Row = _startRow;

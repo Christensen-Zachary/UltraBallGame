@@ -5,6 +5,16 @@ using UnityEngine.InputSystem;
 
 public class DesignerInputs
 {
+    public bool InputHoverSelect()
+    {
+        return Input.GetKey(KeyCode.Q);
+    }
+
+    public bool InputHoverDeselect()
+    {
+        return Input.GetKey(KeyCode.W);
+    }
+
     public bool InputEvilBrick()
     {
         return Input.GetKeyDown(KeyCode.N);
