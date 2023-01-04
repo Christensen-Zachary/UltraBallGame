@@ -38,8 +38,6 @@ public class LevelService : MonoBehaviour
     [field: SerializeField]
     public ResourceLocator ResourceLocator { get; set; }
 
-    private bool _ifTrueIncrementRowCounterElseDecrement = true;
-
     private void Awake()
     {
         ResourceLocator.AddResource("Level", this);
@@ -74,7 +72,6 @@ public class LevelService : MonoBehaviour
         BallCounter = Balls.Count;
         ExtraBallPowerUpCount = 20;
         FloorBricksPowerUpCount = 2;
-        _ifTrueIncrementRowCounterElseDecrement = true;
     }
 
     public List<Brick> GetNextRow()

@@ -313,7 +313,8 @@ public class NormalGame : MonoBehaviour, IGetState, IEmpty, ISetupLevel, IWaitin
 
         _facBrick.MaxHealth = _levelService.Bricks.Select(x => x.Health).Max();
 
-        for (int i = 0; i < _levelService.NumberOfDivisions - 1; i++)
+
+        for (int i = 0; i < _levelService.NumberOfDivisions * Background.BACKGROUND_RATIO; i++)
         {
             CreateNextRow();
         }
@@ -331,7 +332,8 @@ public class NormalGame : MonoBehaviour, IGetState, IEmpty, ISetupLevel, IWaitin
 
     private void CreateNextRow()
     {
-        _levelService.GetNextRow().ForEach(x => { int row = x.Row; x.Row = --x.Row * -1 + (int)_grid.GameBoardHeight - 1; _facBrick.Create(x); x.Row = row; }); // subtract row so will advance down into position
+        //_levelService.GetNextRow().ForEach(x => { int row = x.Row; x.Row = --x.Row * -1 + (int)_grid.GameBoardHeight - 1; _facBrick.Create(x); x.Row = row; }); // subtract row so will advance down into position
+        _levelService.GetNextRow().ForEach(x => { x.Row++; _facBrick.Create(x); x.Row--; }); // subtract row so will advance down into position
     }
 
     public void CheckWinLose()

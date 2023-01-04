@@ -43,6 +43,12 @@ public class DesignBrickManager : MonoBehaviour
     }
 
 
+    public void Save()
+    {
+        print($"Saving level");
+        LevelService.SaveLevel(new Level(0, _grid.NumberOfDivisions, Bricks.Select(x => x.Brick).ToList(), new List<Ball>(), 20, 20));
+    }
+
     private Brick GetCurrentBrickInfo()
     {
         return _currentBrickInfo;

@@ -13,15 +13,23 @@ public class DesignLevelGame : MonoBehaviour, IWaitingForPlayerInput, ISetupLeve
 
     private DesignerInputs _designerInputs = new DesignerInputs();
 
+    private Grid _grid;
 
     private void Awake() 
     {
+        _grid = ResourceLocator.GetResource<Grid>("Grid");
+
         ResourceLocator.AddResource("DesignLevelGame", this);
 
         _designBrickManager = ResourceLocator.GetResource<DesignBrickManager>("DesignBrickManager");
 
     }
 
+    private void Update()
+    {
+        if (_designerInputs.InputSaveLevel())
+            _designBrickManager.Save();
+    }
 
     // single brick editing
     public void WaitingForPlayerInput()
