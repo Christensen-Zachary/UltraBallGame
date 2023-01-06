@@ -52,6 +52,15 @@ public class MainMenuUI : MonoBehaviour
 
     public void OpenThemeSelect()
     {
+        StartCoroutine(OpenThemeSelectRoutine());
+    }
+
+    public IEnumerator OpenThemeSelectRoutine()
+    {
+        animator.SetTrigger("Close");
+
+        yield return new WaitForSeconds(MainMenuUI.SCENE_TRANSITION_WAIT_TIME);
+
         SceneManager.LoadScene("ThemeSelect");
     }
 

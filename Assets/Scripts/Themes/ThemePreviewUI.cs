@@ -7,6 +7,8 @@ public class ThemePreviewUI : MonoBehaviour
 {
     private ThemeType _b4Theme = ThemeType.Default;
 
+    public Animator animator;
+
     private void Awake()
     {
         _b4Theme = ES3.Load<ThemeType>(BGStrings.ES_THEMETYPEB4PREVIEW);
@@ -16,6 +18,15 @@ public class ThemePreviewUI : MonoBehaviour
 
     public void OpenThemeSelect()
     {
+        StartCoroutine(OpenThemeSelectRoutine());
+    }
+
+    public IEnumerator OpenThemeSelectRoutine()
+    {
+        animator.SetTrigger("Close");
+
+        yield return new WaitForSeconds(MainMenuUI.SCENE_TRANSITION_WAIT_TIME);
+
         ES3.Save(BGStrings.ES_THEMETYPE, _b4Theme);
 
         SceneManager.LoadScene("ThemeSelect");
