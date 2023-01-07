@@ -1,6 +1,5 @@
 using UnityEngine;
-
-
+using UnityEngine.UI;
 
 public class ThemeVisitor : MonoBehaviour
 {
@@ -10,6 +9,34 @@ public class ThemeVisitor : MonoBehaviour
     public static void Visit(ThemeButtonImage themeButtonImage)
     {
         themeButtonImage.GetComponent<UnityEngine.UI.Image>().color = ThemeData.ThemeButtonImageColor;
+        Color superBackgroundColor = ThemeData.ThemeColors[ThemeItem.SuperBackground];
+        float average = (superBackgroundColor.r + superBackgroundColor.g + superBackgroundColor.b) / 3f;
+        bool isLight =  average > 0.5f;
+        if (isLight)
+        {
+            themeButtonImage.GetComponent<UnityEngine.UI.Image>().sprite = ThemeData.GetLightButton();
+        }
+        else
+        {
+            themeButtonImage.GetComponent<UnityEngine.UI.Image>().sprite = ThemeData.GetDarkButton();
+        }
+
+        float ratio = themeButtonImage.GetComponent<RectTransform>().sizeDelta.x / themeButtonImage.GetComponent<RectTransform>().sizeDelta.y;
+        if (ratio > 2f)
+        {
+            themeButtonImage.GetComponent<UnityEngine.UI.Image>().sprite = ThemeData.GetLongButton();
+        }
+        else if (Mathf.Approximately(ratio, 1))
+        {
+            if (isLight)
+            {
+                themeButtonImage.GetComponent<UnityEngine.UI.Image>().sprite = ThemeData.GetLightSquare();
+            }
+            else
+            {
+                themeButtonImage.GetComponent<UnityEngine.UI.Image>().sprite = ThemeData.GetDarkSquare();
+            }
+        }
     }
 
     public static void Visit(ThemeFontColor themeFontColor)

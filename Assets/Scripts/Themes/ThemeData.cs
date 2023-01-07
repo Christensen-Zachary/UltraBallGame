@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine.InputSystem.LowLevel;
 
 public class ThemeData : MonoBehaviour
 {
@@ -9,6 +10,7 @@ public class ThemeData : MonoBehaviour
     public TMPro.TMP_FontAsset Font2 { get; set; } // set in prefab
     [field: SerializeField]
     public TMPro.TMP_FontAsset Font3 { get; set; } // set in prefab
+    
 
     public static ThemeType ThemeType;
     public static Dictionary<ThemeItem, Color> ThemeColors { get; private set; }
@@ -32,6 +34,40 @@ public class ThemeData : MonoBehaviour
 
     }
 
+    public static Sprite GetLightButton()
+    {
+        return Resources.Load<Sprite>("Sprites/UI/buttonHardShadowLight");
+    }
+
+    public static Sprite GetDarkButton()
+    {
+        return Resources.Load<Sprite>("Sprites/UI/buttonHardShadowDark");
+    }
+
+    public static Sprite GetLongButton()
+    {
+        return Resources.Load<Sprite>("Sprites/UI/buttonHardShadowLong");
+    }
+
+    public static Sprite GetDarkSquare()
+    {
+        return Resources.Load<Sprite>("Sprites/UI/buttonHardShadowSquareDark");
+    }
+
+    public static Sprite GetDarkSquarePressed()
+    {
+        return Resources.Load<Sprite>("Sprites/UI/buttonHardShadowSquareDarkPressed");
+    }
+
+    public static Sprite GetLightSquarePressed()
+    {
+        return Resources.Load<Sprite>("Sprites/UI/buttonHardShadowSquareLightPressed");
+    }
+
+    public static Sprite GetLightSquare()
+    {
+        return Resources.Load<Sprite>("Sprites/UI/buttonHardShadowSquareLight");
+    }
 
     public static void SetThemeType(ThemeType themeType)
     {
