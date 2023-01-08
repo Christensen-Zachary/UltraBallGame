@@ -19,7 +19,7 @@ public class PlayerHealth : MonoBehaviour
 
     public void SetNumber(int number)
     {
-        TextMesh.text = number.ToString() + "%";
+        TextMesh.text = number.ToString();
         TextMesh.color = Color.Lerp(MinHealthColor, MaxHealthColor, (number < 0 ? 0 : (number > 100 ? 1 : number / 100f)));
     }
 

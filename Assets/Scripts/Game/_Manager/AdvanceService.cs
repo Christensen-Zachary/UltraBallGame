@@ -49,7 +49,7 @@ public class AdvanceService : MonoBehaviour
                 Damageable damageable = x.GetComponentInChildren<Damageable>();
                 if (damageable != null)
                 {
-                    _player.Health -= 5f;
+                    _player.Health -= 1f;
                 }
                 _endTurnDestroyService.AddGameObject(x.gameObject);
             }

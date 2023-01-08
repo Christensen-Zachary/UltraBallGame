@@ -304,7 +304,7 @@ public class NormalGame : MonoBehaviour, IGetState, IEmpty, ISetupLevel, IWaitin
         _levelService.ResetLevelService();
         if (_gameUI != null) _gameUI.ShowGame();
         if (_gameUISwitcher != null) _gameUISwitcher.StartTurn();
-        _player.Health = 100;
+        _player.Health = 5;
         _player.MovePlayer(_grid.GetPosition((_grid.NumberOfDivisions - 1) / 2f, 0));
         _facBrick.DestroyBricks();
         _facBall.DestroyBalls();

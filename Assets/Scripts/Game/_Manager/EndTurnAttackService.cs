@@ -39,7 +39,7 @@ public class EndTurnAttackService : MonoBehaviour
                 }
             }
 
-            yield return new WaitForSeconds(2 * maxDistanceToBottom / maxDistance);
+            yield return new WaitForSeconds(Background.BACKGROUND_RATIO * 4 * maxDistanceToBottom / maxDistance);
         }
     }
 
