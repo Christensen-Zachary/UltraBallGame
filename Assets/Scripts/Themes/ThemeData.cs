@@ -49,6 +49,16 @@ public class ThemeData : MonoBehaviour
         return Resources.Load<Sprite>("Sprites/UI/buttonHardShadowLong");
     }
 
+    public static Sprite GetExtraLongButtonDark()
+    {
+        return Resources.Load<Sprite>("Sprites/UI/buttonHardShadowDarkExtraLong");
+    }
+
+    public static Sprite GetExtraLongButtonLight()
+    {
+        return Resources.Load<Sprite>("Sprites/UI/buttonHardShadowLightExtraLong");
+    }
+
     public static Sprite GetDarkSquare()
     {
         return Resources.Load<Sprite>("Sprites/UI/buttonHardShadowSquareDark");

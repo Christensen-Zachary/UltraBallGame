@@ -22,7 +22,18 @@ public class ThemeVisitor : MonoBehaviour
         }
 
         float ratio = themeButtonImage.GetComponent<RectTransform>().sizeDelta.x / themeButtonImage.GetComponent<RectTransform>().sizeDelta.y;
-        if (ratio > 2f)
+        if (themeButtonImage.CompareTag("Slider"))
+        {
+            if (isLight)
+            {
+                themeButtonImage.GetComponent<UnityEngine.UI.Image>().sprite = ThemeData.GetExtraLongButtonLight();
+            }
+            else
+            {
+                themeButtonImage.GetComponent<UnityEngine.UI.Image>().sprite = ThemeData.GetExtraLongButtonDark();
+            }
+        }
+        else if (ratio > 2f)
         {
             themeButtonImage.GetComponent<UnityEngine.UI.Image>().sprite = ThemeData.GetLongButton();
         }
