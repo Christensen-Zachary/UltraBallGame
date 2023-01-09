@@ -37,7 +37,8 @@ public class LevelService : MonoBehaviour
     public int RowCounter { get; private set; } = 0;
     [field: SerializeField]
     public ResourceLocator ResourceLocator { get; set; }
-
+    
+    private Level level;
     private void Awake()
     {
         ResourceLocator.AddResource("Level", this);
@@ -50,7 +51,7 @@ public class LevelService : MonoBehaviour
         }
         else LevelNumber = levelNum;
 
-        Level level = LoadLevel(levelNum);//_levelNumber);//ES3.Load<Level>($"{BGStrings.ES_LEVELNAME}{levelNum}", Level.GetDefault());
+        level = LoadLevel(levelNum);//_levelNumber);//ES3.Load<Level>($"{BGStrings.ES_LEVELNAME}{levelNum}", Level.GetDefault());
 
         if (level == null)
         {
@@ -62,16 +63,16 @@ public class LevelService : MonoBehaviour
         Balls = level.Balls;
 
         BallCounter = Balls.Count;
-        ExtraBallPowerUpCount = 20;
-        FloorBricksPowerUpCount = 2;
+        ExtraBallPowerUpCount = level.ExtraBallPowerUpCount;
+        FloorBricksPowerUpCount = level.FloorBrickCount;
     }
 
     public void ResetLevelService()
     {
         RowCounter = 0;
         BallCounter = Balls.Count;
-        ExtraBallPowerUpCount = 20;
-        FloorBricksPowerUpCount = 2;
+        ExtraBallPowerUpCount = level.ExtraBallPowerUpCount;
+        FloorBricksPowerUpCount = level.FloorBrickCount;
     }
 
     public List<Brick> GetNextRow()
@@ -177,13 +178,24 @@ public class LevelService : MonoBehaviour
             }
         }
 
-            // balls added manually because they are not currently saved and loaded
-            for (int i = 0; i < 20; i++)
-            {
-                level.Balls.Add(new Ball(1, 0.8f));
-            }
+        field = typeof(PlayerResources).GetField($"LEVEL{levelNumber}");
+        if (field == null)
+        {
+            print($"No resource count found for level {levelNumber}");
+            field = typeof(PlayerResources).GetField($"DEFAULT");
+        }
+        levelString = field.GetValue(null) as string;
 
-            return level;
+        // balls added manually because they are not currently saved and loaded
+        for (int i = 0; i < Convert.ToInt32(levelString.Split(",")[0]); i++)
+        {
+            level.Balls.Add(new Ball(1, 0.8f));
+        }
+
+        level.ExtraBallPowerUpCount = Convert.ToInt32(levelString.Split(",")[1]);
+        level.FloorBrickCount = Convert.ToInt32(levelString.Split(",")[2]);
+
+        return level;
     }
 
     public static void SaveLevel(Level level)
@@ -202,8 +214,9 @@ public class LevelService : MonoBehaviour
                 sw.Write(BRICK_TYPES_DELIMITER);
             }
 
-            sw.Write(POWERUPS_DELIMITER);
+            sw.Write("\n");
 
+            sw.Write($"{level.Balls.Count}{BRICK_PARAMS_DELIMITER}{level.ExtraBallPowerUpCount}{BRICK_PARAMS_DELIMITER}{level.FloorBrickCount}");
 
             sw.Write("\n");
         }
