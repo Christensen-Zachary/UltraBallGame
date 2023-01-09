@@ -30,6 +30,9 @@ public class NormalGame : MonoBehaviour, IGetState, IEmpty, ISetupLevel, IWaitin
     private WinService _winService;
     private ParticleSystemService _particleSystemService;
 
+    private bool _usedFloorBricks = false;
+    private bool _usedFireBalls = false;
+
     private void Awake() 
     {
         ResourceLocator.AddResource("NormalGame", this);    
@@ -220,16 +223,18 @@ public class NormalGame : MonoBehaviour, IGetState, IEmpty, ISetupLevel, IWaitin
         }
         else if (_gameUIComposition.GiveFloorBricks())
         {
-            if (_levelService.FloorBricksPowerUpCount > 0)
+            if (_levelService.FloorBricksPowerUpCount > 0 && !_usedFloorBricks)
             {
+                _usedFloorBricks = true;
                 _levelService.FloorBricksPowerUpCount--;
                 AddFloorBricks(); 
             }
         }
         else if (_gameUIComposition.SetBallsOnFire())
         {
-            if (_levelService.FireBallsPowerUpCount > 0)
+            if (_levelService.FireBallsPowerUpCount > 0 && !_usedFireBalls)
             {
+                _usedFireBalls = true;
                 _levelService.FireBallsPowerUpCount--;
                 SetBallsOnFire(); 
             }
@@ -251,7 +256,12 @@ public class NormalGame : MonoBehaviour, IGetState, IEmpty, ISetupLevel, IWaitin
 
     public void SetBallsOnFire()
     {
-        for (int i = 0; i < _levelService.Balls.Count; i++) _facBrick.Create(new Brick(BrickType.FirePowerup, 100, 100)).transform.position = _player.transform.position;
+        for (int i = 0; i < _levelService.Balls.Count; i++) 
+        {
+            GameObject obj = _facBrick.Create(new Brick(BrickType.FirePowerup, 100, 100));
+            obj.transform.SetParent(_player.transform);
+            obj.transform.localPosition =  Vector3.zero;
+        }
     }
 
     public void AddFloorBricks()
@@ -296,6 +306,9 @@ public class NormalGame : MonoBehaviour, IGetState, IEmpty, ISetupLevel, IWaitin
 
     public IEnumerator EndTurnRoutine()
     {
+        _usedFireBalls = false;
+        _usedFloorBricks = false;
+
         _levelService.BallCounter = _levelService.Balls.Count;
 
         yield return StartCoroutine(_endTurnAttackService.Attack());
@@ -313,6 +326,9 @@ public class NormalGame : MonoBehaviour, IGetState, IEmpty, ISetupLevel, IWaitin
 
     private IEnumerator SetupLevelRoutine()
     {
+        _usedFireBalls = false;
+        _usedFloorBricks = false;
+
         _endTurnAttackService.ResetAttackService();
         _endTurnDestroyService.DestroyGameObjects(); // this is important so that when the game is reset before the end of turn, then potential objects that had been added will be destroyed. Otherwise this service will cause an error if objects had been added
         _levelService.ResetLevelService();
