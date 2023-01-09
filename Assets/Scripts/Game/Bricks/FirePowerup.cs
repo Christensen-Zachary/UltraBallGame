@@ -31,18 +31,25 @@ public class FirePowerup : MonoBehaviour
             {
                 _hasCollided = true;
 
-                GameObject clone = Instantiate(PSGameObjectToClone);
-                clone.transform.position = shootable.transform.position;
-                EndTurnDestroyService.AddGameObject(clone);
-                shootable.IsBuffed = true;
-                shootable.Damage = 10;
-                clone.transform.SetParent(shootable.transform);
-                clone.SetActive(true);
+                EndTurnDestroyService endTurnDestroyService = EndTurnDestroyService;
+                Ignite(shootable, endTurnDestroyService, PSGameObjectToClone);
 
                 DestroyFirePowerup();
             }
 
         }
+    }
+
+    public static void Ignite(Shootable shootable, EndTurnDestroyService endTurnDestroyService, GameObject psToClone)
+    {
+        GameObject clone = Instantiate(psToClone);
+        endTurnDestroyService.AddGameObject(clone);
+        shootable.IsBuffed = true;
+        shootable.Damage = 10;
+        clone.transform.SetParent(shootable.transform);
+        clone.transform.localPosition = Vector3.zero;
+        clone.SetActive(true);
+        clone.GetComponent<ParticleSystem>().Play();
     }
 
     private void DestroyFirePowerup()

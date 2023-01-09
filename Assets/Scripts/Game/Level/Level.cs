@@ -19,10 +19,12 @@ public class Level
     public int ExtraBallPowerUpCount { get; set;}
     [field: SerializeField]
     public int FloorBrickCount { get; set; }
+    [field: SerializeField]
+    public int FireBallsPowerUpCount { get; set; }
 
     public Level() { }
 
-    public Level(int levelNum, int numberOfDivisions, List<Brick> bricks, List<Ball> balls, int extraBallPowerUpCount, int floorBricksCount)
+    public Level(int levelNum, int numberOfDivisions, List<Brick> bricks, List<Ball> balls, int extraBallPowerUpCount, int floorBricksCount, int fireBallsPowerUpCount)
     {
         LevelNum = levelNum;
         NumberOfDivisions = numberOfDivisions;
@@ -30,6 +32,7 @@ public class Level
         Balls = balls;
         ExtraBallPowerUpCount = extraBallPowerUpCount;
         FloorBrickCount = floorBricksCount;
+        FireBallsPowerUpCount = fireBallsPowerUpCount;
     }
     
 

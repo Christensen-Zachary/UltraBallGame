@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 // separate class from GameUI because implements interfaces, which is no longer true. Now it should be refactored alongside GameUI. Need to fix references in UI components in game scene
-public class GameUIInput : MonoBehaviour, IStartMove, IEndMove, IReturnFire
+public class GameUIInput : MonoBehaviour, IStartMove, IEndMove, IReturnFire, ISetBallsOnFire
 {
     [field: SerializeField]
     private ResourceLocator ResourceLocator { get; set; }
@@ -16,6 +16,9 @@ public class GameUIInput : MonoBehaviour, IStartMove, IEndMove, IReturnFire
 
     private bool PReturnFire { get { if (_returnFire) { _returnFire = false; return true; } return false; } set { _returnFire = value; } }
     private bool _returnFire = false;
+
+    private bool PSetBallsOnFire { get { if (_setBallsOnFire) { _setBallsOnFire = false; return true; } return false; } set { _setBallsOnFire = value; } }
+    private bool _setBallsOnFire = false;
 
     private IEnumerator SetReturnFireRoutine()
     {
@@ -37,6 +40,13 @@ public class GameUIInput : MonoBehaviour, IStartMove, IEndMove, IReturnFire
         yield return null;
         PEndMove = false;
     }
+    
+    private IEnumerator SetBallsOnFireRoutine()
+    {
+        PSetBallsOnFire = true;
+        yield return null;
+        PSetBallsOnFire = false;
+    }
 
     private void Awake()
     {
@@ -56,6 +66,11 @@ public class GameUIInput : MonoBehaviour, IStartMove, IEndMove, IReturnFire
     public bool ReturnFire()
     {
         return PReturnFire;
+    }
+
+    public bool SetBallsOnFire()
+    {
+        return PSetBallsOnFire;
     }
 
     public void DoStartMove()
@@ -82,5 +97,11 @@ public class GameUIInput : MonoBehaviour, IStartMove, IEndMove, IReturnFire
         }
     }
 
-
+    public void DoSetBallsOnFire()
+    {
+        if (!PSetBallsOnFire)
+        {
+            StartCoroutine(SetBallsOnFireRoutine());
+        }
+    }
 }

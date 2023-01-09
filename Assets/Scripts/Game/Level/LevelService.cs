@@ -22,11 +22,14 @@ public class LevelService : MonoBehaviour
     public LevelNumberText _levelNumberText;
     public int NumberOfDivisions { get; set; } = 12;
     private int _extraBallPowerUpCount = 0;
+    public ExtraBallsText _extraBallsText;
     public int ExtraBallPowerUpCount { get { return _extraBallPowerUpCount; } set { if (_extraBallsText != null) { _extraBallsText.SetNumber(value); } _extraBallPowerUpCount = value; } }
     public FloorBricksText _floorBricksText;
     private int _floorBricksPowerUpCount = 0;
     public int FloorBricksPowerUpCount { get { return _floorBricksPowerUpCount; } set { if (_floorBricksText != null) { _floorBricksText.SetNumber(value); } _floorBricksPowerUpCount = value; } }
-    public ExtraBallsText _extraBallsText;
+    public FireBallsText _fireBallsText;
+    private int _fireBallsPowerUpCount = 0;
+    public int FireBallsPowerUpCount { get { return _fireBallsPowerUpCount; } set { if (_fireBallsText != null) { _fireBallsText.SetNumber(value); } _fireBallsPowerUpCount = value; } }
     private int _ballCounter = 0;
     public int BallCounter { get { return _ballCounter; } set { if (_ballCount != null) { _ballCount.SetNumber(value); } _ballCounter = value; } }
     public BallCount _ballCount;
@@ -65,6 +68,7 @@ public class LevelService : MonoBehaviour
         BallCounter = Balls.Count;
         ExtraBallPowerUpCount = level.ExtraBallPowerUpCount;
         FloorBricksPowerUpCount = level.FloorBrickCount;
+        FireBallsPowerUpCount = level.FireBallsPowerUpCount;
     }
 
     public void ResetLevelService()
@@ -73,6 +77,7 @@ public class LevelService : MonoBehaviour
         BallCounter = Balls.Count;
         ExtraBallPowerUpCount = level.ExtraBallPowerUpCount;
         FloorBricksPowerUpCount = level.FloorBrickCount;
+        FireBallsPowerUpCount = level.FireBallsPowerUpCount;
     }
 
     public List<Brick> GetNextRow()
@@ -194,6 +199,7 @@ public class LevelService : MonoBehaviour
 
         level.ExtraBallPowerUpCount = Convert.ToInt32(levelString.Split(",")[1]);
         level.FloorBrickCount = Convert.ToInt32(levelString.Split(",")[2]);
+        level.FireBallsPowerUpCount = Convert.ToInt32(levelString.Split(",")[3]);
 
         return level;
     }
@@ -216,7 +222,7 @@ public class LevelService : MonoBehaviour
 
             sw.Write("\n");
 
-            sw.Write($"{level.Balls.Count}{BRICK_PARAMS_DELIMITER}{level.ExtraBallPowerUpCount}{BRICK_PARAMS_DELIMITER}{level.FloorBrickCount}");
+            sw.Write($"{level.Balls.Count}{BRICK_PARAMS_DELIMITER}{level.ExtraBallPowerUpCount}{BRICK_PARAMS_DELIMITER}{level.FloorBrickCount}{BRICK_PARAMS_DELIMITER}{level.FireBallsPowerUpCount}");
 
             sw.Write("\n");
         }

@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -27,6 +28,7 @@ public class NormalGame : MonoBehaviour, IGetState, IEmpty, ISetupLevel, IWaitin
     private GameUISwitcher _gameUISwitcher;
     private GameUIComposition _gameUIComposition;
     private WinService _winService;
+    private ParticleSystemService _particleSystemService;
 
     private void Awake() 
     {
@@ -47,7 +49,7 @@ public class NormalGame : MonoBehaviour, IGetState, IEmpty, ISetupLevel, IWaitin
         _gameUISwitcher = ResourceLocator.GetResource<GameUISwitcher>("GameUISwitcher");
         _gameUIComposition = ResourceLocator.GetResource<GameUIComposition>("GameUIComposition");
         _winService = ResourceLocator.GetResource<WinService>("WinService");
-
+        _particleSystemService = ResourceLocator.GetResource<ParticleSystemService>("ParticleSystemService");
     }
 
     public void Aiming()
@@ -224,6 +226,14 @@ public class NormalGame : MonoBehaviour, IGetState, IEmpty, ISetupLevel, IWaitin
                 AddFloorBricks(); 
             }
         }
+        else if (_gameUIComposition.SetBallsOnFire())
+        {
+            if (_levelService.FireBallsPowerUpCount > 0)
+            {
+                _levelService.FireBallsPowerUpCount--;
+                SetBallsOnFire(); 
+            }
+        }
     }
 
     public void Win()
@@ -239,6 +249,10 @@ public class NormalGame : MonoBehaviour, IGetState, IEmpty, ISetupLevel, IWaitin
         return GameState.State;
     }
 
+    public void SetBallsOnFire()
+    {
+        for (int i = 0; i < _levelService.Balls.Count; i++) _facBrick.Create(new Brick(BrickType.FirePowerup, 100, 100)).transform.position = _player.transform.position;
+    }
 
     public void AddFloorBricks()
     {

@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class GameUI : MonoBehaviour, IResetGame, INextLevel, IOpenMainMenu, ICloseMainMenuPanel, IOpenMainMenuPanel, IOpenOptions, ICloseOptionsPanel, IStartSliderAim, IEndSliderAim, IStartFireUI, IGiveExtraBalls, IGiveFloorBricks
+public class GameUI : MonoBehaviour, IResetGame, INextLevel, IOpenMainMenu, ICloseMainMenuPanel, IOpenMainMenuPanel, IOpenOptions, ICloseOptionsPanel, IStartSliderAim, IEndSliderAim, IStartFireUI, IGiveExtraBalls, IGiveFloorBricks, ISetBallsOnFire
 {
     [field: SerializeField]
     public ResourceLocator ResourceLocator { get; set; }
@@ -70,6 +70,11 @@ public class GameUI : MonoBehaviour, IResetGame, INextLevel, IOpenMainMenu, IClo
     public bool GiveFloorBricks { get { if (_giveFloorBricks) { _giveFloorBricks = false; return true; } return false; } set { _giveFloorBricks = value; } }
     private bool _giveFloorBricks = false;
     
+    public bool GiveFireBalls { get { if (_giveFireBalls) { _giveFireBalls = false; return true; } return false; } set { _giveFireBalls = value; } }
+    private bool _giveFireBalls = false;
+    
+    private bool PSetBallsOnFire { get { if (_setBallsOnFire) { _setBallsOnFire = false; return true; } return false; } set { _setBallsOnFire = value; } }
+    private bool _setBallsOnFire = false;
 
     private void Awake()
     {
@@ -165,6 +170,13 @@ public class GameUI : MonoBehaviour, IResetGame, INextLevel, IOpenMainMenu, IClo
         MainMenuUI.LoadMainMenu();
     }
 
+    private IEnumerator SetGiveFireBalls()
+    {
+        PSetBallsOnFire = true;
+        yield return null;
+        PSetBallsOnFire = false;
+    }
+
     public IEnumerator SetGiveFloorBricks()
     {
         _giveFloorBricks = true;
@@ -248,6 +260,15 @@ public class GameUI : MonoBehaviour, IResetGame, INextLevel, IOpenMainMenu, IClo
         yield return null;
         _nextLevel = false;
     }
+
+    public void ActivateGiveFireBalls()
+    {
+        if (!GiveFireBalls)
+        {
+            StartCoroutine(SetGiveFireBalls());
+        }
+    }
+
 
     public void ActivateGiveFloorBricks()
     {
@@ -441,6 +462,12 @@ public class GameUI : MonoBehaviour, IResetGame, INextLevel, IOpenMainMenu, IClo
         return NextLevel;
     }
 
+
+    bool ISetBallsOnFire.SetBallsOnFire()
+    {
+        return PSetBallsOnFire;
+    }
+
     bool IGiveFloorBricks.GiveFloorBricks()
     {
         return GiveFloorBricks;
@@ -485,4 +512,5 @@ public class GameUI : MonoBehaviour, IResetGame, INextLevel, IOpenMainMenu, IClo
     {
         return CloseMainMenuPanel;
     }
+
 }

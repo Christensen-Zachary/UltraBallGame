@@ -35,6 +35,7 @@ public class GameUIComposition : MonoBehaviour, IResetGame, INextLevel, IOpenMai
     private IStartFireUI GStartFireUI;
     private IGiveExtraBalls GGiveExtraBalls;
     private IGiveFloorBricks GGiveFloorBricks;
+    private ISetBallsOnFire GSetBallsOnFire;
     private IStartMove GStartMove;
     private IEndMove GEndMove;
     private IReturnFire GReturnFire;
@@ -63,6 +64,7 @@ public class GameUIComposition : MonoBehaviour, IResetGame, INextLevel, IOpenMai
                 GStartFireUI = _gameUI;
                 GGiveExtraBalls = _gameUI;
                 GGiveFloorBricks = _gameUI;
+                GSetBallsOnFire = _gameUI;
                 GStartMove = _gameUIInput;
                 GEndMove = _gameUIInput;
                 GReturnFire = _gameUIInput;
@@ -133,6 +135,11 @@ public class GameUIComposition : MonoBehaviour, IResetGame, INextLevel, IOpenMai
     public bool GiveFloorBricks()
     {
         return GGiveFloorBricks.GiveFloorBricks();
+    }
+
+    public bool SetBallsOnFire()
+    {
+        return GSetBallsOnFire.SetBallsOnFire();
     }
 
     public bool NextLevel()

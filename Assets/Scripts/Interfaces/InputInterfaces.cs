@@ -111,5 +111,9 @@ public interface IGiveFloorBricks
     bool GiveFloorBricks();
 }
 
+public interface ISetBallsOnFire
+{
+    bool SetBallsOnFire();
+}
 
 

@@ -26,6 +26,8 @@ public class GameUISwitcher : MonoBehaviour
     public GameObject BtnExtraBalls { get; set; }
     [field: SerializeField]
     public GameObject BtnFloorBricks { get; set; }
+    [field: SerializeField]
+    public GameObject BtnFireBalls { get; set; }
     
 
 
@@ -40,6 +42,7 @@ public class GameUISwitcher : MonoBehaviour
         //BtnStartAim.SetActive(!bit);
         BtnExtraBalls.SetActive(!bit);
         BtnFloorBricks.SetActive(!bit);
+        BtnFireBalls.SetActive(!bit);
 
         BtnEndAim.SetActive(bit);
         BtnFire.SetActive(bit);
@@ -52,6 +55,7 @@ public class GameUISwitcher : MonoBehaviour
         //BtnStartAim.SetActive(!bit);
         BtnExtraBalls.SetActive(!bit);
         BtnFloorBricks.SetActive(!bit);
+        BtnFireBalls.SetActive(!bit);
 
         BtnEndMove.SetActive(bit);
         MoveSlider.SetActive(bit);
@@ -66,6 +70,7 @@ public class GameUISwitcher : MonoBehaviour
         BtnFire.SetActive(false);
         BtnExtraBalls.SetActive(false);
         BtnFloorBricks.SetActive(false);
+        BtnFireBalls.SetActive(false);
 
         BtnReturnBalls.SetActive(true);
     }
@@ -78,6 +83,7 @@ public class GameUISwitcher : MonoBehaviour
         //BtnStartAim.SetActive(true);
         BtnExtraBalls.SetActive(true);
         BtnFloorBricks.SetActive(true);
+        BtnFireBalls.SetActive(true);
     }
 
 }

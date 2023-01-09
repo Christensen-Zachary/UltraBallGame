@@ -474,7 +474,7 @@ public class DesignLevel : MonoBehaviour
 
     private void SaveLevel()
     {
-        Level level = new Level(_levelNumber, _grid.NumberOfDivisions, (from brick in DesignBricks select brick.Brick).ToList(), Balls, 10, 3);
+        Level level = new Level(_levelNumber, _grid.NumberOfDivisions, (from brick in DesignBricks select brick.Brick).ToList(), Balls, 10, 3, 5);
         LevelService.SaveLevel(level);
         
     }
