@@ -21,15 +21,18 @@ public class Level
     public int FloorBrickCount { get; set; }
     [field: SerializeField]
     public int FireBallsPowerUpCount { get; set; }
+    [field: SerializeField]
+    public int Health { get; set; }
 
     public Level() { }
 
-    public Level(int levelNum, int numberOfDivisions, List<Brick> bricks, List<Ball> balls, int extraBallPowerUpCount, int floorBricksCount, int fireBallsPowerUpCount)
+    public Level(int levelNum, int numberOfDivisions, List<Brick> bricks, List<Ball> balls, int health, int extraBallPowerUpCount, int floorBricksCount, int fireBallsPowerUpCount)
     {
         LevelNum = levelNum;
         NumberOfDivisions = numberOfDivisions;
         Bricks = bricks;
         Balls = balls;
+        Health = health;
         ExtraBallPowerUpCount = extraBallPowerUpCount;
         FloorBrickCount = floorBricksCount;
         FireBallsPowerUpCount = fireBallsPowerUpCount;

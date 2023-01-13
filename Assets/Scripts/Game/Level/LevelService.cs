@@ -41,6 +41,7 @@ public class LevelService : MonoBehaviour
     [field: SerializeField]
     public ResourceLocator ResourceLocator { get; set; }
     
+    public int Health => level.Health;
     private Level level;
     private void Awake()
     {
@@ -200,6 +201,7 @@ public class LevelService : MonoBehaviour
         level.ExtraBallPowerUpCount = Convert.ToInt32(levelString.Split(",")[1]);
         level.FloorBrickCount = Convert.ToInt32(levelString.Split(",")[2]);
         level.FireBallsPowerUpCount = Convert.ToInt32(levelString.Split(",")[3]);
+        level.Health = Convert.ToInt32(levelString.Split(",")[4]);
 
         return level;
     }
@@ -222,7 +224,7 @@ public class LevelService : MonoBehaviour
 
             sw.Write("\n");
 
-            sw.Write($"{level.Balls.Count}{BRICK_PARAMS_DELIMITER}{level.ExtraBallPowerUpCount}{BRICK_PARAMS_DELIMITER}{level.FloorBrickCount}{BRICK_PARAMS_DELIMITER}{level.FireBallsPowerUpCount}");
+            sw.Write($"{level.Balls.Count}{BRICK_PARAMS_DELIMITER}{level.ExtraBallPowerUpCount}{BRICK_PARAMS_DELIMITER}{level.FloorBrickCount}{BRICK_PARAMS_DELIMITER}{level.FireBallsPowerUpCount}{BRICK_PARAMS_DELIMITER}{level.Health}");
 
             sw.Write("\n");
         }

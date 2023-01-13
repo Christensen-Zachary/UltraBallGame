@@ -239,6 +239,19 @@ public class NormalGame : MonoBehaviour, IGetState, IEmpty, ISetupLevel, IWaitin
                 SetBallsOnFire(); 
             }
         }
+        else if (Input.GetKeyDown(KeyCode.Space))
+        {
+            if (Time.timeScale == 1)
+            {
+                print("TimeScale is now 2");
+                Time.timeScale = 2;
+            }
+            else
+            {
+                print("TimeScale is now 1");
+                Time.timeScale = 1;
+            }
+        }
     }
 
     public void Win()
@@ -334,7 +347,7 @@ public class NormalGame : MonoBehaviour, IGetState, IEmpty, ISetupLevel, IWaitin
         _levelService.ResetLevelService();
         if (_gameUI != null) _gameUI.ShowGame();
         if (_gameUISwitcher != null) _gameUISwitcher.StartTurn();
-        _player.Health = 5;
+        _player.Health = _levelService.Health;
         _player.MovePlayer(_grid.GetPosition((_grid.NumberOfDivisions - 1) / 2f, 0));
         _facBrick.DestroyBricks();
         _facBall.DestroyBalls();

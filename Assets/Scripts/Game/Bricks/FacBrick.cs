@@ -132,6 +132,8 @@ public class FacBrick : MonoBehaviour
                 break;
             case BrickType.DirectionalBrick0:
                 obj = Instantiate(BrickPrefab11);
+                if (brick.Health == 90 || brick.Health == 180 || brick.Health == 270)
+                        obj.transform.Rotate(new Vector3(0, 0, brick.Health));
                 break;
             case BrickType.EvilBrick:
                 obj = Instantiate(BrickPrefab12);
