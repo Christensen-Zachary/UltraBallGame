@@ -274,6 +274,7 @@ public class NormalGame : MonoBehaviour, IGetState, IEmpty, ISetupLevel, IWaitin
             GameObject obj = _facBrick.Create(new Brick(BrickType.FirePowerup, 100, 100));
             obj.transform.SetParent(_player.transform);
             obj.transform.localPosition =  Vector3.zero;
+            _endTurnDestroyService.AddGameObject(obj);
         }
     }
 
