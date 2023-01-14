@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.Assertions.Must;
 
 public class DesignBrickManager : MonoBehaviour
 {
@@ -42,6 +41,14 @@ public class DesignBrickManager : MonoBehaviour
         _mainCamera = Camera.main;
     }
 
+    public void LoadLevel()
+    {
+        Level level = LevelService.LoadLevel(_numberInputService.GetNumber());
+        if (level != null)
+        {
+            level.Bricks.ForEach(x => CreateBrickAndSelect(x, x.BrickType));
+        }
+    }
 
     public void Save()
     {

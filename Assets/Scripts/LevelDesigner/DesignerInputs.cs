@@ -5,6 +5,7 @@ using UnityEngine.InputSystem;
 
 public class DesignerInputs
 {
+
     public bool InputHoverSelect()
     {
         return Input.GetKey(KeyCode.Q);
@@ -32,7 +33,7 @@ public class DesignerInputs
 
     public bool InputLoadLevel()
     {
-        return Input.GetKeyDown(KeyCode.L);
+        return Input.GetKeyDown(KeyCode.BackQuote);
     }
 
     public bool InputDeletedSelectedBrick()

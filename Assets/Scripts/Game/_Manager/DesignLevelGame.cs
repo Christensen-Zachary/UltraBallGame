@@ -14,10 +14,12 @@ public class DesignLevelGame : MonoBehaviour, IWaitingForPlayerInput, ISetupLeve
     private DesignerInputs _designerInputs = new DesignerInputs();
 
     private Grid _grid;
+    private FacBrick _facBrick;
 
     private void Awake() 
     {
         _grid = ResourceLocator.GetResource<Grid>("Grid");
+        _facBrick = ResourceLocator.GetResource<FacBrick>("FacBrick");
 
         ResourceLocator.AddResource("DesignLevelGame", this);
 
@@ -55,6 +57,11 @@ public class DesignLevelGame : MonoBehaviour, IWaitingForPlayerInput, ISetupLeve
         if (_designerInputs.InputSwitchSelectMode())
         {
             GameState.State = GState.MovingPlayer; // multiple brick editing state
+        }
+
+        if (_designerInputs.InputLoadLevel())
+        {
+            _designBrickManager.LoadLevel();
         }
     }
 
