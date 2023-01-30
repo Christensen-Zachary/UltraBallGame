@@ -9,7 +9,7 @@ public enum GameUIType
     Empty
 }
 
-public class GameUIComposition : MonoBehaviour, IResetGame, INextLevel, IOpenMainMenu, ICloseMainMenuPanel, IOpenMainMenuPanel, IOpenOptions, ICloseOptionsPanel, IStartSliderAim, IEndSliderAim, IStartFireUI, IGiveExtraBalls, IGiveFloorBricks, IStartMove, IEndMove, IReturnFire
+public class GameUIComposition : MonoBehaviour, IResetGame, INextLevel, IOpenMainMenu, ICloseMainMenuPanel, IOpenMainMenuPanel, IOpenOptions, ICloseOptionsPanel, IStartSliderAim, IEndSliderAim, IStartFireUI, IGiveExtraBalls, IGiveFloorBricks
 {
 
     [field: SerializeField]
@@ -19,7 +19,6 @@ public class GameUIComposition : MonoBehaviour, IResetGame, INextLevel, IOpenMai
 
 
     private GameUI _gameUI;
-    private GameUIInput _gameUIInput;
     private EmptyGameUI _emptyGameUI;
     private GameUIMKB _gameUIMKB;
 
@@ -36,16 +35,12 @@ public class GameUIComposition : MonoBehaviour, IResetGame, INextLevel, IOpenMai
     private IGiveExtraBalls GGiveExtraBalls;
     private IGiveFloorBricks GGiveFloorBricks;
     private ISetBallsOnFire GSetBallsOnFire;
-    private IStartMove GStartMove;
-    private IEndMove GEndMove;
-    private IReturnFire GReturnFire;
 
     private void Awake()
     {
         ResourceLocator.AddResource("GameUIComposition", this);
 
         _gameUI = ResourceLocator.GetResource<GameUI>("GameUI");
-        _gameUIInput = ResourceLocator.GetResource<GameUIInput>("GameUIInput");
         _emptyGameUI = ResourceLocator.GetResource<EmptyGameUI>("EmptyGameUI");
         _gameUIMKB = ResourceLocator.GetResource<GameUIMKB>("GameUIMKB");
 
@@ -65,9 +60,6 @@ public class GameUIComposition : MonoBehaviour, IResetGame, INextLevel, IOpenMai
                 GGiveExtraBalls = _gameUI;
                 GGiveFloorBricks = _gameUI;
                 GSetBallsOnFire = _gameUI;
-                GStartMove = _gameUIInput;
-                GEndMove = _gameUIInput;
-                GReturnFire = _gameUIInput;
                 break;
             case GameUIType.MKB:
                 GResetGame = _gameUIMKB;
@@ -82,9 +74,6 @@ public class GameUIComposition : MonoBehaviour, IResetGame, INextLevel, IOpenMai
                 GStartFireUI = _gameUIMKB;
                 GGiveExtraBalls = _gameUIMKB;
                 GGiveFloorBricks = _gameUIMKB;
-                GStartMove = _gameUIMKB;
-                GEndMove = _gameUIMKB;
-                GReturnFire = _gameUIMKB;
                 break;
             default:
                 GResetGame = _emptyGameUI;
@@ -99,9 +88,6 @@ public class GameUIComposition : MonoBehaviour, IResetGame, INextLevel, IOpenMai
                 GStartFireUI = _emptyGameUI;
                 GGiveExtraBalls = _emptyGameUI;
                 GGiveFloorBricks = _emptyGameUI;
-                GStartMove = _emptyGameUI;
-                GEndMove = _emptyGameUI;
-                GReturnFire = _emptyGameUI;
                 break;
         }   
     }
@@ -114,12 +100,6 @@ public class GameUIComposition : MonoBehaviour, IResetGame, INextLevel, IOpenMai
     public bool CloseOptionsPanel()
     {
         return GCloseOptionsPanel.CloseOptionsPanel(); ;
-    }
-
-    // I think this is unused and can be removed
-    public bool EndMove()
-    {
-        return GEndMove.EndMove();
     }
 
     public bool EndSliderAim()
@@ -167,19 +147,9 @@ public class GameUIComposition : MonoBehaviour, IResetGame, INextLevel, IOpenMai
         return GResetGame.ResetGame();
     }
 
-    public bool ReturnFire()
-    {
-        return GReturnFire.ReturnFire();
-    }
-
     public bool StartFire()
     {
         return GStartFireUI.StartFire();
-    }
-
-    public bool StartMove()
-    {
-        return GStartMove.StartMove();
     }
 
     public bool StartSliderAim()

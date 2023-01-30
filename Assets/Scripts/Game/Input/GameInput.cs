@@ -33,7 +33,7 @@ public class GameInput : MonoBehaviour, ITouchingGameboard, IStartFire, IGetFire
 
         PlayerInput playerInput = ResourceLocator.GetResource<PlayerInput>("PlayerInput");
         RobotInput robotInput = ResourceLocator.GetResource<RobotInput>("RobotInput");
-        GameUIInput gameUIInput = ResourceLocator.GetResource<GameUIInput>("GameUIInput");
+        GameUI gameUI = ResourceLocator.GetResource<GameUI>("GameUI");
         EmptyInput emptyInput = ResourceLocator.GetResource<EmptyInput>("EmptyInput");
         RandomFireDirection randomFireDirection = ResourceLocator.GetResource<RandomFireDirection>("RandomFireDirection");
         switch (_inputSource)
@@ -45,9 +45,9 @@ public class GameInput : MonoBehaviour, ITouchingGameboard, IStartFire, IGetFire
                 GGetMousePosition = playerInput;
                 GStartAim = playerInput;
                 GEndAim = playerInput;
-                GReturnFire = gameUIInput;
-                GStartMove = gameUIInput;
-                GEndMove = gameUIInput;
+                GReturnFire = gameUI;
+                GStartMove = gameUI;
+                GEndMove = gameUI;
                 GGetMovePosition = playerInput;
                 break;
             case InputSource.PlayerMKB:

@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class GameUI : MonoBehaviour, IResetGame, INextLevel, IOpenMainMenu, ICloseMainMenuPanel, IOpenMainMenuPanel, IOpenOptions, ICloseOptionsPanel, IStartSliderAim, IEndSliderAim, IStartFireUI, IGiveExtraBalls, IGiveFloorBricks, ISetBallsOnFire
+public class GameUI : MonoBehaviour, IStartMove, IEndMove, IReturnFire, IResetGame, INextLevel, IOpenMainMenu, ICloseMainMenuPanel, IOpenMainMenuPanel, IOpenOptions, ICloseOptionsPanel, IStartSliderAim, IEndSliderAim, IStartFireUI, IGiveExtraBalls, IGiveFloorBricks, ISetBallsOnFire
 {
     [field: SerializeField]
     public ResourceLocator ResourceLocator { get; set; }
@@ -75,6 +75,17 @@ public class GameUI : MonoBehaviour, IResetGame, INextLevel, IOpenMainMenu, IClo
     
     private bool PSetBallsOnFire { get { if (_setBallsOnFire) { _setBallsOnFire = false; return true; } return false; } set { _setBallsOnFire = value; } }
     private bool _setBallsOnFire = false;
+
+
+    private bool PStartMove { get { if (_startMove) { _startMove = false; return true; } return false; } set { _startMove = value; }}
+    private bool _startMove = false;
+
+    private bool PEndMove { get { if (_endMove) { _endMove  = false; return true; } return false; } set { _endMove = value; }}
+    private bool _endMove = false;
+
+    private bool PReturnFire { get { if (_returnFire) { _returnFire = false; return true; } return false; } set { _returnFire = value; } }
+    private bool _returnFire = false;
+
 
     private void Awake()
     {
@@ -159,6 +170,27 @@ public class GameUI : MonoBehaviour, IResetGame, INextLevel, IOpenMainMenu, IClo
     public void LoadMainMenu()
     {
         StartCoroutine(LoadMainMenuCoroutine());
+    }
+
+     private IEnumerator SetReturnFireRoutine()
+    {
+        PReturnFire = true;
+        yield return null;
+        PReturnFire = false;
+    }
+
+    private IEnumerator SetStartMoveRoutine()
+    {
+        PStartMove = true;
+        yield return null;
+        PStartMove = false;
+    }
+
+    private IEnumerator SetEndMoveRoutine()
+    {
+        PEndMove = true;
+        yield return null;
+        PEndMove = false;
     }
 
     private IEnumerator LoadMainMenuCoroutine()
@@ -259,6 +291,30 @@ public class GameUI : MonoBehaviour, IResetGame, INextLevel, IOpenMainMenu, IClo
         _nextLevel = true;
         yield return null;
         _nextLevel = false;
+    }
+
+    public void ActivateStartMove()
+    {
+        if (!PStartMove)
+        {
+            StartCoroutine(SetStartMoveRoutine());
+        }
+    }
+
+    public void ActivateEndMove()
+    {
+        if (!PEndMove)
+        {
+            StartCoroutine(SetEndMoveRoutine());
+        }
+    }
+
+    public void ActivateReturnFire()
+    {
+        if (!PReturnFire)
+        {
+            StartCoroutine(SetReturnFireRoutine());
+        }
     }
 
     public void ActivateGiveFireBalls()
@@ -445,6 +501,21 @@ public class GameUI : MonoBehaviour, IResetGame, INextLevel, IOpenMainMenu, IClo
     public void HideWin()
     {
         WinPanel.SetActive(false);
+    }
+
+    public bool StartMove()
+    {
+        return PStartMove;
+    }
+
+    public bool EndMove()
+    {
+        return PEndMove;
+    }
+
+    public bool ReturnFire()
+    {
+        return PReturnFire;
     }
 
     bool IResetGame.ResetGame()
