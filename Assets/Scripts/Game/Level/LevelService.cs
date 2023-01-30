@@ -56,9 +56,12 @@ public class LevelService : MonoBehaviour
         }
         else LevelNumber = levelNum;
 
-        level = LoadLevel(levelNum);//_levelNumber);//ES3.Load<Level>($"{BGStrings.ES_LEVELNAME}{levelNum}", Level.GetDefault());
+        level = LoadLevel(levelNum);
 
-        if (!LevelLoaded) return;
+        if (!LevelLoaded) 
+        {
+            level = LoadLevel(0);
+        }
 
         NumberOfDivisions = level.NumberOfDivisions;
         Bricks = level.Bricks;
@@ -87,10 +90,6 @@ public class LevelService : MonoBehaviour
 
 
     private static readonly string NUMBEROFDIVISIONS_DELIMITER = "'";
-    private static readonly string POWERUPS_DELIMITER = "\"";
-    private static readonly string POWERUP_TYPES_DELIMETER = "~";
-    private static readonly string POWERUP_TYPE_DELIMETER = ";";
-    // private static readonly string POWERUP_PARAMS_DELIMETER = ",";
     private static readonly string BRICK_TYPES_DELIMITER = "~";
     private static readonly string BRICK_TYPE_DELIMITER = ":";
     private static readonly string BRICK_DELIMITER = ";";
@@ -99,6 +98,8 @@ public class LevelService : MonoBehaviour
     public static Level LoadLevel(int levelNumber)
     {
         FieldInfo field = typeof(UnityTest).GetField($"LEVEL{levelNumber}");
+        if (field == null) return null;
+
         string levelString = field.GetValue(null) as string;
         if (levelString == null)
         {

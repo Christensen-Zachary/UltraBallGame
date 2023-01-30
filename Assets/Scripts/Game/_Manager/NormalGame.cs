@@ -303,7 +303,7 @@ public class NormalGame : MonoBehaviour, IGetState, IEmpty, ISetupLevel, IWaitin
 
             if (i != closestColumn)
             {
-                GameObject obj = _facBrick.Create(new Brick { BrickType = brickType, Col = i, Row = 0, Health = 250 }, new Type[] { typeof(Advanceable) });
+                GameObject obj = _facBrick.Create(new Brick { BrickType = brickType, Col = i, Row = 0, Health = _levelService.Balls.Count }, new Type[] { typeof(Advanceable) });
                 _endTurnDestroyService.AddGameObject(obj);
                 obj.GetComponentInChildren<Damageable>()._doesCountTowardsWinning = false;
             }
@@ -355,7 +355,7 @@ public class NormalGame : MonoBehaviour, IGetState, IEmpty, ISetupLevel, IWaitin
         _winService.NumberOfBricksDestroyed = 0;
         _winService.NumberOfBricksToWin = _levelService.Bricks.Where(x => Brick.IsDamageable(x.BrickType)).Count();
 
-        _facBrick.MaxHealth = _levelService.Bricks.Select(x => x.Health).Max();
+        _facBrick.MaxHealth = _levelService.Bricks.Where(x => Brick.IsDamageable(x.BrickType)).Select(x => x.Health).Max();
 
 
         for (int i = 0; i < _levelService.NumberOfDivisions * Background.BACKGROUND_RATIO; i++)
@@ -377,7 +377,7 @@ public class NormalGame : MonoBehaviour, IGetState, IEmpty, ISetupLevel, IWaitin
     private void CreateNextRow()
     {
         //_levelService.GetNextRow().ForEach(x => { int row = x.Row; x.Row = --x.Row * -1 + (int)_grid.GameBoardHeight - 1; _facBrick.Create(x); x.Row = row; }); // subtract row so will advance down into position
-        _levelService.GetNextRow().ForEach(x => { x.Row++; _facBrick.Create(x); x.Row--; }); // subtract row so will advance down into position
+        _levelService.GetNextRow().ForEach(x => { _facBrick.Create(x); }); // subtract row so will advance down into position
     }
 
     public void CheckWinLose()
