@@ -231,8 +231,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _levelNumber: -1
   _levelNumberText: {fileID: 0}
-  _floorBricksText: {fileID: 0}
   _extraBallsText: {fileID: 0}
+  _floorBricksText: {fileID: 0}
+  _fireBallsText: {fileID: 0}
   _ballCount: {fileID: 0}
   <ResourceLocator>k__BackingField: {fileID: 4516845128962790882}
 --- !u!114 &5832456314278588785

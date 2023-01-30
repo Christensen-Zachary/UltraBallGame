@@ -9,8 +9,8 @@ public class Background : MonoBehaviour
     public ResourceLocator ResourceLocator { get; set; }
 
     public static readonly float LEAVE_SIDES_OPEN_BY_PERCENT = (1 - (2 / (1 + Mathf.Sqrt(5)))); // percent of the side that should not be overlapped by square. amount is for both sides combined
-    public static readonly float BACKGROUND_RATIO = 3f / 2f;
-    private SpriteRenderer _sr;
+    public static readonly float BACKGROUND_RATIO = 4f / 3f;
+    public SpriteRenderer _sr; // reference set in editor
     public float GetWidth => transform.localScale.x;
     public Vector2 GetTopLeftCorner =>  new Vector2(-_sr.bounds.extents.x, _sr.bounds.extents.y);
     public Vector2 GetBottomLeftCorner => new Vector2(-_sr.bounds.extents.x, -_sr.bounds.extents.y);
@@ -19,8 +19,6 @@ public class Background : MonoBehaviour
     private void Awake()
     {
         ResourceLocator.AddResource("Background", this);
-
-        _sr = GetComponent<SpriteRenderer>();
 
         (float height, float width) = BGUtils.GetScreenSize();
 

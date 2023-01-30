@@ -25,7 +25,7 @@ public class Grid : MonoBehaviour
 
         if (_levelService != null)
         {
-            NumberOfDivisions = _levelService.NumberOfDivisions;
+            if (_levelService.LevelLoaded) NumberOfDivisions = _levelService.NumberOfDivisions;
         }
 
         UnitScale = _background.GetWidth / NumberOfDivisions;

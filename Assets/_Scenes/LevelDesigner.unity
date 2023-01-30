@@ -279,6 +279,10 @@ PrefabInstance:
       propertyPath: GameUIType
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3176569139314231319, guid: e2765a2adb2c4b64891656ef62ef72e9, type: 3}
+      propertyPath: <NumberOfDivisions>k__BackingField
+      value: 18
+      objectReference: {fileID: 0}
     - target: {fileID: 4516845128962790880, guid: e2765a2adb2c4b64891656ef62ef72e9, type: 3}
       propertyPath: m_Name
       value: Game
@@ -333,7 +337,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4516845130310491961, guid: e2765a2adb2c4b64891656ef62ef72e9, type: 3}
       propertyPath: _levelNumber
-      value: 15
+      value: 99999
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e2765a2adb2c4b64891656ef62ef72e9, type: 3}

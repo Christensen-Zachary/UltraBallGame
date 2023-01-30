@@ -43,6 +43,7 @@ public class LevelService : MonoBehaviour
     
     public int Health => level.Health;
     private Level level;
+    public bool LevelLoaded => level != null;
     private void Awake()
     {
         ResourceLocator.AddResource("Level", this);
@@ -57,10 +58,7 @@ public class LevelService : MonoBehaviour
 
         level = LoadLevel(levelNum);//_levelNumber);//ES3.Load<Level>($"{BGStrings.ES_LEVELNAME}{levelNum}", Level.GetDefault());
 
-        if (level == null)
-        {
-            Application.Quit(-1);
-        }
+        if (!LevelLoaded) return;
 
         NumberOfDivisions = level.NumberOfDivisions;
         Bricks = level.Bricks;
