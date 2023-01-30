@@ -47,7 +47,7 @@ public class MKBGame : MonoBehaviour, IWaitingForPlayerInput
         }
         else if (_gameInput.StartMove())
         {
-            if (_gameUISwitcher != null) _gameUISwitcher.ShowMoveSlider(true);
+            print("Starting move");
             GameState.State = GState.MovingPlayer;
         }
         else if (_gameUIComposition.OpenOptions())
@@ -75,8 +75,14 @@ public class MKBGame : MonoBehaviour, IWaitingForPlayerInput
         {
             if (_levelService.FloorBricksPowerUpCount > 0)
             {
-                _levelService.FloorBricksPowerUpCount--;
                 NormalGame.AddFloorBricks(); 
+            }
+        }
+        else if (_gameUIComposition.SetBallsOnFire())
+        {
+            if (_levelService.FireBallsPowerUpCount > 0)
+            {
+                NormalGame.SetBallsOnFire(); 
             }
         }
     }

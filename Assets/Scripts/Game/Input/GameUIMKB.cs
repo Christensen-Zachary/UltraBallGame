@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GameUIMKB : MonoBehaviour, IResetGame, INextLevel, IOpenMainMenu, ICloseMainMenuPanel, IOpenMainMenuPanel, IOpenOptions, ICloseOptionsPanel, IStartSliderAim, IEndSliderAim, IStartFireUI, IGiveExtraBalls, IGiveFloorBricks, IStartMove, IEndMove, IReturnFire
+public class GameUIMKB : MonoBehaviour, IResetGame, INextLevel, IOpenMainMenu, ICloseMainMenuPanel, IOpenMainMenuPanel, IOpenOptions, ICloseOptionsPanel, IStartSliderAim, IEndSliderAim, IStartFireUI, IGiveExtraBalls, IGiveFloorBricks, IStartMove, IEndMove, IReturnFire, ISetBallsOnFire
 {
     [field: SerializeField]
     public ResourceLocator ResourceLocator { get; set; }
@@ -85,5 +85,10 @@ public class GameUIMKB : MonoBehaviour, IResetGame, INextLevel, IOpenMainMenu, I
     public bool StartSliderAim()
     {
         return false;
+    }
+
+    public bool SetBallsOnFire()
+    {
+        return Input.GetKeyDown(KeyCode.F);
     }
 }

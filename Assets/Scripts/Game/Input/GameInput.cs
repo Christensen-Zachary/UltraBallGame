@@ -46,8 +46,8 @@ public class GameInput : MonoBehaviour, ITouchingGameboard, IStartFire, IGetFire
                 GStartAim = playerInput;
                 GEndAim = playerInput;
                 GReturnFire = gameUI;
-                GStartMove = gameUI;
-                GEndMove = gameUI;
+                GStartMove = emptyInput;
+                GEndMove = emptyInput;
                 GGetMovePosition = playerInput;
                 break;
             case InputSource.PlayerMKB:

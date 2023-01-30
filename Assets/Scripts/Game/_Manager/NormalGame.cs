@@ -1,6 +1,8 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -30,6 +32,8 @@ public class NormalGame : MonoBehaviour, IGetState, IEmpty, ISetupLevel, IWaitin
     private WinService _winService;
     private ParticleSystemService _particleSystemService;
 
+    private int _closestColumn = 0;
+    private List<(GameObject, BrickType)> FloorBricks = new List<(GameObject, BrickType)>();
     private bool _usedFloorBricks = false;
     private bool _usedFireBalls = false;
 
@@ -72,6 +76,8 @@ public class NormalGame : MonoBehaviour, IGetState, IEmpty, ISetupLevel, IWaitin
         else
         {
             _player.ShowAim(_gameInput.GetFireDirection());
+
+            
         }
     }
 
@@ -109,9 +115,9 @@ public class NormalGame : MonoBehaviour, IGetState, IEmpty, ISetupLevel, IWaitin
 
     public void MovingPlayer()
     {
+        print("Moving player");
         if (_gameInput.EndMove())
         {
-            if (_gameUISwitcher != null) _gameUISwitcher.ShowMoveSlider(false);
             GameState.State = GState.WaitingForPlayerInput;
         }
         else if (_gameUIComposition.OpenOptions())
@@ -121,6 +127,7 @@ public class NormalGame : MonoBehaviour, IGetState, IEmpty, ISetupLevel, IWaitin
         else
         {
             _player.MovePlayer(_gameInput.GetMovePosition());
+            AdjustFloorBricks();
         }
     }
 
@@ -182,6 +189,44 @@ public class NormalGame : MonoBehaviour, IGetState, IEmpty, ISetupLevel, IWaitin
         else
         {
             _player.ShowAim(_gameUI.GetFireDirection());
+            AdjustFloorBricks();
+        }
+    }
+
+    private void AdjustFloorBricks()
+    {
+        if (_usedFloorBricks)
+        {
+            int closestColumn = GetClosestColumnToPlayer();
+
+            if (closestColumn != _closestColumn)
+            {
+                print($"ClosestColumn {closestColumn} _closestCloumn {_closestColumn}");
+                _closestColumn = closestColumn;
+                (GameObject, BrickType)[] tempBricks = new (GameObject, BrickType)[_levelService.NumberOfDivisions - 1];
+                bool passedClosestColumn = false;
+                for (int i = 0; i < _levelService.NumberOfDivisions; i++)
+                {
+                    if (i == closestColumn)
+                    {
+                        passedClosestColumn = true;
+                        continue;
+                    }
+
+                    BrickType brickType;
+                    if (i == closestColumn - 1) brickType = BrickType.Triangle0;
+                    else if (i == closestColumn + 1) brickType = BrickType.Triangle90;
+                    else brickType = BrickType.Square;
+
+                    (GameObject, BrickType) brick = FloorBricks.Find(x => x.Item2 == brickType);
+
+                    brick.Item1.transform.localPosition = _grid.GetPosition(i, 0);
+                    tempBricks[passedClosestColumn ? i - 1 : i] = brick;
+
+                    FloorBricks.Remove(brick);
+                }
+                FloorBricks = tempBricks.ToList();
+            }
         }
     }
 
@@ -192,11 +237,6 @@ public class NormalGame : MonoBehaviour, IGetState, IEmpty, ISetupLevel, IWaitin
             //_state = GState.Aiming;
             if (_gameUISwitcher != null) _gameUISwitcher.ShowAimSlider(true);
             GameState.State = GState.SliderAiming;
-        }
-        else if (_gameInput.StartMove())
-        {
-            if (_gameUISwitcher != null) _gameUISwitcher.ShowMoveSlider(true);
-            GameState.State = GState.MovingPlayer;
         }
         else if (_gameUIComposition.OpenOptions())
         {
@@ -225,17 +265,13 @@ public class NormalGame : MonoBehaviour, IGetState, IEmpty, ISetupLevel, IWaitin
         {
             if (_levelService.FloorBricksPowerUpCount > 0 && !_usedFloorBricks)
             {
-                _usedFloorBricks = true;
-                _levelService.FloorBricksPowerUpCount--;
                 AddFloorBricks(); 
             }
         }
         else if (_gameUIComposition.SetBallsOnFire())
         {
-            if (_levelService.FireBallsPowerUpCount > 0 && !_usedFireBalls)
+            if (_levelService.FireBallsPowerUpCount > 0)
             {
-                _usedFireBalls = true;
-                _levelService.FireBallsPowerUpCount--;
                 SetBallsOnFire(); 
             }
         }
@@ -269,6 +305,11 @@ public class NormalGame : MonoBehaviour, IGetState, IEmpty, ISetupLevel, IWaitin
 
     public void SetBallsOnFire()
     {
+        if (_usedFireBalls) return;
+
+        _usedFireBalls = true;
+        _levelService.FireBallsPowerUpCount--;
+
         for (int i = 0; i < _levelService.Balls.Count; i++) 
         {
             GameObject obj = _facBrick.Create(new Brick(BrickType.FirePowerup, 100, 100));
@@ -279,6 +320,31 @@ public class NormalGame : MonoBehaviour, IGetState, IEmpty, ISetupLevel, IWaitin
     }
 
     public void AddFloorBricks()
+    {
+        _usedFloorBricks = true;
+        _levelService.FloorBricksPowerUpCount--;
+
+        _closestColumn = GetClosestColumnToPlayer();
+        _player.MovePlayer(new Vector2(_grid.GetPosition(_closestColumn, 0).x, _player.transform.position.y));
+
+        FloorBricks.Clear();
+        for (int i = 0; i < _grid.NumberOfDivisions; i++)
+        {
+            BrickType brickType = BrickType.Square;
+            if (i == _closestColumn - 1) brickType = BrickType.Triangle0;
+            else if (i == _closestColumn + 1) brickType = BrickType.Triangle90;
+
+            if (i != _closestColumn)
+            {
+                GameObject obj = _facBrick.Create(new Brick { BrickType = brickType, Col = i, Row = 0, Health = _levelService.Balls.Count }, new Type[] { typeof(Advanceable) });
+                _endTurnDestroyService.AddGameObject(obj);
+                obj.GetComponentInChildren<Damageable>()._doesCountTowardsWinning = false;
+                FloorBricks.Add((obj, brickType));
+            }
+        }
+    }
+
+    private int GetClosestColumnToPlayer()
     {
         int closestColumn = 0;
         float closestColumnDistance = 100;
@@ -293,21 +359,8 @@ public class NormalGame : MonoBehaviour, IGetState, IEmpty, ISetupLevel, IWaitin
             }
 
         }
-        _player.MovePlayer(new Vector2(_grid.GetPosition(closestColumn, 0).x, _player.transform.position.y));
 
-        for (int i = 0; i < _grid.NumberOfDivisions; i++)
-        {
-            BrickType brickType = BrickType.Square;
-            if (i == closestColumn - 1) brickType = BrickType.Triangle0;
-            else if (i == closestColumn + 1) brickType = BrickType.Triangle90;
-
-            if (i != closestColumn)
-            {
-                GameObject obj = _facBrick.Create(new Brick { BrickType = brickType, Col = i, Row = 0, Health = _levelService.Balls.Count }, new Type[] { typeof(Advanceable) });
-                _endTurnDestroyService.AddGameObject(obj);
-                obj.GetComponentInChildren<Damageable>()._doesCountTowardsWinning = false;
-            }
-        }
+        return closestColumn;
     }
 
     private void OpenOptions()

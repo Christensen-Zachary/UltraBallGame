@@ -35,6 +35,7 @@ public class FSMGameComposition : MonoBehaviour, IGetState, IEmpty, ISetupLevel,
     private MKBGame _mkbGame;
     private DesignLevelGame _designLevelGame;
     private ThemePreviewGame _themePreviewGame;
+    private EmptyGame _emptyGame;
 
     private void Awake() 
     {
@@ -42,6 +43,7 @@ public class FSMGameComposition : MonoBehaviour, IGetState, IEmpty, ISetupLevel,
         _mkbGame = ResourceLocator.GetResource<MKBGame>("MKBGame");
         _designLevelGame = ResourceLocator.GetResource<DesignLevelGame>("DesignLevelGame");
         _themePreviewGame = ResourceLocator.GetResource<ThemePreviewGame>("ThemePreviewGame");
+        _emptyGame = ResourceLocator.GetResource<EmptyGame>("EmptyGame");
 
         switch (GameType)
         {
@@ -65,7 +67,7 @@ public class FSMGameComposition : MonoBehaviour, IGetState, IEmpty, ISetupLevel,
                 GEmpty = _normalGame;
                 GSetupLevel = _normalGame;
                 GWaitingForPlayerInput = _mkbGame;
-                GMovingPlayer = _normalGame;
+                GMovingPlayer = _emptyGame;
                 GAiming = _normalGame;
                 GSliderAiming = _normalGame;
                 GFiring = _normalGame;
@@ -80,7 +82,7 @@ public class FSMGameComposition : MonoBehaviour, IGetState, IEmpty, ISetupLevel,
                 GEmpty = _normalGame;
                 GSetupLevel = _normalGame;
                 GWaitingForPlayerInput = _normalGame;
-                GMovingPlayer = _normalGame;
+                GMovingPlayer = _emptyGame;
                 GAiming = _normalGame;
                 GSliderAiming = _normalGame;
                 GFiring = _normalGame;
@@ -110,7 +112,7 @@ public class FSMGameComposition : MonoBehaviour, IGetState, IEmpty, ISetupLevel,
                 GEmpty = _normalGame;
                 GSetupLevel = _normalGame;
                 GWaitingForPlayerInput = _normalGame;
-                GMovingPlayer = _normalGame;
+                GMovingPlayer = _emptyGame;
                 GAiming = _normalGame;
                 GSliderAiming = _normalGame;
                 GFiring = _normalGame;

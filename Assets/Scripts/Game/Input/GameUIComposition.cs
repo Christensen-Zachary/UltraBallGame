@@ -59,7 +59,6 @@ public class GameUIComposition : MonoBehaviour, IResetGame, INextLevel, IOpenMai
                 GStartFireUI = _gameUI;
                 GGiveExtraBalls = _gameUI;
                 GGiveFloorBricks = _gameUI;
-                GSetBallsOnFire = _gameUI;
                 break;
             case GameUIType.MKB:
                 GResetGame = _gameUIMKB;
@@ -74,6 +73,7 @@ public class GameUIComposition : MonoBehaviour, IResetGame, INextLevel, IOpenMai
                 GStartFireUI = _gameUIMKB;
                 GGiveExtraBalls = _gameUIMKB;
                 GGiveFloorBricks = _gameUIMKB;
+                GSetBallsOnFire = _gameUIMKB;
                 break;
             default:
                 GResetGame = _emptyGameUI;
@@ -88,6 +88,7 @@ public class GameUIComposition : MonoBehaviour, IResetGame, INextLevel, IOpenMai
                 GStartFireUI = _emptyGameUI;
                 GGiveExtraBalls = _emptyGameUI;
                 GGiveFloorBricks = _emptyGameUI;
+                GSetBallsOnFire = _emptyGameUI;
                 break;
         }   
     }
