@@ -59,6 +59,7 @@ public class GameUIComposition : MonoBehaviour, IResetGame, INextLevel, IOpenMai
                 GStartFireUI = _gameUI;
                 GGiveExtraBalls = _gameUI;
                 GGiveFloorBricks = _gameUI;
+                GSetBallsOnFire = _gameUI;
                 break;
             case GameUIType.MKB:
                 GResetGame = _gameUIMKB;
