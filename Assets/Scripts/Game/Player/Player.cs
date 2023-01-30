@@ -43,7 +43,7 @@ public class Player : MonoBehaviour
         transform.localScale = _grid.UnitScale * Vector2.one;
 
         _leftMostPosition = _grid.GetPosition(1, _grid.NumberOfDivisions - 1);
-        _rightMostPosition = _grid.GetPosition(_grid.NumberOfDivisions - 1 - 1, _grid.NumberOfDivisions - 1) - new Vector2(_grid.UnitScale / 2f, 0);
+        _rightMostPosition = _grid.GetPosition(_grid.NumberOfDivisions - 1 - 1, _grid.NumberOfDivisions - 1);
         _distanceBetweenBounds = Vector2.Distance(_leftMostPosition, _rightMostPosition);
         _maxYForMovePlayer = _grid.GetPosition(0, _grid.GameBoardHeight).y;
 
