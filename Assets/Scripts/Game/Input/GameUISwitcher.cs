@@ -25,9 +25,7 @@ public class GameUISwitcher : MonoBehaviour
     [field: SerializeField]
     public GameObject BtnFireBalls { get; set; }
     [field: SerializeField]
-    public GameObject BtnOptions { get; set; }
-    [field: SerializeField]
-    public GameObject BtnOptionsEmpty { get; set; }
+    public Animator OptionsAnimator { get; set; }
     
 
 
@@ -41,9 +39,8 @@ public class GameUISwitcher : MonoBehaviour
         BtnExtraBalls.SetActive(!bit);
         BtnFloorBricks.SetActive(!bit);
         BtnFireBalls.SetActive(!bit);
-        BtnOptions.SetActive(!bit);
-
-        BtnOptionsEmpty.SetActive(bit);
+        OptionsAnimator.SetBool("Enable", !bit);
+        
         BtnEndAim.SetActive(bit);
         BtnFire.SetActive(bit);
         MoveSlider.SetActive(bit);
@@ -57,18 +54,16 @@ public class GameUISwitcher : MonoBehaviour
         BtnExtraBalls.SetActive(false);
         BtnFloorBricks.SetActive(false);
         BtnFireBalls.SetActive(false);
-        BtnOptions.SetActive(false);
 
-        BtnOptionsEmpty.SetActive(true);
+        OptionsAnimator.SetBool("Enable", false);
         BtnReturnBalls.SetActive(true);
     }
     
     public void StartTurn()
     {
         BtnReturnBalls.SetActive(false);
-        BtnOptionsEmpty.SetActive(false);
+        OptionsAnimator.SetBool("Enable", true);
 
-        BtnOptions.SetActive(true);
         BtnExtraBalls.SetActive(true);
         BtnFloorBricks.SetActive(true);
         BtnFireBalls.SetActive(true);
