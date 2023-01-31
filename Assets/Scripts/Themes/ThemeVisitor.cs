@@ -120,18 +120,26 @@ public class ThemeVisitor : MonoBehaviour
     }
     public static void Visit(SuperBackground superBackground)
     {
-        switch (ThemeData.ThemeType)
+        if (superBackground.TryGetComponent(out SpriteRenderer sr)) // is in game
         {
-            case ThemeType.JellyFish:
-                SetSpriteSuperBackground("Sprites/Background/bg4", superBackground.gameObject);
-                break;
-            case ThemeType.VaporWave:
-                SetSpriteSuperBackground("Sprites/Background/bg1", superBackground.gameObject);
-                break;
-            default:
-                superBackground.GetComponent<SpriteRenderer>().color = ThemeData.ThemeColors[ThemeItem.SuperBackground];
-                break;
+            switch (ThemeData.ThemeType)
+            {
+                case ThemeType.JellyFish:
+                    SetSpriteSuperBackground("Sprites/Background/bg4", superBackground.gameObject);
+                    break;
+                case ThemeType.VaporWave:
+                    SetSpriteSuperBackground("Sprites/Background/bg1", superBackground.gameObject);
+                    break;
+                default:
+                    sr.color = ThemeData.ThemeColors[ThemeItem.SuperBackground];
+                    break;
+            }
         }
+        else if (superBackground.TryGetComponent(out Image image)) // is in UI
+        {
+            image.color = ThemeData.ThemeColors[ThemeItem.SuperBackground];
+        }
+        
 
     }
 
