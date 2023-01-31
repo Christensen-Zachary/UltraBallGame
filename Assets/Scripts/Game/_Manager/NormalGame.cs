@@ -336,7 +336,7 @@ public class NormalGame : MonoBehaviour, IGetState, IEmpty, ISetupLevel, IWaitin
 
             if (i != _closestColumn)
             {
-                GameObject obj = _facBrick.Create(new Brick { BrickType = brickType, Col = i, Row = 0, Health = _levelService.Balls.Count }, new Type[] { typeof(Advanceable) });
+                GameObject obj = _facBrick.Create(new Brick { BrickType = brickType, Col = i, Row = 0, Health = _levelService.Balls.Count * 2 }, new Type[] { typeof(Advanceable) });
                 _endTurnDestroyService.AddGameObject(obj);
                 obj.GetComponentInChildren<Damageable>()._doesCountTowardsWinning = false;
                 FloorBricks.Add((obj, brickType));
