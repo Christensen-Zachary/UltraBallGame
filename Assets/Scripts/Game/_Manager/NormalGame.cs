@@ -173,12 +173,14 @@ public class NormalGame : MonoBehaviour, IGetState, IEmpty, ISetupLevel, IWaitin
             _player.RunFire(_gameUI.GetFireDirection());
             _gameUISwitcher.StartFire();
             GameState.State = GState.Firing;
+            return;
         }
         else if (_gameUIComposition.EndSliderAim())
         {
             _gameUISwitcher.ShowAimSlider(false);
             _player.HideAim();
             GameState.State = GState.WaitingForPlayerInput;
+            return;
         }
         else if (_gameInput.TouchingGameboard())
         {
@@ -186,11 +188,10 @@ public class NormalGame : MonoBehaviour, IGetState, IEmpty, ISetupLevel, IWaitin
             _gameUI.SetSliderValue(Mathf.Clamp(Mathf.Rad2Deg * Mathf.Atan2(direction.y, direction.x), 0, 180));
             _player.ShowAim(_gameUI.GetFireDirection());
         }
-        else
-        {
-            _player.ShowAim(_gameUI.GetFireDirection());
-            AdjustFloorBricks();
-        }
+        
+        _player.ShowAim(_gameUI.GetFireDirection());
+        AdjustFloorBricks();
+    
     }
 
     private void AdjustFloorBricks()
