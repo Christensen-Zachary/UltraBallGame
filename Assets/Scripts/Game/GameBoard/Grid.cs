@@ -7,6 +7,7 @@ public class Grid : MonoBehaviour
     public ResourceLocator ResourceLocator { get; set; }
     [field: SerializeField]
     public int NumberOfDivisions { get; private set; }
+    public bool _overrideNumberOfDivisions = false;
     public float GameBoardHeight => NumberOfDivisions * Background.BACKGROUND_RATIO;
     [field: SerializeField]
     public float UnitScale { get; private set; }
@@ -25,7 +26,7 @@ public class Grid : MonoBehaviour
 
         if (_levelService != null)
         {
-            if (_levelService.LevelLoaded) NumberOfDivisions = _levelService.NumberOfDivisions;
+            if (_levelService.LevelLoaded && !_overrideNumberOfDivisions) NumberOfDivisions = _levelService.NumberOfDivisions;
         }
 
         UnitScale = _background.GetWidth / NumberOfDivisions;

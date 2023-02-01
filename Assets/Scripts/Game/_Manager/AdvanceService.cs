@@ -16,7 +16,7 @@ public class AdvanceService : MonoBehaviour
     private EndTurnDestroyService _endTurnDestroyService;
     private Grid _grid;
 
-    private float _moveTime = 1f;
+    private float _moveTime = 1.5f;
 
     private void Awake()
     {
@@ -34,13 +34,20 @@ public class AdvanceService : MonoBehaviour
         Vector2 startPosition = AdvanceableParent.transform.position;
         Vector2 endPosition = startPosition - new Vector2(0, _grid.UnitScale);
 
+        // use the y value from cos(x) on interval [0,pi/2]
         float timer = 0;
         while (timer < _moveTime)
         {
             timer += Time.deltaTime;
-            AdvanceableParent.transform.position = Vector2.Lerp(startPosition, endPosition, timer / _moveTime);
+            // timer / _moveTime goes from 0 to 1
+            // multiply that by PI to move between 0 and PI
+            // add PI to adjust to correct cosine phase for go up to 1 from 0
+            // add 0.5 and multiply 0.5 to put above x axis for all positive values
+            // 1/2 * COS(pi * x + PI) + 1/2
+            AdvanceableParent.transform.position = Vector2.Lerp(startPosition, endPosition, 0.5f * Mathf.Cos(Mathf.PI * timer / _moveTime + Mathf.PI) + 0.5f);
             yield return null;
         }
+        AdvanceableParent.transform.position = endPosition;
 
         Advanceables.ForEach(x =>
         {
