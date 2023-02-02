@@ -3,8 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
+using Newtonsoft.Json.Converters;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Analytics;
+using UnityEngine.InputSystem.LowLevel;
 using UnityEngine.SceneManagement;
 
 public class NormalGame : MonoBehaviour, IGetState, IEmpty, ISetupLevel, IWaitingForPlayerInput, IMovingPlayer, IAiming, ISliderAiming, IFiring, IEndTurn, ICheckWinLose, IGameOver, IWin, IOptionsPanel
@@ -98,6 +101,24 @@ public class NormalGame : MonoBehaviour, IGetState, IEmpty, ISetupLevel, IWaitin
         {
             _player.EndFire();
             GameState.State = GState.EndTurn;
+        }
+        else if (_gameUIComposition.Random())
+        {
+            _player.Shootables.ForEach(x => {
+                x.RandomizeDirection();
+            });
+        }
+        else if (_gameUIComposition.Horizontal())
+        {
+            _player.Shootables.ForEach(x => {
+                x.HorizontalDirection();
+            });
+        }
+        else if (_gameUIComposition.Vertical())
+        {
+            _player.Shootables.ForEach(x => {
+                x.VerticalDirection();
+            });
         }
     }
 
@@ -377,6 +398,8 @@ public class NormalGame : MonoBehaviour, IGetState, IEmpty, ISetupLevel, IWaitin
     {
         _usedFireBalls = false;
         _usedFloorBricks = false;
+
+        if (_gameUISwitcher != null) _gameUISwitcher.EndFire();
 
         _levelService.BallCounter = _levelService.Balls.Count;
 

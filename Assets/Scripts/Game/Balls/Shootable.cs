@@ -93,15 +93,41 @@ public class Shootable : MonoBehaviour
         {
             string errMsg = "Ball veclocity was not zero when firing";
             Debug.LogError(errMsg);
-            throw new System.Exception(errMsg);
+            // throw new System.Exception(errMsg);
         }
-        else
-        {
+        // else
+        // {
             _levelService.BallCounter--;
             IsReturned = false;
             transform.localPosition = Vector3.zero; // from zero because are children of parent shooting from
+            RB.velocity = Vector2.zero;
             RB.AddForce(direction * Speed);
-        }
+        // }
+    }
+
+    public void RandomizeDirection()
+    {
+        if (IsReturned) return;
+
+        RB.velocity = Vector2.zero;
+        float randomAngle = Random.Range(0, Mathf.PI);
+        RB.AddForce(new Vector2(Mathf.Cos(randomAngle), Mathf.Sin(randomAngle)) * Speed);
+    }
+
+    public void HorizontalDirection()
+    {
+        if (IsReturned) return;
+
+        RB.velocity = Vector2.zero;
+        RB.AddForce(new Vector2(Random.Range(0f, 1f) < 0.5f ? -1 : 1, 0) * Speed);
+    }
+
+    public void VerticalDirection()
+    {
+        if (IsReturned) return;
+
+        RB.velocity = Vector2.zero;
+        RB.AddForce(new Vector2(0, Random.Range(0f, 1f) < 0.5f ? -1 : 1) * Speed);
     }
 
     public void Return()

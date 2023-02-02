@@ -43,7 +43,7 @@ public class AdvanceService : MonoBehaviour
             // multiply that by PI to move between 0 and PI
             // add PI to adjust to correct cosine phase for go up to 1 from 0
             // add 0.5 and multiply 0.5 to put above x axis for all positive values
-            // 1/2 * COS(pi * x + PI) + 1/2
+            // 1/2 * COS(PI * x + PI) + 1/2
             AdvanceableParent.transform.position = Vector2.Lerp(startPosition, endPosition, 0.5f * Mathf.Cos(Mathf.PI * timer / _moveTime + Mathf.PI) + 0.5f);
             yield return null;
         }

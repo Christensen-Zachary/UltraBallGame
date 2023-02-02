@@ -116,4 +116,19 @@ public interface ISetBallsOnFire
     bool SetBallsOnFire();
 }
 
+public interface IVertical
+{
+    bool Vertical();
+}
+
+public interface IHorizontal
+{
+    bool Horizontal();
+}
+
+public interface IRandom
+{
+    bool Random();
+}
+
 

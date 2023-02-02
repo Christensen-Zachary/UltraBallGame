@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class GameUI : MonoBehaviour, IReturnFire, IResetGame, INextLevel, IOpenMainMenu, ICloseMainMenuPanel, IOpenMainMenuPanel, IOpenOptions, ICloseOptionsPanel, IStartSliderAim, IEndSliderAim, IStartFireUI, IGiveExtraBalls, IGiveFloorBricks, ISetBallsOnFire
+public class GameUI : MonoBehaviour, IHorizontal, IVertical, IRandom, IReturnFire, IResetGame, INextLevel, IOpenMainMenu, ICloseMainMenuPanel, IOpenMainMenuPanel, IOpenOptions, ICloseOptionsPanel, IStartSliderAim, IEndSliderAim, IStartFireUI, IGiveExtraBalls, IGiveFloorBricks, ISetBallsOnFire
 {
     [field: SerializeField]
     public ResourceLocator ResourceLocator { get; set; }
@@ -78,6 +78,15 @@ public class GameUI : MonoBehaviour, IReturnFire, IResetGame, INextLevel, IOpenM
 
     private bool PReturnFire { get { if (_returnFire) { _returnFire = false; return true; } return false; } set { _returnFire = value; } }
     private bool _returnFire = false;
+
+    private bool PHorizontal { get { if (_horizontal) { _horizontal = false; return true; } return false; } set { _horizontal = value; } }
+    private bool _horizontal = false;
+
+    private bool PVertical { get { if (_vertical) { _vertical = false; return true; } return false; } set { _vertical = value; } }
+    private bool _vertical = false;
+
+    private bool PRandom { get { if (_random) { _random = false; return true; } return false; } set { _random = value; } }
+    private bool _random = false;
 
 
     private void Awake()
@@ -165,7 +174,29 @@ public class GameUI : MonoBehaviour, IReturnFire, IResetGame, INextLevel, IOpenM
         StartCoroutine(LoadMainMenuCoroutine());
     }
 
-     private IEnumerator SetReturnFireRoutine()
+    private IEnumerator SetRandomRoutine()
+    {
+        PRandom = true;
+        yield return null;
+        PRandom = false;
+    }
+
+
+    private IEnumerator SetVerticalRoutine()
+    {
+        PVertical = true;
+        yield return null;
+        PVertical = false;
+    }
+
+    private IEnumerator SetHorizontalRoutine()
+    {
+        PHorizontal = true;
+        yield return null;
+        PHorizontal = false;
+    }
+
+    private IEnumerator SetReturnFireRoutine()
     {
         PReturnFire = true;
         yield return null;
@@ -270,6 +301,30 @@ public class GameUI : MonoBehaviour, IReturnFire, IResetGame, INextLevel, IOpenM
         _nextLevel = true;
         yield return null;
         _nextLevel = false;
+    }
+
+    public void ActivateRandom()
+    {
+        if (!PRandom)
+        {
+            StartCoroutine(SetRandomRoutine());
+        }
+    }
+
+    public void ActivateVertical()
+    {
+        if (!PVertical)
+        {
+            StartCoroutine(SetVerticalRoutine());
+        }
+    }
+
+    public void ActivateHorizontal()
+    {
+        if (!PHorizontal)
+        {
+            StartCoroutine(SetHorizontalRoutine());
+        }
     }
 
     public void ActivateReturnFire()
@@ -464,6 +519,21 @@ public class GameUI : MonoBehaviour, IReturnFire, IResetGame, INextLevel, IOpenM
     public void HideWin()
     {
         WinPanel.SetActive(false);
+    }
+
+    public bool Horizontal()
+    {
+        return PHorizontal;
+    }
+
+    public bool Vertical()
+    {
+        return PVertical;
+    }
+
+    public bool Random()
+    {
+        return PRandom;
     }
 
     public bool ReturnFire()

@@ -9,7 +9,7 @@ public enum GameUIType
     Empty
 }
 
-public class GameUIComposition : MonoBehaviour, IResetGame, INextLevel, IOpenMainMenu, ICloseMainMenuPanel, IOpenMainMenuPanel, IOpenOptions, ICloseOptionsPanel, IStartSliderAim, IEndSliderAim, IStartFireUI, IGiveExtraBalls, IGiveFloorBricks
+public class GameUIComposition : MonoBehaviour, IHorizontal, IVertical, IRandom, IResetGame, INextLevel, IOpenMainMenu, ICloseMainMenuPanel, IOpenMainMenuPanel, IOpenOptions, ICloseOptionsPanel, IStartSliderAim, IEndSliderAim, IStartFireUI, IGiveExtraBalls, IGiveFloorBricks
 {
 
     [field: SerializeField]
@@ -35,6 +35,9 @@ public class GameUIComposition : MonoBehaviour, IResetGame, INextLevel, IOpenMai
     private IGiveExtraBalls GGiveExtraBalls;
     private IGiveFloorBricks GGiveFloorBricks;
     private ISetBallsOnFire GSetBallsOnFire;
+    private IVertical GVertical;
+    private IHorizontal GHorizontal;
+    private IRandom GRandom;
 
     private void Awake()
     {
@@ -60,6 +63,9 @@ public class GameUIComposition : MonoBehaviour, IResetGame, INextLevel, IOpenMai
                 GGiveExtraBalls = _gameUI;
                 GGiveFloorBricks = _gameUI;
                 GSetBallsOnFire = _gameUI;
+                GVertical = _gameUI;
+                GHorizontal = _gameUI;
+                GRandom = _gameUI;
                 break;
             case GameUIType.MKB:
                 GResetGame = _gameUIMKB;
@@ -75,6 +81,9 @@ public class GameUIComposition : MonoBehaviour, IResetGame, INextLevel, IOpenMai
                 GGiveExtraBalls = _gameUIMKB;
                 GGiveFloorBricks = _gameUIMKB;
                 GSetBallsOnFire = _gameUIMKB;
+                GVertical = _gameUIMKB;
+                GHorizontal = _gameUIMKB;
+                GRandom = _gameUIMKB;
                 break;
             default:
                 GResetGame = _emptyGameUI;
@@ -90,6 +99,9 @@ public class GameUIComposition : MonoBehaviour, IResetGame, INextLevel, IOpenMai
                 GGiveExtraBalls = _emptyGameUI;
                 GGiveFloorBricks = _emptyGameUI;
                 GSetBallsOnFire = _emptyGameUI;
+                GVertical = _emptyGameUI;
+                GHorizontal = _emptyGameUI;
+                GRandom = _emptyGameUI;
                 break;
         }   
     }
@@ -157,5 +169,20 @@ public class GameUIComposition : MonoBehaviour, IResetGame, INextLevel, IOpenMai
     public bool StartSliderAim()
     {
         return GStartSliderAim.StartSliderAim();
+    }
+
+    public bool Horizontal()
+    {
+        return GHorizontal.Horizontal();
+    }
+
+    public bool Vertical()
+    {
+        return GVertical.Vertical();
+    }
+
+    public bool Random()
+    {
+        return GRandom.Random();
     }
 }

@@ -60,4 +60,6 @@ public class EmptyInput : MonoBehaviour, ITouchingGameboard, IStartFire, IGetFir
     {
         return false;
     }
+
+
 }

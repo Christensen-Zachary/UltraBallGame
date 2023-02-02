@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EmptyGameUI : MonoBehaviour, IResetGame, INextLevel, IOpenMainMenu, ICloseMainMenuPanel, IOpenMainMenuPanel, IOpenOptions, ICloseOptionsPanel, IStartSliderAim, IEndSliderAim, IStartFireUI, IGiveExtraBalls, IGiveFloorBricks, IStartMove, IEndMove, IReturnFire, ISetBallsOnFire
+public class EmptyGameUI : MonoBehaviour, IHorizontal, IVertical, IRandom, IResetGame, INextLevel, IOpenMainMenu, ICloseMainMenuPanel, IOpenMainMenuPanel, IOpenOptions, ICloseOptionsPanel, IStartSliderAim, IEndSliderAim, IStartFireUI, IGiveExtraBalls, IGiveFloorBricks, IStartMove, IEndMove, IReturnFire, ISetBallsOnFire
 {
     [field: SerializeField]
     public ResourceLocator ResourceLocator { get; set; }
@@ -89,6 +89,21 @@ public class EmptyGameUI : MonoBehaviour, IResetGame, INextLevel, IOpenMainMenu,
     }
 
     public bool SetBallsOnFire()
+    {
+        return false;
+    }
+
+    public bool Horizontal()
+    {
+        return false;
+    }
+
+    public bool Vertical()
+    {
+        return false;
+    }
+
+    public bool Random()
     {
         return false;
     }

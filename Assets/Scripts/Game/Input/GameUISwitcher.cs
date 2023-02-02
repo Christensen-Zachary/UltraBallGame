@@ -26,6 +26,12 @@ public class GameUISwitcher : MonoBehaviour
     public GameObject BtnFireBalls { get; set; }
     [field: SerializeField]
     public Animator OptionsAnimator { get; set; }
+    [field: SerializeField]
+    public GameObject BtnVertical { get; set; }
+    [field: SerializeField]
+    public GameObject BtnHorizontal { get; set; }
+    [field: SerializeField]
+    public GameObject BtnRandom { get; set; }
     
 
 
@@ -54,11 +60,23 @@ public class GameUISwitcher : MonoBehaviour
         BtnExtraBalls.SetActive(false);
         BtnFloorBricks.SetActive(false);
         BtnFireBalls.SetActive(false);
+        
 
+        BtnVertical.SetActive(true);
+        BtnHorizontal.SetActive(true);
+        BtnRandom.SetActive(true);
         OptionsAnimator.SetBool("Enable", false);
         BtnReturnBalls.SetActive(true);
     }
     
+    public void EndFire()
+    {
+        BtnVertical.SetActive(false);
+        BtnHorizontal.SetActive(false);
+        BtnRandom.SetActive(false);
+        BtnReturnBalls.SetActive(false);
+    }
+
     public void StartTurn()
     {
         BtnReturnBalls.SetActive(false);
