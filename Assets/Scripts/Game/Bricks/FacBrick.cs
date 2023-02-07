@@ -47,6 +47,7 @@ public class FacBrick : MonoBehaviour
     private WinService _winService;
     private EndTurnDestroyService _endTurnDestroyService;
     private EndTurnAttackService _endTurnAttackService;
+    private DamageCounter _damageCounter;
 
     public float MaxHealth { get; set; } = 10;
 
@@ -58,6 +59,7 @@ public class FacBrick : MonoBehaviour
         _winService = ResourceLocator.GetResource<WinService>("WinService");
         _endTurnDestroyService = ResourceLocator.GetResource<EndTurnDestroyService>("EndTurnDestroyService");
         _endTurnAttackService = ResourceLocator.GetResource<EndTurnAttackService>("EndTurnAttackService");
+        _damageCounter = ResourceLocator.GetResource<DamageCounter>("DamageCounter");
 
         ResourceLocator.AddResource("FacBrick", this);
 
@@ -167,7 +169,7 @@ public class FacBrick : MonoBehaviour
         Damageable damageable = obj.GetComponentInChildren<Damageable>();
         if (damageable != null)
         {
-            damageable.FacBrick = this;
+            damageable.DamageCounter = _damageCounter;
             damageable.WinService = _winService;
             damageable.MaxColorValue = MaxHealth;
             ThemeVisitor.Visit(damageable);

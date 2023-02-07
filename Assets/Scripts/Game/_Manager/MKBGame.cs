@@ -11,6 +11,7 @@ public class MKBGame : MonoBehaviour, IWaitingForPlayerInput
     private LevelService _levelService;
     private EndTurnDestroyService _endTurnDestroyService;
     private FacBall _facBall;
+    private PowerupManager _powerupManager;
 
 
 
@@ -35,6 +36,7 @@ public class MKBGame : MonoBehaviour, IWaitingForPlayerInput
         _gameUI = ResourceLocator.GetResource<GameUI>("GameUI");
         _gameUISwitcher = ResourceLocator.GetResource<GameUISwitcher>("GameUISwitcher");
         _gameUIComposition = ResourceLocator.GetResource<GameUIComposition>("GameUIComposition");
+        _powerupManager = ResourceLocator.GetResource<PowerupManager>("PowerupManager");
     }
 
     public void WaitingForPlayerInput()
@@ -59,31 +61,15 @@ public class MKBGame : MonoBehaviour, IWaitingForPlayerInput
         }
         else if (_gameUIComposition.GiveExtraBalls())
         {
-            if (_levelService.ExtraBallPowerUpCount > 0)
-            {
-                _levelService.ExtraBallPowerUpCount--;
-                for (int i = 0; i < _levelService.Balls.Count; i++)
-                {
-                    _endTurnDestroyService.AddGameObject(
-                        _facBall.Create(_levelService.Balls[i])
-                    );
-                    _levelService.BallCounter++;
-                }
-            }
+            _powerupManager.UseExtraBalls();
         }
         else if (_gameUIComposition.GiveFloorBricks())
         {
-            if (_levelService.FloorBricksPowerUpCount > 0)
-            {
-                NormalGame.AddFloorBricks(); 
-            }
+            _powerupManager.UseFloorBricks();
         }
         else if (_gameUIComposition.SetBallsOnFire())
         {
-            if (_levelService.FireBallsPowerUpCount > 0)
-            {
-                NormalGame.SetBallsOnFire(); 
-            }
+            _powerupManager.UseFirePowerup();
         }
     }
 }

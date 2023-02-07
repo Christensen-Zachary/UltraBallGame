@@ -271,6 +271,8 @@ GameObject:
   - component: {fileID: 7999305636761499493}
   - component: {fileID: 5113763500730065056}
   - component: {fileID: 5952240927560197488}
+  - component: {fileID: 6771782027243735410}
+  - component: {fileID: 9007417799713777365}
   m_Layer: 0
   m_Name: FSM
   m_TagString: Untagged
@@ -471,6 +473,32 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <ResourceLocator>k__BackingField: {fileID: 4516845128962790882}
   FirePS: {fileID: 3854467882062119106, guid: 4ca728001b47f46feab9e6fb1800e7da, type: 3}
+--- !u!114 &6771782027243735410
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4516845130371445004}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de0d940ad509c41fbb4763c2e90fc88d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <ResourceLocator>k__BackingField: {fileID: 4516845128962790882}
+--- !u!114 &9007417799713777365
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4516845130371445004}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fdb875b9264b24dd5ab95d475d81797e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <ResourceLocator>k__BackingField: {fileID: 4516845128962790882}
 --- !u!1001 &667063131722708683
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -607,6 +635,24 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2505550846294795425, guid: c395f5f0f8ebb5947876967d8e7307a4, type: 3}
   m_PrefabInstance: {fileID: 2047606823166506015}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &4516845129722876095 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2505550846294795424, guid: c395f5f0f8ebb5947876967d8e7307a4, type: 3}
+  m_PrefabInstance: {fileID: 2047606823166506015}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &2803435390987325528
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4516845129722876095}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d204e165d98814d218b097cde0209586, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <ResourceLocator>k__BackingField: {fileID: 4516845128962790882}
 --- !u!1001 &2351248293909079853
 PrefabInstance:
   m_ObjectHideFlags: 0

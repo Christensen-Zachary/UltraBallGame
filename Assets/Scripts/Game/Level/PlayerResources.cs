@@ -8,6 +8,7 @@ public static class PlayerResources
     public static readonly string LEVEL38 = "50,3,2,3,99";
     public static readonly string LEVEL42 = "3,3,2,3,10";
     public static readonly string LEVEL43 = "6,3,1,1,10";
+    public static readonly string LEVEL45 = "20,20,1,1,10";
 
     
 }

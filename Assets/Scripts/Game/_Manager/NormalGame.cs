@@ -2,12 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.InteropServices;
-using Newtonsoft.Json.Converters;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.Analytics;
-using UnityEngine.InputSystem.LowLevel;
 using UnityEngine.SceneManagement;
 
 public class NormalGame : MonoBehaviour, IGetState, IEmpty, ISetupLevel, IWaitingForPlayerInput, IMovingPlayer, IAiming, ISliderAiming, IFiring, IEndTurn, ICheckWinLose, IGameOver, IWin, IOptionsPanel
@@ -34,11 +29,9 @@ public class NormalGame : MonoBehaviour, IGetState, IEmpty, ISetupLevel, IWaitin
     private GameUIComposition _gameUIComposition;
     private WinService _winService;
     private ParticleSystemService _particleSystemService;
-
-    private int _closestColumn = 0;
-    private List<(GameObject, BrickType)> FloorBricks = new List<(GameObject, BrickType)>();
-    private bool _usedFloorBricks = false;
-    private bool _usedFireBalls = false;
+    private DamageCounter _damageCounter;
+    private GameData _gameData;
+    private PowerupManager _powerupManager;
 
     private void Awake() 
     {
@@ -60,6 +53,9 @@ public class NormalGame : MonoBehaviour, IGetState, IEmpty, ISetupLevel, IWaitin
         _gameUIComposition = ResourceLocator.GetResource<GameUIComposition>("GameUIComposition");
         _winService = ResourceLocator.GetResource<WinService>("WinService");
         _particleSystemService = ResourceLocator.GetResource<ParticleSystemService>("ParticleSystemService");
+        _damageCounter = ResourceLocator.GetResource<DamageCounter>("DamageCounter");
+        _gameData = ResourceLocator.GetResource<GameData>("GameData");
+        _powerupManager = ResourceLocator.GetResource<PowerupManager>("PowerupManager");
     }
 
     public void Aiming()
@@ -148,7 +144,7 @@ public class NormalGame : MonoBehaviour, IGetState, IEmpty, ISetupLevel, IWaitin
         else
         {
             _player.MovePlayer(_gameInput.GetMovePosition());
-            AdjustFloorBricks();
+            _powerupManager.AdjustFloorBricks();
         }
     }
 
@@ -193,6 +189,7 @@ public class NormalGame : MonoBehaviour, IGetState, IEmpty, ISetupLevel, IWaitin
             _player.HideAim();
             _player.RunFire(_gameUI.GetFireDirection());
             _gameUISwitcher.StartFire();
+            _damageCounter.StartTurn();
             GameState.State = GState.Firing;
             return;
         }
@@ -211,45 +208,8 @@ public class NormalGame : MonoBehaviour, IGetState, IEmpty, ISetupLevel, IWaitin
         }
         
         _player.ShowAim(_gameUI.GetFireDirection());
-        AdjustFloorBricks();
+        _powerupManager.AdjustFloorBricks();
     
-    }
-
-    private void AdjustFloorBricks()
-    {
-        if (_usedFloorBricks)
-        {
-            int closestColumn = GetClosestColumnToPlayer();
-
-            if (closestColumn != _closestColumn)
-            {
-                print($"ClosestColumn {closestColumn} _closestCloumn {_closestColumn}");
-                _closestColumn = closestColumn;
-                (GameObject, BrickType)[] tempBricks = new (GameObject, BrickType)[_levelService.NumberOfDivisions - 1];
-                bool passedClosestColumn = false;
-                for (int i = 0; i < _levelService.NumberOfDivisions; i++)
-                {
-                    if (i == closestColumn)
-                    {
-                        passedClosestColumn = true;
-                        continue;
-                    }
-
-                    BrickType brickType;
-                    if (i == closestColumn - 1) brickType = BrickType.Triangle0;
-                    else if (i == closestColumn + 1) brickType = BrickType.Triangle90;
-                    else brickType = BrickType.Square;
-
-                    (GameObject, BrickType) brick = FloorBricks.Find(x => x.Item2 == brickType);
-
-                    brick.Item1.transform.localPosition = _grid.GetPosition(i, 0);
-                    tempBricks[passedClosestColumn ? i - 1 : i] = brick;
-
-                    FloorBricks.Remove(brick);
-                }
-                FloorBricks = tempBricks.ToList();
-            }
-        }
     }
 
     public void WaitingForPlayerInput()
@@ -271,31 +231,15 @@ public class NormalGame : MonoBehaviour, IGetState, IEmpty, ISetupLevel, IWaitin
         }
         else if (_gameUIComposition.GiveExtraBalls())
         {
-            if (_levelService.ExtraBallPowerUpCount > 0)
-            {
-                _levelService.ExtraBallPowerUpCount--;
-                for (int i = 0; i < _levelService.Balls.Count; i++)
-                {
-                    _endTurnDestroyService.AddGameObject(
-                        _facBall.Create(_levelService.Balls[i])
-                    );
-                    _levelService.BallCounter++;
-                }
-            }
+            _powerupManager.UseExtraBalls();
         }
         else if (_gameUIComposition.GiveFloorBricks())
         {
-            if (_levelService.FloorBricksPowerUpCount > 0 && !_usedFloorBricks)
-            {
-                AddFloorBricks(); 
-            }
+            _powerupManager.UseFloorBricks();
         }
         else if (_gameUIComposition.SetBallsOnFire())
         {
-            if (_levelService.FireBallsPowerUpCount > 0)
-            {
-                SetBallsOnFire(); 
-            }
+            _powerupManager.UseFirePowerup();
         }
         else if (Input.GetKeyDown(KeyCode.Space))
         {
@@ -325,66 +269,11 @@ public class NormalGame : MonoBehaviour, IGetState, IEmpty, ISetupLevel, IWaitin
         return GameState.State;
     }
 
-    public void SetBallsOnFire()
-    {
-        if (_usedFireBalls) return;
+    
 
-        _usedFireBalls = true;
-        _levelService.FireBallsPowerUpCount--;
+    
 
-        for (int i = 0; i < _levelService.Balls.Count; i++) 
-        {
-            GameObject obj = _facBrick.Create(new Brick(BrickType.FirePowerup, 100, 100));
-            obj.transform.SetParent(_player.transform);
-            obj.transform.localPosition =  Vector3.zero;
-            obj.transform.localScale = Vector3.one;
-            _endTurnDestroyService.AddGameObject(obj);
-        }
-    }
-
-    public void AddFloorBricks()
-    {
-        _usedFloorBricks = true;
-        _levelService.FloorBricksPowerUpCount--;
-
-        _closestColumn = GetClosestColumnToPlayer();
-        _player.MovePlayer(new Vector2(_grid.GetPosition(_closestColumn, 0).x, _player.transform.position.y));
-
-        FloorBricks.Clear();
-        for (int i = 0; i < _grid.NumberOfDivisions; i++)
-        {
-            BrickType brickType = BrickType.Square;
-            if (i == _closestColumn - 1) brickType = BrickType.Triangle0;
-            else if (i == _closestColumn + 1) brickType = BrickType.Triangle90;
-
-            if (i != _closestColumn)
-            {
-                GameObject obj = _facBrick.Create(new Brick { BrickType = brickType, Col = i, Row = 0, Health = _levelService.Balls.Count * 2 }, new Type[] { typeof(Advanceable) });
-                _endTurnDestroyService.AddGameObject(obj);
-                obj.GetComponentInChildren<Damageable>()._doesCountTowardsWinning = false;
-                FloorBricks.Add((obj, brickType));
-            }
-        }
-    }
-
-    private int GetClosestColumnToPlayer()
-    {
-        int closestColumn = 0;
-        float closestColumnDistance = 100;
-        Vector2 playerPosition = new Vector2(_player.transform.position.x, 0);
-        for (int i = 0; i < _grid.NumberOfDivisions; i++)
-        {
-            Vector2 position = new Vector2(_grid.GetPosition(i, 0).x, 0);
-            if (Vector2.Distance(playerPosition, position) < closestColumnDistance)
-            {
-                closestColumn = i;
-                closestColumnDistance = Vector2.Distance(playerPosition, position);
-            }
-
-        }
-
-        return closestColumn;
-    }
+    
 
     private void OpenOptions()
     {
@@ -396,8 +285,12 @@ public class NormalGame : MonoBehaviour, IGetState, IEmpty, ISetupLevel, IWaitin
 
     public IEnumerator EndTurnRoutine()
     {
-        _usedFireBalls = false;
-        _usedFloorBricks = false;
+        _damageCounter.EndTurn();
+        
+        _gameData.AdvanceTurn();
+        _gameData.SaveTurnToFile();
+
+        _powerupManager.EndTurnPowerupManager();
 
         if (_gameUISwitcher != null) _gameUISwitcher.EndFire();
 
@@ -418,9 +311,11 @@ public class NormalGame : MonoBehaviour, IGetState, IEmpty, ISetupLevel, IWaitin
 
     private IEnumerator SetupLevelRoutine()
     {
-        _usedFireBalls = false;
-        _usedFloorBricks = false;
+        _powerupManager.EndTurnPowerupManager();
 
+        _gameData.ResetGameData();
+
+        _damageCounter.ResetCounters();
         _endTurnAttackService.ResetAttackService();
         _endTurnDestroyService.DestroyGameObjects(); // this is important so that when the game is reset before the end of turn, then potential objects that had been added will be destroyed. Otherwise this service will cause an error if objects had been added
         _levelService.ResetLevelService();

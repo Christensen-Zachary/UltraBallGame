@@ -80,7 +80,7 @@ public class Shootable : MonoBehaviour
                 }
                 else
                 {
-                    print($"Did not find {hits[i].collider.name} tag {hits[i].collider.tag}");
+                    //print($"Did not find {hits[i].collider.name} tag {hits[i].collider.tag}");
                 }
             }
         }

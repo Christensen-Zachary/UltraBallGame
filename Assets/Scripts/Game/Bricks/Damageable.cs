@@ -18,7 +18,8 @@ public class Damageable : MonoBehaviour
     public WinService WinService { get; set; }
 
     [field: SerializeField]
-    public FacBrick FacBrick { get; set; } // set from FacBrick
+    public DamageCounter DamageCounter { get; set; } // set from FacBrick
+    
 
     public bool _doesCountTowardsWinning = true;
 
@@ -45,12 +46,17 @@ public class Damageable : MonoBehaviour
 
     public void Damage(float damage)
     {
+        if (_doesCountTowardsWinning) DamageCounter.DamageCount += (int)((Health - damage < 0) ? damage - Health : damage);
+
         Health -= damage;
         SetColor(Health);
         //HitSound.Play();
         ShrinkGrow.React();
+
         if (Health <= 0)
         {
+            DamageCounter.DestroyedCount++;
+            
             GetComponent<PolygonCollider2D>().enabled = false;
             ShrinkGrow.HideSprite();
             BrickNumber.Hide();
