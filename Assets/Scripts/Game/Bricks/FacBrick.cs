@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class FacBrick : MonoBehaviour
@@ -159,7 +160,9 @@ public class FacBrick : MonoBehaviour
                 break;
         }
         
-        obj.AddComponent<BrickData>().Brick = brick; // keep brick object accessible for later
+        BrickData brickData = obj.AddComponent<BrickData>();
+        brickData.Brick = new Brick(); // keep brick object accessible for later
+        brick.CopySelfInto(brickData.Brick);
         obj.name = $"Brick {System.Guid.NewGuid()}";
         brick.ID = obj.name;
         if (obj.TryGetComponent<Advanceable>(out Advanceable advanceable1))
@@ -186,6 +189,7 @@ public class FacBrick : MonoBehaviour
         {
             damageable.DamageCounter = _damageCounter;
             damageable.WinService = _winService;
+            damageable._brickData = brickData;
             damageable.MaxColorValue = MaxHealth;
             ThemeVisitor.Visit(damageable);
             damageable.SetColor(brick.Health);

@@ -22,7 +22,7 @@ public class Damageable : MonoBehaviour
     
 
     public bool _doesCountTowardsWinning = true;
-
+    public BrickData _brickData; // set in facBrick
 
 
     public Color MaxColor { get; set; } = new Color(
@@ -49,6 +49,7 @@ public class Damageable : MonoBehaviour
         if (_doesCountTowardsWinning) DamageCounter.DamageCount += (int)((Health - damage < 0) ? damage - Health : damage);
 
         Health -= damage;
+        if (_brickData != null) _brickData.Brick.Health -= (int)damage;
         SetColor(Health);
         //HitSound.Play();
         ShrinkGrow.React();

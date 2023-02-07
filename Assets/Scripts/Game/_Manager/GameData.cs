@@ -1,6 +1,10 @@
+using System;
+using System.Buffers;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class GameData : MonoBehaviour
@@ -19,6 +23,7 @@ public class GameData : MonoBehaviour
 
     public float ShotAngle { get; set; }
     public float ShotPosition { get; set; }
+    public List<Brick> BeforeGameboard { get; set; }
 
     private void Awake() 
     {
@@ -45,8 +50,9 @@ public class GameData : MonoBehaviour
     public void SaveTurnToFile()
     {
         List<Brick> bricks = _facBrick.GetBricks();
+        ConvertBricksToString(bricks);
         // print($"Returned bricks length {bricks.Count}");
-        // bricks.Select(x => x.Row).Distinct().ToList().ForEach(x => print($"Row {x} found"));
+        bricks.Select(x => x.Row).Distinct().ToList().ForEach(x => print($"Row {x} found"));
         // for (int i = 1; i < 19; i++)
         // {
         //     print($"Number of bricks in row {i} {bricks.Where(x => x.Row == i).Count()}");
@@ -66,4 +72,42 @@ public class GameData : MonoBehaviour
         string dataString = $"{(_winService.HasWon() ? 1 : 0)},{_turnCount},{_levelService.Health - _player.Health},{_player.Shootables.Count},{_gameID}";
         print(dataString);
     }
+
+    public string ConvertBricksToString(List<Brick> bricks)
+    {
+        string brickData = "";
+
+        // track data row by row
+
+        // 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0 0x0
+        // 64 / 12 = 5
+        // brick type, brick value
+        // two numbers can not share 5 bits
+        // two columns for each row
+        // one column for brick type
+        // one column for brick value
+        for (int i = 1; i < 19; i++)
+        {
+            List<Brick> row = bricks.Where(x => x.Row == i).ToList();
+            BigInteger brickType = 0;
+            BigInteger brickValue = 0;
+            for (int j = 0; j < 12; j++)
+            {
+                Brick brick = row.Find(x => x.Col == j);
+                if (brick != null)
+                {
+                    brickType |= ((int)brick.BrickType + 1) * (BigInteger)Mathf.Pow(2, j * BITS_PER_BRICK); // must add 1 to brick type because starts at base 0 index with square
+                    if (Brick.IsDamageable(brick.BrickType) && brick.Health > 0)
+                    {
+                        brickValue |= (BigInteger)brick.Health * (BigInteger)Mathf.Pow(2, j * BITS_PER_BRICK);
+                    }
+                }
+            }
+            print($"Row {i} brickType value {brickType.ToSafeString()} brickValue value {brickValue.ToSafeString()}");
+        }
+
+        return brickData;
+    }
+
+    public static readonly int BITS_PER_BRICK = 8;
 }
