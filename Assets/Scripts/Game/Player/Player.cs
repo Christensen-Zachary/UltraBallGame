@@ -113,7 +113,7 @@ public class Player : MonoBehaviour
 
     public bool IsFireComplete()
     {
-        return !Shootables.Any(x => x.IsReturned == false) && !IsFireRunning;
+        return !IsFireRunning && !Shootables.Any(x => x.IsReturned == false);
     }
 
 

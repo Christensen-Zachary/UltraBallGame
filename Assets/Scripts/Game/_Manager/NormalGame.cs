@@ -190,6 +190,10 @@ public class NormalGame : MonoBehaviour, IGetState, IEmpty, ISetupLevel, IWaitin
             _player.RunFire(_gameUI.GetFireDirection());
             _gameUISwitcher.StartFire();
             _damageCounter.StartTurn();
+
+            _gameData.ShotAngle = Mathf.Atan2(_gameUI.GetFireDirection().x, _gameUI.GetFireDirection().y);
+            _gameData.ShotPosition = _player.transform.position.x;
+
             GameState.State = GState.Firing;
             return;
         }
@@ -268,12 +272,6 @@ public class NormalGame : MonoBehaviour, IGetState, IEmpty, ISetupLevel, IWaitin
     {
         return GameState.State;
     }
-
-    
-
-    
-
-    
 
     private void OpenOptions()
     {

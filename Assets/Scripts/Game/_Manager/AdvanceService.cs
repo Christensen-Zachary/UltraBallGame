@@ -60,6 +60,10 @@ public class AdvanceService : MonoBehaviour
                 }
                 _endTurnDestroyService.AddGameObject(x.gameObject);
             }
+            else
+            {
+                x.GetComponent<BrickData>().Brick.Row--;
+            }
         });
     }
 

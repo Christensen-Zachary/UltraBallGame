@@ -83,15 +83,29 @@ public class FacBrick : MonoBehaviour
     // called during setup level
     public void DestroyBricks()
     {
+        List<GameObject> bricks = GetCurrentBricks();
+        _advanceService.Advanceables.Clear();
+        bricks.ForEach(x => Destroy(x));
+
+        CreateAdvanceableParent();
+    }
+
+    private List<GameObject> GetCurrentBricks()
+    {
         List<GameObject> bricks = new List<GameObject>();
         for (int i = 0; i < _brickParent.childCount; i++)
         {
             bricks.Add(_brickParent.GetChild(i).gameObject);
         }
-        _advanceService.Advanceables.Clear();
-        bricks.ForEach(x => Destroy(x));
 
-        CreateAdvanceableParent();
+        return bricks;
+    }
+
+    public List<Brick> GetBricks()
+    {
+        IEnumerable<Brick> brickData = _brickParent.GetComponentsInChildren<BrickData>().Select(x => x.Brick);
+        if (brickData == null) return new List<Brick>();
+        else return brickData.ToList();
     }
 
     public GameObject Create(Brick brick, params Type[] removeBehaviours)
@@ -145,6 +159,7 @@ public class FacBrick : MonoBehaviour
                 break;
         }
         
+        obj.AddComponent<BrickData>().Brick = brick; // keep brick object accessible for later
         obj.name = $"Brick {System.Guid.NewGuid()}";
         brick.ID = obj.name;
         if (obj.TryGetComponent<Advanceable>(out Advanceable advanceable1))
