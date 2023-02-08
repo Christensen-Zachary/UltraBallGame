@@ -45,14 +45,9 @@ public class ShowCSVSavesGame : MonoBehaviour, ISetupLevel, IWaitingForPlayerInp
             _counter--;
             LoadCSVSave();
         }
-        else if (Input.GetKeyDown(KeyCode.UpArrow))
+        else if (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.DownArrow))
         {
-            _beforeOrAfter = true;
-            LoadCSVSave();
-        }
-        else if (Input.GetKeyDown(KeyCode.DownArrow))
-        {
-            _beforeOrAfter = false;
+            _beforeOrAfter = !_beforeOrAfter;
             LoadCSVSave();
         }
     }
@@ -63,11 +58,16 @@ public class ShowCSVSavesGame : MonoBehaviour, ISetupLevel, IWaitingForPlayerInp
         using (StreamReader sr = new StreamReader("./gameOutput.csv"))
         {
             sr.ReadLine(); // read past headers
-            for (int i = 0; i < _counter; i++) sr.ReadLine(); // read to line of counter
-            string[] rowString = sr.ReadLine().Split(",");
+            for (int i = 0; i < _counter; i++) // read to line of counter
+            {
+                if (sr.ReadLine() == null) return; // prevent exception from counter going beyond file
+            }
+            string line = sr.ReadLine(); 
+            if (line == null) return; // prevent exception from counter going beyond file
+            string[] rowString = line.Split(",");
             for (int i = 0; i < 18 * 2; i += 2)
             {
-                int index = i + 8 + (_beforeOrAfter ? 0 : 18 * 2); // starts at 8, is 18 long
+                int index = i + 8 + (_beforeOrAfter ? 0 : 18 * 2); // starts at 8, is 18 long with 2 values per row
                 // can not access gameData possibly, need method for conversion
                 string rowTypes = rowString[index];
                 string rowValues = rowString[index + 1];
