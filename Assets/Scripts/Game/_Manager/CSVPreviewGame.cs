@@ -15,7 +15,11 @@ public class CSVPreviewGame : MonoBehaviour, ISetupLevel, IWaitingForPlayerInput
     public GameState GameState { get; set; } // reference set in editor
 
     [field: SerializeField]
+    public TextMeshProUGUI GameIDText { get; set; } // reference set in editor
+    [field: SerializeField]
     public TextMeshProUGUI BeforeAfterText { get; set; } // reference set in editor
+    [field: SerializeField]
+    public TextMeshProUGUI TurnNumberText { get; set; } // reference set in editor
 
     private FacBrick _facBrick;
     private FacBall _facBall;
@@ -99,14 +103,16 @@ public class CSVPreviewGame : MonoBehaviour, ISetupLevel, IWaitingForPlayerInput
                 List<Brick> rowBricks = GameData.ConvertStringToBricks(rowTypes, rowValues, i / 2 + 1);
                 rowBricks.ForEach(x => bricks.Add(x));
             }
-            _facBrick.MaxHealth = bricks.Where(x => Brick.IsDamageable(x.BrickType)).Max(x => x.Health);
+            if (bricks.Count > 0) _facBrick.MaxHealth = bricks.Where(x => Brick.IsDamageable(x.BrickType)).Max(x => x.Health);
             bricks.ForEach(x => _facBrick.Create(x));
         }
 
         _facBrick.EnableCompositeCollider();
         _shotPosition = float.Parse(rowString[7]);
         _shotAngle = new Vector2(Mathf.Cos(float.Parse(rowString[6])), Mathf.Sin(float.Parse(rowString[6])));
-
+        
+        GameIDText.text = rowString[0];
+        TurnNumberText.text = $"Turn #{int.Parse(rowString[1])}";
         StartCoroutine(AimPreviewRoutine());
     }
 
