@@ -46,9 +46,20 @@ public class GameData : MonoBehaviour
         _turnCount++;
     }
 
+    // maybe bricks moving down doesnt matter because gameboard will be understood by ai anyway
+    // or else maybe when getting string, could make copy of bricks list and decrement rows by turn count
+    // maybe it does matter because bricks past row 18 will not show up, and I don't want to default to full gameboard representations
     public void SaveTurnToFile()
     {
-        List<Brick> bricks = _facBrick.GetBricks();
+        List<Brick> bricks = new List<Brick>();
+        _facBrick.GetBricks().ForEach(x => {
+            Brick brick = new Brick();
+            x.CopySelfInto(brick);
+            bricks.Add(brick);
+        });
+
+        bricks.ForEach(x => x.Row -= _turnCount);
+        BeforeGameboard.ForEach(x => x.Row -= _turnCount);
 
         string beforeBricksString = ConvertBricksToString(BeforeGameboard);
         string afterBricksString = ConvertBricksToString(bricks);
