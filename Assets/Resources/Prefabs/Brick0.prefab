@@ -12,8 +12,8 @@ GameObject:
   - component: {fileID: 1971341260918529101}
   - component: {fileID: 5166831298221074153}
   - component: {fileID: 1144669951532253889}
-  - component: {fileID: 4215252590375024037}
   - component: {fileID: 3644392938269526543}
+  - component: {fileID: 3249753913591709754}
   m_Layer: 8
   m_Name: Brick0
   m_TagString: Brick
@@ -81,7 +81,36 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _grid: {fileID: 0}
   _advanceService: {fileID: 0}
---- !u!82 &4215252590375024037
+--- !u!60 &3644392938269526543
+PolygonCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 728579221831963425}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 6200000, guid: 6cf694e18fdc97f42817ff2c240b6ea4, type: 2}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 1
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Points:
+    m_Paths:
+    - - {x: -0.5, y: 0.5}
+      - {x: 0.5, y: 0.5}
+      - {x: 0.5, y: -0.5}
+      - {x: -0.5, y: -0.5}
+--- !u!82 &3249753913591709754
 AudioSource:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -92,7 +121,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 1f2f2ccfd1e5af0419a54552b7b30a45, type: 3}
-  m_PlayOnAwake: 0
+  m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
   Loop: 0
@@ -177,35 +206,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!60 &3644392938269526543
-PolygonCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 728579221831963425}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 6200000, guid: 6cf694e18fdc97f42817ff2c240b6ea4, type: 2}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 1
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  m_Points:
-    m_Paths:
-    - - {x: -0.5, y: 0.5}
-      - {x: 0.5, y: 0.5}
-      - {x: 0.5, y: -0.5}
-      - {x: -0.5, y: -0.5}
 --- !u!1 &2474276278835700764
 GameObject:
   m_ObjectHideFlags: 0
@@ -536,10 +536,11 @@ MonoBehaviour:
   <BrickFixCollision>k__BackingField: {fileID: 0}
   <BrickCollision>k__BackingField: {fileID: 5166831298221074153}
   <BrickNumber>k__BackingField: {fileID: 8321900511822536394}
-  <HitSound>k__BackingField: {fileID: 4215252590375024037}
+  <HitSound>k__BackingField: {fileID: 3249753913591709754}
   <ShrinkGrow>k__BackingField: {fileID: 1971341260918529101}
-  <FacBrick>k__BackingField: {fileID: 0}
+  <DamageCounter>k__BackingField: {fileID: 0}
   _doesCountTowardsWinning: 1
+  _brickData: {fileID: 0}
   <SpriteRenderer>k__BackingField: {fileID: 1319269856066853357}
 --- !u!60 &7502168991080866460
 PolygonCollider2D:

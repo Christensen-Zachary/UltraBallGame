@@ -5,7 +5,7 @@ using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class ShowCSVSavesGame : MonoBehaviour, ISetupLevel, IWaitingForPlayerInput
+public class CSVPreviewGame : MonoBehaviour, ISetupLevel, IWaitingForPlayerInput
 {
     [field: SerializeField]
     public ResourceLocator ResourceLocator { get; set; }
@@ -14,6 +14,9 @@ public class ShowCSVSavesGame : MonoBehaviour, ISetupLevel, IWaitingForPlayerInp
     public GameState GameState { get; set; } // reference set in editor
 
     private FacBrick _facBrick;
+    private FacBall _facBall;
+    private Player _player;
+    private LevelService _levelService;
 
     private int _counter = 0;
     private bool _beforeOrAfter = true;
@@ -23,12 +26,18 @@ public class ShowCSVSavesGame : MonoBehaviour, ISetupLevel, IWaitingForPlayerInp
         ResourceLocator.AddResource("ShowCSVSavesGame", this);    
 
         _facBrick = ResourceLocator.GetResource<FacBrick>("FacBrick");
+        _facBall = ResourceLocator.GetResource<FacBall>("FacBall");
+        _player = ResourceLocator.GetResource<Player>("Player");
+        _levelService = ResourceLocator.GetResource<LevelService>("Level");
     }
 
 
     public void SetupLevel()
     {
-        LoadCSVSave();        
+        _levelService.Balls.ForEach(x => _facBall.Create(x));
+        _player.SetRadius();
+
+        LoadCSVSave();
 
         GameState.State = GState.WaitingForPlayerInput;
     }
@@ -50,11 +59,17 @@ public class ShowCSVSavesGame : MonoBehaviour, ISetupLevel, IWaitingForPlayerInp
             _beforeOrAfter = !_beforeOrAfter;
             LoadCSVSave();
         }
+        else if (Input.GetKeyDown(KeyCode.Return))
+        {
+            _facBrick.EnableCompositeCollider();
+        }
     }
 
     private void LoadCSVSave()
     {
         _facBrick.DestroyBricks();
+        _facBrick.DisableCompositeCollider();
+        
         using (StreamReader sr = new StreamReader("./gameOutput.csv"))
         {
             sr.ReadLine(); // read past headers
@@ -75,6 +90,17 @@ public class ShowCSVSavesGame : MonoBehaviour, ISetupLevel, IWaitingForPlayerInp
                 bricks.ForEach(x => _facBrick.Create(x));
             }
 
+            if (_beforeOrAfter) // if before then show player aim
+            {
+                _player.MovePlayer(new Vector2(float.Parse(rowString[7]), 0));
+                _player.ShowAim(new Vector2(Mathf.Cos(float.Parse(rowString[6])), Mathf.Sin(float.Parse(rowString[6]))));
+            }
+            else // otherwise hide aim
+            {
+                _player.HideAim();
+            }
         }
+
+        _facBrick.EnableCompositeCollider();
     }
 }

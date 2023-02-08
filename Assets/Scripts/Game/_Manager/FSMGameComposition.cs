@@ -37,7 +37,7 @@ public class FSMGameComposition : MonoBehaviour, IGetState, IEmpty, ISetupLevel,
     private DesignLevelGame _designLevelGame;
     private ThemePreviewGame _themePreviewGame;
     private EmptyGame _emptyGame;
-    private ShowCSVSavesGame _showCSVSavesGame;
+    private CSVPreviewGame _csvPreviewGame;
 
     private void Awake() 
     {
@@ -46,7 +46,7 @@ public class FSMGameComposition : MonoBehaviour, IGetState, IEmpty, ISetupLevel,
         _designLevelGame = ResourceLocator.GetResource<DesignLevelGame>("DesignLevelGame");
         _themePreviewGame = ResourceLocator.GetResource<ThemePreviewGame>("ThemePreviewGame");
         _emptyGame = ResourceLocator.GetResource<EmptyGame>("EmptyGame");
-        _showCSVSavesGame = ResourceLocator.GetResource<ShowCSVSavesGame>("ShowCSVSavesGame");
+        _csvPreviewGame = ResourceLocator.GetResource<CSVPreviewGame>("ShowCSVSavesGame");
 
         switch (GameType)
         {
@@ -98,8 +98,8 @@ public class FSMGameComposition : MonoBehaviour, IGetState, IEmpty, ISetupLevel,
             case GameType.CSVPreview:
                 GGetState = _normalGame;
                 GEmpty = _emptyGame;
-                GSetupLevel =_showCSVSavesGame;
-                GWaitingForPlayerInput = _showCSVSavesGame;
+                GSetupLevel =_csvPreviewGame;
+                GWaitingForPlayerInput = _csvPreviewGame;
                 GMovingPlayer = _emptyGame;
                 GAiming = _emptyGame;
                 GSliderAiming = _emptyGame;
