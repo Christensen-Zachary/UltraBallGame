@@ -37,6 +37,7 @@ public class FSMGameComposition : MonoBehaviour, IGetState, IEmpty, ISetupLevel,
     private DesignLevelGame _designLevelGame;
     private ThemePreviewGame _themePreviewGame;
     private EmptyGame _emptyGame;
+    private ShowCSVSavesGame _showCSVSavesGame;
 
     private void Awake() 
     {
@@ -45,6 +46,7 @@ public class FSMGameComposition : MonoBehaviour, IGetState, IEmpty, ISetupLevel,
         _designLevelGame = ResourceLocator.GetResource<DesignLevelGame>("DesignLevelGame");
         _themePreviewGame = ResourceLocator.GetResource<ThemePreviewGame>("ThemePreviewGame");
         _emptyGame = ResourceLocator.GetResource<EmptyGame>("EmptyGame");
+        _showCSVSavesGame = ResourceLocator.GetResource<ShowCSVSavesGame>("ShowCSVSavesGame");
 
         switch (GameType)
         {
@@ -92,6 +94,21 @@ public class FSMGameComposition : MonoBehaviour, IGetState, IEmpty, ISetupLevel,
                 GGameOver = _normalGame;
                 GWin = _normalGame;
                 GOptionsPanel = _normalGame;
+                break;
+            case GameType.CSVPreview:
+                GGetState = _normalGame;
+                GEmpty = _emptyGame;
+                GSetupLevel =_showCSVSavesGame;
+                GWaitingForPlayerInput = _showCSVSavesGame;
+                GMovingPlayer = _emptyGame;
+                GAiming = _emptyGame;
+                GSliderAiming = _emptyGame;
+                GFiring = _emptyGame;
+                GEndTurn = _emptyGame;
+                GCheckWinLose = _emptyGame;
+                GGameOver = _emptyGame;
+                GWin = _emptyGame;
+                GOptionsPanel = _emptyGame;
                 break;
             case GameType.MKB:
                 GGetState = _normalGame;

@@ -1,6 +1,3 @@
-using System;
-using System.Buffers;
-using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -109,6 +106,7 @@ public class GameData : MonoBehaviour
         {
             Debug.LogError($"Given more after bricks than space when saving turn");
         }
+
         using (StreamWriter sw = new StreamWriter("./gameOutput.csv", true))
         {
             sw.WriteLine(dataString);
@@ -149,7 +147,7 @@ public class GameData : MonoBehaviour
 
     }
 
-    public string ConvertBricksToString(List<Brick> bricks)
+    public static string ConvertBricksToString(List<Brick> bricks)
     {
         string brickData = "";
 
@@ -180,7 +178,7 @@ public class GameData : MonoBehaviour
         return brickData;
     }
 
-    public List<Brick> ConvertStringToBricks(string brickTypeString, string brickValueString, int row)
+    public static List<Brick> ConvertStringToBricks(string brickTypeString, string brickValueString, int row)
     {
         List<Brick> bricks = new List<Brick>();
 

@@ -513,6 +513,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <ResourceLocator>k__BackingField: {fileID: 4516845128962790882}
+  <GameState>k__BackingField: {fileID: 1073348068064990529}
 --- !u!1001 &667063131722708683
 PrefabInstance:
   m_ObjectHideFlags: 0
