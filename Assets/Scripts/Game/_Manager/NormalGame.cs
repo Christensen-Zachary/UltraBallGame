@@ -193,7 +193,7 @@ public class NormalGame : MonoBehaviour, IGetState, IEmpty, ISetupLevel, IWaitin
 
             _gameData.ShotAngle = Mathf.Atan2(_gameUI.GetFireDirection().x, _gameUI.GetFireDirection().y);
             _gameData.ShotPosition = _player.transform.position.x;
-            _gameData.BeforeGameboard = _facBrick.GetBricks();
+            _gameData.BeforeGameboard = _facBrick.GetBricks().Select(x => { Brick brick = new Brick(); x.CopySelfInto(brick); return brick; }).ToList();
 
             GameState.State = GState.Firing;
             return;

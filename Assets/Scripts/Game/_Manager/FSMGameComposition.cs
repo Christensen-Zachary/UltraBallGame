@@ -6,7 +6,8 @@ public enum GameType
     Normal,
     MKB,
     ThemePreview,
-    DesignLevel
+    DesignLevel,
+    CSVPreview
 }
 
 public class FSMGameComposition : MonoBehaviour, IGetState, IEmpty, ISetupLevel, IWaitingForPlayerInput, IMovingPlayer, IAiming, ISliderAiming, IFiring, IEndTurn, ICheckWinLose, IGameOver, IWin, IOptionsPanel
