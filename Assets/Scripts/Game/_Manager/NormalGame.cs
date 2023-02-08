@@ -248,18 +248,18 @@ public class NormalGame : MonoBehaviour, IGetState, IEmpty, ISetupLevel, IWaitin
         }
         else if (Input.GetKeyDown(KeyCode.Space))
         {
-            // if (Time.timeScale == 1)
-            // {
-            //     print("TimeScale is now 2");
-            //     Time.timeScale = 2;
-            // }
-            // else
-            // {
-            //     print("TimeScale is now 1");
-            //     Time.timeScale = 1;
-            // }
+            if (Time.timeScale == 1)
+            {
+                print("TimeScale is now 3");
+                Time.timeScale = 3;
+            }
+            else
+            {
+                print("TimeScale is now 1");
+                Time.timeScale = 1;
+            }
 
-            _gameData.TestBrickStringConversion();
+            // _gameData.TestBrickStringConversion();
             
         }
     }

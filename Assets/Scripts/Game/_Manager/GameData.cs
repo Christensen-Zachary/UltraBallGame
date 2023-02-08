@@ -52,17 +52,63 @@ public class GameData : MonoBehaviour
     public void SaveTurnToFile()
     {
         List<Brick> bricks = _facBrick.GetBricks();
-        ConvertBricksToString(bricks);
-        // print($"Returned bricks length {bricks.Count}");
-        // bricks.Select(x => x.Row).Distinct().ToList().ForEach(x => print($"Row {x} found"));
-        // for (int i = 1; i < 19; i++)
-        // {
-        //     print($"Number of bricks in row {i} {bricks.Where(x => x.Row == i).Count()}");
-        // }
+
+        string beforeBricksString = ConvertBricksToString(BeforeGameboard);
+        string afterBricksString = ConvertBricksToString(bricks);
+
+        if (!File.Exists("./gameOutput.csv"))
+        {
+            using (StreamWriter sw = new StreamWriter("./gameOutput.csv", true))
+            {
+                sw.Write("GameID,TurnNumber, BallCount, DamageDealt, BricksDestroyed, DamageTaken, ShotAngle, ShotPosition,");
+                for (int i = 0; i < 18; i++)
+                {
+                    sw.Write($"BeforeRow{i+1}Types,BeforeRow{i+1}Values,");
+                }
+                for (int i = 0; i < 18; i++)
+                {
+                    if (i != 0) sw.Write(",");
+                    sw.Write($"AfterRow{i+1}Types,AfterRow{i+1}Values");
+                }
+                sw.WriteLine("");
+            }
+        }
+
         int damageTaken = bricks.Where(x => x.Row == 1).Count(); // is snapshot of bricks before advance, so first row bricks will cause damage
-        // turn number, ball count, damage dealt, bricks destroyed, damage taken, shot angle, shot position, before gameboard, resulting gameboard, _gameID
-        print("turn number, ball count, damage dealt, bricks destroyed, damage taken, shot angle, shot position, before gameboard, resulting gameboard, _gameID");
-        string dataString = $"{_turnCount},{_player.Shootables.Count},{_damageCounter.TurnDamageString()},{damageTaken},{ShotAngle},{ShotPosition},{ConvertBricksToString(BeforeGameboard)},{ConvertBricksToString(bricks)},{_gameID}";
+        
+        string dataString = $"{_gameID},{_turnCount},{_player.Shootables.Count},{_damageCounter.TurnDamageString()},{damageTaken},{ShotAngle},{ShotPosition},";
+        dataString += $"{beforeBricksString}";
+        if (beforeBricksString.Split(",").Count() / 2 < 18)
+        {
+            for (int i = 0; i < 18 - (beforeBricksString.Split(",").Count() / 2); i++)
+            {
+                dataString += ",0,0";
+            }
+        }
+        else if (beforeBricksString.Split(",").Count() / 2 == 18)
+        {
+
+        }
+        else
+        {
+            Debug.LogError($"Given more before bricks than space when saving turn");
+        }
+        dataString += $",{afterBricksString}";
+        if (afterBricksString.Split(",").Count() / 2 < 18)
+        {
+            for (int i = 0; i < 18 - (afterBricksString.Split(",").Count() / 2); i++)
+            {
+                dataString += ",0,0";
+            }
+        }
+        else if (afterBricksString.Split(",").Count() / 2 == 18)
+        {
+
+        }
+        else
+        {
+            Debug.LogError($"Given more after bricks than space when saving turn");
+        }
         using (StreamWriter sw = new StreamWriter("./gameOutput.csv", true))
         {
             sw.WriteLine(dataString);
@@ -71,8 +117,31 @@ public class GameData : MonoBehaviour
 
     public void SaveGameToFile()
     {
+        string bricksString = ConvertBricksToString(_levelService.Bricks);
+
+        if (!File.Exists("./fullGameOutput.csv"))
+        {
+            using (StreamWriter sw = new StreamWriter("./fullGameOutput.csv", true))
+            {
+                sw.Write("GameID,Won,NumberOfTurns,HealthLost,NumberOfBalls,");
+                for (int i = 0; i <= MAX_ROWS - 1; i++) // maximum of 40 rows
+                {
+                    if (i != 0) sw.Write(",");
+                    sw.Write($"Row{i+1}Types,Row{i+1}Values");
+                }
+                sw.WriteLine("");
+            }
+        }
+
         // Won, number of turns, health lost, number of balls, starting gameboard, _gameID
-        string dataString = $"{(_player.Health > 0 && _winService.HasWon() ? 1 : 0)},{_turnCount},{_levelService.Health - _player.Health},{_player.Shootables.Count},{ConvertBricksToString(_levelService.Bricks)},{_gameID}";
+        string dataString = $"{_gameID},{(_player.Health > 0 && _winService.HasWon() ? 1 : 0)},{_turnCount},{_levelService.Health - _player.Health},{_player.Shootables.Count},{bricksString}";
+        if (bricksString.Split(",").Count() < MAX_ROWS) // if less rows than max then pad with 0s
+        {
+            for (int i = 0; i < MAX_ROWS - (bricksString.Split(",").Count() / 2); i++)
+            {
+                dataString += ",0,0";
+            }
+        }
         using (StreamWriter sw = new StreamWriter("./fullGameOutput.csv", true))
         {
             sw.WriteLine(dataString);
@@ -95,6 +164,8 @@ public class GameData : MonoBehaviour
                 Brick brick = row.Find(x => x.Col == j);
                 if (brick != null)
                 {
+                    if (Brick.IsDamageable(brick.BrickType) && brick.Health <= 0) continue; // do not include destroyed bricks
+
                     brickType |= ((int)brick.BrickType + 1) * (BigInteger)Mathf.Pow(2, j * BITS_PER_BRICK); // must add 1 to brick type because starts at base 0 index with square
                     if (Brick.IsDamageable(brick.BrickType) && brick.Health > 0)
                     {
@@ -133,7 +204,7 @@ public class GameData : MonoBehaviour
                 }
             }
 
-            if (typeBits > 0) 
+            if (typeBits > 0) // found a brick
             {
                 typeBits--; // -- because brick types are offset by 1 since square is 0
                 
@@ -182,4 +253,5 @@ public class GameData : MonoBehaviour
     }
 
     public static readonly int BITS_PER_BRICK = 9; // largest brick value is 270 so 9 bits needed for max value of 511
+    public static readonly int MAX_ROWS = 40;
 }
