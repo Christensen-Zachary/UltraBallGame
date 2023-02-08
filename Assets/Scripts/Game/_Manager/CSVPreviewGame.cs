@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -13,6 +14,9 @@ public class CSVPreviewGame : MonoBehaviour, ISetupLevel, IWaitingForPlayerInput
     [field: SerializeField]
     public GameState GameState { get; set; } // reference set in editor
 
+    [field: SerializeField]
+    public TextMeshProUGUI BeforeAfterText { get; set; } // reference set in editor
+
     private FacBrick _facBrick;
     private FacBall _facBall;
     private Player _player;
@@ -20,6 +24,8 @@ public class CSVPreviewGame : MonoBehaviour, ISetupLevel, IWaitingForPlayerInput
 
     private int _counter = 0;
     private bool _beforeOrAfter = true;
+    private Vector2 _shotAngle = Vector2.zero;
+    private float _shotPosition = 0;
 
     private void Awake() 
     {
@@ -63,13 +69,16 @@ public class CSVPreviewGame : MonoBehaviour, ISetupLevel, IWaitingForPlayerInput
         {
             _facBrick.EnableCompositeCollider();
         }
+
+        
     }
 
     private void LoadCSVSave()
     {
         _facBrick.DestroyBricks();
         _facBrick.DisableCompositeCollider();
-        
+
+        string[] rowString;
         using (StreamReader sr = new StreamReader("./gameOutput.csv"))
         {
             sr.ReadLine(); // read past headers
@@ -79,28 +88,41 @@ public class CSVPreviewGame : MonoBehaviour, ISetupLevel, IWaitingForPlayerInput
             }
             string line = sr.ReadLine(); 
             if (line == null) return; // prevent exception from counter going beyond file
-            string[] rowString = line.Split(",");
+            rowString = line.Split(",");
+            List<Brick> bricks = new List<Brick>();
             for (int i = 0; i < 18 * 2; i += 2)
             {
                 int index = i + 8 + (_beforeOrAfter ? 0 : 18 * 2); // starts at 8, is 18 long with 2 values per row
                 // can not access gameData possibly, need method for conversion
                 string rowTypes = rowString[index];
                 string rowValues = rowString[index + 1];
-                List<Brick> bricks = GameData.ConvertStringToBricks(rowTypes, rowValues, i / 2 + 1);
-                bricks.ForEach(x => _facBrick.Create(x));
+                List<Brick> rowBricks = GameData.ConvertStringToBricks(rowTypes, rowValues, i / 2 + 1);
+                rowBricks.ForEach(x => bricks.Add(x));
             }
-
-            if (_beforeOrAfter) // if before then show player aim
-            {
-                _player.MovePlayer(new Vector2(float.Parse(rowString[7]), 0));
-                _player.ShowAim(new Vector2(Mathf.Cos(float.Parse(rowString[6])), Mathf.Sin(float.Parse(rowString[6]))));
-            }
-            else // otherwise hide aim
-            {
-                _player.HideAim();
-            }
+            _facBrick.MaxHealth = bricks.Where(x => Brick.IsDamageable(x.BrickType)).Max(x => x.Health);
+            bricks.ForEach(x => _facBrick.Create(x));
         }
 
         _facBrick.EnableCompositeCollider();
+        _shotPosition = float.Parse(rowString[7]);
+        _shotAngle = new Vector2(Mathf.Cos(float.Parse(rowString[6])), Mathf.Sin(float.Parse(rowString[6])));
+
+        StartCoroutine(AimPreviewRoutine());
+    }
+
+    private IEnumerator AimPreviewRoutine()
+    {
+        yield return new WaitForSeconds(0.01f);
+        if (_beforeOrAfter) // if before then show player aim
+        {
+            BeforeAfterText.text = "Before";
+            _player.MovePlayerBySlider(_shotPosition);
+            _player.ShowAim(_shotAngle);
+        }
+        else // otherwise hide aim
+        {
+            BeforeAfterText.text = "After";
+            _player.HideAim();
+        }
     }
 }
