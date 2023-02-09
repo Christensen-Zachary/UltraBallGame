@@ -11,6 +11,9 @@ public class GameData : MonoBehaviour
     [field: SerializeField]
     private ResourceLocator ResourceLocator { get; set; }
 
+    [field: SerializeField]
+    public bool SaveDataOn { get; set; } = false;
+
     private Player _player;
     private DamageCounter _damageCounter;
     private LevelService _levelService;
@@ -53,6 +56,8 @@ public class GameData : MonoBehaviour
     // maybe it does matter because bricks past row 18 will not show up, and I don't want to default to full gameboard representations
     public void SaveTurnToFile()
     {
+        if (!SaveDataOn) return;
+
         List<Brick> bricks = new List<Brick>();
         _facBrick.GetBricks().ForEach(x => {
             Brick brick = new Brick();
@@ -128,6 +133,8 @@ public class GameData : MonoBehaviour
 
     public void SaveGameToFile()
     {
+        if (!SaveDataOn) return;
+
         string bricksString = ConvertBricksToString(_levelService.Bricks);
 
         if (!File.Exists("./fullGameOutput.csv"))
