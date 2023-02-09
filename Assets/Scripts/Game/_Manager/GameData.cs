@@ -16,6 +16,7 @@ public class GameData : MonoBehaviour
     private LevelService _levelService;
     private WinService _winService;
     private FacBrick _facBrick;
+    private PowerupManager _powerupManager;
 
     private string _gameID = "";
     private int _turnCount = 0;
@@ -33,6 +34,7 @@ public class GameData : MonoBehaviour
         _levelService = ResourceLocator.GetResource<LevelService>("Level");
         _winService = ResourceLocator.GetResource<WinService>("WinService");
         _facBrick = ResourceLocator.GetResource<FacBrick>("FacBrick");
+        _powerupManager = ResourceLocator.GetResource<PowerupManager>("PowerupManager");
     }
 
     public void ResetGameData()
@@ -68,7 +70,7 @@ public class GameData : MonoBehaviour
         {
             using (StreamWriter sw = new StreamWriter("./gameOutput.csv", true))
             {
-                sw.Write("GameID, TurnNumber, BallCount, DamageDealt, BricksDestroyed, DamageTaken, ShotAngle, ShotPosition,");
+                sw.Write("GameID, LevelNumber, TurnNumber, BallCount, DamageDealt, BricksDestroyed, DamageTaken, ShotAngle, ShotPosition, ExtraBallsUsed, FloorBricksUsed, FireBallsUsed,");
                 for (int i = 0; i < ROWS_ON_GAMEBOARD; i++)
                 {
                     sw.Write($"BeforeRow{i+1}Types,BeforeRow{i+1}Values,");
@@ -84,7 +86,7 @@ public class GameData : MonoBehaviour
 
         int damageTaken = bricks.Where(x => x.Row == 1).Count(); // is snapshot of bricks before advance, so first row bricks will cause damage
         
-        string dataString = $"{_gameID},{_turnCount},{_player.Shootables.Count},{_damageCounter.TurnDamageString()},{damageTaken},{ShotAngle},{ShotPosition},";
+        string dataString = $"{_gameID},{_levelService.LevelNumber},{_turnCount},{_player.Shootables.Count},{_damageCounter.TurnDamageString()},{damageTaken},{ShotAngle},{ShotPosition},{_powerupManager.UsedExtraBalls},{_powerupManager.UsedFloorBricks},{_powerupManager.UsedFireBalls},";
         dataString += $"{beforeBricksString}";
         if (beforeBricksString.Split(",").Count() / 2 < ROWS_ON_GAMEBOARD)
         {

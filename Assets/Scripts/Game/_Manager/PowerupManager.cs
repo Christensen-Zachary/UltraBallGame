@@ -18,8 +18,9 @@ public class PowerupManager : MonoBehaviour
 
     private int _closestColumn = 0;
     private List<(GameObject, BrickType)> FloorBricks = new List<(GameObject, BrickType)>();
-    private bool _usedFloorBricks = false;
-    private bool _usedFireBalls = false;
+    public int UsedFloorBricks { get; set; } = 0;
+    public int UsedFireBalls { get; set; } = 0;
+    public int UsedExtraBalls { get; set; } = 0;
 
     private void Awake() 
     {
@@ -35,13 +36,14 @@ public class PowerupManager : MonoBehaviour
 
     public void EndTurnPowerupManager()
     {
-        _usedFloorBricks = false;
-        _usedFireBalls = false;
+        UsedFloorBricks = 0;
+        UsedFireBalls = 0;
+        UsedExtraBalls = 0;
     }
 
     public void UseFloorBricks()
     {
-        if (_levelService.FloorBricksPowerUpCount > 0 && !_usedFloorBricks)
+        if (_levelService.FloorBricksPowerUpCount > 0 && UsedFloorBricks == 0)
         {
             AddFloorBricks(); 
         }
@@ -49,7 +51,7 @@ public class PowerupManager : MonoBehaviour
 
     public void AddFloorBricks()
     {
-        _usedFloorBricks = true;
+        UsedFloorBricks++;
         _levelService.FloorBricksPowerUpCount--;
 
         _closestColumn = GetClosestColumnToPlayer();
@@ -74,7 +76,7 @@ public class PowerupManager : MonoBehaviour
 
     public void AdjustFloorBricks()
     {
-        if (_usedFloorBricks)
+        if (UsedFloorBricks != 0)
         {
             int closestColumn = GetClosestColumnToPlayer();
 
@@ -138,9 +140,9 @@ public class PowerupManager : MonoBehaviour
 
     private void SetBallsOnFire()
     {
-        if (_usedFireBalls) return;
+        if (UsedFireBalls != 0) return;
 
-        _usedFireBalls = true;
+        UsedFireBalls++;
         _levelService.FireBallsPowerUpCount--;
 
         for (int i = 0; i < _levelService.Balls.Count; i++) 
@@ -158,6 +160,7 @@ public class PowerupManager : MonoBehaviour
         if (_levelService.ExtraBallPowerUpCount > 0)
         {
             _levelService.ExtraBallPowerUpCount--;
+            UsedExtraBalls++;
             for (int i = 0; i < _levelService.Balls.Count; i++)
             {
                 _endTurnDestroyService.AddGameObject(

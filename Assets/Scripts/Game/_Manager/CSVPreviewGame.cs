@@ -96,23 +96,27 @@ public class CSVPreviewGame : MonoBehaviour, ISetupLevel, IWaitingForPlayerInput
             List<Brick> bricks = new List<Brick>();
             for (int i = 0; i < GameData.ROWS_ON_GAMEBOARD * 2; i += 2)
             {
-                int index = i + 8 + (_beforeOrAfter ? 0 : GameData.ROWS_ON_GAMEBOARD * 2); // starts at 8, is however many rows long with 2 values per row
+                int index = i + 12 + (_beforeOrAfter ? 0 : GameData.ROWS_ON_GAMEBOARD * 2); // starts at 8, is however many rows long with 2 values per row
                 // can not access gameData possibly, need method for conversion
                 string rowTypes = rowString[index];
                 string rowValues = rowString[index + 1];
                 List<Brick> rowBricks = GameData.ConvertStringToBricks(rowTypes, rowValues, i / 2 + 1);
                 rowBricks.ForEach(x => bricks.Add(x));
             }
-            if (bricks.Count > 0) _facBrick.MaxHealth = bricks.Where(x => Brick.IsDamageable(x.BrickType)).Max(x => x.Health);
+            if (bricks.Count > 0) 
+            {
+                if (bricks.Where(x => Brick.IsDamageable(x.BrickType)).Count() > 0) 
+                    _facBrick.MaxHealth = bricks.Where(x => Brick.IsDamageable(x.BrickType)).Max(x => x.Health);
+            }
             bricks.ForEach(x => _facBrick.Create(x));
         }
 
         _facBrick.EnableCompositeCollider();
-        _shotPosition = float.Parse(rowString[7]);
-        _shotAngle = new Vector2(Mathf.Cos(float.Parse(rowString[6])), Mathf.Sin(float.Parse(rowString[6])));
+        _shotPosition = float.Parse(rowString[8]);
+        _shotAngle = new Vector2(Mathf.Cos(float.Parse(rowString[7])), Mathf.Sin(float.Parse(rowString[7])));
         
         GameIDText.text = rowString[0];
-        TurnNumberText.text = $"Turn {int.Parse(rowString[1])}";
+        TurnNumberText.text = $"Turn {int.Parse(rowString[2])}";
         StartCoroutine(AimPreviewRoutine());
     }
 
