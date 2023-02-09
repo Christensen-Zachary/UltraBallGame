@@ -94,9 +94,9 @@ public class CSVPreviewGame : MonoBehaviour, ISetupLevel, IWaitingForPlayerInput
             if (line == null) return; // prevent exception from counter going beyond file
             rowString = line.Split(",");
             List<Brick> bricks = new List<Brick>();
-            for (int i = 0; i < 18 * 2; i += 2)
+            for (int i = 0; i < GameData.ROWS_ON_GAMEBOARD * 2; i += 2)
             {
-                int index = i + 8 + (_beforeOrAfter ? 0 : 18 * 2); // starts at 8, is 18 long with 2 values per row
+                int index = i + 8 + (_beforeOrAfter ? 0 : GameData.ROWS_ON_GAMEBOARD * 2); // starts at 8, is however many rows long with 2 values per row
                 // can not access gameData possibly, need method for conversion
                 string rowTypes = rowString[index];
                 string rowValues = rowString[index + 1];
@@ -112,7 +112,7 @@ public class CSVPreviewGame : MonoBehaviour, ISetupLevel, IWaitingForPlayerInput
         _shotAngle = new Vector2(Mathf.Cos(float.Parse(rowString[6])), Mathf.Sin(float.Parse(rowString[6])));
         
         GameIDText.text = rowString[0];
-        TurnNumberText.text = $"Turn #{int.Parse(rowString[1])}";
+        TurnNumberText.text = $"Turn {int.Parse(rowString[1])}";
         StartCoroutine(AimPreviewRoutine());
     }
 

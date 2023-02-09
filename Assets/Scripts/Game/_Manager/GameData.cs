@@ -68,12 +68,12 @@ public class GameData : MonoBehaviour
         {
             using (StreamWriter sw = new StreamWriter("./gameOutput.csv", true))
             {
-                sw.Write("GameID,TurnNumber, BallCount, DamageDealt, BricksDestroyed, DamageTaken, ShotAngle, ShotPosition,");
-                for (int i = 0; i < 18; i++)
+                sw.Write("GameID, TurnNumber, BallCount, DamageDealt, BricksDestroyed, DamageTaken, ShotAngle, ShotPosition,");
+                for (int i = 0; i < ROWS_ON_GAMEBOARD; i++)
                 {
                     sw.Write($"BeforeRow{i+1}Types,BeforeRow{i+1}Values,");
                 }
-                for (int i = 0; i < 18; i++)
+                for (int i = 0; i < ROWS_ON_GAMEBOARD; i++)
                 {
                     if (i != 0) sw.Write(",");
                     sw.Write($"AfterRow{i+1}Types,AfterRow{i+1}Values");
@@ -86,14 +86,14 @@ public class GameData : MonoBehaviour
         
         string dataString = $"{_gameID},{_turnCount},{_player.Shootables.Count},{_damageCounter.TurnDamageString()},{damageTaken},{ShotAngle},{ShotPosition},";
         dataString += $"{beforeBricksString}";
-        if (beforeBricksString.Split(",").Count() / 2 < 18)
+        if (beforeBricksString.Split(",").Count() / 2 < ROWS_ON_GAMEBOARD)
         {
-            for (int i = 0; i < 18 - (beforeBricksString.Split(",").Count() / 2); i++)
+            for (int i = 0; i < ROWS_ON_GAMEBOARD - (beforeBricksString.Split(",").Count() / 2); i++)
             {
                 dataString += ",0,0";
             }
         }
-        else if (beforeBricksString.Split(",").Count() / 2 == 18)
+        else if (beforeBricksString.Split(",").Count() / 2 == ROWS_ON_GAMEBOARD)
         {
 
         }
@@ -102,14 +102,14 @@ public class GameData : MonoBehaviour
             Debug.LogError($"Given more before bricks than space when saving turn");
         }
         dataString += $",{afterBricksString}";
-        if (afterBricksString.Split(",").Count() / 2 < 18)
+        if (afterBricksString.Split(",").Count() / 2 < ROWS_ON_GAMEBOARD)
         {
-            for (int i = 0; i < 18 - (afterBricksString.Split(",").Count() / 2); i++)
+            for (int i = 0; i < ROWS_ON_GAMEBOARD - (afterBricksString.Split(",").Count() / 2); i++)
             {
                 dataString += ",0,0";
             }
         }
-        else if (afterBricksString.Split(",").Count() / 2 == 18)
+        else if (afterBricksString.Split(",").Count() / 2 == ROWS_ON_GAMEBOARD)
         {
 
         }
@@ -163,12 +163,12 @@ public class GameData : MonoBehaviour
         string brickData = "";
 
         // track data row by row
-        for (int i = 1; i < 19; i++)
+        for (int i = 1; i <= ROWS_ON_GAMEBOARD ; i++)
         {
             List<Brick> row = bricks.Where(x => x.Row == i).ToList();
             BigInteger brickType = 0;
             BigInteger brickValue = 0;
-            for (int j = 0; j < 12; j++)
+            for (int j = 0; j < COLS_ON_GAMEBOARD; j++)
             {
                 Brick brick = row.Find(x => x.Col == j);
                 if (brick != null)
@@ -183,7 +183,7 @@ public class GameData : MonoBehaviour
                 }
             }
             brickData += $"{brickType.ToSafeString()},{brickValue.ToSafeString()}";
-            if (i != 18) brickData += ",";
+            if (i != ROWS_ON_GAMEBOARD) brickData += ",";
         }
 
         return brickData;
@@ -196,7 +196,7 @@ public class GameData : MonoBehaviour
         BigInteger brickTypes = BigInteger.Parse(brickTypeString);
         BigInteger brickValues = BigInteger.Parse(brickValueString);
         
-        for (int i = 0; i < 12; i++)
+        for (int i = 0; i < COLS_ON_GAMEBOARD; i++)
         {
             int typeBits = 0;
             int valueBits = 0;
@@ -263,4 +263,6 @@ public class GameData : MonoBehaviour
 
     public static readonly int BITS_PER_BRICK = 9; // largest brick value is 270 so 9 bits needed for max value of 511
     public static readonly int MAX_ROWS = 40;
+    public static readonly int COLS_ON_GAMEBOARD = 12;
+    public static readonly int ROWS_ON_GAMEBOARD = 14;
 }
