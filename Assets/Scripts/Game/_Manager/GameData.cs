@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -54,9 +55,11 @@ public class GameData : MonoBehaviour
     // maybe bricks moving down doesnt matter because gameboard will be understood by ai anyway
     // or else maybe when getting string, could make copy of bricks list and decrement rows by turn count
     // maybe it does matter because bricks past row 18 will not show up, and I don't want to default to full gameboard representations
-    public void SaveTurnToFile()
+    public IEnumerator SaveTurnToFile()
     {
-        if (!SaveDataOn) return;
+        if (!SaveDataOn) yield break;
+
+        yield return new WaitForSeconds(2f); // wait for destroyed bricks to go away
 
         List<Brick> bricks = new List<Brick>();
         _facBrick.GetBricks().ForEach(x => {

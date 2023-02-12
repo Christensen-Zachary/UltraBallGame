@@ -289,9 +289,8 @@ public class NormalGame : MonoBehaviour, IGetState, IEmpty, ISetupLevel, IWaitin
     {
         _damageCounter.EndTurn(); // called before saving data because stores values for string that is returned 
         
-        yield return new WaitForSeconds(2f); // wait for destroyed bricks to go away
         _gameData.AdvanceTurn();
-        _gameData.SaveTurnToFile();
+        yield return StartCoroutine(_gameData.SaveTurnToFile());
 
         _powerupManager.EndTurnPowerupManager();
 

@@ -64,16 +64,6 @@ public class ThemeData : MonoBehaviour
         return Resources.Load<Sprite>("Sprites/UI/buttonHardShadowSquareDark");
     }
 
-    public static Sprite GetDarkSquarePressed()
-    {
-        return Resources.Load<Sprite>("Sprites/UI/buttonHardShadowSquareDarkPressed");
-    }
-
-    public static Sprite GetLightSquarePressed()
-    {
-        return Resources.Load<Sprite>("Sprites/UI/buttonHardShadowSquareLightPressed");
-    }
-
     public static Sprite GetLightSquare()
     {
         return Resources.Load<Sprite>("Sprites/UI/buttonHardShadowSquareLight");
@@ -112,7 +102,7 @@ public class ThemeData : MonoBehaviour
 
                 BrickTextColor = new Color32(255, 255, 255, 255);
                 SetThemeColor(ThemeItem.MaxDamage, Color.black);
-                SetThemeColor(ThemeItem.MinDamage, ConvertToColor(80, 80,80));
+                SetThemeColor(ThemeItem.MinDamage, ConvertToColor(55, 55, 55));
                 SetThemeColor(ThemeItem.PlayerMaxHealth, Color.black);
                 SetThemeColor(ThemeItem.PlayerMinHealth, Color.black);
 

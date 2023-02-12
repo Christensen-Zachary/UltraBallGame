@@ -257,8 +257,9 @@ MonoBehaviour:
   <BrickNumber>k__BackingField: {fileID: 3041070648029292349}
   <HitSound>k__BackingField: {fileID: 7149125952951077970}
   <ShrinkGrow>k__BackingField: {fileID: 4761085074247214522}
-  <FacBrick>k__BackingField: {fileID: 0}
+  <DamageCounter>k__BackingField: {fileID: 0}
   _doesCountTowardsWinning: 1
+  _brickData: {fileID: 0}
   <SpriteRenderer>k__BackingField: {fileID: 5406471543159726106}
 --- !u!60 &3554561912683797355
 PolygonCollider2D:
@@ -561,7 +562,7 @@ SpriteRenderer:
   m_SortingLayerID: -395665321
   m_SortingLayer: 4
   m_SortingOrder: 10
-  m_Sprite: {fileID: 21300000, guid: 14f7fb40b50984eb4ac71bc672dec23b, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 67971dea129c894489504e69069bb47f, type: 3}
   m_Color: {r: 0.990566, g: 0.990566, b: 0.990566, a: 1}
   m_FlipX: 0
   m_FlipY: 0
