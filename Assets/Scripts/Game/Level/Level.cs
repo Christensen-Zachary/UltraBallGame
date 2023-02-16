@@ -69,12 +69,12 @@ public class Level
         return level;
     }
 
-    public static Level GetRandom()
+    public static Level GetRandom(int numberOfDivisions)
     {
         Level level = new Level()
         {
             LevelNum = 1,
-            NumberOfDivisions = Random.Range(25, 35),
+            NumberOfDivisions = numberOfDivisions,
             Bricks = new List<Brick>(),
             Balls = new List<Ball>()
         };
@@ -85,7 +85,7 @@ public class Level
 
         for (int i = 0; i < perlinNoise.GetLength(0); i++)
         {
-            for (int j = 0; j < perlinNoise.GetLength(1); j++)
+            for (int j = 1; j < perlinNoise.GetLength(1); j++)
             {
                 if (perlinNoiseHealth[i, j] > 0.25f)
                 //if (true)

@@ -63,6 +63,11 @@ public class DesignLevelGame : MonoBehaviour, IWaitingForPlayerInput, ISetupLeve
         {
             _designBrickManager.LoadLevel();
         }
+
+        if (Input.GetKeyDown(KeyCode.CapsLock))
+        {
+            _designBrickManager.LoadRandomLevel();
+        }
     }
 
     // multiple brick edit

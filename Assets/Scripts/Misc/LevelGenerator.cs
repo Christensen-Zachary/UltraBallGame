@@ -8,7 +8,7 @@ public class LevelGenerator : MonoBehaviour
     {
         for (int i = 0; i < 3; i++)
         {
-            LevelService.SaveLevel(Level.GetRandom());
+            LevelService.SaveLevel(Level.GetRandom(12));
         }
     }
 

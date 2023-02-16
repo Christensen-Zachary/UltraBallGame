@@ -50,6 +50,15 @@ public class DesignBrickManager : MonoBehaviour
         }
     }
 
+    public void LoadRandomLevel()
+    {
+        Level level = Level.GetRandom(12);
+        if (level != null)
+        {
+            level.Bricks.ForEach(x => CreateBrickAndSelect(x, x.BrickType));
+        }
+    }
+
     public void Save()
     {
         print($"Saving level");
