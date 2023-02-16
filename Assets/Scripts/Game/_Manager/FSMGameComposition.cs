@@ -15,6 +15,8 @@ public class FSMGameComposition : MonoBehaviour, IGetState, IEmpty, ISetupLevel,
     [field: SerializeField]
     public ResourceLocator ResourceLocator { get; set; }
 
+    private GameSettings _gameSettings;
+
     public IGetState GGetState { get; set; }
     public IEmpty GEmpty { get; set; }
     public ISetupLevel GSetupLevel { get; set; }
@@ -29,8 +31,6 @@ public class FSMGameComposition : MonoBehaviour, IGetState, IEmpty, ISetupLevel,
     public IWin GWin { get; set; }
     public IOptionsPanel GOptionsPanel { get; set; }
 
-    [field: SerializeField]
-    public GameType GameType { get; set; } = GameType.Normal;
 
     private NormalGame _normalGame;
     private MKBGame _mkbGame;
@@ -48,7 +48,9 @@ public class FSMGameComposition : MonoBehaviour, IGetState, IEmpty, ISetupLevel,
         _emptyGame = ResourceLocator.GetResource<EmptyGame>("EmptyGame");
         _csvPreviewGame = ResourceLocator.GetResource<CSVPreviewGame>("ShowCSVSavesGame");
 
-        switch (GameType)
+        _gameSettings = ResourceLocator.GetResource<GameSettings>("GameSettings");
+
+        switch (_gameSettings.gameType)
         {
             case GameType.DesignLevel:
                 GGetState = _normalGame;

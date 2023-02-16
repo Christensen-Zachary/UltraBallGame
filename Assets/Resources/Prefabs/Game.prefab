@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4516845128962790883}
   - component: {fileID: 4516845128962790882}
+  - component: {fileID: 7851016883061657242}
   m_Layer: 0
   m_Name: Game
   m_TagString: Untagged
@@ -52,6 +53,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9f2a2155f42f300489e62b382888daba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &7851016883061657242
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4516845128962790880}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 355a37efa9187c74eb919bf41196cf75, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <ResourceLocator>k__BackingField: {fileID: 4516845128962790882}
+  gameType: 0
+  gameUIType: 0
+  inputSource: 0
 --- !u!1 &4516845130182519913
 GameObject:
   m_ObjectHideFlags: 0
@@ -103,7 +120,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <ResourceLocator>k__BackingField: {fileID: 4516845128962790882}
-  _inputSource: 0
   <RobotSpeed>k__BackingField: 4
 --- !u!114 &4516845130182519914
 MonoBehaviour:
@@ -157,7 +173,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <ResourceLocator>k__BackingField: {fileID: 4516845128962790882}
-  GameUIType: 0
 --- !u!114 &4378462706063278701
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -309,7 +324,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <ResourceLocator>k__BackingField: {fileID: 4516845128962790882}
-  <GameType>k__BackingField: 0
 --- !u!114 &4516845130371445007
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -487,6 +501,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <ResourceLocator>k__BackingField: {fileID: 4516845128962790882}
+  <SaveDataOn>k__BackingField: 0
 --- !u!114 &9007417799713777365
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -514,6 +529,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <ResourceLocator>k__BackingField: {fileID: 4516845128962790882}
   <GameState>k__BackingField: {fileID: 1073348068064990529}
+  <GameIDText>k__BackingField: {fileID: 0}
+  <BeforeAfterText>k__BackingField: {fileID: 0}
+  <TurnNumberText>k__BackingField: {fileID: 0}
 --- !u!1001 &667063131722708683
 PrefabInstance:
   m_ObjectHideFlags: 0

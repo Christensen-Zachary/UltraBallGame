@@ -12,7 +12,9 @@ public class GameInput : MonoBehaviour, ITouchingGameboard, IStartFire, IGetFire
 {
     [field: SerializeField]
     private ResourceLocator ResourceLocator { get; set; }
-    public InputSource _inputSource = InputSource.Player;
+
+    private GameSettings _gameSettings;
+
     [field: SerializeField]
     public float RobotSpeed { get; set; } = 4;
 
@@ -31,12 +33,14 @@ public class GameInput : MonoBehaviour, ITouchingGameboard, IStartFire, IGetFire
     {
         ResourceLocator.AddResource("GameInput", this);
 
+        _gameSettings = ResourceLocator.GetResource<GameSettings>("GameSettings");
+
         PlayerInput playerInput = ResourceLocator.GetResource<PlayerInput>("PlayerInput");
         RobotInput robotInput = ResourceLocator.GetResource<RobotInput>("RobotInput");
         GameUI gameUI = ResourceLocator.GetResource<GameUI>("GameUI");
         EmptyInput emptyInput = ResourceLocator.GetResource<EmptyInput>("EmptyInput");
         RandomFireDirection randomFireDirection = ResourceLocator.GetResource<RandomFireDirection>("RandomFireDirection");
-        switch (_inputSource)
+        switch (_gameSettings.inputSource)
         {
             case InputSource.Player:
                 GTouchingGameboard = playerInput;

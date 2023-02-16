@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RobotInput : MonoBehaviour, IStartFire, IGetFireDirection, IGetMousePosition, IStartAim, IEndAim, IReturnFire, IStartMove, IEndMove, IGetMovePosition
+public class RobotInput : MonoBehaviour, IStartFire, IGetFireDirection, IGetMousePosition, IStartAim, IEndAim, IReturnFire, IStartMove, IEndMove, IGetMovePosition, IResetGame
 {
 
     [field: SerializeField]
@@ -59,5 +59,10 @@ public class RobotInput : MonoBehaviour, IStartFire, IGetFireDirection, IGetMous
     public bool StartMove()
     {
         return false;
+    }
+
+    public bool ResetGame()
+    {
+        return true;
     }
 }

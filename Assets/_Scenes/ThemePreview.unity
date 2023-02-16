@@ -478,8 +478,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _levelNumber: 696969
   _levelNumberText: {fileID: 0}
-  _floorBricksText: {fileID: 0}
   _extraBallsText: {fileID: 0}
+  _floorBricksText: {fileID: 0}
+  _fireBallsText: {fileID: 0}
   _ballCount: {fileID: 0}
   <ResourceLocator>k__BackingField: {fileID: 392383930}
 --- !u!114 &392383934
@@ -1128,6 +1129,18 @@ PrefabInstance:
     - target: {fileID: 4516845130310491961, guid: e2765a2adb2c4b64891656ef62ef72e9, type: 3}
       propertyPath: _levelNumber
       value: 696969
+      objectReference: {fileID: 0}
+    - target: {fileID: 7851016883061657242, guid: e2765a2adb2c4b64891656ef62ef72e9, type: 3}
+      propertyPath: gameType
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7851016883061657242, guid: e2765a2adb2c4b64891656ef62ef72e9, type: 3}
+      propertyPath: gameUIType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7851016883061657242, guid: e2765a2adb2c4b64891656ef62ef72e9, type: 3}
+      propertyPath: inputSource
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e2765a2adb2c4b64891656ef62ef72e9, type: 3}

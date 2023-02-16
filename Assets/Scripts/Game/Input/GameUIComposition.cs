@@ -6,6 +6,7 @@ public enum GameUIType
 {
     Game,
     MKB,
+    Robot,
     Empty
 }
 
@@ -15,12 +16,13 @@ public class GameUIComposition : MonoBehaviour, IHorizontal, IVertical, IRandom,
     [field: SerializeField]
     public ResourceLocator ResourceLocator { get; set; }
 
-    public GameUIType GameUIType = GameUIType.Game;
+    private GameSettings _gameSettings;
 
 
     private GameUI _gameUI;
     private EmptyGameUI _emptyGameUI;
     private GameUIMKB _gameUIMKB;
+    private RobotInput _robotInput;
 
     private IResetGame GResetGame;
     private INextLevel GNextLevel;
@@ -42,12 +44,15 @@ public class GameUIComposition : MonoBehaviour, IHorizontal, IVertical, IRandom,
     private void Awake()
     {
         ResourceLocator.AddResource("GameUIComposition", this);
+        _gameSettings = ResourceLocator.GetResource<GameSettings>("GameSettings");
+
 
         _gameUI = ResourceLocator.GetResource<GameUI>("GameUI");
         _emptyGameUI = ResourceLocator.GetResource<EmptyGameUI>("EmptyGameUI");
         _gameUIMKB = ResourceLocator.GetResource<GameUIMKB>("GameUIMKB");
+        _robotInput = ResourceLocator.GetResource<RobotInput>("RobotInput");
 
-        switch (GameUIType)
+        switch (_gameSettings.gameUIType)
         {
             case GameUIType.Game:
                 GResetGame = _gameUI;
@@ -84,6 +89,24 @@ public class GameUIComposition : MonoBehaviour, IHorizontal, IVertical, IRandom,
                 GVertical = _gameUIMKB;
                 GHorizontal = _gameUIMKB;
                 GRandom = _gameUIMKB;
+                break;
+            case GameUIType.Robot:
+                GResetGame = _robotInput;
+                GNextLevel = _emptyGameUI;
+                GOpenMainMenu = _emptyGameUI;
+                GCloseMainMenuPanel = _emptyGameUI;
+                GOpenMainMenuPanel = _emptyGameUI;
+                GOpenOptions = _emptyGameUI;
+                GCloseOptionsPanel = _emptyGameUI;
+                GStartSliderAim = _emptyGameUI;
+                GEndSliderAim = _emptyGameUI;
+                GStartFireUI = _emptyGameUI;
+                GGiveExtraBalls = _emptyGameUI;
+                GGiveFloorBricks = _emptyGameUI;
+                GSetBallsOnFire = _emptyGameUI;
+                GVertical = _emptyGameUI;
+                GHorizontal = _emptyGameUI;
+                GRandom = _emptyGameUI;
                 break;
             default:
                 GResetGame = _emptyGameUI;
