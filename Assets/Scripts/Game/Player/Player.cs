@@ -25,6 +25,8 @@ public class Player : MonoBehaviour
 
     private Vector2 _leftMostPosition;
     private Vector2 _rightMostPosition;
+    public float LeftMostCol { get; private set; }
+    public float RightMostCol { get; private set; }
     private float _distanceBetweenBounds;
 
     private float _maxYForMovePlayer;
@@ -42,8 +44,10 @@ public class Player : MonoBehaviour
         transform.localPosition = _grid.GetPosition((_grid.NumberOfDivisions - 1) / 2f, 0);
         transform.localScale = _grid.UnitScale * Vector2.one;
 
-        _leftMostPosition = _grid.GetPosition(1, _grid.NumberOfDivisions - 1);
-        _rightMostPosition = _grid.GetPosition(_grid.NumberOfDivisions - 1 - 1, _grid.NumberOfDivisions - 1);
+        LeftMostCol = 1;
+        RightMostCol = _grid.NumberOfDivisions - 1 - 1;
+        _leftMostPosition = _grid.GetPosition(LeftMostCol, _grid.NumberOfDivisions - 1);
+        _rightMostPosition = _grid.GetPosition(RightMostCol, _grid.NumberOfDivisions - 1);
         _distanceBetweenBounds = Vector2.Distance(_leftMostPosition, _rightMostPosition);
         _maxYForMovePlayer = _grid.GetPosition(0, _grid.GameBoardHeight).y;
 

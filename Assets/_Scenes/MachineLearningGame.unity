@@ -202,6 +202,10 @@ PrefabInstance:
       propertyPath: inputSource
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 7851016883061657242, guid: e2765a2adb2c4b64891656ef62ef72e9, type: 3}
+      propertyPath: <SaveDataOn>k__BackingField
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 4384584143242936109, guid: e2765a2adb2c4b64891656ef62ef72e9, type: 3}
     - {fileID: 7999305636761499493, guid: e2765a2adb2c4b64891656ef62ef72e9, type: 3}
@@ -329,6 +333,10 @@ PrefabInstance:
     - target: {fileID: 7851016883061657242, guid: e2765a2adb2c4b64891656ef62ef72e9, type: 3}
       propertyPath: inputSource
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7851016883061657242, guid: e2765a2adb2c4b64891656ef62ef72e9, type: 3}
+      propertyPath: <SaveDataOn>k__BackingField
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 4384584143242936109, guid: e2765a2adb2c4b64891656ef62ef72e9, type: 3}
@@ -458,6 +466,10 @@ PrefabInstance:
       propertyPath: inputSource
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 7851016883061657242, guid: e2765a2adb2c4b64891656ef62ef72e9, type: 3}
+      propertyPath: <SaveDataOn>k__BackingField
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 4384584143242936109, guid: e2765a2adb2c4b64891656ef62ef72e9, type: 3}
     - {fileID: 7999305636761499493, guid: e2765a2adb2c4b64891656ef62ef72e9, type: 3}
@@ -544,6 +556,10 @@ PrefabInstance:
     - target: {fileID: 7851016883061657242, guid: e2765a2adb2c4b64891656ef62ef72e9, type: 3}
       propertyPath: inputSource
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7851016883061657242, guid: e2765a2adb2c4b64891656ef62ef72e9, type: 3}
+      propertyPath: <SaveDataOn>k__BackingField
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 4384584143242936109, guid: e2765a2adb2c4b64891656ef62ef72e9, type: 3}
@@ -673,6 +689,10 @@ PrefabInstance:
       propertyPath: inputSource
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 7851016883061657242, guid: e2765a2adb2c4b64891656ef62ef72e9, type: 3}
+      propertyPath: <SaveDataOn>k__BackingField
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 4384584143242936109, guid: e2765a2adb2c4b64891656ef62ef72e9, type: 3}
     - {fileID: 7999305636761499493, guid: e2765a2adb2c4b64891656ef62ef72e9, type: 3}
@@ -800,6 +820,10 @@ PrefabInstance:
     - target: {fileID: 7851016883061657242, guid: e2765a2adb2c4b64891656ef62ef72e9, type: 3}
       propertyPath: inputSource
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7851016883061657242, guid: e2765a2adb2c4b64891656ef62ef72e9, type: 3}
+      propertyPath: <SaveDataOn>k__BackingField
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 4384584143242936109, guid: e2765a2adb2c4b64891656ef62ef72e9, type: 3}
@@ -1043,6 +1067,10 @@ PrefabInstance:
       propertyPath: inputSource
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 7851016883061657242, guid: e2765a2adb2c4b64891656ef62ef72e9, type: 3}
+      propertyPath: <SaveDataOn>k__BackingField
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 4384584143242936109, guid: e2765a2adb2c4b64891656ef62ef72e9, type: 3}
     - {fileID: 7999305636761499493, guid: e2765a2adb2c4b64891656ef62ef72e9, type: 3}
@@ -1170,6 +1198,10 @@ PrefabInstance:
     - target: {fileID: 7851016883061657242, guid: e2765a2adb2c4b64891656ef62ef72e9, type: 3}
       propertyPath: inputSource
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7851016883061657242, guid: e2765a2adb2c4b64891656ef62ef72e9, type: 3}
+      propertyPath: <SaveDataOn>k__BackingField
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 4384584143242936109, guid: e2765a2adb2c4b64891656ef62ef72e9, type: 3}
@@ -1366,6 +1398,10 @@ PrefabInstance:
     - target: {fileID: 7851016883061657242, guid: e2765a2adb2c4b64891656ef62ef72e9, type: 3}
       propertyPath: inputSource
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7851016883061657242, guid: e2765a2adb2c4b64891656ef62ef72e9, type: 3}
+      propertyPath: <SaveDataOn>k__BackingField
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 4384584143242936109, guid: e2765a2adb2c4b64891656ef62ef72e9, type: 3}

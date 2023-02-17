@@ -21,6 +21,7 @@ public class CSVPreviewGame : MonoBehaviour, ISetupLevel, IWaitingForPlayerInput
     [field: SerializeField]
     public TextMeshProUGUI TurnNumberText { get; set; } // reference set in editor
 
+    private Grid _grid;
     private FacBrick _facBrick;
     private FacBall _facBall;
     private Player _player;
@@ -31,10 +32,13 @@ public class CSVPreviewGame : MonoBehaviour, ISetupLevel, IWaitingForPlayerInput
     private Vector2 _shotAngle = Vector2.zero;
     private float _shotPosition = 0;
 
+    private readonly string FILE_PATH = "./gameOutput.csv";
+
     private void Awake() 
     {
-        ResourceLocator.AddResource("ShowCSVSavesGame", this);    
+        ResourceLocator.AddResource("ShowCSVSavesGame", this);
 
+        _grid = ResourceLocator.GetResource<Grid>("Grid");
         _facBrick = ResourceLocator.GetResource<FacBrick>("FacBrick");
         _facBall = ResourceLocator.GetResource<FacBall>("FacBall");
         _player = ResourceLocator.GetResource<Player>("Player");
@@ -47,9 +51,35 @@ public class CSVPreviewGame : MonoBehaviour, ISetupLevel, IWaitingForPlayerInput
         _levelService.Balls.ForEach(x => _facBall.Create(x));
         _player.SetRadius();
 
+        OrderCSV();
         LoadCSVSave();
 
         GameState.State = GState.WaitingForPlayerInput;
+    }
+
+
+    private void OrderCSV()
+    {
+        List<string> rows = new List<string>();
+        string header;
+        using (StreamReader sr = new StreamReader(FILE_PATH))
+        {
+            header = sr.ReadLine(); // read past header
+            string line;
+            while ((line = sr.ReadLine()) != null)
+            {
+                rows.Add(line);
+            }
+        }
+
+        rows = rows.OrderBy(x => x.Split(",")[0]).ToList();
+
+        using (StreamWriter sw = new StreamWriter(FILE_PATH))
+        {
+            sw.WriteLine(header);
+            rows.ForEach(x => sw.WriteLine(x));
+        }
+
     }
 
     public void WaitingForPlayerInput()
@@ -83,7 +113,7 @@ public class CSVPreviewGame : MonoBehaviour, ISetupLevel, IWaitingForPlayerInput
         _facBrick.DisableCompositeCollider();
 
         string[] rowString;
-        using (StreamReader sr = new StreamReader("./gameOutput.csv"))
+        using (StreamReader sr = new StreamReader(FILE_PATH))
         {
             sr.ReadLine(); // read past headers
             for (int i = 0; i < _counter; i++) // read to line of counter
@@ -126,7 +156,7 @@ public class CSVPreviewGame : MonoBehaviour, ISetupLevel, IWaitingForPlayerInput
         if (_beforeOrAfter) // if before then show player aim
         {
             BeforeAfterText.text = "Before";
-            _player.MovePlayerBySlider(_shotPosition);
+            _player.MovePlayer(_grid.GetPosition(_shotPosition, 0));
             _player.ShowAim(_shotAngle);
         }
         else // otherwise hide aim

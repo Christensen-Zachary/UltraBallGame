@@ -12,9 +12,7 @@ public class GameData : MonoBehaviour
     [field: SerializeField]
     private ResourceLocator ResourceLocator { get; set; }
 
-    [field: SerializeField]
-    public bool SaveDataOn { get; set; } = false;
-
+    private GameSettings _gameSettings;
     private Player _player;
     private DamageCounter _damageCounter;
     private LevelService _levelService;
@@ -33,6 +31,7 @@ public class GameData : MonoBehaviour
     {
         ResourceLocator.AddResource("GameData", this);
 
+        _gameSettings = ResourceLocator.GetResource<GameSettings>("GameSettings");
         _player = ResourceLocator.GetResource<Player>("Player");
         _damageCounter = ResourceLocator.GetResource<DamageCounter>("DamageCounter");
         _levelService = ResourceLocator.GetResource<LevelService>("Level");
@@ -57,7 +56,7 @@ public class GameData : MonoBehaviour
     // maybe it does matter because bricks past row 18 will not show up, and I don't want to default to full gameboard representations
     public IEnumerator SaveTurnToFile()
     {
-        if (!SaveDataOn) yield break;
+        if (!_gameSettings.SaveDataOn) yield break;
 
         yield return new WaitForSeconds(2f); // wait for destroyed bricks to go away
 
@@ -136,7 +135,7 @@ public class GameData : MonoBehaviour
 
     public void SaveGameToFile()
     {
-        if (!SaveDataOn) return;
+        if (!_gameSettings.SaveDataOn) return;
 
         string bricksString = ConvertBricksToString(_levelService.Bricks);
 
