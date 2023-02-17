@@ -120,15 +120,15 @@ public class Player : MonoBehaviour
 
     public void MovePlayer(Vector2 newPosition)
     {
-        if (newPosition.y >= transform.position.y && newPosition.x > _leftMostPosition.x && newPosition.x < _rightMostPosition.x && newPosition.y < _maxYForMovePlayer)
+        if (newPosition.y >= transform.localPosition.y && newPosition.x > _leftMostPosition.x && newPosition.x < _rightMostPosition.x && newPosition.y < _maxYForMovePlayer)
         {
             if (_movePlayerSlider != null)
             {
                 _movePlayerSlider.SetValueWithoutNotify((newPosition.x - _leftMostPosition.x) / _distanceBetweenBounds);
             }
 
-            newPosition = new Vector2(newPosition.x, transform.position.y);
-            transform.position = newPosition;
+            newPosition = new Vector2(newPosition.x, transform.localPosition.y);
+            transform.localPosition = newPosition;
         }
     }
 

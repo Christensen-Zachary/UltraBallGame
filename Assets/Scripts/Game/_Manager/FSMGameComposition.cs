@@ -7,7 +7,8 @@ public enum GameType
     MKB,
     ThemePreview,
     DesignLevel,
-    CSVPreview
+    CSVPreview,
+    MachineLearning
 }
 
 public class FSMGameComposition : MonoBehaviour, IGetState, IEmpty, ISetupLevel, IWaitingForPlayerInput, IMovingPlayer, IAiming, ISliderAiming, IFiring, IEndTurn, ICheckWinLose, IGameOver, IWin, IOptionsPanel
@@ -38,6 +39,7 @@ public class FSMGameComposition : MonoBehaviour, IGetState, IEmpty, ISetupLevel,
     private ThemePreviewGame _themePreviewGame;
     private EmptyGame _emptyGame;
     private CSVPreviewGame _csvPreviewGame;
+    private MachineLearningGame _machineLearningGame;
 
     private void Awake() 
     {
@@ -47,6 +49,7 @@ public class FSMGameComposition : MonoBehaviour, IGetState, IEmpty, ISetupLevel,
         _themePreviewGame = ResourceLocator.GetResource<ThemePreviewGame>("ThemePreviewGame");
         _emptyGame = ResourceLocator.GetResource<EmptyGame>("EmptyGame");
         _csvPreviewGame = ResourceLocator.GetResource<CSVPreviewGame>("ShowCSVSavesGame");
+        _machineLearningGame = ResourceLocator.GetResource<MachineLearningGame>("MachineLearningGame");
 
         _gameSettings = ResourceLocator.GetResource<GameSettings>("GameSettings");
 
@@ -123,6 +126,21 @@ public class FSMGameComposition : MonoBehaviour, IGetState, IEmpty, ISetupLevel,
                 GFiring = _normalGame;
                 GEndTurn = _normalGame;
                 GCheckWinLose = _normalGame;
+                GGameOver = _normalGame;
+                GWin = _normalGame;
+                GOptionsPanel = _normalGame;
+                break;
+            case GameType.MachineLearning:
+                GGetState = _normalGame;
+                GEmpty = _normalGame;
+                GSetupLevel = _normalGame;
+                GWaitingForPlayerInput = _machineLearningGame;
+                GMovingPlayer = _emptyGame;
+                GAiming = _normalGame;
+                GSliderAiming = _normalGame;
+                GFiring = _machineLearningGame;
+                GEndTurn = _normalGame;
+                GCheckWinLose = _machineLearningGame;
                 GGameOver = _normalGame;
                 GWin = _normalGame;
                 GOptionsPanel = _normalGame;

@@ -188,7 +188,7 @@ public class NormalGame : MonoBehaviour, IGetState, IEmpty, ISetupLevel, IWaitin
         {
             _player.HideAim();
             _player.RunFire(_gameUI.GetFireDirection());
-            _gameUISwitcher.StartFire();
+            if (_gameUISwitcher != null) _gameUISwitcher.StartFire();
             _damageCounter.StartTurn();
 
             _gameData.ShotAngle = Mathf.Atan2(_gameUI.GetFireDirection().y, _gameUI.GetFireDirection().x);
