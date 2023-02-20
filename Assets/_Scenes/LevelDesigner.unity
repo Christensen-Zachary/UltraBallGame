@@ -343,5 +343,17 @@ PrefabInstance:
       propertyPath: _levelNumber
       value: 99999
       objectReference: {fileID: 0}
+    - target: {fileID: 7851016883061657242, guid: e2765a2adb2c4b64891656ef62ef72e9, type: 3}
+      propertyPath: gameType
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7851016883061657242, guid: e2765a2adb2c4b64891656ef62ef72e9, type: 3}
+      propertyPath: gameUIType
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7851016883061657242, guid: e2765a2adb2c4b64891656ef62ef72e9, type: 3}
+      propertyPath: inputSource
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e2765a2adb2c4b64891656ef62ef72e9, type: 3}

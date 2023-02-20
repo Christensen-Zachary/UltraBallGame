@@ -18,7 +18,6 @@ public class DamageCounter : MonoBehaviour
     private bool _turnActive = false;
     private float _timer = 0;
 
-    private string _gameID = "";
 
     private void Awake() 
     {
@@ -54,7 +53,6 @@ public class DamageCounter : MonoBehaviour
         DestroyedCount = 0;
         _turnActive = false;
 
-        _gameID = System.Guid.NewGuid().ToString();
     }
 
     public string TurnDamageString()

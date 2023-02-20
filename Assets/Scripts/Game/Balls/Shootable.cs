@@ -92,7 +92,7 @@ public class Shootable : MonoBehaviour
         if (RB.velocity != Vector2.zero)
         {
             string errMsg = "Ball veclocity was not zero when firing";
-            Debug.LogError(errMsg);
+            //Debug.LogError(errMsg);
             // throw new System.Exception(errMsg);
         }
         // else

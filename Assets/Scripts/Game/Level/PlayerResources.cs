@@ -7,5 +7,6 @@ public static class PlayerResources
     public static readonly string LEVEL1 = "25,3,1,1,10";
     public static readonly string LEVEL2 = "5,3,1,1,10";
     public static readonly string LEVEL3 = "5,3,1,1,10";
+    public static readonly string LEVEL8 = "6,3,1,1,10";
     
 }
