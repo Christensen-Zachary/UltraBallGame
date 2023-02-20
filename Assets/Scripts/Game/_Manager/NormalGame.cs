@@ -332,8 +332,9 @@ public class NormalGame : MonoBehaviour, IGetState, IEmpty, ISetupLevel, IWaitin
 
         _facBrick.MaxHealth = _levelService.Bricks.Where(x => Brick.IsDamageable(x.BrickType)).Select(x => x.Health).Max();
 
-
-        for (int i = 0; i < _levelService.NumberOfDivisions * Background.BACKGROUND_RATIO - 1; i++)
+        // put rowCount into variable to ensure type conversion on different machines
+        float rowCount = (float)_levelService.NumberOfDivisions * Background.BACKGROUND_RATIO;
+        for (int i = 0; i < rowCount; i++)
         {
             CreateNextRow();
         }
