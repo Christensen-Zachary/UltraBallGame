@@ -145,7 +145,7 @@ public class PowerupManager : MonoBehaviour
         UsedFireBalls++;
         _levelService.FireBallsPowerUpCount--;
 
-        for (int i = 0; i < _levelService.Balls.Count; i++) 
+        for (int i = 0; i < _levelService.CurrentBalls.Count; i++) 
         {
             GameObject obj = _facBrick.Create(new Brick(BrickType.FirePowerup, 100, 100));
             obj.transform.SetParent(_player.transform);

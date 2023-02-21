@@ -32,6 +32,12 @@ public class NormalGame : MonoBehaviour, IGetState, IEmpty, ISetupLevel, IWaitin
     private DamageCounter _damageCounter;
     private GameData _gameData;
     private PowerupManager _powerupManager;
+    private GameSettings _gameSettings;
+
+    private float _firingTimer = 0;
+    private readonly float _timeToFastForward = 20f; // seconds
+    private readonly int _maxBallsActiveToTriggerFastForward = 6;
+    private bool _fastForwardActive = false;
 
     private void Awake() 
     {
@@ -56,6 +62,7 @@ public class NormalGame : MonoBehaviour, IGetState, IEmpty, ISetupLevel, IWaitin
         _damageCounter = ResourceLocator.GetResource<DamageCounter>("DamageCounter");
         _gameData = ResourceLocator.GetResource<GameData>("GameData");
         _powerupManager = ResourceLocator.GetResource<PowerupManager>("PowerupManager");
+        _gameSettings = ResourceLocator.GetResource<GameSettings>("GameSettings");
     }
 
     public void Aiming()
@@ -93,9 +100,26 @@ public class NormalGame : MonoBehaviour, IGetState, IEmpty, ISetupLevel, IWaitin
 
     public void Firing()
     {
+        _firingTimer += Time.deltaTime;
+        if (_firingTimer > _timeToFastForward)
+        {
+            if (_player.Shootables.Count(x => !x.IsReturned) <= _maxBallsActiveToTriggerFastForward)
+            {
+                _fastForwardActive = true;
+                if (_gameSettings.timeScale == 1) Time.timeScale = 2f;
+            }
+        }
+
         if (_gameInput.ReturnFire() || _player.IsFireComplete())
         {
             _player.EndFire();
+
+            if (_fastForwardActive)
+            {
+                if (_gameSettings.timeScale == 1) Time.timeScale = 1f;
+                _fastForwardActive = false;
+            }
+            _firingTimer = 0;
             GameState.State = GState.EndTurn;
         }
         else if (_gameUIComposition.Random())
@@ -287,8 +311,14 @@ public class NormalGame : MonoBehaviour, IGetState, IEmpty, ISetupLevel, IWaitin
 
     public IEnumerator EndTurnRoutine()
     {
-        _damageCounter.EndTurn(); // called before saving data because stores values for string that is returned 
-        
+
+        int ballsToAdd = _damageCounter.EndTurn(); // called before saving data because stores values for string that is returned 
+        for (int i = 0; i < ballsToAdd; i++)
+        {
+            _facBall.Create(_levelService.Balls.First());
+            _levelService.CurrentBalls.Add(_levelService.Balls.First());
+        }
+
         _gameData.AdvanceTurn();
         yield return StartCoroutine(_gameData.SaveTurnToFile());
 
@@ -296,7 +326,7 @@ public class NormalGame : MonoBehaviour, IGetState, IEmpty, ISetupLevel, IWaitin
 
         if (_gameUISwitcher != null) _gameUISwitcher.EndFire();
 
-        _levelService.BallCounter = _levelService.Balls.Count;
+        _levelService.BallCounter = _levelService.CurrentBalls.Count;
 
         yield return StartCoroutine(_endTurnAttackService.Attack());
 

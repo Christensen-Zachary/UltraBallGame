@@ -56,7 +56,7 @@ public class Damageable : MonoBehaviour
 
         if (Health <= 0)
         {
-            DamageCounter.DestroyedCount++;
+            if (_doesCountTowardsWinning) DamageCounter.DestroyedCount++;
             
             GetComponent<PolygonCollider2D>().enabled = false;
             ShrinkGrow.HideSprite();

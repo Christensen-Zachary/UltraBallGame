@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using UnityEngine;
 
 public class Ball
@@ -12,5 +13,11 @@ public class Ball
     {
         Damage = damage;
         Size = size;
+    }
+
+
+    public Ball Clone()
+    {
+        return new Ball(Damage, Size);
     }
 }

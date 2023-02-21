@@ -14,8 +14,14 @@ public class GameSettings : MonoBehaviour
     public GameUIType gameUIType;
     public InputSource inputSource;
 
+    public float timeScale = 1;
+
+    public int destroyedBricksToAddBall = 1;
+
     private void Awake()
     {
         ResourceLocator.AddResource("GameSettings", this);
+
+        Time.timeScale = timeScale;
     }
 }

@@ -45,7 +45,7 @@ public class FirePowerup : MonoBehaviour
         GameObject clone = Instantiate(psToClone);
         endTurnDestroyService.AddGameObject(clone);
         shootable.IsBuffed = true;
-        shootable.Damage = 3;
+        shootable.Damage = 2;
         clone.transform.SetParent(shootable.transform);
         clone.transform.localPosition = Vector3.zero;
         clone.SetActive(true);

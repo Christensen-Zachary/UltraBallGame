@@ -5,6 +5,8 @@ using UnityEngine;
 using System.Reflection;
 using System.IO;
 using System;
+using Unity.Collections;
+using Unity.VisualScripting;
 
 public class LevelService : MonoBehaviour
 {
@@ -37,6 +39,7 @@ public class LevelService : MonoBehaviour
 
     public List<Brick> Bricks { get; set; }
     public List<Ball> Balls { get; set; }
+    public List<Ball> CurrentBalls { get; set; }
     public int RowCounter { get; private set; } = 0;
     [field: SerializeField]
     public ResourceLocator ResourceLocator { get; set; }
@@ -66,6 +69,7 @@ public class LevelService : MonoBehaviour
         NumberOfDivisions = level.NumberOfDivisions;
         Bricks = level.Bricks;
         Balls = level.Balls;
+        ResetCurrentBalls();
 
         BallCounter = Balls.Count;
         ExtraBallPowerUpCount = level.ExtraBallPowerUpCount;
@@ -77,9 +81,16 @@ public class LevelService : MonoBehaviour
     {
         RowCounter = 0;
         BallCounter = Balls.Count;
+        ResetCurrentBalls();
         ExtraBallPowerUpCount = level.ExtraBallPowerUpCount;
         FloorBricksPowerUpCount = level.FloorBrickCount;
         FireBallsPowerUpCount = level.FireBallsPowerUpCount;
+    }
+
+    private void ResetCurrentBalls()
+    {
+        CurrentBalls = new List<Ball>();
+        level.Balls.ForEach(x => CurrentBalls.Add(x));
     }
 
     public List<Brick> GetNextRow()
