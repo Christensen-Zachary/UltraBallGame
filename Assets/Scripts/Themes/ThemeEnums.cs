@@ -13,7 +13,9 @@ public enum ThemeItem
     SuperBackground,
     GameBorder,
     InvincibleBrick,
-    Button
+    Button,
+    FirePowerup1,
+    FirePowerup2
 }
 
 public enum ThemeType

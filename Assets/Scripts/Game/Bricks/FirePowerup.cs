@@ -17,6 +17,13 @@ public class FirePowerup : MonoBehaviour
     [field: SerializeField]
     public GameObject PSGameObjectToClone { get; set; }
 
+    [field: SerializeField]
+    public int Damage { get; set; }
+
+    private void Awake() 
+    {
+        ThemeVisitor.Visit(this);    
+    }
 
     private void Start()
     {
@@ -40,12 +47,12 @@ public class FirePowerup : MonoBehaviour
         }
     }
 
-    public static void Ignite(Shootable shootable, EndTurnDestroyService endTurnDestroyService, GameObject psToClone)
+    public void Ignite(Shootable shootable, EndTurnDestroyService endTurnDestroyService, GameObject psToClone)
     {
         GameObject clone = Instantiate(psToClone);
         endTurnDestroyService.AddGameObject(clone);
         shootable.IsBuffed = true;
-        shootable.Damage = 2;
+        shootable.Damage = Damage;
         clone.transform.SetParent(shootable.transform);
         clone.transform.localPosition = Vector3.zero;
         clone.SetActive(true);

@@ -66,9 +66,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <ResourceLocator>k__BackingField: {fileID: 4516845128962790882}
+  <SaveDataOn>k__BackingField: 0
   gameType: 0
   gameUIType: 0
   inputSource: 0
+  timeScale: 1
+  destroyedBricksToAddBall: 1
 --- !u!1 &4516845130182519913
 GameObject:
   m_ObjectHideFlags: 0
@@ -285,7 +288,6 @@ GameObject:
   - component: {fileID: 3732934567204562015}
   - component: {fileID: 7999305636761499493}
   - component: {fileID: 5113763500730065056}
-  - component: {fileID: 5952240927560197488}
   - component: {fileID: 6771782027243735410}
   - component: {fileID: 9007417799713777365}
   - component: {fileID: 4384584143242936109}
@@ -390,6 +392,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <ResourceLocator>k__BackingField: {fileID: 4516845128962790882}
   <GameState>k__BackingField: {fileID: 1073348068064990529}
+  _fastForwardAnimator: {fileID: 0}
 --- !u!114 &5023107123763026535
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -474,20 +477,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <ResourceLocator>k__BackingField: {fileID: 4516845128962790882}
---- !u!114 &5952240927560197488
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4516845130371445004}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ace248f8e51f64ce89d12a516a397f71, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  <ResourceLocator>k__BackingField: {fileID: 4516845128962790882}
-  FirePS: {fileID: 3854467882062119106, guid: 4ca728001b47f46feab9e6fb1800e7da, type: 3}
 --- !u!114 &6771782027243735410
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -501,7 +490,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <ResourceLocator>k__BackingField: {fileID: 4516845128962790882}
-  <SaveDataOn>k__BackingField: 0
 --- !u!114 &9007417799713777365
 MonoBehaviour:
   m_ObjectHideFlags: 0

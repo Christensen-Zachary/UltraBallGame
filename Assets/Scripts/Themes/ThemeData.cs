@@ -14,6 +14,8 @@ public class ThemeData : MonoBehaviour
 
     public static ThemeType ThemeType;
     public static Dictionary<ThemeItem, Color> ThemeColors { get; private set; }
+    public static Dictionary<ThemeItem, GameObject> ThemeParticleSystems { get; private set; }
+
 
     public static Dictionary<ThemeType, TMPro.TMP_FontAsset> ThemeFonts { get; private set; }
     public static Color32 BrickTextColor;
@@ -89,7 +91,14 @@ public class ThemeData : MonoBehaviour
             { ThemeItem.SuperBackground, ConvertToColor(25, 25, 25) },
             { ThemeItem.InvincibleBrick, Color.white },
             { ThemeItem.Button, GetColor(CustomColor.Brown) },
-            { ThemeItem.GameBorder, ConvertToColor(45, 45, 45) }
+            { ThemeItem.GameBorder, ConvertToColor(45, 45, 45) },
+            { ThemeItem.FirePowerup1, GetColor(CustomColor.DarkGreen) },
+            { ThemeItem.FirePowerup2, ConvertToColor(105, 0, 22) }
+        };
+
+        ThemeParticleSystems = new Dictionary<ThemeItem, GameObject>() {
+            { ThemeItem.FirePowerup1, Resources.Load<GameObject>($"ParticleSystems/Fire/Fire1_{(int)themeType}") },
+            { ThemeItem.FirePowerup2, Resources.Load<GameObject>($"ParticleSystems/Fire/Fire2_{(int)themeType}") }
         };
 
         switch (themeType)

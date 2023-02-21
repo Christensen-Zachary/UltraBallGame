@@ -75,7 +75,7 @@ public class FSMGameComposition : MonoBehaviour, IGetState, IEmpty, ISetupLevel,
                 GEmpty = _normalGame;
                 GSetupLevel = _normalGame;
                 GWaitingForPlayerInput = _mkbGame;
-                GMovingPlayer = _emptyGame;
+                GMovingPlayer = _normalGame;
                 GAiming = _normalGame;
                 GSliderAiming = _normalGame;
                 GFiring = _normalGame;

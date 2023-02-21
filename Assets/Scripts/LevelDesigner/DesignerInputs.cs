@@ -23,12 +23,17 @@ public class DesignerInputs
 
     public bool InputSetDirectional0()
     {
+        return Input.GetKeyDown(KeyCode.M);
+    }
+
+    public bool InputSetFirePowerup1()
+    {
         return Input.GetKeyDown(KeyCode.Comma);
     }
 
-    public bool InputSetFirePowerup()
+    public bool InputSetFirePowerup2()
     {
-        return Input.GetKeyDown(KeyCode.M);
+        return Input.GetKeyDown(KeyCode.Period);
     }
 
     public bool InputLoadLevel()
@@ -142,9 +147,13 @@ public class DesignerInputs
         {
             return (int)BrickType.EvilBrick;
         }
-        else if (InputSetFirePowerup())
+        else if (InputSetFirePowerup1())
         {
-            return (int)BrickType.FirePowerup;
+            return (int)BrickType.FirePowerup1;
+        }
+        else if (InputSetFirePowerup2())
+        {
+            return (int)BrickType.FirePowerup2;
         }
         else if (InputSetInvincibleSquare())
         {

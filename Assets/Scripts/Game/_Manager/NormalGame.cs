@@ -28,7 +28,6 @@ public class NormalGame : MonoBehaviour, IGetState, IEmpty, ISetupLevel, IWaitin
     private GameUISwitcher _gameUISwitcher;
     private GameUIComposition _gameUIComposition;
     private WinService _winService;
-    private ParticleSystemService _particleSystemService;
     private DamageCounter _damageCounter;
     private GameData _gameData;
     private PowerupManager _powerupManager;
@@ -60,7 +59,6 @@ public class NormalGame : MonoBehaviour, IGetState, IEmpty, ISetupLevel, IWaitin
         _gameUISwitcher = ResourceLocator.GetResource<GameUISwitcher>("GameUISwitcher");
         _gameUIComposition = ResourceLocator.GetResource<GameUIComposition>("GameUIComposition");
         _winService = ResourceLocator.GetResource<WinService>("WinService");
-        _particleSystemService = ResourceLocator.GetResource<ParticleSystemService>("ParticleSystemService");
         _damageCounter = ResourceLocator.GetResource<DamageCounter>("DamageCounter");
         _gameData = ResourceLocator.GetResource<GameData>("GameData");
         _powerupManager = ResourceLocator.GetResource<PowerupManager>("PowerupManager");
@@ -159,7 +157,6 @@ public class NormalGame : MonoBehaviour, IGetState, IEmpty, ISetupLevel, IWaitin
 
     public void MovingPlayer()
     {
-        print("Moving player");
         if (_gameInput.EndMove())
         {
             GameState.State = GState.WaitingForPlayerInput;

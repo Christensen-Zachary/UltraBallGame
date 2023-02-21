@@ -57,6 +57,7 @@ public class MainMenuUI : MonoBehaviour
 
     public IEnumerator OpenThemeSelectRoutine()
     {
+        animator.GetComponent<Image>().color = Color.black;
         animator.SetTrigger("Close");
 
         yield return new WaitForSeconds(MainMenuUI.SCENE_TRANSITION_WAIT_TIME);

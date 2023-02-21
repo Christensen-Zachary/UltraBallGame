@@ -43,7 +43,6 @@ public class MKBGame : MonoBehaviour, IWaitingForPlayerInput
     {
         if (_gameInput.StartAim())
         {
-            //_state = GState.Aiming;
             if (_gameUISwitcher != null) _gameUISwitcher.ShowAimSlider(true);
             GameState.State = GState.Aiming;
         }

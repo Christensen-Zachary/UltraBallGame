@@ -6,6 +6,23 @@ public class ThemeVisitor : MonoBehaviour
     [field: SerializeField]
     private ThemeData ThemeData { get; set; }
 
+    public static void Visit(FirePowerup firePowerup)
+    {
+        ThemeItem themeItem = ThemeItem.FirePowerup1; // default to normal fire
+        if (firePowerup.Damage > 2) // is strong fire
+            themeItem = ThemeItem.FirePowerup2;
+        
+        firePowerup.PSGameObject = ThemeData.ThemeParticleSystems[themeItem];
+        firePowerup.PSGameObject = Instantiate(firePowerup.PSGameObject);
+        firePowerup.PSGameObject.transform.SetParent(firePowerup.transform);
+        firePowerup.PSGameObject.transform.localPosition = Vector3.zero;
+        firePowerup.PSGameObject.transform.localScale = Vector3.one;
+
+        firePowerup.PSGameObjectToClone = ThemeData.ThemeParticleSystems[themeItem];
+
+        firePowerup.GetComponent<SpriteRenderer>().color = ThemeData.ThemeColors[themeItem];      
+}
+
     public static void Visit(ThemeButtonImage themeButtonImage)
     {
         themeButtonImage.GetComponent<UnityEngine.UI.Image>().color = ThemeData.ThemeButtonImageColor;

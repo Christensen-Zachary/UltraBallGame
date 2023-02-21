@@ -245,6 +245,7 @@ MonoBehaviour:
   _unlocked: 1
   _text: {fileID: 930590272}
   _themeType: 2
+  animator: {fileID: 0}
 --- !u!222 &72012335
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1615,6 +1616,7 @@ MonoBehaviour:
   _unlocked: 1
   _text: {fileID: 832060879}
   _themeType: 3
+  animator: {fileID: 0}
 --- !u!222 &373776756
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -3486,6 +3488,7 @@ MonoBehaviour:
   _unlocked: 1
   _text: {fileID: 1372595016}
   _themeType: 0
+  animator: {fileID: 0}
 --- !u!114 &777680044
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8319,6 +8322,7 @@ MonoBehaviour:
   _unlocked: 1
   _text: {fileID: 358947561}
   _themeType: 4
+  animator: {fileID: 0}
 --- !u!222 &1389025242
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -8964,6 +8968,7 @@ MonoBehaviour:
   _unlocked: 1
   _text: {fileID: 946740776}
   _themeType: 5
+  animator: {fileID: 0}
 --- !u!222 &1506439370
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -9300,6 +9305,7 @@ MonoBehaviour:
   _unlocked: 1
   _text: {fileID: 525685150}
   _themeType: 6
+  animator: {fileID: 0}
 --- !u!222 &1638833029
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -9594,6 +9600,7 @@ MonoBehaviour:
   _unlocked: 1
   _text: {fileID: 198395020}
   _themeType: 1
+  animator: {fileID: 0}
 --- !u!222 &1887238080
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -9707,6 +9714,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 553698981870356110, guid: f7b56c3a430ac4160a2be99a2515c7b9, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6430048478333919052, guid: f7b56c3a430ac4160a2be99a2515c7b9, type: 3}
+      propertyPath: _allowThemeColorChange
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

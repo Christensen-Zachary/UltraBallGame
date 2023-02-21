@@ -268,9 +268,9 @@ public class DesignLevel : MonoBehaviour
             {
                 CreateDesignBrick(BrickType.InvincibleSquare);
             }
-            else if (_designerInputs.InputSetFirePowerup())
+            else if (_designerInputs.InputSetFirePowerup1())
             {
-                CreateDesignBrick(BrickType.FirePowerup);
+                CreateDesignBrick(BrickType.FirePowerup1);
             }
             else if (_designerInputs.InputSetDirectional0())
             {
@@ -344,9 +344,9 @@ public class DesignLevel : MonoBehaviour
             else SelectedBrick.SetType(BrickType.InvincibleSquare);
         }
 
-        if (_designerInputs.InputSetFirePowerup())
+        if (_designerInputs.InputSetFirePowerup1())
         {
-            SelectedBrick.SetType(BrickType.FirePowerup);
+            SelectedBrick.SetType(BrickType.FirePowerup1);
         }
 
         if (_designerInputs.InputSetDirectional0())

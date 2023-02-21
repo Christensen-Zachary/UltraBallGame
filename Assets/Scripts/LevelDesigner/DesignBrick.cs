@@ -119,7 +119,7 @@ public class DesignBrick : MonoBehaviour
             case BrickType.InvincibleTriangle270:
                 _sr.sprite = Resources.Load<Sprite>("Sprites/Bricks/Triangle270");
                 break;
-            case BrickType.FirePowerup:
+            case BrickType.FirePowerup1:
                 _sr.sprite = Resources.Load<Sprite>("Sprites/Balls/orange");
                 BrickNumber.Hide();
                 break;
