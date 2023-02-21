@@ -35,9 +35,11 @@ public class NormalGame : MonoBehaviour, IGetState, IEmpty, ISetupLevel, IWaitin
     private GameSettings _gameSettings;
 
     private float _firingTimer = 0;
-    private readonly float _timeToFastForward = 20f; // seconds
-    private readonly int _maxBallsActiveToTriggerFastForward = 6;
+    private readonly float _timeToFastForward = 2f; // seconds
+    private readonly int _maxBallsActiveToTriggerFastForward = 60;
     private bool _fastForwardActive = false;
+    public Animator _fastForwardAnimator; // set in editor
+
 
     private void Awake() 
     {
@@ -103,8 +105,9 @@ public class NormalGame : MonoBehaviour, IGetState, IEmpty, ISetupLevel, IWaitin
         _firingTimer += Time.deltaTime;
         if (_firingTimer > _timeToFastForward)
         {
-            if (_player.Shootables.Count(x => !x.IsReturned) <= _maxBallsActiveToTriggerFastForward)
+            if (!_fastForwardActive && _player.Shootables.Count(x => !x.IsReturned) <= _maxBallsActiveToTriggerFastForward)
             {
+                if (_fastForwardAnimator != null) _fastForwardAnimator.SetTrigger("blink");
                 _fastForwardActive = true;
                 if (_gameSettings.timeScale == 1) Time.timeScale = 2f;
             }
