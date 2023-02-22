@@ -61,7 +61,6 @@ public class DamageCounter : MonoBehaviour
                 ballsToAdd++;
                 _addBallDestroyCount -= _gameSettings.destroyedBricksToAddBall;
             }
-            if (_addBallDestroyCount < 0) _addBallDestroyCount = 0;
         }
 
         // keep track of turn statistics

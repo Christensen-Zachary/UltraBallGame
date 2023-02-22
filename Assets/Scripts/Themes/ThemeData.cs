@@ -92,8 +92,8 @@ public class ThemeData : MonoBehaviour
             { ThemeItem.InvincibleBrick, Color.white },
             { ThemeItem.Button, GetColor(CustomColor.Brown) },
             { ThemeItem.GameBorder, ConvertToColor(45, 45, 45) },
-            { ThemeItem.FirePowerup1, GetColor(CustomColor.DarkGreen) },
-            { ThemeItem.FirePowerup2, ConvertToColor(105, 0, 22) }
+            { ThemeItem.FirePowerup1, Color.black },
+            { ThemeItem.FirePowerup2, Color.white }
         };
 
         ThemeParticleSystems = new Dictionary<ThemeItem, GameObject>() {
