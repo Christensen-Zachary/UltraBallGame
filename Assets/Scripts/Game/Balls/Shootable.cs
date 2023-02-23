@@ -138,11 +138,9 @@ public class Shootable : MonoBehaviour
         RB.velocity = Vector3.zero;
         transform.localPosition = _offScreen;
 
-
         PowerupAttachment powerupAttachment = GetComponentInChildren<PowerupAttachment>();
         if (powerupAttachment != null)
         {
-            //Destroy(powerupAttachment.gameObject);
             Damage = 1;
             IsBuffed = false;
         }

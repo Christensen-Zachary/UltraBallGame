@@ -101,9 +101,9 @@ public class NormalGame : MonoBehaviour, IGetState, IEmpty, ISetupLevel, IWaitin
     public void Firing()
     {
         _firingTimer += Time.deltaTime;
-        if (_firingTimer > _timeToFastForward)
+        if (!_fastForwardActive && _firingTimer > _timeToFastForward)
         {
-            if (!_fastForwardActive && (_player.Shootables.Count(x => !x.IsReturned) <= _maxBallsActiveToTriggerFastForward || _firingTimer > _timeToFastForward * 2f))
+            if (_player.Shootables.Count(x => !x.IsReturned) <= _maxBallsActiveToTriggerFastForward || _firingTimer > _timeToFastForward * 2f)
             {
                 if (_fastForwardAnimator != null) _fastForwardAnimator.SetTrigger("blink");
                 _fastForwardActive = true;

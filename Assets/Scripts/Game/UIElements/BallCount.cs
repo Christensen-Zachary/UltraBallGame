@@ -6,11 +6,11 @@ using UnityEngine.UI;
 
 public class BallCount : MonoBehaviour
 {
-    private TextMeshProUGUI TextMesh { get; set; }
+    private TextMeshPro TextMesh { get; set; }
 
     private void Awake()
     {
-        TextMesh = GetComponent<TextMeshProUGUI>();
+        TextMesh = GetComponent<TextMeshPro>();
     }
 
     public void SetNumber(int number)
