@@ -10,6 +10,7 @@ TagManager:
   - Brick
   - Damageable
   - Slider
+  - OptionsButton
   layers:
   - Default
   - TransparentFX

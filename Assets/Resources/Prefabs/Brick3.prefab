@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 6004766399811267280}
   - component: {fileID: 4761085074247214522}
-  - component: {fileID: 2232972292623933214}
   - component: {fileID: 6857246330847883748}
   - component: {fileID: 7149125952951077970}
   - component: {fileID: 7771565723008807928}
@@ -53,20 +52,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <SpriteTransform>k__BackingField: {fileID: 5422186475882037369}
   <ShrinkByPercent>k__BackingField: 15
---- !u!114 &2232972292623933214
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6004766399811267286}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 59b981a7141de654982db7cf7f1efeb4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  IsProblemCorner: 0
-  HasBeenUsed: 0
 --- !u!114 &6857246330847883748
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -252,8 +237,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 048bb6322e4b6914bbfe72fa33ee0f6d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <BrickFixCollision>k__BackingField: {fileID: 0}
-  <BrickCollision>k__BackingField: {fileID: 2232972292623933214}
   <BrickNumber>k__BackingField: {fileID: 3041070648029292349}
   <HitSound>k__BackingField: {fileID: 7149125952951077970}
   <ShrinkGrow>k__BackingField: {fileID: 4761085074247214522}

@@ -34,42 +34,47 @@ public class ThemeVisitor : MonoBehaviour
         Color superBackgroundColor = ThemeData.ThemeColors[ThemeItem.SuperBackground];
         float average = (superBackgroundColor.r + superBackgroundColor.g + superBackgroundColor.b) / 3f;
         bool isLight =  average > 0.5f;
+        // default to normal button
+        Sprite sprite;
         if (isLight)
         {
-            themeButtonImage.GetComponent<UnityEngine.UI.Image>().sprite = ThemeData.GetLightButton();
+            sprite = ThemeData.GetLightButton();
         }
         else
         {
-            themeButtonImage.GetComponent<UnityEngine.UI.Image>().sprite = ThemeData.GetDarkButton();
+            sprite = ThemeData.GetDarkButton();
         }
 
+        // get ration of width to height
         float ratio = themeButtonImage.GetComponent<RectTransform>().sizeDelta.x / themeButtonImage.GetComponent<RectTransform>().sizeDelta.y;
         if (themeButtonImage.CompareTag("Slider"))
         {
             if (isLight)
             {
-                themeButtonImage.GetComponent<UnityEngine.UI.Image>().sprite = ThemeData.GetExtraLongButtonLight();
+                sprite = ThemeData.GetExtraWideButtonLight();
             }
             else
             {
-                themeButtonImage.GetComponent<UnityEngine.UI.Image>().sprite = ThemeData.GetExtraLongButtonDark();
+                sprite = ThemeData.GetExtraWideButtonDark();
             }
         }
-        else if (ratio > 2f)
+        else if (themeButtonImage.CompareTag("OptionsButton"))
         {
-            themeButtonImage.GetComponent<UnityEngine.UI.Image>().sprite = ThemeData.GetLongButton();
+            sprite = ThemeData.GetWideButton();
         }
         else if (Mathf.Approximately(ratio, 1))
         {
             if (isLight)
             {
-                themeButtonImage.GetComponent<UnityEngine.UI.Image>().sprite = ThemeData.GetLightSquare();
+                sprite = ThemeData.GetLightSquare();
             }
             else
             {
-                themeButtonImage.GetComponent<UnityEngine.UI.Image>().sprite = ThemeData.GetDarkSquare();
+                sprite = ThemeData.GetDarkSquare();
             }
         }
+
+        themeButtonImage.GetComponent<UnityEngine.UI.Image>().sprite = sprite;
     }
 
     public static void Visit(ThemeFontColor themeFontColor)

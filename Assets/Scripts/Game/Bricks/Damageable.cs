@@ -3,10 +3,6 @@ using UnityEngine;
 
 public class Damageable : MonoBehaviour
 {
-    [field: SerializeField]
-    public BrickFixCollision BrickFixCollision { get; set; }
-    [field: SerializeField]
-    private BrickCollision BrickCollision { get; set; }
     private float _health = 10;
     public float Health { get { return _health; } set { _health = value; BrickNumber.SetNumber((int)value); }  }
     [field: SerializeField]

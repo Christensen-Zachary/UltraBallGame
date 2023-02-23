@@ -45,7 +45,6 @@ public class FacBrick : MonoBehaviour
 
     private Grid _grid;
     private Transform _brickParent;
-    private BrickFixCollision _brickFixCollision;
     private AdvanceService _advanceService;
     private WinService _winService;
     private EndTurnDestroyService _endTurnDestroyService;
@@ -57,7 +56,6 @@ public class FacBrick : MonoBehaviour
     private void Awake()
     {
         _grid = ResourceLocator.GetResource<Grid>("Grid");
-        _brickFixCollision = ResourceLocator.GetResource<BrickFixCollision>("BrickFixCollision");
         _advanceService = ResourceLocator.GetResource<AdvanceService>("AdvanceService");
         _winService = ResourceLocator.GetResource<WinService>("WinService");
         _endTurnDestroyService = ResourceLocator.GetResource<EndTurnDestroyService>("EndTurnDestroyService");
@@ -199,15 +197,7 @@ public class FacBrick : MonoBehaviour
             ThemeVisitor.Visit(damageable);
             damageable.SetColor(brick.Health);
             damageable.Health = brick.Health;
-            damageable.BrickFixCollision = ResourceLocator.GetResource<BrickFixCollision>("BrickFixCollision");
 
-        }
-
-        if (obj.TryGetComponent(out BrickCollision brickCollision))
-        {
-            brickCollision.Col = brick.Col;
-            brickCollision.Row = brick.Row;
-            _brickFixCollision.Bricks.Add(brickCollision);
         }
 
         if (obj.TryGetComponent(out Advanceable advanceable) && !removeBehaviours.Contains(typeof(Advanceable)))

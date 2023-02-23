@@ -36,27 +36,32 @@ public class ThemeData : MonoBehaviour
 
     }
 
+    // normal button. 1:1.6 ratio
     public static Sprite GetLightButton()
     {
         return Resources.Load<Sprite>("Sprites/UI/buttonHardShadowLight");
     }
 
+    // normal button. 1:1.6 ratio
     public static Sprite GetDarkButton()
     {
         return Resources.Load<Sprite>("Sprites/UI/buttonHardShadowDark");
     }
 
-    public static Sprite GetLongButton()
+    // wide button for options menu. doesn't need light/dark version
+    public static Sprite GetWideButton()
     {
         return Resources.Load<Sprite>("Sprites/UI/buttonHardShadowLong");
     }
 
-    public static Sprite GetExtraLongButtonDark()
+    // image for slider
+    public static Sprite GetExtraWideButtonDark()
     {
         return Resources.Load<Sprite>("Sprites/UI/buttonHardShadowDarkExtraLong");
     }
 
-    public static Sprite GetExtraLongButtonLight()
+    // image for slider
+    public static Sprite GetExtraWideButtonLight()
     {
         return Resources.Load<Sprite>("Sprites/UI/buttonHardShadowLightExtraLong");
     }

@@ -18,7 +18,6 @@ public class NormalGame : MonoBehaviour, IGetState, IEmpty, ISetupLevel, IWaitin
     private Player _player;
     private GameInput _gameInput;
     private LevelService _levelService;
-    private BrickFixCollision _brickFixCollision;
     private FacBrick _facBrick;
     private FacBall _facBall;
     private AdvanceService _advanceService;
@@ -49,7 +48,6 @@ public class NormalGame : MonoBehaviour, IGetState, IEmpty, ISetupLevel, IWaitin
         _player = ResourceLocator.GetResource<Player>("Player");
         _gameInput = ResourceLocator.GetResource<GameInput>("GameInput");
         _levelService = ResourceLocator.GetResource<LevelService>("Level");
-        _brickFixCollision = ResourceLocator.GetResource<BrickFixCollision>("BrickFixCollision");
         _facBrick = ResourceLocator.GetResource<FacBrick>("FacBrick");
         _facBall = ResourceLocator.GetResource<FacBall>("FacBall");
         _advanceService = ResourceLocator.GetResource<AdvanceService>("AdvanceService");
