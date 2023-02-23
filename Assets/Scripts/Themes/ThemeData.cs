@@ -97,8 +97,8 @@ public class ThemeData : MonoBehaviour
         };
 
         ThemeParticleSystems = new Dictionary<ThemeItem, GameObject>() {
-            { ThemeItem.FirePowerup1, Resources.Load<GameObject>($"ParticleSystems/Fire/Fire1_{(int)themeType}") },
-            { ThemeItem.FirePowerup2, Resources.Load<GameObject>($"ParticleSystems/Fire/Fire2_{(int)themeType}") }
+            { ThemeItem.FirePowerup1, Resources.Load<GameObject>($"ParticleSystems/Fire/BrickFire1/Fire{(int)themeType}") },
+            { ThemeItem.FirePowerup2, Resources.Load<GameObject>($"ParticleSystems/Fire/BrickFire2/Fire{(int)themeType}") }
         };
 
         switch (themeType)

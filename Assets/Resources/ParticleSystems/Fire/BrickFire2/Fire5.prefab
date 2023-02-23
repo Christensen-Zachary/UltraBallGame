@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &561222644810001461
+--- !u!1 &3854467882062119106
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,24 +8,24 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 561222644809707541}
-  - component: {fileID: 561222644794504533}
-  - component: {fileID: 561222644794395893}
-  - component: {fileID: 8770738170094784413}
+  - component: {fileID: 3459174494427455598}
+  - component: {fileID: 6727123571379156290}
+  - component: {fileID: 2429155609913097124}
+  - component: {fileID: 4186923992095886096}
   m_Layer: 0
-  m_Name: Fire1_2
+  m_Name: Fire5
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 0
---- !u!4 &561222644809707541
+--- !u!4 &3459174494427455598
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 561222644810001461}
+  m_GameObject: {fileID: 3854467882062119106}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -34,13 +34,13 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!198 &561222644794504533
+--- !u!198 &6727123571379156290
 ParticleSystem:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 561222644810001461}
+  m_GameObject: {fileID: 3854467882062119106}
   serializedVersion: 8
   lengthInSec: 5
   simulationSpeed: 1
@@ -555,7 +555,7 @@ ParticleSystem:
     gravityModifier:
       serializedVersion: 2
       minMaxState: 0
-      scalar: -1
+      scalar: 0
       minScalar: 0
       maxCurve:
         serializedVersion: 2
@@ -1351,8 +1351,8 @@ ParticleSystem:
       maxColor: {r: 1, g: 1, b: 1, a: 1}
       maxGradient:
         serializedVersion: 2
-        key0: {r: 1, g: 0.074307956, b: 0, a: 0.6039216}
-        key1: {r: 1, g: 0.4444546, b: 0, a: 0.6924568}
+        key0: {r: 0, g: 0, b: 0, a: 0.6039216}
+        key1: {r: 0, g: 0, b: 0, a: 0.6924568}
         key2: {r: 1, g: 0.8643588, b: 0, a: 0.79613614}
         key3: {r: 0.9254902, g: 0.22745098, b: 0, a: 0.6313726}
         key4: {r: 0, g: 0, b: 0, a: 0.38039216}
@@ -1360,7 +1360,7 @@ ParticleSystem:
         key6: {r: 0, g: 0, b: 0, a: 0}
         key7: {r: 0, g: 0, b: 0, a: 0}
         ctime0: 0
-        ctime1: 47417
+        ctime1: 65535
         ctime2: 65535
         ctime3: 65535
         ctime4: 0
@@ -1376,7 +1376,7 @@ ParticleSystem:
         atime6: 0
         atime7: 0
         m_Mode: 0
-        m_NumColorKeys: 3
+        m_NumColorKeys: 2
         m_NumAlphaKeys: 5
       minGradient:
         serializedVersion: 2
@@ -4735,14 +4735,14 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
     vectorLabel1_3: W
---- !u!199 &561222644794395893
+--- !u!199 &2429155609913097124
 ParticleSystemRenderer:
   serializedVersion: 6
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 561222644810001461}
+  m_GameObject: {fileID: 3854467882062119106}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -4807,13 +4807,13 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
---- !u!114 &8770738170094784413
+--- !u!114 &4186923992095886096
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 561222644810001461}
+  m_GameObject: {fileID: 3854467882062119106}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c7503b643bbcc404bbc5ae88141ca968, type: 3}
