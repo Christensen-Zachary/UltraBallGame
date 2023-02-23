@@ -6,6 +6,11 @@ public class ThemeVisitor : MonoBehaviour
     [field: SerializeField]
     private ThemeData ThemeData { get; set; }
 
+    public static void Visit(ThemeDimmer themeDimmer)
+    {
+        themeDimmer.GetComponent<Image>().color = ThemeData.ThemeColors[ThemeItem.SuperBackground];
+    }
+
     public static void Visit(FirePowerup firePowerup)
     {
         ThemeItem themeItem = ThemeItem.FirePowerup1; // default to normal fire

@@ -2248,7 +2248,8 @@ PrefabInstance:
       propertyPath: _allowThemeColorChange
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 4271074057448386197, guid: f7b56c3a430ac4160a2be99a2515c7b9, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: f7b56c3a430ac4160a2be99a2515c7b9, type: 3}
 --- !u!224 &1979849395 stripped
 RectTransform:
@@ -2260,6 +2261,23 @@ Animator:
   m_CorrespondingSourceObject: {fileID: 553698981870356106, guid: f7b56c3a430ac4160a2be99a2515c7b9, type: 3}
   m_PrefabInstance: {fileID: 1979849394}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1979849397 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 553698981870356101, guid: f7b56c3a430ac4160a2be99a2515c7b9, type: 3}
+  m_PrefabInstance: {fileID: 1979849394}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1979849398
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1979849397}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f38a5c38386664ea29a1f43040ba1a6e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1998498675
 GameObject:
   m_ObjectHideFlags: 0

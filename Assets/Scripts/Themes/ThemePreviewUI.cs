@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class ThemePreviewUI : MonoBehaviour
 {
@@ -30,12 +31,14 @@ public class ThemePreviewUI : MonoBehaviour
 
     public IEnumerator OpenThemeSelectRoutine()
     {
+        animator.GetComponent<Image>().color = Color.black; // set to black to avoid color clash on return to different theme
         animator.SetTrigger("Close");
 
         yield return new WaitForSeconds(MainMenuUI.SCENE_TRANSITION_WAIT_TIME);
 
         ES3.Save(BGStrings.ES_THEMETYPE, _b4Theme);
 
+        PlayerPrefs.SetInt("hasReturnedFromThemeSwap", 1); // set to true
         SceneManager.LoadScene("ThemeSelect");
     }
 }

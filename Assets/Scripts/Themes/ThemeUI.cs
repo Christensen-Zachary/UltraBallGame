@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class ThemeUI : MonoBehaviour
 {
@@ -14,6 +15,7 @@ public class ThemeUI : MonoBehaviour
 
     public IEnumerator OpenThemePreviewRoutine(int themeTypeInt)
     {
+        animator.GetComponent<Image>().color = Color.black; // set to black to avoid color clash on return to different theme
         animator.SetTrigger("Close");
 
         yield return new WaitForSeconds(MainMenuUI.SCENE_TRANSITION_WAIT_TIME);
@@ -24,6 +26,7 @@ public class ThemeUI : MonoBehaviour
 
         ES3.Save(BGStrings.ES_THEMETYPE, themeType);
 
+        PlayerPrefs.SetInt("hasReturnedFromThemeSwap", 1); // set to true
         SceneManager.LoadScene("ThemePreview");
     }
 
@@ -34,6 +37,7 @@ public class ThemeUI : MonoBehaviour
 
     public IEnumerator OpenMainMenuRoutine()
     {
+        ThemeVisitor.Visit(animator.GetComponent<ThemeDimmer>()); // set to theme color in case was set to black from last scene
         animator.SetTrigger("Close");
 
         yield return new WaitForSeconds(MainMenuUI.SCENE_TRANSITION_WAIT_TIME);
