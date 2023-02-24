@@ -19,7 +19,10 @@ public class AddBallProgress : MonoBehaviour
     public void SetProgressValue(float value) // between 0 and 1, i.e. already lerp'd
     {
         StopAllCoroutines();
-        StartCoroutine(Animate(_image.fillAmount, value));
+        if (gameObject.activeInHierarchy)
+            StartCoroutine(Animate(_image.fillAmount, value));
+        else
+            _image.fillAmount = value;
     }
 
     public void SetAddBallValue(int ballCount)
@@ -54,5 +57,11 @@ public class AddBallProgress : MonoBehaviour
             yield return null;
         }
         _image.fillAmount = to;
+    }
+
+    public void Reset() 
+    {
+        SetProgressValue(0);
+        SetAddBallValue(0);    
     }
 }

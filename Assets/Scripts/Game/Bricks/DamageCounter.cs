@@ -97,6 +97,10 @@ public class DamageCounter : MonoBehaviour
         DestroyedCount = 0;
         _turnActive = false;
 
+        if (_addBallProgress != null)
+        {
+            _addBallProgress.Reset();
+        }
     }
 
     public string TurnDamageString()
