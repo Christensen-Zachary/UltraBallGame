@@ -15,6 +15,7 @@ public class PowerupManager : MonoBehaviour
     private FacBrick _facBrick;
     private FacBall _facBall;
     private EndTurnDestroyService _endTurnDestroyService;
+    private BallCounter _ballCounter;
 
     private int _closestColumn = 0;
     private List<(GameObject, BrickType)> FloorBricks = new List<(GameObject, BrickType)>();
@@ -32,6 +33,7 @@ public class PowerupManager : MonoBehaviour
         _facBrick = ResourceLocator.GetResource<FacBrick>("FacBrick");
         _facBall = ResourceLocator.GetResource<FacBall>("FacBall");
         _endTurnDestroyService = ResourceLocator.GetResource<EndTurnDestroyService>("EndTurnDestroyService");
+        _ballCounter = ResourceLocator.GetResource<BallCounter>("BallCounter");
     }
 
     public void EndTurnPowerupManager()
@@ -166,7 +168,7 @@ public class PowerupManager : MonoBehaviour
                 _endTurnDestroyService.AddGameObject(
                     _facBall.Create(_levelService.Balls[i])
                 );
-                _levelService.BallCounter++;
+                _ballCounter.Count++;
             }
         }
     }

@@ -97,7 +97,6 @@ public class Shootable : MonoBehaviour
         }
         // else
         // {
-            _levelService.BallCounter--;
             IsReturned = false;
             transform.localPosition = Vector3.zero; // from zero because are children of parent shooting from
             RB.velocity = Vector2.zero;

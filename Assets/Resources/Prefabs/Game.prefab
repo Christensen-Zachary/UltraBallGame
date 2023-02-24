@@ -212,6 +212,7 @@ GameObject:
   - component: {fileID: 4516845130310491960}
   - component: {fileID: 4516845130310491961}
   - component: {fileID: 5832456314278588785}
+  - component: {fileID: 2885309570003845042}
   m_Layer: 0
   m_Name: LevelService
   m_TagString: Untagged
@@ -251,7 +252,6 @@ MonoBehaviour:
   _extraBallsText: {fileID: 0}
   _floorBricksText: {fileID: 0}
   _fireBallsText: {fileID: 0}
-  _ballCount: {fileID: 4105454235403999615}
   <ResourceLocator>k__BackingField: {fileID: 4516845128962790882}
 --- !u!114 &5832456314278588785
 MonoBehaviour:
@@ -266,6 +266,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <ResourceLocator>k__BackingField: {fileID: 4516845128962790882}
+--- !u!114 &2885309570003845042
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4516845130310490310}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 588d962fdb1c84d38983b6156b239573, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <ResourceLocator>k__BackingField: {fileID: 4516845128962790882}
+  _ballCount: {fileID: 4105454235403999615}
 --- !u!1 &4516845130371445004
 GameObject:
   m_ObjectHideFlags: 0
@@ -684,6 +698,10 @@ PrefabInstance:
       propertyPath: <ResourceLocator>k__BackingField
       value: 
       objectReference: {fileID: 4516845128962790882}
+    - target: {fileID: 7644364916496225601, guid: 333d70e9459a54a4d8b10dfb4a489593, type: 3}
+      propertyPath: _ballCount
+      value: 
+      objectReference: {fileID: 4105454235403999615}
     - target: {fileID: 9155598873502978996, guid: 333d70e9459a54a4d8b10dfb4a489593, type: 3}
       propertyPath: m_Name
       value: Background

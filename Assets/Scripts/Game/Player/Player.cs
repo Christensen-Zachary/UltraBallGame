@@ -8,10 +8,13 @@ public class Player : MonoBehaviour
 {
     [field: SerializeField]
     private ResourceLocator ResourceLocator { get; set; }
+
     private Camera _mainCamera;
 
     private Grid _grid;
     private Aim _aim;
+    private LevelService _levelService;
+    private BallCounter _ballCounter;
     private float _radius = 1;
 
     public PlayerHealth _playerHealth;
@@ -40,6 +43,8 @@ public class Player : MonoBehaviour
         _mainCamera = Camera.main;
         _grid = ResourceLocator.GetResource<Grid>("Grid");
         _aim = ResourceLocator.GetResource<Aim>("Aim");
+        _levelService = ResourceLocator.GetResource<LevelService>("Level");
+        _ballCounter = ResourceLocator.GetResource<BallCounter>("BallCounter");
 
         transform.localPosition = _grid.GetPosition((_grid.NumberOfDivisions - 1) / 2f, 0);
         transform.localScale = _grid.UnitScale * Vector2.one;
@@ -99,6 +104,7 @@ public class Player : MonoBehaviour
         foreach (var ball in Shootables)
         {
             ball.Fire(direction);
+            _ballCounter.Count--;
             yield return new WaitForSeconds(0.2f);
         }
         IsFireRunning = false;

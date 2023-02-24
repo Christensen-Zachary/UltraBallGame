@@ -7,6 +7,9 @@ using UnityEngine.UI;
 public class BallCount : MonoBehaviour
 {
     private TextMeshPro TextMesh { get; set; }
+    
+    private int _returnedBallCount = 0;
+    public int ReturnedBallCount { get { return _returnedBallCount; } set {  } }
 
     private void Awake()
     {
@@ -41,4 +44,5 @@ public class BallCount : MonoBehaviour
     {
         gameObject.SetActive(false);
     }
+
 }

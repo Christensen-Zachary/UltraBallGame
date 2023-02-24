@@ -31,6 +31,7 @@ public class NormalGame : MonoBehaviour, IGetState, IEmpty, ISetupLevel, IWaitin
     private GameData _gameData;
     private PowerupManager _powerupManager;
     private GameSettings _gameSettings;
+    private BallCounter _ballCounter;
 
     private float _firingTimer = 0;
     private readonly float _timeToFastForward = 18f; // seconds
@@ -61,6 +62,7 @@ public class NormalGame : MonoBehaviour, IGetState, IEmpty, ISetupLevel, IWaitin
         _gameData = ResourceLocator.GetResource<GameData>("GameData");
         _powerupManager = ResourceLocator.GetResource<PowerupManager>("PowerupManager");
         _gameSettings = ResourceLocator.GetResource<GameSettings>("GameSettings");
+        _ballCounter = ResourceLocator.GetResource<BallCounter>("BallCounter");
     }
 
     public void Aiming()
@@ -324,7 +326,7 @@ public class NormalGame : MonoBehaviour, IGetState, IEmpty, ISetupLevel, IWaitin
 
         if (_gameUISwitcher != null) _gameUISwitcher.EndFire();
 
-        _levelService.BallCounter = _levelService.CurrentBalls.Count;
+        _ballCounter.Count = _levelService.CurrentBalls.Count;
 
         yield return StartCoroutine(_endTurnAttackService.Attack());
 

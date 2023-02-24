@@ -32,9 +32,7 @@ public class LevelService : MonoBehaviour
     public FireBallsText _fireBallsText;
     private int _fireBallsPowerUpCount = 0;
     public int FireBallsPowerUpCount { get { return _fireBallsPowerUpCount; } set { if (_fireBallsText != null) { _fireBallsText.SetNumber(value); } _fireBallsPowerUpCount = value; } }
-    private int _ballCounter = 0;
-    public int BallCounter { get { return _ballCounter; } set { if (_ballCount != null) { _ballCount.SetNumber(value); } _ballCounter = value; } }
-    public BallCount _ballCount;
+    
 
 
     public List<Brick> Bricks { get; set; }
@@ -47,9 +45,13 @@ public class LevelService : MonoBehaviour
     public int Health => level.Health;
     private Level level;
     public bool LevelLoaded => level != null;
+
+    private BallCounter _ballCounter;
     private void Awake()
     {
         ResourceLocator.AddResource("Level", this);
+
+        _ballCounter = ResourceLocator.GetResource<BallCounter>("BallCounter");
 
         int levelNum = ES3.Load<int>(BGStrings.ES_LEVELNUM, 1);
         if (LevelNumber >= 0)
@@ -71,7 +73,7 @@ public class LevelService : MonoBehaviour
         Balls = level.Balls;
         ResetCurrentBalls();
 
-        BallCounter = Balls.Count;
+        _ballCounter.Count = Balls.Count;
         ExtraBallPowerUpCount = level.ExtraBallPowerUpCount;
         FloorBricksPowerUpCount = level.FloorBrickCount;
         FireBallsPowerUpCount = level.FireBallsPowerUpCount;
@@ -80,7 +82,7 @@ public class LevelService : MonoBehaviour
     public void ResetLevelService()
     {
         RowCounter = 0;
-        BallCounter = Balls.Count;
+        _ballCounter.Count = Balls.Count;
         ResetCurrentBalls();
         ExtraBallPowerUpCount = level.ExtraBallPowerUpCount;
         FloorBricksPowerUpCount = level.FloorBrickCount;
