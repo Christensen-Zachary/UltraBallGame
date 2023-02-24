@@ -312,7 +312,9 @@ public class NormalGame : MonoBehaviour, IGetState, IEmpty, ISetupLevel, IWaitin
     public IEnumerator EndTurnRoutine()
     {
 
-        int ballsToAdd = _damageCounter.EndTurn(); // called before saving data because stores values for string that is returned 
+        int ballsToAdd = _damageCounter.GetAddBallCount();
+        _damageCounter.EndTurn(); // called before saving data because stores values for string that is returned 
+
         for (int i = 0; i < ballsToAdd; i++)
         {
             _facBall.Create(_levelService.Balls.First());

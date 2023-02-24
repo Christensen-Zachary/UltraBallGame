@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.UI;
 
 public class DamageCounter : MonoBehaviour
 {
@@ -13,16 +14,24 @@ public class DamageCounter : MonoBehaviour
     private int _damage = 0;
     public int DamageCount { get { return _damage; } set { _damage = value; }}
     private int _destroyedCount = 0;
-    public int DestroyedCount { get { return _destroyedCount; } set { _destroyedCount = value; }}
+    public int DestroyedCount { get { return _destroyedCount; } set { 
+        _destroyedCount = value;
+         if (_addBallProgress != null)
+         {
+            _addBallProgress.SetProgressValue(GetAddBallScoreRemainder() / (float)_gameSettings.destroyedBricksToAddBall); 
+            _addBallProgress.SetAddBallValue(GetAddBallCount());
+         }
+    }}
 
     private List<(int damage, int destroyedCount, float time)> DamagePerTurn { get; set; } = new List<(int damage, int destroyedCount, float time)>();
 
     private bool _turnActive = false;
     private float _timer = 0;
 
-    private int _addBallDestroyCount = 0;
+    private int _leftOverAddBallDestroyCount = 0;
 
     private GameSettings _gameSettings;
+    public AddBallProgress _addBallProgress; // reference set in editor
 
 
     private void Awake() 
@@ -52,14 +61,14 @@ public class DamageCounter : MonoBehaviour
         _turnActive = false;
 
         // calculate how many balls to give player
-        _addBallDestroyCount += DestroyedCount;
+        _leftOverAddBallDestroyCount += DestroyedCount;
         int ballsToAdd = 0;
-        if (_addBallDestroyCount >= _gameSettings.destroyedBricksToAddBall)
+        if (_leftOverAddBallDestroyCount >= _gameSettings.destroyedBricksToAddBall)
         {
-            while (_addBallDestroyCount >= _gameSettings.destroyedBricksToAddBall)
+            while (_leftOverAddBallDestroyCount >= _gameSettings.destroyedBricksToAddBall)
             {
                 ballsToAdd++;
-                _addBallDestroyCount -= _gameSettings.destroyedBricksToAddBall;
+                _leftOverAddBallDestroyCount -= _gameSettings.destroyedBricksToAddBall;
             }
         }
 
@@ -68,6 +77,17 @@ public class DamageCounter : MonoBehaviour
         DamageCount = 0;
         DestroyedCount = 0;
         return ballsToAdd;
+    }
+
+    public float GetAddBallScoreRemainder()
+    {
+        // current destroyed count plus leftover. Leftover is decremented at end of turn when bals are granted
+        return (DestroyedCount + _leftOverAddBallDestroyCount) % _gameSettings.destroyedBricksToAddBall; 
+    }
+
+    public int GetAddBallCount()
+    {
+        return (DestroyedCount + _leftOverAddBallDestroyCount) / _gameSettings.destroyedBricksToAddBall;
     }
 
     public void ResetCounters()
