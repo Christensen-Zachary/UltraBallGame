@@ -6,7 +6,6 @@ public class Shootable : MonoBehaviour
 {
     public Rigidbody2D RB { get; set; }
     private Vector3 _offScreen = Vector3.one * 100;
-    private float _radius;
     [field: SerializeField]
     public int Speed { get; private set; }
     
@@ -15,11 +14,8 @@ public class Shootable : MonoBehaviour
     public bool IsReturned { get; private set; }
     public bool IsBuffed { get; set; } = false;
 
-    private Vector2 _lagPosition = Vector2.zero;
     public Vector2 LagVelocity { get; set; } = Vector2.zero;
-    public Vector2 LagPosition { get; set; } = Vector2.zero;
 
-    private Vector2 MaxVelocity = Vector2.zero;
 
     [field: SerializeField]
     public ParticleSystem PSReturn { get; set; }
@@ -30,7 +26,6 @@ public class Shootable : MonoBehaviour
     void Awake()
     {
         RB = GetComponent<Rigidbody2D>();
-        _radius = GetComponent<CircleCollider2D>().radius * 0.6f;
 
         ThemeVisitor.Visit(this);
     }
@@ -38,16 +33,9 @@ public class Shootable : MonoBehaviour
 
     private void FixedUpdate()
     {
-        LagPosition = _lagPosition;
-        _lagPosition = transform.position;
         if (RB.velocity != Vector2.zero) LagVelocity = RB.velocity;
     }
-
-    private void Update()
-    {
-        //LagPosition = transform.position;
-    }
-
+    
     private void OnCollisionEnter2D(Collision2D collision)
     {
         int layerMask = (1 << LayerMask.NameToLayer("Brick")) & ~(1 << LayerMask.NameToLayer("Ball"));
@@ -89,19 +77,10 @@ public class Shootable : MonoBehaviour
 
     public void Fire(Vector2 direction)
     {
-        if (RB.velocity != Vector2.zero)
-        {
-            string errMsg = "Ball veclocity was not zero when firing";
-            //Debug.LogError(errMsg);
-            // throw new System.Exception(errMsg);
-        }
-        // else
-        // {
-            IsReturned = false;
-            transform.localPosition = Vector3.zero; // from zero because are children of parent shooting from
-            RB.velocity = Vector2.zero;
-            RB.AddForce(direction * Speed);
-        // }
+        IsReturned = false;
+        transform.localPosition = Vector3.zero; // from zero because are children of parent shooting from
+        RB.velocity = Vector2.zero;
+        RB.AddForce(direction * Speed);
     }
 
     public void RandomizeDirection()
