@@ -36,16 +36,30 @@ public class ThemeData : MonoBehaviour
 
     }
 
-    // normal button. 1:1.6 ratio
-    public static Sprite GetLightButton()
+    public static Sprite GetThemeButton(ThemeButtonSize themeButtonSize)
     {
-        return Resources.Load<Sprite>("Sprites/UI/buttonHardShadowLight");
+        switch (themeButtonSize)
+        {
+            case ThemeButtonSize.Normal:
+                return GetNormalButton();
+            case ThemeButtonSize.Square:
+                return GetSquareButton();
+            case ThemeButtonSize.Wide:
+                return GetWideButton();
+            case ThemeButtonSize.Slider:
+                return GetSliderImage();
+            default:
+                return GetNormalButton();
+        }
     }
 
     // normal button. 1:1.6 ratio
-    public static Sprite GetDarkButton()
+    public static Sprite GetNormalButton()
     {
-        return Resources.Load<Sprite>("Sprites/UI/buttonHardShadowDark");
+        if (IsLight(ThemeColors[ThemeItem.SuperBackground]))
+            return Resources.Load<Sprite>("Sprites/UI/buttonHardShadowLight");
+        else
+            return Resources.Load<Sprite>("Sprites/UI/buttonHardShadowDark");
     }
 
     // wide button for options menu. doesn't need light/dark version
@@ -55,25 +69,20 @@ public class ThemeData : MonoBehaviour
     }
 
     // image for slider
-    public static Sprite GetExtraWideButtonDark()
+    public static Sprite GetSliderImage()
     {
-        return Resources.Load<Sprite>("Sprites/UI/buttonHardShadowDarkExtraLong");
+        if (IsLight(ThemeColors[ThemeItem.SuperBackground]))
+            return Resources.Load<Sprite>("Sprites/UI/buttonHardShadowLightExtraLong");
+        else
+            return Resources.Load<Sprite>("Sprites/UI/buttonHardShadowDarkExtraLong");
     }
 
-    // image for slider
-    public static Sprite GetExtraWideButtonLight()
-    {
-        return Resources.Load<Sprite>("Sprites/UI/buttonHardShadowLightExtraLong");
-    }
-
-    public static Sprite GetDarkSquare()
-    {
-        return Resources.Load<Sprite>("Sprites/UI/buttonHardShadowSquareDark");
-    }
-
-    public static Sprite GetLightSquare()
-    {
-        return Resources.Load<Sprite>("Sprites/UI/buttonHardShadowSquareLight");
+    public static Sprite GetSquareButton()
+    {   
+        if (IsLight(ThemeColors[ThemeItem.SuperBackground]))
+            return Resources.Load<Sprite>("Sprites/UI/buttonHardShadowSquareLight");
+        else
+            return Resources.Load<Sprite>("Sprites/UI/buttonHardShadowSquareDark");   
     }
 
     public static void SetThemeType(ThemeType themeType)
@@ -254,6 +263,16 @@ public class ThemeData : MonoBehaviour
     private static Color ConvertToColor(int r, int g, int b)
     {
         return new Color(r / 256f, g / 256f, b / 256f);
+    }
+
+    public static float GetColorAverage(Color color)
+    {
+        return (color.r + color.g + color.b) / 3f;;
+    }
+
+    public static bool IsLight(Color color)
+    {
+        return GetColorAverage(color) > 0.5f;
     }
 
 

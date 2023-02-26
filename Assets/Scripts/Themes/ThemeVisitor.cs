@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -28,53 +29,11 @@ public class ThemeVisitor : MonoBehaviour
         firePowerup.GetComponent<SpriteRenderer>().color = ThemeData.ThemeColors[themeItem];      
 }
 
-    public static void Visit(ThemeButtonImage themeButtonImage)
+    public static void Visit(ThemeButtonImage themeButtonImage, ThemeButtonSize themeButtonSize)
     {
         themeButtonImage.GetComponent<UnityEngine.UI.Image>().color = ThemeData.ThemeButtonImageColor;
-        Color superBackgroundColor = ThemeData.ThemeColors[ThemeItem.SuperBackground];
-        float average = (superBackgroundColor.r + superBackgroundColor.g + superBackgroundColor.b) / 3f;
-        bool isLight =  average > 0.5f;
-        // default to normal button
-        Sprite sprite;
-        if (isLight)
-        {
-            sprite = ThemeData.GetLightButton();
-        }
-        else
-        {
-            sprite = ThemeData.GetDarkButton();
-        }
 
-        // get ration of width to height
-        float ratio = themeButtonImage.GetComponent<RectTransform>().sizeDelta.x / themeButtonImage.GetComponent<RectTransform>().sizeDelta.y;
-        if (themeButtonImage.CompareTag("Slider"))
-        {
-            if (isLight)
-            {
-                sprite = ThemeData.GetExtraWideButtonLight();
-            }
-            else
-            {
-                sprite = ThemeData.GetExtraWideButtonDark();
-            }
-        }
-        else if (themeButtonImage.CompareTag("OptionsButton"))
-        {
-            sprite = ThemeData.GetWideButton();
-        }
-        else if (Mathf.Approximately(ratio, 1))
-        {
-            if (isLight)
-            {
-                sprite = ThemeData.GetLightSquare();
-            }
-            else
-            {
-                sprite = ThemeData.GetDarkSquare();
-            }
-        }
-
-        themeButtonImage.GetComponent<UnityEngine.UI.Image>().sprite = sprite;
+        themeButtonImage.GetComponent<UnityEngine.UI.Image>().sprite = ThemeData.GetThemeButton(themeButtonSize);
     }
 
     public static void Visit(ThemeFontColor themeFontColor)
@@ -211,5 +170,7 @@ public class ThemeVisitor : MonoBehaviour
         themeGameBorder.GetComponent<SpriteRenderer>().color = ThemeData.ThemeColors[ThemeItem.GameBorder];
         themeGameBorder.GetComponent<SpriteRenderer>().sortingOrder = -101;
     }
+
+    
 
 }

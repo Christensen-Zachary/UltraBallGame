@@ -499,6 +499,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f907ec5079fd014c8ae37c111b7cd49, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _themeButtonSize: 1
 --- !u!1 &614700183
 GameObject:
   m_ObjectHideFlags: 0
@@ -1107,6 +1108,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f907ec5079fd014c8ae37c111b7cd49, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _themeButtonSize: 0
 --- !u!1 &1471503915
 GameObject:
   m_ObjectHideFlags: 0

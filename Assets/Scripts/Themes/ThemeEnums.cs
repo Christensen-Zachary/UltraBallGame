@@ -18,6 +18,14 @@ public enum ThemeItem
     FirePowerup2
 }
 
+public enum ThemeButtonSize
+{
+    Normal,
+    Square,
+    Wide,
+    Slider
+}
+
 public enum ThemeType
 {
     Default,
