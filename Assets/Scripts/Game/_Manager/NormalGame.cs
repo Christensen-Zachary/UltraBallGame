@@ -34,10 +34,11 @@ public class NormalGame : MonoBehaviour, IGetState, IEmpty, ISetupLevel, IWaitin
     private BallCounter _ballCounter;
 
     private float _firingTimer = 0;
-    private readonly float _timeToFastForward = 18f; // seconds
+    private readonly float _timeToFastForward = 2f; // seconds
     private readonly int _maxBallsActiveToTriggerFastForward = 6;
     private bool _fastForwardActive = false;
     public Animator _fastForwardAnimator; // set in editor
+    private float _fastTime = 2f;
 
 
     private void Awake() 
@@ -105,9 +106,13 @@ public class NormalGame : MonoBehaviour, IGetState, IEmpty, ISetupLevel, IWaitin
         {
             if (_player.Shootables.Count(x => !x.IsReturned) <= _maxBallsActiveToTriggerFastForward || _firingTimer > _timeToFastForward * 2f)
             {
-                if (_fastForwardAnimator != null) _fastForwardAnimator.SetTrigger("blink");
+                if (_fastForwardAnimator != null) 
+                {
+                    _fastForwardAnimator.speed = 1f;
+                    _fastForwardAnimator.SetTrigger("blink");
+                }
                 _fastForwardActive = true;
-                if (_gameSettings.timeScale == 1) Time.timeScale = 2f;
+                if (_gameSettings.timeScale == 1) Time.timeScale = _fastTime;
             }
         }
 
@@ -117,6 +122,7 @@ public class NormalGame : MonoBehaviour, IGetState, IEmpty, ISetupLevel, IWaitin
 
             if (_fastForwardActive)
             {
+                if (_fastForwardAnimator != null) _fastForwardAnimator.speed = _fastTime;
                 if (_gameSettings.timeScale == 1) Time.timeScale = 1f;
                 _fastForwardActive = false;
             }
