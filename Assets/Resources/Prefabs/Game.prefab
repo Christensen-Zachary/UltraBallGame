@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 4516845128962790883}
   - component: {fileID: 4516845128962790882}
   - component: {fileID: 7851016883061657242}
+  - component: {fileID: 867076131311526050}
   m_Layer: 0
   m_Name: Game
   m_TagString: Untagged
@@ -71,6 +72,20 @@ MonoBehaviour:
   inputSource: 0
   timeScale: 1
   destroyedBricksToAddBall: 1
+--- !u!114 &867076131311526050
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4516845128962790880}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e579dd55037874fd892d41781c385fed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <ResourceLocator>k__BackingField: {fileID: 4516845128962790882}
+  _fastForwardAnimator: {fileID: 0}
 --- !u!1 &4516845130182519913
 GameObject:
   m_ObjectHideFlags: 0
@@ -405,7 +420,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <ResourceLocator>k__BackingField: {fileID: 4516845128962790882}
   <GameState>k__BackingField: {fileID: 1073348068064990529}
-  _fastForwardAnimator: {fileID: 0}
 --- !u!114 &5023107123763026535
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -621,6 +635,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <ResourceLocator>k__BackingField: {fileID: 4516845128962790882}
+  _addBallProgress: {fileID: 0}
 --- !u!1001 &2351248293909079853
 PrefabInstance:
   m_ObjectHideFlags: 0

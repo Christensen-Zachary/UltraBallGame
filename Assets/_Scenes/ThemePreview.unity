@@ -258,6 +258,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f907ec5079fd014c8ae37c111b7cd49, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _themeButtonSize: 0
 --- !u!1 &336830605
 GameObject:
   m_ObjectHideFlags: 0
@@ -393,6 +394,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f907ec5079fd014c8ae37c111b7cd49, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _themeButtonSize: 0
 --- !u!1 &457273836
 GameObject:
   m_ObjectHideFlags: 0
@@ -540,6 +542,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f907ec5079fd014c8ae37c111b7cd49, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _themeButtonSize: 0
 --- !u!1 &484305204
 GameObject:
   m_ObjectHideFlags: 0
@@ -959,6 +962,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f907ec5079fd014c8ae37c111b7cd49, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _themeButtonSize: 0
 --- !u!1001 &1346835323
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -974,6 +978,10 @@ PrefabInstance:
       propertyPath: GameUIType
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 867076131311526050, guid: e2765a2adb2c4b64891656ef62ef72e9, type: 3}
+      propertyPath: _fastForwardAnimator
+      value: 
+      objectReference: {fileID: 625298553}
     - target: {fileID: 1240106920942074238, guid: e2765a2adb2c4b64891656ef62ef72e9, type: 3}
       propertyPath: _fastForwardAnimator
       value: 

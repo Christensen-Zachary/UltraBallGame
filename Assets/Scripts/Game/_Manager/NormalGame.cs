@@ -32,13 +32,7 @@ public class NormalGame : MonoBehaviour, IGetState, IEmpty, ISetupLevel, IWaitin
     private PowerupManager _powerupManager;
     private GameSettings _gameSettings;
     private BallCounter _ballCounter;
-
-    private float _firingTimer = 0;
-    private readonly float _timeToFastForward = 2f; // seconds
-    private readonly int _maxBallsActiveToTriggerFastForward = 6;
-    private bool _fastForwardActive = false;
-    public Animator _fastForwardAnimator; // set in editor
-    private float _fastTime = 2f;
+    private FastForward _fastForward;
 
 
     private void Awake() 
@@ -64,6 +58,7 @@ public class NormalGame : MonoBehaviour, IGetState, IEmpty, ISetupLevel, IWaitin
         _powerupManager = ResourceLocator.GetResource<PowerupManager>("PowerupManager");
         _gameSettings = ResourceLocator.GetResource<GameSettings>("GameSettings");
         _ballCounter = ResourceLocator.GetResource<BallCounter>("BallCounter");
+        _fastForward = ResourceLocator.GetResource<FastForward>("FastForward");
     }
 
     public void Aiming()
@@ -101,32 +96,16 @@ public class NormalGame : MonoBehaviour, IGetState, IEmpty, ISetupLevel, IWaitin
 
     public void Firing()
     {
-        _firingTimer += Time.deltaTime;
-        if (!_fastForwardActive && _firingTimer > _timeToFastForward)
-        {
-            if (_player.Shootables.Count(x => !x.IsReturned) <= _maxBallsActiveToTriggerFastForward || _firingTimer > _timeToFastForward * 2f)
-            {
-                if (_fastForwardAnimator != null) 
-                {
-                    _fastForwardAnimator.speed = 1f;
-                    _fastForwardAnimator.SetTrigger("blink");
-                }
-                _fastForwardActive = true;
-                if (_gameSettings.timeScale == 1) Time.timeScale = _fastTime;
-            }
-        }
+        _fastForward.AdvanceTimer();
+        _fastForward.TryFastForward();
+        
 
         if (_gameInput.ReturnFire() || _player.IsFireComplete())
         {
             _player.EndFire();
 
-            if (_fastForwardActive)
-            {
-                if (_fastForwardAnimator != null) _fastForwardAnimator.speed = _fastTime;
-                if (_gameSettings.timeScale == 1) Time.timeScale = 1f;
-                _fastForwardActive = false;
-            }
-            _firingTimer = 0;
+            _fastForward.Reset();
+            
             GameState.State = GState.EndTurn;
         }
         else if (_gameUIComposition.Random())
