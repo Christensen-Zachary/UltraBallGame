@@ -1,4 +1,6 @@
 using System;
+using System.Collections;
+using System.Security.Cryptography.X509Certificates;
 using UnityEngine;
 
 public class Damageable : MonoBehaviour
@@ -16,22 +18,19 @@ public class Damageable : MonoBehaviour
     [field: SerializeField]
     public DamageCounter DamageCounter { get; set; } // set from FacBrick
     
+    public PolygonCollider2D _reflectionCollider; // reference set in prefab
 
     public bool _doesCountTowardsWinning = true;
     public BrickData _brickData; // set in facBrick
 
+    private float _effectLength = 0.5f;
+
 
     public Color MaxColor { get; set; } = new Color(
-        //Convert.ToInt32("4B", 16) / 256f, 
-        //Convert.ToInt32("4B", 16) / 256f, 
-        //Convert.ToInt32("4B", 16) / 256f);
         Convert.ToInt32("0B", 16) / 256f,
         Convert.ToInt32("72", 16) / 256f,
         Convert.ToInt32("6D", 16) / 256f);
     public Color MinColor { get; set; } = new Color(
-    //Convert.ToInt32("FF", 16) / 256f,
-    //Convert.ToInt32("91", 16) / 256f,
-    //Convert.ToInt32("A8", 16) / 256f);
         Convert.ToInt32("D5", 16) / 256f,
         Convert.ToInt32("FC", 16) / 256f,
         Convert.ToInt32("B4", 16) / 256f);
@@ -42,36 +41,72 @@ public class Damageable : MonoBehaviour
 
     public void Damage(float damage)
     {
-        if (_doesCountTowardsWinning) DamageCounter.DamageCount += (int)((Health - damage < 0) ? damage - Health : damage);
-
-        Health -= damage;
-        if (_brickData != null) _brickData.Brick.Health -= (int)damage;
-        SetColor(Health);
-        //HitSound.Play();
-        ShrinkGrow.React();
+        CountDamage(damage);
 
         if (Health <= 0)
         {
-            if (_doesCountTowardsWinning) DamageCounter.DestroyedCount++;
-            
-            GetComponent<PolygonCollider2D>().enabled = false;
-            ShrinkGrow.HideSprite();
-            BrickNumber.Hide();
-
-            gameObject.transform.parent.position = Vector2.one * 100;
+            DisableComponents();
             AddToDestroyed();
-            Destroy(transform.parent.gameObject, 1); // destroy after 1 second to show effects
+
+            StartCoroutine(FadeOut());
+            Destroy(transform.parent.gameObject, _effectLength); // destroy after _effectLength seconds to show effects
 
             if (transform.parent.TryGetComponent(out Advanceable advanceable))
             {
                 advanceable.RemoveFromList();
             }
         }
+        else
+        {
+            ReactToDamage();
+        }
+    }
+
+    private IEnumerator FadeOut()
+    {
+        float timer = 0;
+
+        while (timer < _effectLength)
+        {
+            timer += Time.deltaTime;
+
+            SpriteRenderer.material.SetFloat("_FadeAmount", Mathf.Lerp(0, 1, timer / _effectLength));
+
+            yield return null;
+        }
+
+        SpriteRenderer.material.SetFloat("_FadeAmount", 0);
+    }
+
+    private void CountDamage(float damage)
+    {
+        if (_doesCountTowardsWinning) DamageCounter.DamageCount += (int)((Health - damage < 0) ? damage - Health : damage);
+        Health -= damage;
+        if (_brickData != null) _brickData.Brick.Health -= (int)damage;
+    }
+
+    private void ReactToDamage()
+    {
+        SetColor(Health);
+        //HitSound.Play();
+        ShrinkGrow.React();
+    }
+
+    private void DisableComponents()
+    {
+        GetComponent<PolygonCollider2D>().enabled = false;
+        // ShrinkGrow.HideSprite();
+        BrickNumber.Hide();
+        _reflectionCollider.enabled = false;
     }
 
     public void AddToDestroyed()
     {
-        if (_doesCountTowardsWinning) WinService.NumberOfBricksDestroyed++;
+        if (_doesCountTowardsWinning) 
+        {
+            WinService.NumberOfBricksDestroyed++;
+            DamageCounter.DestroyedCount++;
+        }
     }
 
     public void SetColor(float value)

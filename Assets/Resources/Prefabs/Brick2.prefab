@@ -241,6 +241,7 @@ MonoBehaviour:
   <HitSound>k__BackingField: {fileID: 7149125952951077970}
   <ShrinkGrow>k__BackingField: {fileID: 4761085074247214522}
   <DamageCounter>k__BackingField: {fileID: 0}
+  _reflectionCollider: {fileID: 7771565723008807928}
   _doesCountTowardsWinning: 1
   _brickData: {fileID: 0}
   <SpriteRenderer>k__BackingField: {fileID: 5406471543159726106}
@@ -524,7 +525,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 2100000, guid: 1b2cc4d1c237c4673b11626ecc381f10, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

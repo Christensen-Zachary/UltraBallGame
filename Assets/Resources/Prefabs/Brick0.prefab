@@ -201,6 +201,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1330286026430986638}
   - component: {fileID: 1319269856066853357}
+  - component: {fileID: 6507338170014696859}
   m_Layer: 0
   m_Name: sprite
   m_TagString: Untagged
@@ -243,7 +244,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  - {fileID: 2100000, guid: 1b2cc4d1c237c4673b11626ecc381f10, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -275,6 +276,26 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!95 &6507338170014696859
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2474276278835700764}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 21390d857f516492ab2c53f1a98bf491, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &3411395919096507617
 GameObject:
   m_ObjectHideFlags: 0
@@ -522,6 +543,7 @@ MonoBehaviour:
   <HitSound>k__BackingField: {fileID: 3249753913591709754}
   <ShrinkGrow>k__BackingField: {fileID: 1971341260918529101}
   <DamageCounter>k__BackingField: {fileID: 0}
+  _reflectionCollider: {fileID: 3644392938269526543}
   _doesCountTowardsWinning: 1
   _brickData: {fileID: 0}
   <SpriteRenderer>k__BackingField: {fileID: 1319269856066853357}
