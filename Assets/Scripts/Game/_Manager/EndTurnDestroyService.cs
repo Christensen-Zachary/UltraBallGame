@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Analytics;
 
 public class EndTurnDestroyService : MonoBehaviour
 {
@@ -28,6 +29,7 @@ public class EndTurnDestroyService : MonoBehaviour
             if (x != null)
             {
                 float destroyTime = 0;
+                bool doDestroy = true;
                 if (x.TryGetComponent(out Advanceable advanceable))
                 {
                     advanceable.RemoveFromList();
@@ -43,13 +45,14 @@ public class EndTurnDestroyService : MonoBehaviour
                     _facBall.DestroyBall(shootable);
                     shootable.transform.localPosition = Vector3.one * 1000;
                     destroyTime = 3f;
+                    doDestroy = false;
                 }
                 EvilBrick evilBrick = x.GetComponent<EvilBrick>();
                 if (evilBrick != null)
                 {
                     evilBrick.RemoveFromList();
                 }
-                Destroy(x, destroyTime);  
+                if (doDestroy) Destroy(x, destroyTime);
             }
         });
         GameObjects = new List<GameObject>();

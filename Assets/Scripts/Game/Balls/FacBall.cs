@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class FacBall : MonoBehaviour
@@ -14,6 +15,8 @@ public class FacBall : MonoBehaviour
     private LevelService _levelService;
     private Transform _ballParent;
 
+    private List<Shootable> _shootablePool = new List<Shootable>();
+
     private void Awake()
     {
         _grid = ResourceLocator.GetResource<Grid>("Grid");
@@ -27,37 +30,42 @@ public class FacBall : MonoBehaviour
 
     public void DestroyBalls()
     {
-        List<GameObject> balls = new List<GameObject>();
-        for (int i = 0; i < _ballParent.childCount; i++)
-        {
-            if (_ballParent.GetChild(i).name.Contains("Ball"))
-            {
-                balls.Add(_ballParent.GetChild(i).gameObject);
-            }
-        }
-        _player.Shootables.Clear();
-        balls.ForEach(x => Destroy(x));
+
+        List<Shootable> shootables = new List<Shootable>();
+        _player.Shootables.ForEach(x => shootables.Add(x));
+        shootables.ForEach(x => DestroyBall(x));
     }
 
     public void DestroyBall(Shootable shootable)
     {
         _player.Shootables.Remove(shootable);
+        _shootablePool.Add(shootable);
     }
 
     public GameObject Create(Ball ball)
     {
-        GameObject obj = Instantiate(BallPrefab);
-        obj.name = $"Ball {System.Guid.NewGuid()}";
-        obj.transform.SetParent(_ballParent);
-        obj.transform.localScale = ball.Size * Vector3.one;
-        
-        if (obj.TryGetComponent(out Shootable shootable))
+        Shootable shootable;
+        GameObject obj;
+        if (_shootablePool.Count > 0)
         {
-            shootable._levelService = _levelService;
-            shootable.Damage = ball.Damage;
-            shootable.Return();
-            _player.Shootables.Add(shootable);
+            shootable = _shootablePool.First();
+            _shootablePool.Remove(shootable);
+            obj = shootable.gameObject;
         }
+        else
+        {
+            obj = Instantiate(BallPrefab);
+            obj.name = $"Ball {System.Guid.NewGuid()}";
+            obj.transform.SetParent(_ballParent);
+            obj.transform.localScale = ball.Size * Vector3.one;
+
+            shootable = obj.GetComponent<Shootable>();
+        }
+
+        shootable._levelService = _levelService;
+        shootable.Damage = ball.Damage;
+        shootable.Return();
+        _player.Shootables.Add(shootable);
 
         return obj;
     }
