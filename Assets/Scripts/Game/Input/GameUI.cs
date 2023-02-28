@@ -1,6 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Net.Security;
+using FastMobileBlurURP2023;
 using UnityEngine;
+using UnityEngine.Rendering;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -463,17 +466,24 @@ public class GameUI : MonoBehaviour, IHorizontal, IVertical, IRandom, IReturnFir
             ActivatePortrait();
         }
 
-        Dim.SetActive(false);
+        
+        ActivateOverlay(false);
         HideGameOver();
         OptionsPanel.SetActive(false);
     }
 
     public void HideGame()
     {
-        Dim.SetActive(true);
+        ActivateOverlay(true);
 
         LPanels.ForEach(x => x.gameObject.SetActive(false));
         PPanels.ForEach(x => x.gameObject.SetActive(false));
+    }
+
+    private void ActivateOverlay(bool activate)
+    {
+        BlurURP.Settings.IsActive = activate;
+        Dim.SetActive(activate);
     }
 
     public void ShowOptions()
