@@ -40,6 +40,7 @@ public class FacBall : MonoBehaviour
     {
         _player.Shootables.Remove(shootable);
         _shootablePool.Add(shootable);
+        shootable.transform.localPosition = Vector3.one * 1000;
     }
 
     public GameObject Create(Ball ball)
