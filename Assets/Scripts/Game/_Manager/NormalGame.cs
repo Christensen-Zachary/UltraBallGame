@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -34,6 +35,8 @@ public class NormalGame : MonoBehaviour, IGetState, IEmpty, ISetupLevel, IWaitin
     private BallCounter _ballCounter;
     private FastForward _fastForward;
 
+    private readonly float _dropInDuration = 0.5f;
+    private readonly float _staggerRowsBy = 7f;
 
     private void Awake() 
     {
@@ -317,7 +320,13 @@ public class NormalGame : MonoBehaviour, IGetState, IEmpty, ISetupLevel, IWaitin
 
         yield return StartCoroutine(_endTurnAttackService.Attack());
 
-        CreateNextRow();
+        //CreateNextRow();
+        List<Brick> bricks = _levelService.GetNextRow();
+        if (bricks.Count > 0)
+        {
+            yield return StartCoroutine(CreateNextRowWithDropIn(bricks));
+            yield return new WaitForSeconds(_dropInDuration); // wait to allow last bricks to complete since there is no delay after last brick
+        }
 
         _facBrick.DisableCompositeCollider();
         yield return StartCoroutine(_advanceService.Advance());
@@ -351,10 +360,13 @@ public class NormalGame : MonoBehaviour, IGetState, IEmpty, ISetupLevel, IWaitin
 
         // put rowCount into variable to ensure type conversion on different machines
         float rowCount = (float)_levelService.NumberOfDivisions * Background.BACKGROUND_RATIO;
+        
         for (int i = 0; i < rowCount; i++)
         {
-            CreateNextRow();
+            //CreateNextRow();
+            yield return StartCoroutine(CreateNextRowWithDropIn(_levelService.GetNextRow()));
         }
+        yield return new WaitForSeconds(_dropInDuration); // wait to allow last bricks to complete since there is no delay after last brick
 
         _levelService.Balls.ForEach(x => _facBall.Create(x));
         _player.SetRadius();
@@ -367,10 +379,70 @@ public class NormalGame : MonoBehaviour, IGetState, IEmpty, ISetupLevel, IWaitin
         GameState.State = GState.WaitingForPlayerInput;
     }
 
+    private IEnumerator CreateNextRowWithDropIn(List<Brick> row)
+    {
+        float topScreenYPos = _grid.UnitScale + Mathf.Abs(Camera.main.ScreenToWorldPoint(new Vector3(0, BGUtils.GetScreenSize().height, 0)).y);
+        List<BrickData> brickDatas = new List<BrickData>();
+        row.ForEach(x =>
+        {
+            GameObject brick = _facBrick.Create(x);
+            brickDatas.Add(brick.GetComponent<BrickData>());
+        });
+
+        yield return StartCoroutine(DropRowIntoPosition(brickDatas, topScreenYPos));
+        
+        // ensure bricks end up in correct spot
+        // brickDatas.ForEach(x => x.transform.localPosition = _grid.GetPosition(x.Brick.Col, x.Brick.Row));
+    }
+
+    private IEnumerator DropRowIntoPosition(List<BrickData> row, float topYPosition)
+    {
+        // ensure bricks are ordered by column
+        row = row.OrderBy(x => x.Brick.Col).ToList();
+
+        // move bricks to start position all together and track positions
+        List<(BrickData brick, Vector2 start, Vector2 end)> bricksStartAndEnd = new();
+        for (int i = 0; i < row.Count; i++)
+        {
+            Vector3 endPosition = row[i].transform.position;
+            row[i].transform.position = new Vector3(row[i].transform.position.x, topYPosition, 0);
+            bricksStartAndEnd.Add((row[i], row[i].transform.position, endPosition));
+        }
+
+        // move bricks in staggered formation
+        for (int i = 0; i < bricksStartAndEnd.Count; i++)
+        {
+            if (i != row.Count - 1) 
+            {
+                StartCoroutine(DropIntoPosition(bricksStartAndEnd[i].brick.transform, bricksStartAndEnd[i].start, bricksStartAndEnd[i].end));
+                yield return new WaitForSeconds(_dropInDuration / _levelService.NumberOfDivisions);
+            }
+            else 
+            {
+                StartCoroutine(DropIntoPosition(bricksStartAndEnd[i].brick.transform, bricksStartAndEnd[i].start, bricksStartAndEnd[i].end));
+                // no delay between rows
+            }
+        }
+    }
+
+    private IEnumerator DropIntoPosition(Transform obj, Vector2 from, Vector2 to)
+    {
+        float timer = 0;
+        while (timer < _dropInDuration)
+        {
+            timer += Time.deltaTime;
+
+            obj.position = new Vector3(obj.position.x, Mathf.Lerp(from.y, to.y, 0.5f * Mathf.Cos(Mathf.PI * timer / _dropInDuration + Mathf.PI) + 0.5f), 0);
+
+            yield return null;
+        }
+        
+        obj.position = new Vector3(obj.position.x, to.y, 0);
+    }
+
     private void CreateNextRow()
     {
-        //_levelService.GetNextRow().ForEach(x => { int row = x.Row; x.Row = --x.Row * -1 + (int)_grid.GameBoardHeight - 1; _facBrick.Create(x); x.Row = row; }); // subtract row so will advance down into position
-        _levelService.GetNextRow().ForEach(x => { _facBrick.Create(x); }); // subtract row so will advance down into position
+        _levelService.GetNextRow().ForEach(x => { _facBrick.Create(x); });
     }
 
     public void CheckWinLose()

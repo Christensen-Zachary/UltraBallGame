@@ -10,4 +10,9 @@ public static class BGUtils
         float width = height * Camera.main.aspect; // aspect = width/height
         return (height, width);
     }
+
+    public static float CosineFunction(float input)
+    {
+        return 0.5f * Mathf.Cos(Mathf.PI * input + Mathf.PI) + 0.5f;
+    }
 }
