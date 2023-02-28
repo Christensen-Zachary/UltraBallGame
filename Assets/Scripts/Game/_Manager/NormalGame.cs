@@ -5,6 +5,7 @@ using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class NormalGame : MonoBehaviour, IGetState, IEmpty, ISetupLevel, IWaitingForPlayerInput, IMovingPlayer, IAiming, ISliderAiming, IFiring, IEndTurn, ICheckWinLose, IGameOver, IWin, IOptionsPanel
 {
@@ -34,9 +35,10 @@ public class NormalGame : MonoBehaviour, IGetState, IEmpty, ISetupLevel, IWaitin
     private GameSettings _gameSettings;
     private BallCounter _ballCounter;
     private FastForward _fastForward;
+    public BtnOptionsAnimation _btnOptionsAnimation; // reference set in editor
 
     private readonly float _dropInDuration = 0.5f;
-    private readonly float _staggerRowsBy = 7f;
+    
 
     private void Awake() 
     {
@@ -339,6 +341,8 @@ public class NormalGame : MonoBehaviour, IGetState, IEmpty, ISetupLevel, IWaitin
 
     private IEnumerator SetupLevelRoutine()
     {
+        if (_btnOptionsAnimation != null) _btnOptionsAnimation.Hide();
+
         _powerupManager.EndTurnPowerupManager();
 
         _gameData.ResetGameData();
@@ -375,6 +379,7 @@ public class NormalGame : MonoBehaviour, IGetState, IEmpty, ISetupLevel, IWaitin
         yield return StartCoroutine(_advanceService.Advance());
         _facBrick.EnableCompositeCollider();
 
+        if (_btnOptionsAnimation != null) StartCoroutine(_btnOptionsAnimation.FadeIn());
         // change states first so variable will always be true until after state change to avoid race condition, unless this happens atomically then it doesn't matter
         GameState.State = GState.WaitingForPlayerInput;
     }
@@ -468,6 +473,7 @@ public class NormalGame : MonoBehaviour, IGetState, IEmpty, ISetupLevel, IWaitin
         else
         {
             if (_gameUISwitcher != null) _gameUISwitcher.StartTurn();
+            if (_btnOptionsAnimation != null) StartCoroutine(_btnOptionsAnimation.FadeIn());
             GameState.State = GState.WaitingForPlayerInput;
         }
     }
