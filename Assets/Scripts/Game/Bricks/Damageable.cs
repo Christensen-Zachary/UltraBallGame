@@ -99,6 +99,7 @@ public class Damageable : MonoBehaviour
         ShrinkGrow.React();
         if (damage > 10) BlinkGlow.SetColor(ThemeData.ExtraFireDmgBlink, ThemeData.ExtraFireBlinkStrength);
         else if (damage > 1) BlinkGlow.SetColor(ThemeData.FireDmgBlink, ThemeData.FireBlinkStrength);
+        else BlinkGlow.SetColor(ThemeData.NormalDmgBlink, ThemeData.NormalBlinkStrength);
         BlinkGlow.React();
     }
 
