@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -38,6 +37,8 @@ public class NormalGame : MonoBehaviour, IGetState, IEmpty, ISetupLevel, IWaitin
     public BtnOptionsAnimation _btnOptionsAnimation; // reference set in editor
 
     private readonly float _dropInDuration = 0.5f;
+    private bool _dropInDirection = true;
+    private int _dropInStyle = 0;
     
 
     private void Awake() 
@@ -365,6 +366,7 @@ public class NormalGame : MonoBehaviour, IGetState, IEmpty, ISetupLevel, IWaitin
         // put rowCount into variable to ensure type conversion on different machines
         float rowCount = (float)_levelService.NumberOfDivisions * Background.BACKGROUND_RATIO;
         
+        _dropInStyle = UnityEngine.Random.Range(0, 4);
         for (int i = 0; i < rowCount; i++)
         {
             //CreateNextRow();
@@ -395,15 +397,16 @@ public class NormalGame : MonoBehaviour, IGetState, IEmpty, ISetupLevel, IWaitin
         });
 
         yield return StartCoroutine(DropRowIntoPosition(brickDatas, topScreenYPos));
-        
-        // ensure bricks end up in correct spot
-        // brickDatas.ForEach(x => x.transform.localPosition = _grid.GetPosition(x.Brick.Col, x.Brick.Row));
     }
 
     private IEnumerator DropRowIntoPosition(List<BrickData> row, float topYPosition)
     {
         // ensure bricks are ordered by column
         row = row.OrderBy(x => x.Brick.Col).ToList();
+        if (_dropInStyle == 0 && (_dropInDirection = !_dropInDirection)) row.Reverse();
+        else if (_dropInStyle == 1) row.Reverse();
+        else if (_dropInStyle == 2) row.Shuffle();
+        
 
         // move bricks to start position all together and track positions
         List<(BrickData brick, Vector2 start, Vector2 end)> bricksStartAndEnd = new();
