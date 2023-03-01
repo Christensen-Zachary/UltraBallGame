@@ -15,7 +15,7 @@ public class ThemeVisitor : MonoBehaviour
     public static void Visit(FirePowerup firePowerup)
     {
         ThemeItem themeItem = ThemeItem.FirePowerup1; // default to normal fire
-        if (firePowerup.Damage > 2) // is strong fire
+        if (firePowerup.Damage > 10) // is strong fire
             themeItem = ThemeItem.FirePowerup2;
         
         firePowerup.PSGameObject = ThemeData.ThemeParticleSystems[themeItem];
@@ -48,6 +48,8 @@ public class ThemeVisitor : MonoBehaviour
     public static void Visit(BrickNumber brickNumber)
     {
         brickNumber.TextMesh.color = ThemeData.BrickTextColor;
+        // below is theme color but transparent
+        // brickNumber.TextMesh.color = new Color32(ThemeData.BrickTextColor.r, ThemeData.BrickTextColor.g, ThemeData.BrickTextColor.b, 0);
     }
 
     public static void Visit(Damageable damageable)

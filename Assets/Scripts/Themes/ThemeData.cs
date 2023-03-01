@@ -22,6 +22,10 @@ public class ThemeData : MonoBehaviour
     public static Color32 ThemeFontColor;
     public static Color32 ThemeButtonImageColor;
 
+    public static Color NormalDmgBlink = new Color(0.5f, 0.5f, 0.5f, 1);
+    public static Color FireDmgBlink = new Color(0.8f, 0, 0.1f, 1);
+    public static Color ExtraFireDmgBlink = new Color(0.8f, 0, 0.8f, 1);
+
     private void Awake()
     {
         ThemeType = ES3.Load<ThemeType>(BGStrings.ES_THEMETYPE, ThemeType.Default);
@@ -91,6 +95,10 @@ public class ThemeData : MonoBehaviour
         ThemeFontColor = new Color32(0xff, 0xff, 0xff, 0xff);
         ThemeButtonImageColor = new Color32(0xff, 0xff, 0xff, 0xff);
 
+        NormalDmgBlink = new Color(0.5f, 0.5f, 0.5f, 1);
+        FireDmgBlink = new Color(0.8f, 0, 0.1f, 1);
+        ExtraFireDmgBlink = new Color(0.8f, 0, 0.8f, 1);
+
         ThemeColors = new Dictionary<ThemeItem, Color>() {
             // default colors, are overwritten in GetThemeColors
             { ThemeItem.Player, GetColor(CustomColor.Orange) },
@@ -134,6 +142,10 @@ public class ThemeData : MonoBehaviour
                 SetThemeColor(ThemeItem.GameBorder, ConvertToColor(0x5a, 0x5a, 0x5a));
 
                 SetThemeColor(ThemeItem.Button, GetColor(CustomColor.Brown));
+
+                NormalDmgBlink = new Color(0.5f, 0.5f, 0.5f, 1);
+                FireDmgBlink = new Color(0, 0.7f, 0.7f, 1);
+                ExtraFireDmgBlink = new Color(1, 0, 0, 1);
                 break;
 
             case ThemeType.JellyFish:

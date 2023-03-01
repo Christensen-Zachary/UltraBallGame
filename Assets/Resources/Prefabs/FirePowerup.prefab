@@ -65,7 +65,7 @@ MonoBehaviour:
   <SpriteRenderer>k__BackingField: {fileID: 7877604767168728702}
   <PSGameObject>k__BackingField: {fileID: 2135062129257579604}
   <PSGameObjectToClone>k__BackingField: {fileID: 561222644810001461, guid: fa172d5828d9f4ea8a1fccbbc5d39c1b, type: 3}
-  <Damage>k__BackingField: 2
+  <Damage>k__BackingField: 5
 --- !u!58 &2263119156933403374
 CircleCollider2D:
   m_ObjectHideFlags: 0

@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 728579221831963431}
   - component: {fileID: 1971341260918529101}
   - component: {fileID: 1144669951532253889}
+  - component: {fileID: 1293259855528982418}
   - component: {fileID: 3644392938269526543}
   - component: {fileID: 3249753913591709754}
   m_Layer: 8
@@ -51,7 +52,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <SpriteTransform>k__BackingField: {fileID: 1330286026430986638}
-  <ShrinkByPercent>k__BackingField: 15
+  <ShrinkByPercent>k__BackingField: 20
 --- !u!114 &1144669951532253889
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -66,6 +67,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _grid: {fileID: 0}
   _advanceService: {fileID: 0}
+--- !u!114 &1293259855528982418
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 728579221831963425}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58c7ae81f1aa448e78ca52216554996a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <SpriteRenderer>k__BackingField: {fileID: 1319269856066853357}
 --- !u!60 &3644392938269526543
 PolygonCollider2D:
   m_ObjectHideFlags: 0
@@ -521,6 +535,7 @@ MonoBehaviour:
   <BrickNumber>k__BackingField: {fileID: 8321900511822536394}
   <HitSound>k__BackingField: {fileID: 3249753913591709754}
   <ShrinkGrow>k__BackingField: {fileID: 1971341260918529101}
+  <BlinkGlow>k__BackingField: {fileID: 1293259855528982418}
   <DamageCounter>k__BackingField: {fileID: 0}
   _reflectionCollider: {fileID: 3644392938269526543}
   _doesCountTowardsWinning: 1

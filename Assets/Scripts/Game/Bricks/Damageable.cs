@@ -1,6 +1,5 @@
 using System;
 using System.Collections;
-using System.Security.Cryptography.X509Certificates;
 using UnityEngine;
 
 public class Damageable : MonoBehaviour
@@ -13,6 +12,9 @@ public class Damageable : MonoBehaviour
     public AudioSource HitSound { get; set; }
     [field: SerializeField]
     private ShrinkGrow ShrinkGrow { get; set; }
+    [field: SerializeField]
+    private BlinkGlow BlinkGlow { get; set; }
+    
     public WinService WinService { get; set; }
 
     [field: SerializeField]
@@ -39,6 +41,7 @@ public class Damageable : MonoBehaviour
     [field: SerializeField]
     public SpriteRenderer SpriteRenderer { get; private set; } // reference set on prefab in editor
 
+
     public void Damage(float damage)
     {
         CountDamage(damage);
@@ -48,7 +51,7 @@ public class Damageable : MonoBehaviour
             DisableComponents();
             AddToDestroyed();
 
-            StartCoroutine(FadeOut());
+            StartCoroutine(FadeOut(damage));
             Destroy(transform.parent.gameObject, _effectLength); // destroy after _effectLength seconds to show effects
 
             if (transform.parent.TryGetComponent(out Advanceable advanceable))
@@ -58,12 +61,16 @@ public class Damageable : MonoBehaviour
         }
         else
         {
-            ReactToDamage();
+            ReactToDamage(damage);
         }
     }
 
-    private IEnumerator FadeOut()
+    private IEnumerator FadeOut(float damage)
     {
+        if (damage > 10) BlinkGlow.SetFadeOutColor(ThemeData.ExtraFireDmgBlink);
+        else if (damage > 1) BlinkGlow.SetFadeOutColor(ThemeData.FireDmgBlink);
+        else BlinkGlow.SetFadeOutColor(ThemeData.NormalDmgBlink);
+        
         float timer = 0;
 
         while (timer < _effectLength)
@@ -85,11 +92,14 @@ public class Damageable : MonoBehaviour
         if (_brickData != null) _brickData.Brick.Health -= (int)damage;
     }
 
-    private void ReactToDamage()
+    private void ReactToDamage(float damage)
     {
         SetColor(Health);
         //HitSound.Play();
         ShrinkGrow.React();
+        if (damage > 10) BlinkGlow.SetColor(ThemeData.ExtraFireDmgBlink);
+        else if (damage > 1) BlinkGlow.SetColor(ThemeData.FireDmgBlink);
+        BlinkGlow.React();
     }
 
     private void DisableComponents()
