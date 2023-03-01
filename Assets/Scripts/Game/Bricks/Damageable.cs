@@ -25,7 +25,7 @@ public class Damageable : MonoBehaviour
     public bool _doesCountTowardsWinning = true;
     public BrickData _brickData; // set in facBrick
 
-    private float _effectLength = 0.5f;
+    private float _effectLength = 1f;
 
 
     public Color MaxColor { get; set; } = new Color(
