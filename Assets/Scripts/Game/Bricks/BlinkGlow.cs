@@ -63,17 +63,8 @@ public class BlinkGlow : MonoBehaviour
     {
         if (_reactRunning)
         {
-            if (_isShrinking)
-            {
-                _timer = 0;
-                _material.SetFloat("_Glow", MaxGlow);
-            }
-            else 
-            {
-                _timer = _duration * 0.35f;
-                _isShrinking = false;
-                _material.SetFloat("_Glow", MaxGlow * 0.35f);
-            }
+            // if already running, maintain current glow and set is shrinking to false. Will reverse shrinking
+            _isShrinking = false;
         }
 
         _reactRunning = true;
