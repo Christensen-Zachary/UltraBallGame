@@ -8,7 +8,7 @@ public class BlinkGlow : MonoBehaviour
 {
     [field: SerializeField]
     public SpriteRenderer SpriteRenderer { get; private set; } // reference set in prefab
-    private float MaxGlow { get; set; } = 5f;
+    private float MaxGlow { get; set; } = 4f;
     private bool _reactRunning = false;
     private bool _isShrinking = false;
     private float _duration = 0.1f;
@@ -19,7 +19,10 @@ public class BlinkGlow : MonoBehaviour
     private void Awake() 
     {
         SpriteRenderer.material.SetTexture("_GlowTex", SpriteRenderer.sprite.texture);    
+        
         _originalColor = ThemeData.NormalDmgBlink;
+        SetColor(_originalColor, ThemeData.NormalBlinkStrength);
+        SetFadeOutColor(_originalColor);
     }
 
     private void Update()
@@ -37,7 +40,7 @@ public class BlinkGlow : MonoBehaviour
                     _reactRunning = false;
                     _timer = 0;
                     SpriteRenderer.material.SetFloat("_Glow", 0);
-                    SetColor(_originalColor);
+                    SetColor(_originalColor, ThemeData.NormalBlinkStrength);
                 }
                 else SpriteRenderer.material.SetFloat("_Glow", Mathf.Lerp(MaxGlow, 0, _timer / _duration));
             }
@@ -56,19 +59,28 @@ public class BlinkGlow : MonoBehaviour
 
     public void React()
     {
-        // if (_reactRunning)
-        // {
-        //     _timer = _duration * 0.5f;
-        //     _isShrinking = false;
-        //     SpriteRenderer.material.SetFloat("_Glow", MaxGlow * 0.5f);
-        // }
+        if (_reactRunning)
+        {
+            if (_isShrinking)
+            {
+                _timer = 0;
+                SpriteRenderer.material.SetFloat("_Glow", MaxGlow);
+            }
+            else 
+            {
+                _timer = _duration * 0.35f;
+                _isShrinking = false;
+                SpriteRenderer.material.SetFloat("_Glow", MaxGlow * 0.35f);
+            }
+        }
 
         _reactRunning = true;
     }
 
-    public void SetColor(Color color)
+    public void SetColor(Color color, float maxGlow)
     {
         SpriteRenderer.material.SetColor("_GlowColor", color);
+        MaxGlow = maxGlow;
     }
 
     public void SetFadeOutColor(Color color)

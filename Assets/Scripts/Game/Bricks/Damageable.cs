@@ -70,7 +70,7 @@ public class Damageable : MonoBehaviour
         if (damage > 10) BlinkGlow.SetFadeOutColor(ThemeData.ExtraFireDmgBlink);
         else if (damage > 1) BlinkGlow.SetFadeOutColor(ThemeData.FireDmgBlink);
         else BlinkGlow.SetFadeOutColor(ThemeData.NormalDmgBlink);
-        
+
         float timer = 0;
 
         while (timer < _effectLength)
@@ -87,7 +87,7 @@ public class Damageable : MonoBehaviour
 
     private void CountDamage(float damage)
     {
-        if (_doesCountTowardsWinning) DamageCounter.DamageCount += (int)((Health - damage < 0) ? damage - Health : damage);
+        if (_doesCountTowardsWinning) DamageCounter.DamageCount += (int)((Health - damage < 0) ? Health : damage);
         Health -= damage;
         if (_brickData != null) _brickData.Brick.Health -= (int)damage;
     }
@@ -97,8 +97,8 @@ public class Damageable : MonoBehaviour
         SetColor(Health);
         //HitSound.Play();
         ShrinkGrow.React();
-        if (damage > 10) BlinkGlow.SetColor(ThemeData.ExtraFireDmgBlink);
-        else if (damage > 1) BlinkGlow.SetColor(ThemeData.FireDmgBlink);
+        if (damage > 10) BlinkGlow.SetColor(ThemeData.ExtraFireDmgBlink, ThemeData.ExtraFireBlinkStrength);
+        else if (damage > 1) BlinkGlow.SetColor(ThemeData.FireDmgBlink, ThemeData.FireBlinkStrength);
         BlinkGlow.React();
     }
 

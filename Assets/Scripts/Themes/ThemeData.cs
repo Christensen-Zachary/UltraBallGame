@@ -25,6 +25,9 @@ public class ThemeData : MonoBehaviour
     public static Color NormalDmgBlink = new Color(0.5f, 0.5f, 0.5f, 1);
     public static Color FireDmgBlink = new Color(0.8f, 0, 0.1f, 1);
     public static Color ExtraFireDmgBlink = new Color(0.8f, 0, 0.8f, 1);
+    public static float NormalBlinkStrength = 4f;
+    public static float FireBlinkStrength = 4f;
+    public static float ExtraFireBlinkStrength = 4f;
 
     private void Awake()
     {
@@ -98,6 +101,9 @@ public class ThemeData : MonoBehaviour
         NormalDmgBlink = new Color(0.5f, 0.5f, 0.5f, 1);
         FireDmgBlink = new Color(0.8f, 0, 0.1f, 1);
         ExtraFireDmgBlink = new Color(0.8f, 0, 0.8f, 1);
+        NormalBlinkStrength = 4f;
+        FireBlinkStrength = 4f;
+        ExtraFireBlinkStrength = 4f;
 
         ThemeColors = new Dictionary<ThemeItem, Color>() {
             // default colors, are overwritten in GetThemeColors
@@ -143,9 +149,12 @@ public class ThemeData : MonoBehaviour
 
                 SetThemeColor(ThemeItem.Button, GetColor(CustomColor.Brown));
 
-                NormalDmgBlink = new Color(0.5f, 0.5f, 0.5f, 1);
-                FireDmgBlink = new Color(0, 0.7f, 0.7f, 1);
+                NormalDmgBlink = new Color(1, 1, 1, 1);
+                FireDmgBlink = new Color(0.35f, 0, 1f, 1);
                 ExtraFireDmgBlink = new Color(1, 0, 0, 1);
+                NormalBlinkStrength = 2f;
+                FireBlinkStrength = 6f;
+                ExtraFireBlinkStrength = 4f;
                 break;
 
             case ThemeType.JellyFish:
