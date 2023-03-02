@@ -37,7 +37,7 @@ public class ThemeData : MonoBehaviour
         ThemeFonts = new Dictionary<ThemeType, TMPro.TMP_FontAsset>()
         {
             { ThemeType.Default, Font1 },
-            { ThemeType.Retro, Font2 },
+            { ThemeType.Retro, Font1 },
             { ThemeType.JellyFish, Font3 }
         };
 
@@ -98,11 +98,11 @@ public class ThemeData : MonoBehaviour
         ThemeFontColor = new Color32(0xff, 0xff, 0xff, 0xff);
         ThemeButtonImageColor = new Color32(0xff, 0xff, 0xff, 0xff);
 
-        NormalDmgBlink = new Color(0.5f, 0.5f, 0.5f, 1);
-        FireDmgBlink = new Color(0.8f, 0, 0.1f, 1);
+        NormalDmgBlink = GetColor(CustomColor.DarkGreen);
+        FireDmgBlink = new Color(0.8f, 0.4f, 0, 1);
         ExtraFireDmgBlink = new Color(0.8f, 0, 0.8f, 1);
-        NormalBlinkStrength = 4f;
-        FireBlinkStrength = 4f;
+        NormalBlinkStrength = 6f;
+        FireBlinkStrength = 5f;
         ExtraFireBlinkStrength = 4f;
 
         ThemeColors = new Dictionary<ThemeItem, Color>() {
@@ -119,9 +119,10 @@ public class ThemeData : MonoBehaviour
             { ThemeItem.SuperBackground, ConvertToColor(25, 25, 25) },
             { ThemeItem.InvincibleBrick, Color.white },
             { ThemeItem.Button, GetColor(CustomColor.Brown) },
-            { ThemeItem.GameBorder, ConvertToColor(45, 45, 45) },
+            { ThemeItem.GameboardBackground, ConvertToColor(45, 45, 45) },
             { ThemeItem.FirePowerup1, Color.black },
-            { ThemeItem.FirePowerup2, Color.white }
+            { ThemeItem.FirePowerup2, Color.white },
+            { ThemeItem.GameboardBorder, GetColor(CustomColor.DarkGreen) }
         };
 
         ThemeParticleSystems = new Dictionary<ThemeItem, GameObject>() {
@@ -145,15 +146,16 @@ public class ThemeData : MonoBehaviour
 
                 SetThemeColor(ThemeItem.SuperBackground, ConvertToColor(0x2c, 0x2c, 0x2c));
                 SetThemeColor(ThemeItem.Background, ConvertToColor(0x5a, 0x5a, 0x5a));
-                SetThemeColor(ThemeItem.GameBorder, ConvertToColor(0x5a, 0x5a, 0x5a));
+                SetThemeColor(ThemeItem.GameboardBackground, ConvertToColor(0x5a, 0x5a, 0x5a));
+                SetThemeColor(ThemeItem.GameboardBorder, Color.white);
 
                 SetThemeColor(ThemeItem.Button, GetColor(CustomColor.Brown));
 
                 NormalDmgBlink = new Color(1, 1, 1, 1);
                 FireDmgBlink = new Color(0.35f, 0, 1f, 1);
                 ExtraFireDmgBlink = new Color(1, 0, 0, 1);
-                NormalBlinkStrength = 2f;
-                FireBlinkStrength = 6f;
+                NormalBlinkStrength = 3f;
+                FireBlinkStrength = 12f;
                 ExtraFireBlinkStrength = 4f;
                 break;
 
@@ -170,7 +172,8 @@ public class ThemeData : MonoBehaviour
 
                 SetThemeColor(ThemeItem.SuperBackground, ConvertToColor(9, 28, 42));
                 SetThemeColor(ThemeItem.Background, ConvertToColor(56, 67, 123));
-                SetThemeColor(ThemeItem.GameBorder, ConvertToColor(70, 90, 165));
+                SetThemeColor(ThemeItem.GameboardBackground, ConvertToColor(70, 90, 165));
+                SetThemeColor(ThemeItem.GameboardBorder, ConvertToColor(0x3e, 0xa1, 0xb6));
 
                 SetThemeColor(ThemeItem.Button, GetColor(CustomColor.Brown));
                 break;
@@ -187,7 +190,8 @@ public class ThemeData : MonoBehaviour
 
                 SetThemeColor(ThemeItem.Background, ConvertToColor(75, 72, 130));
                 SetThemeColor(ThemeItem.SuperBackground, ConvertToColor(1, 200, 200));
-                SetThemeColor(ThemeItem.GameBorder, ConvertToColor(75, 72, 130));
+                SetThemeColor(ThemeItem.GameboardBackground, ConvertToColor(75, 72, 130));
+                SetThemeColor(ThemeItem.GameboardBorder, ConvertToColor(75, 72, 130));
                 break;
             case ThemeType.VaporWave:
                 SetThemeColor(ThemeItem.Player, ConvertToColor(255, 113, 206));
@@ -204,7 +208,8 @@ public class ThemeData : MonoBehaviour
                 SetThemeColor(ThemeItem.Background, ConvertToColor(1, 205, 254));
                 SetThemeColor(ThemeItem.SuperBackground, ConvertToColor(1, 144, 178));
                 // SetThemeColor(ThemeItem.GameBorder, ConvertToColor(255, 113, 206));
-                SetThemeColor(ThemeItem.GameBorder, ConvertToColor(1, 205, 254));
+                SetThemeColor(ThemeItem.GameboardBackground, ConvertToColor(1, 205, 254));
+                SetThemeColor(ThemeItem.GameboardBorder, ConvertToColor(255, 113, 206));
                 break;
             case ThemeType.Theme3:
                 SetThemeColor(ThemeItem.Player, ConvertToColor(0xfe, 0x88, 0x04)); // orange
@@ -220,7 +225,8 @@ public class ThemeData : MonoBehaviour
 
                 SetThemeColor(ThemeItem.Background, ConvertToColor(75, 72, 130));
                 SetThemeColor(ThemeItem.SuperBackground, ConvertToColor(0xfe, 0x88, 0x04));
-                SetThemeColor(ThemeItem.GameBorder, ConvertToColor(75, 72, 130));
+                SetThemeColor(ThemeItem.GameboardBackground, ConvertToColor(75, 72, 130));
+                SetThemeColor(ThemeItem.GameboardBorder, ConvertToColor(5, 255, 161));
                 break;
             case ThemeType.Retro:
                 BrickTextColor = new Color32(0xFF, 0xFF, 0xFF, 0xFF);
@@ -235,9 +241,10 @@ public class ThemeData : MonoBehaviour
                 SetThemeColor(ThemeItem.MidPrediction, ConvertToColor(0xF7, 0x82, 0x00));
                 SetThemeColor(ThemeItem.EndPrediction, ConvertToColor(0xF7, 0x82, 0x00));
 
-                SetThemeColor(ThemeItem.GameBorder, ConvertToColor(0x00, 0x9C, 0xDF));
+                SetThemeColor(ThemeItem.GameboardBackground, ConvertToColor(0x00, 0x9C, 0xDF));
                 SetThemeColor(ThemeItem.SuperBackground, ConvertToColor(0x5E, 0xBD, 0x3E));
                 SetThemeColor(ThemeItem.Background, ConvertToColor(0x00, 0x9C, 0xDF));
+                SetThemeColor(ThemeItem.GameboardBorder, ConvertToColor(0xF7, 0x82, 0x00));
 
                 ThemeFontColor = new Color32(0xFF, 0xFF, 0xFF, 0xff);
                 ThemeButtonImageColor = new Color32(0xFF, 0xFF, 0xFF, 0xff);

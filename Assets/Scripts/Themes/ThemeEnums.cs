@@ -11,11 +11,12 @@ public enum ThemeItem
     EndPrediction,
     BasicBall,
     SuperBackground,
-    GameBorder,
+    GameboardBackground,
     InvincibleBrick,
     Button,
     FirePowerup1,
-    FirePowerup2
+    FirePowerup2,
+    GameboardBorder
 }
 
 public enum ThemeButtonSize

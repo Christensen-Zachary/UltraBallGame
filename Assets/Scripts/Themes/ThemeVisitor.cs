@@ -31,9 +31,13 @@ public class ThemeVisitor : MonoBehaviour
 
     public static void Visit(ThemeButtonImage themeButtonImage, ThemeButtonSize themeButtonSize)
     {
+        //themeButtonImage.GetComponent<UnityEngine.UI.Image>().color = ThemeData.ThemeColors[ThemeItem.GameboardBorder];
         themeButtonImage.GetComponent<UnityEngine.UI.Image>().color = ThemeData.ThemeButtonImageColor;
 
         themeButtonImage.GetComponent<UnityEngine.UI.Image>().sprite = ThemeData.GetThemeButton(themeButtonSize);
+
+        //themeButtonImage.GetComponent<UnityEngine.UI.Image>().material = Resources.Load<Material>("Materials/Themes/1/PowerButton");
+        //themeButtonImage.GetComponent<UnityEngine.UI.Image>().material.SetColor("_GlowColor", ThemeData.ThemeColors[ThemeItem.GameboardBorder]);
     }
 
     public static void Visit(ThemeFontColor themeFontColor)
@@ -167,10 +171,11 @@ public class ThemeVisitor : MonoBehaviour
         else themeText.SetFont(ThemeData.ThemeFonts[ThemeType.Default]);
     }
 
-    public static void Visit(ThemeGameBorder themeGameBorder)
+    public static void Visit(ThemeGameboardBackground themeGameboardBackground)
     {
-        themeGameBorder.GetComponent<SpriteRenderer>().color = ThemeData.ThemeColors[ThemeItem.GameBorder];
-        themeGameBorder.GetComponent<SpriteRenderer>().sortingOrder = -101;
+        themeGameboardBackground.GetComponent<SpriteRenderer>().color = ThemeData.ThemeColors[ThemeItem.GameboardBackground];
+        themeGameboardBackground.GetComponent<SpriteRenderer>().sortingOrder = -101;
+        themeGameboardBackground.GetComponent<SpriteRenderer>().material.SetColor("_OutlineColor", ThemeData.ThemeColors[ThemeItem.GameboardBorder]);
     }
 
     

@@ -366,20 +366,22 @@ public class NormalGame : MonoBehaviour, IGetState, IEmpty, ISetupLevel, IWaitin
         // put rowCount into variable to ensure type conversion on different machines
         float rowCount = (float)_levelService.NumberOfDivisions * Background.BACKGROUND_RATIO;
         
-        _dropInStyle = UnityEngine.Random.Range(0, 4);
-        for (int i = 0; i < rowCount; i++)
+        _facBrick.DisableCompositeCollider();
+        _dropInStyle = UnityEngine.Random.Range(0, 6);
+        for (int i = 0; i < rowCount - 1; i++)
         {
             //CreateNextRow();
             yield return StartCoroutine(CreateNextRowWithDropIn(_levelService.GetNextRow()));
         }
+        _facBrick.EnableCompositeCollider();
         yield return new WaitForSeconds(_dropInDuration); // wait to allow last bricks to complete since there is no delay after last brick
 
         _levelService.Balls.ForEach(x => _facBall.Create(x));
         _player.SetRadius();
 
-        _facBrick.DisableCompositeCollider();
-        yield return StartCoroutine(_advanceService.Advance());
-        _facBrick.EnableCompositeCollider();
+        // _facBrick.DisableCompositeCollider();
+        // yield return StartCoroutine(_advanceService.Advance());
+        // _facBrick.EnableCompositeCollider();
 
         if (_btnOptionsAnimation != null) StartCoroutine(_btnOptionsAnimation.FadeIn());
         // change states first so variable will always be true until after state change to avoid race condition, unless this happens atomically then it doesn't matter
@@ -403,10 +405,44 @@ public class NormalGame : MonoBehaviour, IGetState, IEmpty, ISetupLevel, IWaitin
     {
         // ensure bricks are ordered by column
         row = row.OrderBy(x => x.Brick.Col).ToList();
-        if (_dropInStyle == 0 && (_dropInDirection = !_dropInDirection)) row.Reverse();
-        else if (_dropInStyle == 1) row.Reverse();
-        else if (_dropInStyle == 2) row.Shuffle();
         
+        if (_dropInStyle == 1) row.Reverse();
+        else if (_dropInStyle == 2) row.Shuffle();
+        else if (_dropInStyle == 3)
+        {
+            List<BrickData> temp = new();
+            int startColIndex = _levelService.NumberOfDivisions / 2 - 1; // assumes even number of columns
+            for (int i = startColIndex; i >= 0; i--)
+            {
+                BrickData brick = row.Find(x => x.Brick.Col == i);
+                if (brick != null) temp.Add(brick);
+            }
+            for (int i = startColIndex + 1; i < _levelService.NumberOfDivisions; i++)
+            {
+                BrickData brick = row.Find(x => x.Brick.Col == i);
+                if (brick != null) temp.Add(brick);
+            }
+            row.Clear();
+            temp.ForEach(x => row.Add(x));
+        }
+        else if (_dropInStyle == 4)
+        {
+            List<BrickData> temp = new();
+            int endColIndex = _levelService.NumberOfDivisions / 2 - 1; // assumes even number of columns
+            for (int i = 0; i <= endColIndex; i++)
+            {
+                BrickData brick = row.Find(x => x.Brick.Col == i);
+                if (brick != null) temp.Add(brick);
+            }
+            for (int i = _levelService.NumberOfDivisions - 1; i > endColIndex; i--)
+            {
+                BrickData brick = row.Find(x => x.Brick.Col == i);
+                if (brick != null) temp.Add(brick);
+            }
+            row.Clear();
+            temp.ForEach(x => row.Add(x));
+        }
+        else if (_dropInStyle == 5 && (_dropInDirection = !_dropInDirection)) row.Reverse();
 
         // move bricks to start position all together and track positions
         List<(BrickData brick, Vector2 start, Vector2 end)> bricksStartAndEnd = new();

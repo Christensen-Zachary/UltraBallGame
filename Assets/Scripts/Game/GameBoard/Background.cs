@@ -23,7 +23,7 @@ public class Background : MonoBehaviour
         (float height, float width) = BGUtils.GetScreenSize();
 
         float scale;
-        float defaultScale = 0.9f * width;
+        float defaultScale = 0.95f * width;
         if (height < width) // is landscape
         {
             if ((width - height) < (LEAVE_SIDES_OPEN_BY_PERCENT * width)) scale = (1 - LEAVE_SIDES_OPEN_BY_PERCENT) * width;

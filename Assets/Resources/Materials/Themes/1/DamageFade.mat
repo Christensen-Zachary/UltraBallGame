@@ -123,7 +123,7 @@ Material:
     - _EditorDrawers: 14
     - _EnableExternalAlpha: 0
     - _FadeAmount: 0
-    - _FadeBurnGlow: 80
+    - _FadeBurnGlow: 180
     - _FadeBurnTransition: 0.04
     - _FadeBurnWidth: 0.12
     - _FishEyeUvAmount: 0.35
