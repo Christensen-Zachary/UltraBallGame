@@ -39,6 +39,7 @@ public class NormalGame : MonoBehaviour, IGetState, IEmpty, ISetupLevel, IWaitin
     private readonly float _dropInDuration = 0.5f;
     private bool _dropInDirection = true;
     private int _dropInStyle = 0;
+    private int _dropInStyle2 = 0;
     
 
     private void Awake() 
@@ -343,7 +344,7 @@ public class NormalGame : MonoBehaviour, IGetState, IEmpty, ISetupLevel, IWaitin
     private IEnumerator SetupLevelRoutine()
     {
         if (_btnOptionsAnimation != null) _btnOptionsAnimation.Hide();
-        
+
         _powerupManager.EndTurnPowerupManager();
 
         _gameData.ResetGameData();
@@ -368,20 +369,18 @@ public class NormalGame : MonoBehaviour, IGetState, IEmpty, ISetupLevel, IWaitin
         
         _facBrick.DisableCompositeCollider();
         _dropInStyle = UnityEngine.Random.Range(0, 6);
+        _dropInStyle2 = UnityEngine.Random.Range(0, 2);
         for (int i = 0; i < rowCount - 1; i++)
         {
             //CreateNextRow();
             yield return StartCoroutine(CreateNextRowWithDropIn(_levelService.GetNextRow()));
         }
         _facBrick.EnableCompositeCollider();
+        _dropInStyle2 = 0; // reset to normal style to later rows always enter from top
         yield return new WaitForSeconds(_dropInDuration); // wait to allow last bricks to complete since there is no delay after last brick
 
         _levelService.Balls.ForEach(x => _facBall.Create(x));
         _player.SetRadius();
-
-        // _facBrick.DisableCompositeCollider();
-        // yield return StartCoroutine(_advanceService.Advance());
-        // _facBrick.EnableCompositeCollider();
 
         if (_btnOptionsAnimation != null) StartCoroutine(_btnOptionsAnimation.FadeIn());
         // change states first so variable will always be true until after state change to avoid race condition, unless this happens atomically then it doesn't matter
@@ -449,7 +448,10 @@ public class NormalGame : MonoBehaviour, IGetState, IEmpty, ISetupLevel, IWaitin
         for (int i = 0; i < row.Count; i++)
         {
             Vector3 endPosition = row[i].transform.position;
-            row[i].transform.position = new Vector3(row[i].transform.position.x, topYPosition, 0);
+            if (_dropInStyle2 == 0) row[i].transform.position = new Vector3(row[i].transform.position.x, topYPosition, 0);
+            else row[i].transform.position = _grid.GetPosition(_levelService.NumberOfDivisions / 2f, _levelService.NumberOfDivisions * Background.BACKGROUND_RATIO - 1);
+             
+
             bricksStartAndEnd.Add((row[i], row[i].transform.position, endPosition));
         }
 
@@ -476,7 +478,8 @@ public class NormalGame : MonoBehaviour, IGetState, IEmpty, ISetupLevel, IWaitin
         {
             timer += Time.deltaTime;
 
-            obj.position = new Vector3(obj.position.x, Mathf.Lerp(from.y, to.y, 0.5f * Mathf.Cos(Mathf.PI * timer / _dropInDuration + Mathf.PI) + 0.5f), 0);
+            //obj.position = new Vector3(obj.position.x, Mathf.Lerp(from.y, to.y, 0.5f * Mathf.Cos(Mathf.PI * timer / _dropInDuration + Mathf.PI) + 0.5f), 0);
+            obj.position = Vector3.Lerp(from, to, 0.5f * Mathf.Cos(Mathf.PI * timer / _dropInDuration + Mathf.PI) + 0.5f);
 
             yield return null;
         }
