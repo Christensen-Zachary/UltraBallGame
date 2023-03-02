@@ -375,9 +375,9 @@ public class NormalGame : MonoBehaviour, IGetState, IEmpty, ISetupLevel, IWaitin
             //CreateNextRow();
             yield return StartCoroutine(CreateNextRowWithDropIn(_levelService.GetNextRow()));
         }
-        _facBrick.EnableCompositeCollider();
         _dropInStyle2 = 0; // reset to normal style to later rows always enter from top
         yield return new WaitForSeconds(_dropInDuration); // wait to allow last bricks to complete since there is no delay after last brick
+        _facBrick.EnableCompositeCollider(); // enable after waiting so bricks have settled
 
         _levelService.Balls.ForEach(x => _facBall.Create(x));
         _player.SetRadius();
