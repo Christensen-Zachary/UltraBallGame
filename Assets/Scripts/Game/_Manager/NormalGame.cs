@@ -343,7 +343,7 @@ public class NormalGame : MonoBehaviour, IGetState, IEmpty, ISetupLevel, IWaitin
     private IEnumerator SetupLevelRoutine()
     {
         if (_btnOptionsAnimation != null) _btnOptionsAnimation.Hide();
-
+        
         _powerupManager.EndTurnPowerupManager();
 
         _gameData.ResetGameData();

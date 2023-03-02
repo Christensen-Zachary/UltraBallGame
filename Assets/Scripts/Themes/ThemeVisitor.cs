@@ -31,8 +31,21 @@ public class ThemeVisitor : MonoBehaviour
 
     public static void Visit(ThemeButtonImage themeButtonImage, ThemeButtonSize themeButtonSize)
     {
-        //themeButtonImage.GetComponent<UnityEngine.UI.Image>().color = ThemeData.ThemeColors[ThemeItem.GameboardBorder];
-        themeButtonImage.GetComponent<UnityEngine.UI.Image>().color = ThemeData.ThemeButtonImageColor;
+        if (themeButtonSize == ThemeButtonSize.Wide) // blur menu button
+        {
+            themeButtonImage.GetComponent<UnityEngine.UI.Image>().color = new Color(1, 1, 1, 0.37f);
+        }
+        else if (ThemeData.IsLight(ThemeData.ThemeColors[ThemeItem.SuperBackground]))
+        {
+            float average = ThemeData.GetColorAverage(ThemeData.ThemeColors[ThemeItem.SuperBackground]) / 2f;
+            themeButtonImage.GetComponent<UnityEngine.UI.Image>().color = new Color(1, 1, 1, average);//ThemeData.ThemeButtonImageColor;
+        }
+        else
+        {
+            float average = ThemeData.GetColorAverage(ThemeData.ThemeColors[ThemeItem.SuperBackground]);
+            themeButtonImage.GetComponent<UnityEngine.UI.Image>().color = new Color(1, 1, 1, average);//ThemeData.ThemeButtonImageColor;
+        }
+
 
         themeButtonImage.GetComponent<UnityEngine.UI.Image>().sprite = ThemeData.GetThemeButton(themeButtonSize);
 

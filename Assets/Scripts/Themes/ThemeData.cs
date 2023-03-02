@@ -63,10 +63,7 @@ public class ThemeData : MonoBehaviour
     // normal button. 1:1.6 ratio
     public static Sprite GetNormalButton()
     {
-        if (IsLight(ThemeColors[ThemeItem.SuperBackground]))
-            return Resources.Load<Sprite>("Sprites/UI/buttonHardShadowLight");
-        else
-            return Resources.Load<Sprite>("Sprites/UI/buttonHardShadowDark");
+        return Resources.Load<Sprite>("Sprites/UI/buttonHardShadow");
     }
 
     // wide button for options menu. doesn't need light/dark version
@@ -78,18 +75,12 @@ public class ThemeData : MonoBehaviour
     // image for slider
     public static Sprite GetSliderImage()
     {
-        if (IsLight(ThemeColors[ThemeItem.SuperBackground]))
-            return Resources.Load<Sprite>("Sprites/UI/buttonHardShadowLightExtraLong");
-        else
-            return Resources.Load<Sprite>("Sprites/UI/buttonHardShadowDarkExtraLong");
+        return Resources.Load<Sprite>("Sprites/UI/buttonHardShadowExtraLong");
     }
 
     public static Sprite GetSquareButton()
     {   
-        if (IsLight(ThemeColors[ThemeItem.SuperBackground]))
-            return Resources.Load<Sprite>("Sprites/UI/buttonHardShadowSquareLight");
-        else
-            return Resources.Load<Sprite>("Sprites/UI/buttonHardShadowSquareDark");   
+        return Resources.Load<Sprite>("Sprites/UI/buttonHardShadowSquare");
     }
 
     public static void SetThemeType(ThemeType themeType)
@@ -300,7 +291,7 @@ public class ThemeData : MonoBehaviour
 
     public static bool IsLight(Color color)
     {
-        return GetColorAverage(color) > 0.5f;
+        return GetColorAverage(color) > 0.35f;
     }
 
 
