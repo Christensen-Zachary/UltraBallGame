@@ -11,7 +11,7 @@ public class BlinkGlow : MonoBehaviour
     private float MaxGlow { get; set; } = 4f;
     private bool _reactRunning = false;
     private bool _isShrinking = false;
-    private float _duration = 0.1f;
+    private float _duration = 0.08f;
     private float _timer = 0;
     private Color _originalColor = new Color(0.5f, 0.5f, 0.5f, 1);
 
@@ -44,7 +44,7 @@ public class BlinkGlow : MonoBehaviour
                     _timer = 0;
                     _material.SetFloat("_Glow", 0);
                 }
-                else _material.SetFloat("_Glow", Mathf.Lerp(MaxGlow, 0, _timer / _duration));
+                else _material.SetFloat("_Glow", Mathf.Lerp(MaxGlow, 0, BGUtils.CosineFunction(_timer / _duration)));
             }
             else
             {
@@ -54,7 +54,7 @@ public class BlinkGlow : MonoBehaviour
                     _timer = 0;
                     _material.SetFloat("_Glow", MaxGlow);
                 }
-                else _material.SetFloat("_Glow", Mathf.Lerp(0, MaxGlow, _timer / _duration));
+                else _material.SetFloat("_Glow", Mathf.Lerp(0, MaxGlow, BGUtils.CosineFunction(_timer / _duration)));
             }
         }
     }
