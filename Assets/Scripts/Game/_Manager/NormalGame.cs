@@ -331,9 +331,10 @@ public class NormalGame : MonoBehaviour, IGetState, IEmpty, ISetupLevel, IWaitin
         if (bricks.Count > 0)
         {
             yield return StartCoroutine(CreateNextRowWithDropIn(bricks));
-            yield return new WaitForSeconds(_dropInDuration); // wait to allow last bricks to complete since there is no delay after last brick
         }
-        yield return new WaitForSeconds(_advanceService.MoveTime - _dropInDuration);
+        // wait to allow last bricks to complete since there is no delay after last brick
+        // wait for whichever routine takes longer to complete
+        yield return new WaitForSeconds(Mathf.Max(_advanceService.MoveTime, _dropInDuration));
         _facBrick.EnableCompositeCollider();
 
         _endTurnDestroyService.DestroyGameObjects();
