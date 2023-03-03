@@ -17,6 +17,8 @@ public class FacBall : MonoBehaviour
 
     private List<Shootable> _shootablePool = new List<Shootable>();
 
+    private int _glowID;
+
     private void Awake()
     {
         _grid = ResourceLocator.GetResource<Grid>("Grid");
@@ -24,8 +26,16 @@ public class FacBall : MonoBehaviour
         _levelService = ResourceLocator.GetResource<LevelService>("Level");
 
         ResourceLocator.AddResource("FacBall", this);
+        _glowID = Shader.PropertyToID("_Glow");
 
         _ballParent = _player.transform;
+    }
+
+    public void EnableHDR(bool enable)
+    {
+        _player.EnableHDR(enable);
+        if (enable) _shootablePool.ForEach(x => x.GetComponent<SpriteRenderer>().material.SetFloat(_glowID, ThemeData.PlayerBrightness));
+        else _shootablePool.ForEach(x => x.GetComponent<SpriteRenderer>().material.SetFloat(_glowID, 0));
     }
 
     public void DestroyBalls()

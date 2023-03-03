@@ -85,6 +85,8 @@ public class ThemeVisitor : MonoBehaviour
                 break;
             default:
                 player.GetComponent<SpriteRenderer>().color = ThemeData.ThemeColors[ThemeItem.Player];
+                player.GetComponent<SpriteRenderer>().material.SetColor("_GlowColor", ThemeData.ThemeColors[ThemeItem.Player]);
+                player.GetComponent<SpriteRenderer>().material.SetFloat("_Glow", ThemeData.PlayerBrightness);
                 break;
         }
     }
@@ -92,13 +94,20 @@ public class ThemeVisitor : MonoBehaviour
     public static void Visit(Aim aim)
     {
         aim.EndPredictionSprite.GetComponent<SpriteRenderer>().color = ThemeData.ThemeColors[ThemeItem.EndPrediction];
+        aim.EndPredictionSprite.GetComponent<SpriteRenderer>().sharedMaterial.SetColor("_GlowColor", ThemeData.ThemeColors[ThemeItem.EndPrediction]);
+        aim.EndPredictionSprite.GetComponent<SpriteRenderer>().sharedMaterial.SetFloat("_Glow", ThemeData.PlayerBrightness);
+
         aim.MidPredictionSprite.GetComponent<SpriteRenderer>().color = ThemeData.ThemeColors[ThemeItem.MidPrediction];
+        aim.MidPredictionSprite.GetComponent<SpriteRenderer>().sharedMaterial.SetColor("_GlowColor", ThemeData.ThemeColors[ThemeItem.MidPrediction]);
+        aim.MidPredictionSprite.GetComponent<SpriteRenderer>().sharedMaterial.SetFloat("_Glow", ThemeData.PlayerBrightness);
     }
 
 
     public static void Visit(Shootable shootable)
     {
         shootable.GetComponent<SpriteRenderer>().color = ThemeData.ThemeColors[ThemeItem.BasicBall];
+        shootable.GetComponent<SpriteRenderer>().material.SetColor("_GlowColor", ThemeData.ThemeColors[ThemeItem.BasicBall]);
+        shootable.GetComponent<SpriteRenderer>().material.SetFloat("_Glow", ThemeData.PlayerBrightness);
 
         GameObject psReturn = Resources.Load<GameObject>($"ParticleSystems/Balls/psReturn{(int)ThemeData.ThemeType}");
         if (psReturn == null)

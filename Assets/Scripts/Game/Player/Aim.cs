@@ -22,11 +22,12 @@ public class Aim : MonoBehaviour
     private int NumberOfPredictions { get; } = 3;
 
     
-    
+    private int _glowID;
 
     private void Awake()
     {
         ResourceLocator.AddResource("Aim", this);
+        _glowID = Shader.PropertyToID("_Glow");
 
         Background background = ResourceLocator.GetResource<Background>("Background");
         MaxDistance = Vector2.Distance(background.GetBounds.extents, -background.GetBounds.extents);
@@ -48,6 +49,32 @@ public class Aim : MonoBehaviour
         HidePrediction();
 
         ContactOffset = Physics2D.defaultContactOffset * 200;
+    }
+
+    public void EnableHDR(bool enable)
+    {
+        if (enable)
+        {
+            EndPointPredictionSprites.ForEach(x =>
+            {
+                x.GetComponent<SpriteRenderer>().material.SetFloat(_glowID, ThemeData.PlayerBrightness);
+            });
+            MidPointPredictionSprites.ForEach(x =>
+            {
+                x.GetComponent<SpriteRenderer>().material.SetFloat(_glowID, ThemeData.PlayerBrightness);
+            });
+        }
+        else
+        {
+            EndPointPredictionSprites.ForEach(x =>
+            {
+                x.GetComponent<SpriteRenderer>().material.SetFloat(_glowID, 0);
+            });
+            MidPointPredictionSprites.ForEach(x =>
+            {
+                x.GetComponent<SpriteRenderer>().material.SetFloat(_glowID, 0);
+            });
+        }
     }
 
     public GameObject GetMidPointPredictionSprite()

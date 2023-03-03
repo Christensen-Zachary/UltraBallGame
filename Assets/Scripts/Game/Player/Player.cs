@@ -34,9 +34,12 @@ public class Player : MonoBehaviour
 
     private float _maxYForMovePlayer;
 
+    private int _glowID;
+
     void Awake()
     {
         ResourceLocator.AddResource("Player", this);
+        _glowID = Shader.PropertyToID("_Glow");
 
         Health = 100f;
 
@@ -72,6 +75,13 @@ public class Player : MonoBehaviour
         {
             Health -= 25f;
         }
+    }
+
+    public void EnableHDR(bool enable)
+    {
+        _aim.EnableHDR(enable);
+        if (enable) GetComponent<SpriteRenderer>().material.SetFloat(_glowID, ThemeData.PlayerBrightness);
+        else GetComponent<SpriteRenderer>().material.SetFloat(_glowID, 0);
     }
 
     public void SetRadius()

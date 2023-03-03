@@ -68,6 +68,19 @@ public class NormalGame : MonoBehaviour, IGetState, IEmpty, ISetupLevel, IWaitin
         _fastForward = ResourceLocator.GetResource<FastForward>("FastForward");
     }
 
+    private void Update() 
+    {
+        if (Input.GetKeyDown(KeyCode.H))
+        {
+            bool onOff = !Camera.main.allowHDR;
+            Camera.main.allowHDR = onOff;
+            PlayerPrefs.SetInt(ToggleHDR.HDR_ENABLED_KEY, onOff ? 1 : 0);
+            ThemeData.RefreshTheme();
+
+            _facBall.EnableHDR(onOff);
+        }    
+    }
+
     public void Aiming()
     {
         if (_gameInput.StartFire())

@@ -9,6 +9,7 @@ public class BlinkGlow : MonoBehaviour
     [field: SerializeField]
     public SpriteRenderer SpriteRenderer { get; private set; } // reference set in prefab
     private float MaxGlow { get; set; } = 4f;
+    private float MinGlow { get; set; } = 0;
     private bool _reactRunning = false;
     private bool _isShrinking = false;
     private float _duration = 0.08f;
@@ -50,7 +51,7 @@ public class BlinkGlow : MonoBehaviour
                     _timer = 0;
                     _material.SetFloat(_glowID, 0);
                 }
-                else _material.SetFloat(_glowID, Mathf.Lerp(MaxGlow, 0, BGUtils.CosineFunction(_timer / _duration)));
+                else _material.SetFloat(_glowID, Mathf.Lerp(MaxGlow, MinGlow, BGUtils.CosineFunction(_timer / _duration)));
             }
             else
             {
@@ -60,7 +61,7 @@ public class BlinkGlow : MonoBehaviour
                     _timer = 0;
                     _material.SetFloat(_glowID, MaxGlow);
                 }
-                else _material.SetFloat(_glowID, Mathf.Lerp(0, MaxGlow, BGUtils.CosineFunction(_timer / _duration)));
+                else _material.SetFloat(_glowID, Mathf.Lerp(MinGlow, MaxGlow, BGUtils.CosineFunction(_timer / _duration)));
             }
         }
     }

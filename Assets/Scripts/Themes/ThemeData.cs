@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.InputSystem.LowLevel;
+using System.Security.Cryptography;
 
 public class ThemeData : MonoBehaviour
 {
@@ -30,6 +31,7 @@ public class ThemeData : MonoBehaviour
     public static float ExtraFireBlinkStrength = 4f;
 
     public static float ThemeBorderBrightness = 48f;
+    public static float PlayerBrightness = 2f;
 
     private void Awake()
     {
@@ -99,6 +101,7 @@ public class ThemeData : MonoBehaviour
         ExtraFireBlinkStrength = 4f;
 
         ThemeBorderBrightness = 64f;
+        PlayerBrightness = 2f;
 
         ThemeColors = new Dictionary<ThemeItem, Color>() {
             // default colors, are overwritten in GetThemeColors
@@ -172,6 +175,8 @@ public class ThemeData : MonoBehaviour
                 SetThemeColor(ThemeItem.GameboardBorder, ConvertToColor(0x3e, 0xa1, 0xb6));
 
                 SetThemeColor(ThemeItem.Button, GetColor(CustomColor.Brown));
+
+                PlayerBrightness = 3.5f;
                 break;
             case ThemeType.Theme2: // https://www.schemecolor.com/working-back.php
                 SetThemeColor(ThemeItem.Player, ConvertToColor(151, 204, 184));
@@ -248,6 +253,17 @@ public class ThemeData : MonoBehaviour
                 ThemeButtonImageColor = new Color32(0xFF, 0xFF, 0xFF, 0xff);
                 break;
         }
+
+        // override settings from options
+        if (PlayerPrefs.GetInt(ToggleHDR.HDR_ENABLED_KEY, 1) == 0) // if disabled
+        {
+            PlayerBrightness = 0;
+        }
+    }
+
+    public static void RefreshTheme()
+    {
+        SetThemeType(ThemeType);
     }
 
     private static void SetThemeColor(ThemeItem themeItem, Color color)
