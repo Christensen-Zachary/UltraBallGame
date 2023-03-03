@@ -325,7 +325,7 @@ public class NormalGame : MonoBehaviour, IGetState, IEmpty, ISetupLevel, IWaitin
         yield return StartCoroutine(_endTurnAttackService.Attack());
 
         _facBrick.DisableCompositeCollider();
-        yield return StartCoroutine(_advanceService.Advance());
+        StartCoroutine(_advanceService.Advance());
         //CreateNextRow();
         List<Brick> bricks = _levelService.GetNextRow();
         if (bricks.Count > 0)
@@ -334,6 +334,7 @@ public class NormalGame : MonoBehaviour, IGetState, IEmpty, ISetupLevel, IWaitin
             yield return new WaitForSeconds(_dropInDuration); // wait to allow last bricks to complete since there is no delay after last brick
         }
         _facBrick.EnableCompositeCollider();
+        yield return new WaitForSeconds(_advanceService.MoveTime - _dropInDuration);
 
         _endTurnDestroyService.DestroyGameObjects();
 
@@ -446,12 +447,12 @@ public class NormalGame : MonoBehaviour, IGetState, IEmpty, ISetupLevel, IWaitin
         List<(BrickData brick, Vector2 start, Vector2 end)> bricksStartAndEnd = new();
         for (int i = 0; i < row.Count; i++)
         {
-            Vector3 endPosition = row[i].transform.position;
-            if (_dropInStyle2 == 0) row[i].transform.position = new Vector3(row[i].transform.position.x, topYPosition, 0);
-            else row[i].transform.position = _grid.GetPosition(_levelService.NumberOfDivisions / 2f, _levelService.NumberOfDivisions * Background.BACKGROUND_RATIO - 1);
+            Vector3 endPosition = row[i].transform.localPosition;
+            if (_dropInStyle2 == 0) row[i].transform.localPosition = new Vector3(row[i].transform.localPosition.x, topYPosition, 0);
+            else row[i].transform.localPosition = _grid.GetPosition(_levelService.NumberOfDivisions / 2f, _levelService.NumberOfDivisions * Background.BACKGROUND_RATIO - 1);
              
 
-            bricksStartAndEnd.Add((row[i], row[i].transform.position, endPosition));
+            bricksStartAndEnd.Add((row[i], row[i].transform.localPosition, endPosition));
         }
 
         // move bricks in staggered formation
@@ -478,12 +479,12 @@ public class NormalGame : MonoBehaviour, IGetState, IEmpty, ISetupLevel, IWaitin
             timer += Time.deltaTime;
 
             //obj.position = new Vector3(obj.position.x, Mathf.Lerp(from.y, to.y, 0.5f * Mathf.Cos(Mathf.PI * timer / _dropInDuration + Mathf.PI) + 0.5f), 0);
-            obj.position = Vector3.Lerp(from, to, 0.5f * Mathf.Cos(Mathf.PI * timer / _dropInDuration + Mathf.PI) + 0.5f);
+            obj.localPosition = Vector3.Lerp(from, to, 0.5f * Mathf.Cos(Mathf.PI * timer / _dropInDuration + Mathf.PI) + 0.5f);
 
             yield return null;
         }
         
-        obj.position = new Vector3(to.x, to.y, 0);
+        obj.localPosition = new Vector3(to.x, to.y, 0);
     }
 
     private void CreateNextRow()

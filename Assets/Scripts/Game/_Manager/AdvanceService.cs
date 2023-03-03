@@ -17,6 +17,7 @@ public class AdvanceService : MonoBehaviour
     private Grid _grid;
 
     private float _moveTime = 1.5f;
+    public float MoveTime => _moveTime;
 
     private void Awake()
     {
