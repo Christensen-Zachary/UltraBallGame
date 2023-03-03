@@ -16,10 +16,16 @@ public class BlinkGlow : MonoBehaviour
     private Color _originalColor = new Color(0.5f, 0.5f, 0.5f, 1);
 
     private Material _material;
+    private int _glowID; // use id to access instead of string for performance
+    private int _glowColorID;
+    private int _fadeBurnColorID;
 
     private void Awake() 
     {
         _material = SpriteRenderer.material;
+        _glowID = Shader.PropertyToID("_Glow");
+        _glowColorID = Shader.PropertyToID("_GlowColor");
+        _fadeBurnColorID = Shader.PropertyToID("_FadeBurnColor");
         _material.SetTexture("_GlowTex", SpriteRenderer.sprite.texture);    
         
         _originalColor = ThemeData.NormalDmgBlink;
@@ -42,9 +48,9 @@ public class BlinkGlow : MonoBehaviour
                     _isShrinking = false;
                     _reactRunning = false;
                     _timer = 0;
-                    _material.SetFloat("_Glow", 0);
+                    _material.SetFloat(_glowID, 0);
                 }
-                else _material.SetFloat("_Glow", Mathf.Lerp(MaxGlow, 0, BGUtils.CosineFunction(_timer / _duration)));
+                else _material.SetFloat(_glowID, Mathf.Lerp(MaxGlow, 0, BGUtils.CosineFunction(_timer / _duration)));
             }
             else
             {
@@ -52,9 +58,9 @@ public class BlinkGlow : MonoBehaviour
                 {
                     _isShrinking = true;
                     _timer = 0;
-                    _material.SetFloat("_Glow", MaxGlow);
+                    _material.SetFloat(_glowID, MaxGlow);
                 }
-                else _material.SetFloat("_Glow", Mathf.Lerp(0, MaxGlow, BGUtils.CosineFunction(_timer / _duration)));
+                else _material.SetFloat(_glowID, Mathf.Lerp(0, MaxGlow, BGUtils.CosineFunction(_timer / _duration)));
             }
         }
     }
@@ -72,13 +78,13 @@ public class BlinkGlow : MonoBehaviour
 
     public void SetColor(Color color, float maxGlow)
     {
-        _material.SetColor("_GlowColor", color);
+        _material.SetColor(_glowColorID, color);
         MaxGlow = maxGlow;
     }
 
     public void SetFadeOutColor(Color color)
     {
-        _material.SetColor("_FadeBurnColor", color);
+        _material.SetColor(_fadeBurnColorID, color);
     }
 
 }
