@@ -188,7 +188,7 @@ public class ThemeVisitor : MonoBehaviour
     {
         themeGameboardBackground.GetComponent<SpriteRenderer>().color = ThemeData.ThemeColors[ThemeItem.GameboardBackground];
         themeGameboardBackground.GetComponent<SpriteRenderer>().sortingOrder = -101;
-        themeGameboardBackground.GetComponent<SpriteRenderer>().material.SetColor("_OutlineColor", ThemeData.ThemeColors[ThemeItem.GameboardBorder]);
+        themeGameboardBackground.GetComponent<SpriteRenderer>().material.SetVector("_OuterOutlineColor", ThemeData.ThemeBorderBrightness * ThemeData.ThemeColors[ThemeItem.GameboardBorder]);
     }
 
     

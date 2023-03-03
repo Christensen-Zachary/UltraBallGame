@@ -29,6 +29,8 @@ public class ThemeData : MonoBehaviour
     public static float FireBlinkStrength = 4f;
     public static float ExtraFireBlinkStrength = 4f;
 
+    public static float ThemeBorderBrightness = 48f;
+
     private void Awake()
     {
         ThemeType = ES3.Load<ThemeType>(BGStrings.ES_THEMETYPE, ThemeType.Default);
@@ -96,6 +98,8 @@ public class ThemeData : MonoBehaviour
         FireBlinkStrength = 5f;
         ExtraFireBlinkStrength = 4f;
 
+        ThemeBorderBrightness = 64f;
+
         ThemeColors = new Dictionary<ThemeItem, Color>() {
             // default colors, are overwritten in GetThemeColors
             { ThemeItem.Player, GetColor(CustomColor.Orange) },
@@ -148,6 +152,7 @@ public class ThemeData : MonoBehaviour
                 NormalBlinkStrength = 3f;
                 FireBlinkStrength = 12f;
                 ExtraFireBlinkStrength = 4f;
+                ThemeBorderBrightness = 36f;
                 break;
 
             case ThemeType.JellyFish:
