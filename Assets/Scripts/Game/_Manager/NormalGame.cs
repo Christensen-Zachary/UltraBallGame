@@ -324,6 +324,8 @@ public class NormalGame : MonoBehaviour, IGetState, IEmpty, ISetupLevel, IWaitin
 
         yield return StartCoroutine(_endTurnAttackService.Attack());
 
+        _facBrick.DisableCompositeCollider();
+        yield return StartCoroutine(_advanceService.Advance());
         //CreateNextRow();
         List<Brick> bricks = _levelService.GetNextRow();
         if (bricks.Count > 0)
@@ -331,9 +333,6 @@ public class NormalGame : MonoBehaviour, IGetState, IEmpty, ISetupLevel, IWaitin
             yield return StartCoroutine(CreateNextRowWithDropIn(bricks));
             yield return new WaitForSeconds(_dropInDuration); // wait to allow last bricks to complete since there is no delay after last brick
         }
-
-        _facBrick.DisableCompositeCollider();
-        yield return StartCoroutine(_advanceService.Advance());
         _facBrick.EnableCompositeCollider();
 
         _endTurnDestroyService.DestroyGameObjects();

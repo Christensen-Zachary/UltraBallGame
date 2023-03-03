@@ -223,6 +223,8 @@ public class ThemeData : MonoBehaviour
                 SetThemeColor(ThemeItem.SuperBackground, ConvertToColor(0xfe, 0x88, 0x04));
                 SetThemeColor(ThemeItem.GameboardBackground, ConvertToColor(75, 72, 130));
                 SetThemeColor(ThemeItem.GameboardBorder, ConvertToColor(5, 255, 161));
+
+                ThemeBorderBrightness = 48f;
                 break;
             case ThemeType.Retro:
                 BrickTextColor = new Color32(0xFF, 0xFF, 0xFF, 0xFF);
