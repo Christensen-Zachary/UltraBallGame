@@ -484,7 +484,7 @@ public class NormalGame : MonoBehaviour, IGetState, IEmpty, ISetupLevel, IWaitin
             yield return null;
         }
         
-        obj.position = new Vector3(obj.position.x, to.y, 0);
+        obj.position = new Vector3(to.x, to.y, 0);
     }
 
     private void CreateNextRow()
