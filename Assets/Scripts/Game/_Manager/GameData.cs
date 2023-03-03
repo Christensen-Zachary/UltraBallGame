@@ -22,6 +22,7 @@ public class GameData : MonoBehaviour
 
     private string _gameID = "";
     private int _turnCount = 0;
+    public int TurnCount => _turnCount;        
 
     public float ShotAngle { get; set; }
     public float ShotPosition { get; set; }

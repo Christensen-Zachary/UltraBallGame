@@ -389,7 +389,8 @@ public class NormalGame : MonoBehaviour, IGetState, IEmpty, ISetupLevel, IWaitin
 
     private IEnumerator CreateNextRowWithDropIn(List<Brick> row)
     {
-        float topScreenYPos = _grid.UnitScale + Mathf.Abs(Camera.main.ScreenToWorldPoint(new Vector3(0, BGUtils.GetScreenSize().height, 0)).y);
+        // + unitScale * TurnCount to adjust for advanceservice moving down so local position can be used. However local position needs this adjustment
+        float topScreenYPos = _grid.UnitScale + _gameData.TurnCount * _grid.UnitScale + Mathf.Abs(Camera.main.ScreenToWorldPoint(new Vector3(0, BGUtils.GetScreenSize().height, 0)).y);
         List<BrickData> brickDatas = new List<BrickData>();
         row.ForEach(x =>
         {
