@@ -63,7 +63,7 @@ public class ScrollLevelSelect : MonoBehaviour
             }
         }
 
-        HeaderFade.color = ThemeData.ThemeColors[ThemeItem.SuperBackground];
+        HeaderFade.color = DivideColor(ThemeData.ThemeColors[ThemeItem.SuperBackground], 2);//ThemeData.ThemeColors[ThemeItem.SuperBackground];
         HeaderEdge.color = DivideColor(ThemeData.ThemeColors[ThemeItem.SuperBackground], 1.25f);
         Header.color = ThemeData.ThemeColors[ThemeItem.SuperBackground];
     }
