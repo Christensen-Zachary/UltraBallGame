@@ -464,7 +464,7 @@ public class NormalGame : MonoBehaviour, IGetState, IEmpty, ISetupLevel, IWaitin
         {
             Vector3 endPosition = row[i].transform.localPosition;
             if (_dropInStyle2 == 0) row[i].transform.localPosition = new Vector3(row[i].transform.localPosition.x, topYPosition, 0);
-            else row[i].transform.localPosition = _grid.GetPosition(_levelService.NumberOfDivisions / 2f, _levelService.NumberOfDivisions * Background.BACKGROUND_RATIO - 1);
+            else row[i].transform.localPosition = _grid.GetPosition(_levelService.NumberOfDivisions / 2f, _levelService.NumberOfDivisions * Background.BACKGROUND_RATIO - 1) - new Vector2(_grid.UnitScale / 2f, 0);
              
 
             bricksStartAndEnd.Add((row[i], row[i].transform.localPosition, endPosition));

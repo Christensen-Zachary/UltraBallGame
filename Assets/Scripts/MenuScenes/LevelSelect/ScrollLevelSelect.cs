@@ -1,8 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.PlayerLoop;
+using UnityEngine.UI;
 
 public class ScrollLevelSelect : MonoBehaviour
 {
@@ -10,15 +9,28 @@ public class ScrollLevelSelect : MonoBehaviour
     public GameObject LevelButtonPrefab { get; set; } // reference set in editor 
     [field: SerializeField]
     public GameObject BackgroundPrefab { get; set; } // reference set in editor 
+    [field: SerializeField]
+    public Image HeaderFade { get; set; } // reference set in editor 
+    [field: SerializeField]
+    public Image Header { get; set; } // reference set in editor 
+    [field: SerializeField]
+    public Image HeaderEdge { get; set; } // reference set in editor 
+    [field: SerializeField]
+    public GameObject ButtonParent { get; set; } // reference set in editor 
 
     [field: SerializeField]
     public float HeightPadding { get; set; } = 0.1f;
     [field: SerializeField]
     public float HeightWidthRatio { get; set; } = 0.2f;
+    [field: SerializeField]
+    public float ButtonPadding { get; set; } = 0.8f;
     
     private GameObject background;
     float height = 0f;
     float width = 0f;
+    float unitScale = 0f;
+    Vector2 origin = Vector2.zero;
+    int columnCount = 5;
     private void Awake() 
     {
         int levelNum = ES3.Load<int>(BGStrings.ES_LEVELNUM, 1);
@@ -31,14 +43,40 @@ public class ScrollLevelSelect : MonoBehaviour
         background.name = "Background";
         background.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0.25f);
         background.transform.position = Vector3.zero;
-        background.transform.localScale = new Vector3(height * HeightWidthRatio, height * (1 - HeightPadding), 0);
+        height = height * (1 - HeightPadding);
+        width = width * (1 - HeightPadding);//height * HeightWidthRatio;
+        background.transform.localScale = new Vector3(width, height, 0);
 
+        unitScale = width /columnCount;
+        origin = new Vector2(-background.GetComponent<SpriteRenderer>().bounds.extents.x, background.GetComponent<SpriteRenderer>().bounds.extents.y) + new Vector2(0.5f, -0.5f) * unitScale;
+        // five buttons per column
+        // create 10 rows
+        for (int row = 1; row < 10; row++)
+        {
+            for (int col = 0; col < columnCount; col++)
+            {
+                GameObject button = Instantiate(LevelButtonPrefab);
+                button.name = $"LevelButton {System.Guid.NewGuid()}";
+                button.transform.SetParent(ButtonParent.transform);
+                button.transform.localScale = Vector3.one * unitScale * (1 - ButtonPadding);
+                button.transform.position = GetPosition(col, row);
+            }
+        }
+
+        HeaderFade.color = ThemeData.ThemeColors[ThemeItem.SuperBackground];
+        HeaderEdge.color = DivideColor(ThemeData.ThemeColors[ThemeItem.SuperBackground], 1.25f);
+        Header.color = ThemeData.ThemeColors[ThemeItem.SuperBackground];
     }
 
-    
-    private void Update() 
+
+    private Vector2 GetPosition(float col, float row)
     {
-        background.transform.localScale = new Vector3(height * HeightWidthRatio, height * (1 - HeightPadding), 0);
+        return origin + new Vector2(col, -row) * new Vector2(unitScale, unitScale * (1 + ButtonPadding / 3f));
+    }
+
+    private Color DivideColor(Color color, float divisor)
+    {
+        return new Color(color.r / divisor, color.g / divisor, color.b / divisor, color.a);
     }
 
 }
