@@ -109,6 +109,13 @@ public class FacBrick : MonoBehaviour
         else return brickData.ToList();
     }
 
+    public List<BrickData> GetBrickDatas()
+    {
+        IEnumerable<BrickData> brickData = _brickParent.GetComponentsInChildren<BrickData>();
+        if (brickData == null) return new List<BrickData>();
+        else return brickData.ToList();
+    }
+
     public GameObject Create(Brick brick, params Type[] removeBehaviours)
     {
         GameObject obj;

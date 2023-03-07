@@ -337,9 +337,29 @@ public class NormalGame : MonoBehaviour, IGetState, IEmpty, ISetupLevel, IWaitin
 
         yield return StartCoroutine(_endTurnAttackService.Attack());
 
+        // disable composite collider before handling bricks
+        _facBrick.DisableCompositeCollider();
+
+        // take damage from and destroy bricks in the first row
+        List<Damageable> bottomRowBricks = new List<Damageable>();
+        _facBrick.GetBrickDatas().ForEach(x => {
+            if (x.Brick.Row == 1 && Brick.IsDamageable(x.Brick.BrickType))
+            {
+                _player.Health -= 1f;
+                bottomRowBricks.Add(x.GetComponentInChildren<Damageable>());
+            }
+        });
+        bottomRowBricks.Shuffle();
+        for (int i = 0; i < bottomRowBricks.Count; i++)
+        {
+            bottomRowBricks[i].RemoveFromAdvanceables();
+            bottomRowBricks[i].FadeAndDestroy(1);
+            if (i != bottomRowBricks.Count - 1) yield return new WaitForSeconds(Damageable.EFFECT_LENGTH / 10f);
+            else yield return new WaitForSeconds(Damageable.EFFECT_LENGTH / 3f);
+        }
+
         _endTurnDestroyService.DestroyGameObjects();
 
-        _facBrick.DisableCompositeCollider();
         StartCoroutine(_advanceService.Advance());
         //CreateNextRow();
         List<Brick> bricks = _levelService.GetNextRow();
@@ -349,7 +369,13 @@ public class NormalGame : MonoBehaviour, IGetState, IEmpty, ISetupLevel, IWaitin
         }
         // wait to allow last bricks to complete since there is no delay after last brick
         // wait for whichever routine takes longer to complete
-        yield return new WaitForSeconds(Mathf.Max(_advanceService.MoveTime, _dropInDuration));
+        // allow buttons to begin fading in before end of transition
+        if (!(HasLost() || _winService.HasWon()))
+        {
+            yield return new WaitForSeconds(Mathf.Max(_advanceService.MoveTime, _dropInDuration) - BtnFadeAnimation.FADE_DURATION * 1.5f);
+            if (_gameUISwitcher != null) _gameUISwitcher.StartTurn();
+            yield return new WaitForSeconds(BtnFadeAnimation.FADE_DURATION * 1.5f);
+        }
         _facBrick.EnableCompositeCollider();
 
         GameState.State = GState.CheckWinLose;
@@ -527,7 +553,6 @@ public class NormalGame : MonoBehaviour, IGetState, IEmpty, ISetupLevel, IWaitin
         }
         else
         {
-            if (_gameUISwitcher != null) _gameUISwitcher.StartTurn();
             GameState.State = GState.WaitingForPlayerInput;
         }
     }

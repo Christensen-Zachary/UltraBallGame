@@ -8,7 +8,7 @@ public class BlinkGlow : MonoBehaviour
 {
     [field: SerializeField]
     public SpriteRenderer SpriteRenderer { get; private set; } // reference set in prefab
-    private float MaxGlow { get; set; } = 4f;
+    private float MaxGlow { get; set; } = 2f;
     private float MinGlow { get; set; } = 0;
     private bool _reactRunning = false;
     private bool _isShrinking = false;

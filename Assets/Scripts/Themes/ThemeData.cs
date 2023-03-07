@@ -98,9 +98,9 @@ public class ThemeData : MonoBehaviour
         NormalDmgBlink = GetColor(CustomColor.DarkGreen);
         FireDmgBlink = new Color(0.8f, 0.4f, 0, 1);
         ExtraFireDmgBlink = new Color(0.8f, 0, 0.8f, 1);
-        NormalBlinkStrength = 6f;
-        FireBlinkStrength = 5f;
-        ExtraFireBlinkStrength = 4f;
+        NormalBlinkStrength = 2f;
+        FireBlinkStrength = 2f;
+        ExtraFireBlinkStrength = 2f;
 
         ThemeBorderBrightness = 64f;
         PlayerBrightness = 2f;
@@ -289,7 +289,7 @@ public class ThemeData : MonoBehaviour
             case CustomColor.DarkGreen:
                 return ConvertToColor(0x0B, 0x72, 0x6D);
             case CustomColor.LightGreen:
-                return ConvertToColor(0xD5, 0xFC, 0xD4);
+                return ConvertToColor(0x10, 0xDD, 0xA5);
             case CustomColor.LightRed:
                 return ConvertToColor(0xFF, 0x91, 0xA8);
             case CustomColor.Brown:

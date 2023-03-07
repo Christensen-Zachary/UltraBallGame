@@ -65,7 +65,7 @@ public class AdvanceService : MonoBehaviour
             }
             else
             {
-                // x.GetComponent<BrickData>().Brick.Row--;
+                x.GetComponent<BrickData>().Brick.Row--;
             }
         });
     }

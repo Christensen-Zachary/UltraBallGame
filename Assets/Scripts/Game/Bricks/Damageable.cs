@@ -25,7 +25,7 @@ public class Damageable : MonoBehaviour
     public bool _doesCountTowardsWinning = true;
     public BrickData _brickData; // set in facBrick
 
-    private float _effectLength = 1f;
+    public static readonly float EFFECT_LENGTH = 1f;
 
 
     public Color MaxColor { get; set; } = new Color(
@@ -50,11 +50,7 @@ public class Damageable : MonoBehaviour
         {
             AddToDestroyed();
             FadeAndDestroy(damage);
-
-            if (transform.parent.TryGetComponent(out Advanceable advanceable))
-            {
-                advanceable.RemoveFromList();
-            }
+            RemoveFromAdvanceables();
         }
         else
         {
@@ -62,11 +58,20 @@ public class Damageable : MonoBehaviour
         }
     }
 
+    public void RemoveFromAdvanceables()
+    {
+        if (transform.parent.TryGetComponent(out Advanceable advanceable))
+        {
+            advanceable.RemoveFromList();
+        }
+    }
+
     public void FadeAndDestroy(float damage)
     {
+        transform.parent.SetParent(null); // remove parent so facBrick does not return this destroyed object
         DisableComponents();
         StartCoroutine(FadeOut(damage));
-        Destroy(transform.parent.gameObject, _effectLength); // destroy after _effectLength seconds to show effects
+        Destroy(transform.parent.gameObject, EFFECT_LENGTH); // destroy after _effectLength seconds to show effects
     }
 
     private IEnumerator FadeOut(float damage)
@@ -77,11 +82,11 @@ public class Damageable : MonoBehaviour
 
         float timer = 0;
 
-        while (timer < _effectLength)
+        while (timer < EFFECT_LENGTH)
         {
             timer += Time.deltaTime;
 
-            SpriteRenderer.material.SetFloat("_FadeAmount", Mathf.Lerp(0, 1, timer / _effectLength));
+            SpriteRenderer.material.SetFloat("_FadeAmount", Mathf.Lerp(0, 1, timer / EFFECT_LENGTH));
 
             yield return null;
         }
