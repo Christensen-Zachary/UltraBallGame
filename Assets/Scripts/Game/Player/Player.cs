@@ -115,7 +115,7 @@ public class Player : MonoBehaviour
         {
             ball.Fire(direction);
             _ballCounter.Count--;
-            yield return new WaitForSeconds(0.2f);
+            yield return new WaitForSeconds(0.05f);
         }
         IsFireRunning = false;
     }

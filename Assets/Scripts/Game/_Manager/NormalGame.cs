@@ -352,6 +352,7 @@ public class NormalGame : MonoBehaviour, IGetState, IEmpty, ISetupLevel, IWaitin
         bottomRowBricks.Shuffle();
         for (int i = 0; i < bottomRowBricks.Count; i++)
         {
+            bottomRowBricks[i].AddToDestroyed();
             bottomRowBricks[i].RemoveFromAdvanceables();
             bottomRowBricks[i].FadeAndDestroy(1);
             if (i != bottomRowBricks.Count - 1) yield return new WaitForSeconds(Damageable.EFFECT_LENGTH / 10f);
