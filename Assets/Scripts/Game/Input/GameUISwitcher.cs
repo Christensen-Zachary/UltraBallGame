@@ -26,12 +26,12 @@ public class GameUISwitcher : MonoBehaviour
     public BtnFadeAnimation FireBallsAnimator { get; set; }
     [field: SerializeField]
     public BtnFadeAnimation OptionsAnimator { get; set; }
-    [field: SerializeField]
-    public GameObject BtnVertical { get; set; }
-    [field: SerializeField]
-    public GameObject BtnHorizontal { get; set; }
-    [field: SerializeField]
-    public GameObject BtnRandom { get; set; }
+    // [field: SerializeField]
+    // public GameObject BtnVertical { get; set; }
+    // [field: SerializeField]
+    // public GameObject BtnHorizontal { get; set; }
+    // [field: SerializeField]
+    // public GameObject BtnRandom { get; set; }
     
 
 
@@ -64,17 +64,17 @@ public class GameUISwitcher : MonoBehaviour
         MoveSlider.SetActive(false);
         BtnFire.SetActive(false);
 
-        BtnVertical.SetActive(true);
-        BtnHorizontal.SetActive(true);
-        BtnRandom.SetActive(true);
+        // BtnVertical.SetActive(true);
+        // BtnHorizontal.SetActive(true);
+        // BtnRandom.SetActive(true);
         BtnReturnBalls.SetActive(true);
     }
     
     public void EndFire()
     {
-        BtnVertical.SetActive(false);
-        BtnHorizontal.SetActive(false);
-        BtnRandom.SetActive(false);
+        // BtnVertical.SetActive(false);
+        // BtnHorizontal.SetActive(false);
+        // BtnRandom.SetActive(false);
         BtnReturnBalls.SetActive(false);
     }
 
