@@ -8,7 +8,7 @@ public class Background : MonoBehaviour
     [field: SerializeField]
     public ResourceLocator ResourceLocator { get; set; }
 
-    public static readonly float LEAVE_SIDES_OPEN_BY_PERCENT = (1 - (2 / (1 + Mathf.Sqrt(5)))); // percent of the side that should not be overlapped by square. amount is for both sides combined
+    public static readonly float LEAVE_SIDES_OPEN_BY_PERCENT = (1 - (2 / (1 + Mathf.Sqrt(5)))) * 1.05f; // percent of the side that should not be overlapped by square. amount is for both sides combined
     public static readonly float BACKGROUND_RATIO = 4f / 3f;
     public SpriteRenderer _sr; // reference set in editor
     public float GetWidth => transform.localScale.x;
