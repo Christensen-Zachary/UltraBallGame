@@ -14,7 +14,7 @@ public class FireBallsText : MonoBehaviour
 
     public void SetNumber(int number)
     {
-        TextMesh.text = "Fire\nBalls x" + number.ToString();
+        TextMesh.text = "x" + number.ToString();
     }
 
     public void Subtract(int number)

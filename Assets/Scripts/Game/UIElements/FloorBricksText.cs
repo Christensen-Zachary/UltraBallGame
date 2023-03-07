@@ -14,7 +14,7 @@ public class FloorBricksText : MonoBehaviour
 
     public void SetNumber(int number)
     {
-        TextMesh.text = "Floor\nBricks x" + number.ToString();
+        TextMesh.text = "x" + number.ToString();
     }
 
     public void Subtract(int number)

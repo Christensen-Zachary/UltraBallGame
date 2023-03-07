@@ -35,6 +35,10 @@ public class ThemeVisitor : MonoBehaviour
         {
             themeButtonImage.GetComponent<UnityEngine.UI.Image>().color = new Color(1, 1, 1, 0.37f);
         }
+        else if (themeButtonSize == ThemeButtonSize.Slider || themeButtonSize == ThemeButtonSize.SliderKnob)
+        {
+            themeButtonImage.GetComponent<UnityEngine.UI.Image>().color = Color.white;
+        }
         else if (ThemeData.IsLight(ThemeData.ThemeColors[ThemeItem.SuperBackground]))
         {
             float average = ThemeData.GetColorAverage(ThemeData.ThemeColors[ThemeItem.SuperBackground]) / 2f;

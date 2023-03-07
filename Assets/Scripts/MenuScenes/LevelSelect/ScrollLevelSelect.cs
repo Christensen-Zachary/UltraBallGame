@@ -64,7 +64,11 @@ public class ScrollLevelSelect : MonoBehaviour
         }
 
         HeaderFade.color = DivideColor(ThemeData.ThemeColors[ThemeItem.SuperBackground], 2);//ThemeData.ThemeColors[ThemeItem.SuperBackground];
-        HeaderEdge.color = DivideColor(ThemeData.ThemeColors[ThemeItem.SuperBackground], 1.25f);
+        HeaderEdge.color = ThemeData.ThemeColors[ThemeItem.GameboardBorder];
+        
+        if (PlayerPrefs.GetInt(ToggleHDR.HDR_ENABLED_KEY, 1) == 1) HeaderEdge.material.SetFloat("_Brightness", ThemeData.ThemeBorderBrightness / 12f);
+        else HeaderEdge.material.SetFloat("_Brightness", 3);
+
         Header.color = ThemeData.ThemeColors[ThemeItem.SuperBackground];
     }
 

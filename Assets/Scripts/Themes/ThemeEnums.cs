@@ -24,7 +24,8 @@ public enum ThemeButtonSize
     Normal,
     Square,
     Wide,
-    Slider
+    Slider,
+    SliderKnob
 }
 
 

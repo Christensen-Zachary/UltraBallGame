@@ -59,6 +59,8 @@ public class ThemeData : MonoBehaviour
                 return GetWideButton();
             case ThemeButtonSize.Slider:
                 return GetSliderImage();
+            case ThemeButtonSize.SliderKnob:
+                return Resources.Load<Sprite>("Sprites/UI/SliderKnob");
             default:
                 return GetNormalButton();
         }
@@ -79,7 +81,7 @@ public class ThemeData : MonoBehaviour
     // image for slider
     public static Sprite GetSliderImage()
     {
-        return Resources.Load<Sprite>("Sprites/UI/buttonHardShadowExtraLong");
+        return Resources.Load<Sprite>("Sprites/UI/Slider");
     }
 
     public static Sprite GetSquareButton()
