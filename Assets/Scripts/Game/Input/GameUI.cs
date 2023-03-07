@@ -1,10 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Net.Security;
 using FastMobileBlurURP2023;
 using UnityEngine;
-using UnityEngine.Rendering;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class GameUI : MonoBehaviour, IHorizontal, IVertical, IRandom, IReturnFire, IResetGame, INextLevel, IOpenMainMenu, ICloseMainMenuPanel, IOpenMainMenuPanel, IOpenOptions, ICloseOptionsPanel, IStartSliderAim, IEndSliderAim, IStartFireUI, IGiveExtraBalls, IGiveFloorBricks, ISetBallsOnFire

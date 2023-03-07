@@ -34,8 +34,6 @@ public class NormalGame : MonoBehaviour, IGetState, IEmpty, ISetupLevel, IWaitin
     private GameSettings _gameSettings;
     private BallCounter _ballCounter;
     private FastForward _fastForward;
-    public BtnOptionsAnimation _btnOptionsAnimation; // reference set in editor
-
     private readonly float _dropInDuration = 0.5f;
     private bool _dropInDirection = true;
     private int _dropInStyle = 0;
@@ -152,6 +150,7 @@ public class NormalGame : MonoBehaviour, IGetState, IEmpty, ISetupLevel, IWaitin
     {
         if (_gameUIComposition.ResetGame())
         {
+            if (_gameUI != null) _gameUI.ShowGame();
             GameState.State = GState.SetupLevel;
         }
         else if (_gameUIComposition.OpenMainMenu())
@@ -197,6 +196,7 @@ public class NormalGame : MonoBehaviour, IGetState, IEmpty, ISetupLevel, IWaitin
         }
         else if (_gameUIComposition.ResetGame())
         {
+            if (_gameUI != null) _gameUI.ShowGame();
             GameState.State = GState.SetupLevel;
         }
         else if (_gameUIComposition.OpenMainMenu())
@@ -337,6 +337,8 @@ public class NormalGame : MonoBehaviour, IGetState, IEmpty, ISetupLevel, IWaitin
 
         yield return StartCoroutine(_endTurnAttackService.Attack());
 
+        _endTurnDestroyService.DestroyGameObjects();
+
         _facBrick.DisableCompositeCollider();
         StartCoroutine(_advanceService.Advance());
         //CreateNextRow();
@@ -350,14 +352,12 @@ public class NormalGame : MonoBehaviour, IGetState, IEmpty, ISetupLevel, IWaitin
         yield return new WaitForSeconds(Mathf.Max(_advanceService.MoveTime, _dropInDuration));
         _facBrick.EnableCompositeCollider();
 
-        _endTurnDestroyService.DestroyGameObjects();
-
         GameState.State = GState.CheckWinLose;
     }
 
     private IEnumerator SetupLevelRoutine()
     {
-        if (_btnOptionsAnimation != null) _btnOptionsAnimation.Hide();
+        if (_gameUISwitcher != null) _gameUISwitcher.HideGameButtons();
 
         _powerupManager.EndTurnPowerupManager();
 
@@ -367,8 +367,6 @@ public class NormalGame : MonoBehaviour, IGetState, IEmpty, ISetupLevel, IWaitin
         _endTurnAttackService.ResetAttackService();
         _endTurnDestroyService.DestroyGameObjects(); // this is important so that when the game is reset before the end of turn, then potential objects that had been added will be destroyed. Otherwise this service will cause an error if objects had been added
         _levelService.ResetLevelService();
-        if (_gameUI != null) _gameUI.ShowGame();
-        if (_gameUISwitcher != null) _gameUISwitcher.StartTurn();
         _player.Health = _levelService.Health;
         _player.MovePlayer(_grid.GetPosition((_grid.NumberOfDivisions - 1) / 2f, 0));
         _facBrick.DestroyBricks();
@@ -396,7 +394,7 @@ public class NormalGame : MonoBehaviour, IGetState, IEmpty, ISetupLevel, IWaitin
         _levelService.Balls.ForEach(x => _facBall.Create(x));
         _player.SetRadius();
 
-        if (_btnOptionsAnimation != null) StartCoroutine(_btnOptionsAnimation.FadeIn());
+        if (_gameUISwitcher != null) _gameUISwitcher.StartTurn();
         // change states first so variable will always be true until after state change to avoid race condition, unless this happens atomically then it doesn't matter
         GameState.State = GState.WaitingForPlayerInput;
     }
@@ -509,9 +507,9 @@ public class NormalGame : MonoBehaviour, IGetState, IEmpty, ISetupLevel, IWaitin
 
     public void CheckWinLose()
     {
-        if (_player.Health <= 0 || _winService.HasWon()) _gameData.SaveGameToFile();
+        if (HasLost() || _winService.HasWon()) _gameData.SaveGameToFile();
 
-        if (_player.Health <= 0)
+        if (HasLost())
         {
             if (_gameUI != null) _gameUI.HideGame();
             if (_gameUI != null) _gameUI.ShowGameOver();
@@ -530,8 +528,12 @@ public class NormalGame : MonoBehaviour, IGetState, IEmpty, ISetupLevel, IWaitin
         else
         {
             if (_gameUISwitcher != null) _gameUISwitcher.StartTurn();
-            if (_btnOptionsAnimation != null) StartCoroutine(_btnOptionsAnimation.FadeIn());
             GameState.State = GState.WaitingForPlayerInput;
         }
+    }
+
+    private bool HasLost()
+    {
+        return _player.Health <= 0;
     }
 }

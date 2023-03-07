@@ -601,7 +601,7 @@ Material:
     - _GlitchMaskSpeed: {r: 0, g: 4, b: 0, a: 0}
     - _GlitchNoiseScale: {r: 0, g: 3, b: 0, a: 0}
     - _GlitchNoiseSpeed: {r: 0, g: 1, b: 0, a: 0}
-    - _GlowColor: {r: 0, g: 0, b: 0, a: 1}
+    - _GlowColor: {r: 0.99609375, g: 0.64453125, b: 0, a: 1}
     - _GradBotLeftCol: {r: 0, g: 0, b: 1, a: 1}
     - _GradBotRightCol: {r: 0, g: 1, b: 0, a: 1}
     - _GradTopLeftCol: {r: 1, g: 0, b: 0, a: 1}

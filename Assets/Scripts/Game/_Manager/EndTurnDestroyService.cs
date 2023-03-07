@@ -38,6 +38,8 @@ public class EndTurnDestroyService : MonoBehaviour
                 if (damageable != null)
                 {
                     damageable.AddToDestroyed();
+                    damageable.FadeAndDestroy(1);
+                    doDestroy = false;
                 }
                 Shootable shootable = x.GetComponent<Shootable>();
                 if (shootable != null)

@@ -48,11 +48,8 @@ public class Damageable : MonoBehaviour
 
         if (Health <= 0)
         {
-            DisableComponents();
             AddToDestroyed();
-
-            StartCoroutine(FadeOut(damage));
-            Destroy(transform.parent.gameObject, _effectLength); // destroy after _effectLength seconds to show effects
+            FadeAndDestroy(damage);
 
             if (transform.parent.TryGetComponent(out Advanceable advanceable))
             {
@@ -63,6 +60,13 @@ public class Damageable : MonoBehaviour
         {
             ReactToDamage(damage);
         }
+    }
+
+    public void FadeAndDestroy(float damage)
+    {
+        DisableComponents();
+        StartCoroutine(FadeOut(damage));
+        Destroy(transform.parent.gameObject, _effectLength); // destroy after _effectLength seconds to show effects
     }
 
     private IEnumerator FadeOut(float damage)

@@ -19,13 +19,13 @@ public class GameUISwitcher : MonoBehaviour
     [field: SerializeField]
     public GameObject BtnFire { get; set; }
     [field: SerializeField]
-    public GameObject BtnExtraBalls { get; set; }
+    public BtnFadeAnimation ExtraBallsAnimator { get; set; }
     [field: SerializeField]
-    public GameObject BtnFloorBricks { get; set; }
+    public BtnFadeAnimation FloorBricksAnimator { get; set; }
     [field: SerializeField]
-    public GameObject BtnFireBalls { get; set; }
+    public BtnFadeAnimation FireBallsAnimator { get; set; }
     [field: SerializeField]
-    public BtnOptionsAnimation OptionsAnimator { get; set; }
+    public BtnFadeAnimation OptionsAnimator { get; set; }
     [field: SerializeField]
     public GameObject BtnVertical { get; set; }
     [field: SerializeField]
@@ -42,16 +42,20 @@ public class GameUISwitcher : MonoBehaviour
 
     public void ShowAimSlider(bool bit)
     {
-        BtnExtraBalls.SetActive(!bit);
-        BtnFloorBricks.SetActive(!bit);
-        BtnFireBalls.SetActive(!bit);
-        
-        if (bit) StartCoroutine(OptionsAnimator.FadeOut());
-        else StartCoroutine(OptionsAnimator.FadeIn());
+        DoFade(ExtraBallsAnimator, !bit);
+        DoFade(FloorBricksAnimator, !bit);
+        DoFade(FireBallsAnimator, !bit);
+        DoFade(OptionsAnimator, !bit);
         
         BtnEndAim.SetActive(bit);
         BtnFire.SetActive(bit);
         MoveSlider.SetActive(bit);
+    }
+
+    private void DoFade(BtnFadeAnimation btnFadeAnimation, bool bit)
+    {
+        if (bit) btnFadeAnimation.FadeIn();   
+        else btnFadeAnimation.FadeOut();
     }
 
     public void StartFire()
@@ -59,10 +63,6 @@ public class GameUISwitcher : MonoBehaviour
         BtnEndAim.SetActive(false);
         MoveSlider.SetActive(false);
         BtnFire.SetActive(false);
-        BtnExtraBalls.SetActive(false);
-        BtnFloorBricks.SetActive(false);
-        BtnFireBalls.SetActive(false);
-        
 
         BtnVertical.SetActive(true);
         BtnHorizontal.SetActive(true);
@@ -81,10 +81,19 @@ public class GameUISwitcher : MonoBehaviour
     public void StartTurn()
     {
         BtnReturnBalls.SetActive(false);
+        
+        DoFade(OptionsAnimator, true);
+        DoFade(ExtraBallsAnimator, true);
+        DoFade(FloorBricksAnimator, true);
+        DoFade(FireBallsAnimator, true);
+    }
 
-        BtnExtraBalls.SetActive(true);
-        BtnFloorBricks.SetActive(true);
-        BtnFireBalls.SetActive(true);
+    public void HideGameButtons()
+    {
+        OptionsAnimator.Hide();
+        ExtraBallsAnimator.Hide();
+        FloorBricksAnimator.Hide();
+        FireBallsAnimator.Hide();
     }
 
 }
