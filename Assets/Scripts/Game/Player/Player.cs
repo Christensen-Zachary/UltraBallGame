@@ -22,7 +22,11 @@ public class Player : MonoBehaviour
     public float Health { get { return _health; } set { _health = value; if (_playerHealth != null) { _playerHealth.SetNumber((int)value); } } }
 
     public List<Shootable> Shootables { get; private set; } = new List<Shootable>();
-    public bool IsFireRunning { get; private set; } = true;
+    private List<Shootable> LoadedShots { get; set; } = new List<Shootable>();
+    private Vector2 _direction = Vector2.up;
+    private float _timeBetweenShots = 0.1f;
+    private float _timer = 0.1f;
+    public bool IsFireRunning { get; private set; } = false;
 
     public Slider _movePlayerSlider; // set in editor, checked for null so is not necessary
 
@@ -69,6 +73,34 @@ public class Player : MonoBehaviour
     }
 
 
+    private void Update() 
+    {
+        if (IsFireRunning)
+        {
+            _timer += Time.deltaTime;
+            if (_timer > _timeBetweenShots)
+            {
+                _timer -= _timeBetweenShots;
+                if (LoadedShots.Count > 0)
+                {
+                    Shootable shootable = LoadedShots[0];
+                    LoadedShots.Remove(shootable);
+                    if (shootable != null)
+                    {
+                        shootable.Fire(_direction);
+                        _ballCounter.Count--;
+                    }
+                }
+                else
+                {
+                    IsFireRunning = false;
+                    _timer = _timeBetweenShots;
+                    LoadedShots.Clear();
+                }
+            }
+        }
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.TryGetComponent(out EvilBrickAttackBall evilBrickAttackBall))
@@ -105,7 +137,10 @@ public class Player : MonoBehaviour
     public void RunFire(Vector2 direction)
     {
         direction.Normalize();
-        StartCoroutine(Fire(direction));
+        _direction = direction;
+        Shootables.ForEach(x => LoadedShots.Add(x));
+        IsFireRunning = true;
+        // StartCoroutine(Fire(direction));
     }
 
     private IEnumerator Fire(Vector2 direction)
@@ -123,6 +158,8 @@ public class Player : MonoBehaviour
     public void EndFire()
     {
         StopAllCoroutines();
+        LoadedShots.Clear();
+        _timer = _timeBetweenShots;
         IsFireRunning = false;
         foreach (var ball in Shootables)
         {

@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -349,14 +350,12 @@ public class NormalGame : MonoBehaviour, IGetState, IEmpty, ISetupLevel, IWaitin
                 bottomRowBricks.Add(x.GetComponentInChildren<Damageable>());
             }
         });
-        bottomRowBricks.Shuffle();
         for (int i = 0; i < bottomRowBricks.Count; i++)
         {
             bottomRowBricks[i].AddToDestroyed();
             bottomRowBricks[i].RemoveFromAdvanceables();
             bottomRowBricks[i].FadeAndDestroy(1);
-            if (i != bottomRowBricks.Count - 1) yield return new WaitForSeconds(Damageable.EFFECT_LENGTH / 10f);
-            else yield return new WaitForSeconds(Damageable.EFFECT_LENGTH / 3f);
+            bottomRowBricks[i].transform.parent.AddComponent<MoveDownEndlessly>();
         }
 
         _endTurnDestroyService.DestroyGameObjects();
@@ -373,9 +372,9 @@ public class NormalGame : MonoBehaviour, IGetState, IEmpty, ISetupLevel, IWaitin
         // allow buttons to begin fading in before end of transition
         if (!(HasLost() || _winService.HasWon()))
         {
-            yield return new WaitForSeconds(Mathf.Max(_advanceService.MoveTime, _dropInDuration) - BtnFadeAnimation.FADE_DURATION * 1.5f);
+            yield return new WaitForSeconds(Mathf.Max(_advanceService.MoveTime, _dropInDuration) - BtnFadeAnimation.FADE_DURATION);
             if (_gameUISwitcher != null) _gameUISwitcher.StartTurn();
-            yield return new WaitForSeconds(BtnFadeAnimation.FADE_DURATION * 1.5f);
+            yield return new WaitForSeconds(BtnFadeAnimation.FADE_DURATION);
         }
         _facBrick.EnableCompositeCollider();
 
