@@ -88,7 +88,7 @@ public class Player : MonoBehaviour
                     if (shootable != null)
                     {
                         shootable.Fire(_direction);
-                        _ballCounter.Count--;
+                        _ballCounter.Subtract(1);
                     }
                 }
                 else

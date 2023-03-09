@@ -168,7 +168,7 @@ public class PowerupManager : MonoBehaviour
                 _endTurnDestroyService.AddGameObject(
                     _facBall.Create(_levelService.Balls[i])
                 );
-                _ballCounter.Count++;
+                _ballCounter.ExtraCount++;
             }
         }
     }

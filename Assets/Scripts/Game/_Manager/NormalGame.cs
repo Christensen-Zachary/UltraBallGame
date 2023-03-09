@@ -335,6 +335,7 @@ public class NormalGame : MonoBehaviour, IGetState, IEmpty, ISetupLevel, IWaitin
         if (_gameUISwitcher != null) _gameUISwitcher.EndFire();
 
         _ballCounter.Count = _levelService.CurrentBalls.Count;
+        _ballCounter.ExtraCount = 0;
 
         yield return StartCoroutine(_endTurnAttackService.Attack());
 
@@ -372,7 +373,7 @@ public class NormalGame : MonoBehaviour, IGetState, IEmpty, ISetupLevel, IWaitin
         // allow buttons to begin fading in before end of transition
         
         yield return new WaitForSeconds(Mathf.Max(_advanceService.MoveTime, _dropInDuration) - BtnFadeAnimation.FADE_DURATION);
-        if (_gameUISwitcher != null) _gameUISwitcher.StartTurn();
+        if (_gameUISwitcher != null && !(HasLost() || _winService.HasWon())) _gameUISwitcher.StartTurn();
         yield return new WaitForSeconds(BtnFadeAnimation.FADE_DURATION);
         
         _facBrick.EnableCompositeCollider();

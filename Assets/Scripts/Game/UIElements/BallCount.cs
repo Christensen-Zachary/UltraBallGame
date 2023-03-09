@@ -29,15 +29,48 @@ public class BallCount : MonoBehaviour
         else
             TextMesh.color = _originalColor;
         
-        TextMesh.text = number.ToString();
+        if (TextMesh.text.Split("+").Length == 1)
+            TextMesh.text = number.ToString();
+        else
+            TextMesh.text = number.ToString() + "+" + TextMesh.text.Split("+")[1];
+    }
+
+    public void SetExtraNumber(int number)
+    {
+        if (number == 0)
+        {
+            TextMesh.text = TextMesh.text.Split("+")[0];
+        }
+        else if (TextMesh.text.Split("+").Length == 1)
+        {
+            TextMesh.text = TextMesh.text + "+" + number.ToString();
+        }
+        else if (TextMesh.text.Split("+").Length == 2)
+        {
+            if (number != 0)
+            {
+                TextMesh.text = TextMesh.text.Split("+")[0] + "+" + number.ToString();
+            }
+            else
+                TextMesh.text = TextMesh.text.Split("+")[0];
+        }
     }
 
     public void Subtract(int number)
     {
         try
         {
-            int current = System.Convert.ToInt32(TextMesh.text);
-            SetNumber(current - number);
+
+            if (TextMesh.text.Split("+").Length == 1)
+            {
+                int current = System.Convert.ToInt32(TextMesh.text.Split("+")[0]);
+                SetNumber(current - number); 
+            }
+            else
+            {
+                int current = System.Convert.ToInt32(TextMesh.text.Split("+")[1]);
+                SetExtraNumber(current - number);
+            }
         }
         catch
         {
