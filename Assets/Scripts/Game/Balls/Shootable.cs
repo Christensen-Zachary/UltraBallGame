@@ -35,45 +35,6 @@ public class Shootable : MonoBehaviour
     {
         if (RB.velocity != Vector2.zero) LagVelocity = RB.velocity;
     }
-    
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        int layerMask = (1 << LayerMask.NameToLayer("Brick")) & ~(1 << LayerMask.NameToLayer("Ball"));
-
-        //if (collision.contactCount > 1)
-        //{
-        //    for (int i = 0; i < collision.contactCount; i++)
-        //    {
-        //        GameObject obj = Instantiate(Resources.Load<GameObject>("Prefabs/MidPrediction"));
-        //        obj.transform.position = collision.contacts[i].point;
-        //        obj.transform.localScale = Vector3.one * 0.3f;
-        //        obj.GetComponent<SpriteRenderer>().color = Color.red;
-        //        print($"CName {collision.contacts[i].collider.name} point {collision.contacts[i].normal}");
-        //    }
-        //}
-
-        RaycastHit2D[] hits = Physics2D.CircleCastAll(collision.contacts[0].point, 0.25f, LagVelocity.normalized, 0.05f, layerMask);
-        if (hits.Length != 0)
-        {
-            for (int i = 0; i < hits.Length; i++)
-            {
-                if (hits[i].collider.CompareTag("Damageable"))
-                {
-                    hits[i].collider.GetComponent<Damageable>().Damage(Damage);
-
-                    //if (hits[i].collider.TryGetComponent(out Damageable damageable))
-                    //{
-                    //    damageable.Damage(Damage); 
-                    //}
-                }
-                else
-                {
-                    //print($"Did not find {hits[i].collider.name} tag {hits[i].collider.tag}");
-                }
-            }
-        }
-
-    }
 
     public void Fire(Vector2 direction)
     {
