@@ -207,7 +207,7 @@ public class LevelService : MonoBehaviour
         // balls added manually because they are not currently saved and loaded
         for (int i = 0; i < Convert.ToInt32(levelString.Split(",")[0]); i++)
         {
-            level.Balls.Add(new Ball(1, 0.8f));
+            level.Balls.Add(new Ball(1, 1.1f));
         }
 
         level.ExtraBallPowerUpCount = Convert.ToInt32(levelString.Split(",")[1]);

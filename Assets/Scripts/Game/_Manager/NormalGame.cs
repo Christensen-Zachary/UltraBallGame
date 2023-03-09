@@ -370,12 +370,11 @@ public class NormalGame : MonoBehaviour, IGetState, IEmpty, ISetupLevel, IWaitin
         // wait to allow last bricks to complete since there is no delay after last brick
         // wait for whichever routine takes longer to complete
         // allow buttons to begin fading in before end of transition
-        if (!(HasLost() || _winService.HasWon()))
-        {
-            yield return new WaitForSeconds(Mathf.Max(_advanceService.MoveTime, _dropInDuration) - BtnFadeAnimation.FADE_DURATION);
-            if (_gameUISwitcher != null) _gameUISwitcher.StartTurn();
-            yield return new WaitForSeconds(BtnFadeAnimation.FADE_DURATION);
-        }
+        
+        yield return new WaitForSeconds(Mathf.Max(_advanceService.MoveTime, _dropInDuration) - BtnFadeAnimation.FADE_DURATION);
+        if (_gameUISwitcher != null) _gameUISwitcher.StartTurn();
+        yield return new WaitForSeconds(BtnFadeAnimation.FADE_DURATION);
+        
         _facBrick.EnableCompositeCollider();
 
         GameState.State = GState.CheckWinLose;
