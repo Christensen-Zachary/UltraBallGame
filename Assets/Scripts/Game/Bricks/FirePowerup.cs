@@ -55,6 +55,7 @@ public class FirePowerup : MonoBehaviour
         shootable.Damage = Damage;
         clone.transform.SetParent(shootable.transform);
         clone.transform.localPosition = Vector3.zero;
+        clone.transform.localScale = Vector3.one;
         clone.SetActive(true);
         clone.GetComponent<ParticleSystem>().Play();
     }
