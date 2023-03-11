@@ -119,6 +119,7 @@ public class ScrollLevelSelect : MonoBehaviour
         }
 
 
+        endRow = startRow + highestLevel / columnCount + 1;
         for (int row = startRow; row <= endRow; row++)
         {
             CreateRow(levelNum, row, rowDirection);
