@@ -70,7 +70,7 @@ public class ScrollLevelSelect : MonoBehaviour
 
     private void Awake() 
     {
-        latestLevelUnlocked = 99;// ES3.Load<int>(BGStrings.ES_LEVELNUM, 1);
+        latestLevelUnlocked = 7;// ES3.Load<int>(BGStrings.ES_LEVELNUM, 1);
         
         mainCamera = Camera.main;
 

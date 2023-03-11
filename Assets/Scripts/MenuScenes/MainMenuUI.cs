@@ -76,7 +76,7 @@ public class MainMenuUI : MonoBehaviour
 
         yield return new WaitForSeconds(MainMenuUI.SCENE_TRANSITION_WAIT_TIME);
 
-        LevelSetsUI.LoadLevelSets();
+        ScrollLevelSelectUI.LoadScrollLevelSelect();
     }
     
     public static void LoadMainMenu()
