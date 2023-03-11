@@ -77,7 +77,7 @@ public class ScrollLevelSelect : MonoBehaviour
         // put image over top of screen that is same color as background that fades out. Buttons will go underneath but appear to fade out
         background = Instantiate(BackgroundPrefab);
         background.name = "Background";
-        background.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0.25f);
+        // background.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0.25f);
         background.transform.position = Vector3.zero;
         height = height * (1 - HeightPadding * 2);
         width = width * (1 - HeightPadding);//height * HeightWidthRatio;

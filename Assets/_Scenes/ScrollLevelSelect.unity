@@ -644,6 +644,7 @@ GameObject:
   - component: {fileID: 881775935}
   - component: {fileID: 881775934}
   - component: {fileID: 881775936}
+  - component: {fileID: 881775937}
   m_Layer: 0
   m_Name: Text
   m_TagString: Untagged
@@ -817,6 +818,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d63ed7e3cd07bbd4182651b26fde8aa2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &881775937
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 881775932}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dbfba7084d8703c408fa88cb986157b9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &902931785
 GameObject:
   m_ObjectHideFlags: 0
@@ -828,6 +841,7 @@ GameObject:
   - component: {fileID: 902931787}
   - component: {fileID: 902931786}
   - component: {fileID: 902931788}
+  - component: {fileID: 902931789}
   m_Layer: 0
   m_Name: LevelButton
   m_TagString: Untagged
@@ -919,6 +933,19 @@ MonoBehaviour:
   row: 0
   col: 0
   levelNumber: -1
+--- !u!114 &902931789
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 902931785}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1f907ec5079fd014c8ae37c111b7cd49, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _themeButtonSize: 1
 --- !u!1 &907820758
 GameObject:
   m_ObjectHideFlags: 0

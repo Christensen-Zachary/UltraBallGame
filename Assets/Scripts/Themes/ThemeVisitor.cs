@@ -31,27 +31,34 @@ public class ThemeVisitor : MonoBehaviour
 
     public static void Visit(ThemeButtonImage themeButtonImage, ThemeButtonSize themeButtonSize)
     {
+        Image image = themeButtonImage.GetComponent<UnityEngine.UI.Image>();
+        SpriteRenderer sr = themeButtonImage.GetComponent<SpriteRenderer>();
         if (themeButtonSize == ThemeButtonSize.Wide) // blur menu button
         {
-            themeButtonImage.GetComponent<UnityEngine.UI.Image>().color = new Color(1, 1, 1, 0.37f);
+            if (image != null) image.color = new Color(1, 1, 1, 0.37f);
+            if (sr != null) sr.color = new Color(1, 1, 1, 0.37f);
         }
         else if (themeButtonSize == ThemeButtonSize.Slider || themeButtonSize == ThemeButtonSize.SliderKnob)
         {
-            themeButtonImage.GetComponent<UnityEngine.UI.Image>().color = Color.white;
+            if (image != null) image.color = Color.white;
+            if (sr != null) sr.color = Color.white;
         }
         else if (ThemeData.IsLight(ThemeData.ThemeColors[ThemeItem.SuperBackground]))
         {
             float average = ThemeData.GetColorAverage(ThemeData.ThemeColors[ThemeItem.SuperBackground]) / 2f;
-            themeButtonImage.GetComponent<UnityEngine.UI.Image>().color = new Color(1, 1, 1, average);//ThemeData.ThemeButtonImageColor;
+            if (image != null) image.color = new Color(1, 1, 1, average);//ThemeData.ThemeButtonImageColor;
+            if (sr != null) sr.color = new Color(1, 1, 1, average);
         }
         else
         {
             float average = ThemeData.GetColorAverage(ThemeData.ThemeColors[ThemeItem.SuperBackground]);
-            themeButtonImage.GetComponent<UnityEngine.UI.Image>().color = new Color(1, 1, 1, average);//ThemeData.ThemeButtonImageColor;
+            if (image != null) image.color = new Color(1, 1, 1, average);//ThemeData.ThemeButtonImageColor;
+            if (sr != null) sr.color = new Color(1, 1, 1, average);
         }
 
 
-        themeButtonImage.GetComponent<UnityEngine.UI.Image>().sprite = ThemeData.GetThemeButton(themeButtonSize);
+        if (image != null) image.sprite = ThemeData.GetThemeButton(themeButtonSize);
+        if (sr != null) sr.sprite = ThemeData.GetThemeButton(themeButtonSize);
 
         //themeButtonImage.GetComponent<UnityEngine.UI.Image>().material = Resources.Load<Material>("Materials/Themes/1/PowerButton");
         //themeButtonImage.GetComponent<UnityEngine.UI.Image>().material.SetColor("_GlowColor", ThemeData.ThemeColors[ThemeItem.GameboardBorder]);
@@ -59,7 +66,8 @@ public class ThemeVisitor : MonoBehaviour
 
     public static void Visit(ThemeFontColor themeFontColor)
     {
-        themeFontColor.TextMesh.color = ThemeData.ThemeFontColor;
+        if (themeFontColor.TextMesh != null) themeFontColor.TextMesh.color = ThemeData.ThemeFontColor;
+        if (themeFontColor.TextMeshOnGameObjects != null) themeFontColor.TextMeshOnGameObjects.color = ThemeData.ThemeFontColor;
     }
 
     public static void Visit(InvincibleBrick invincibleBrick)
