@@ -23,8 +23,29 @@ public class ScrollLevelSelectUI : MonoBehaviour
         MainMenuUI.LoadMainMenu();
     }
 
+
+    public void OpenLevel(int levelNumber)
+    {
+        StartCoroutine(OpenLevelRoutine(levelNumber));
+    }
+
+    private IEnumerator OpenLevelRoutine(int levelNumber)
+    {
+        animator.SetTrigger("Close");
+
+        yield return new WaitForSeconds(MainMenuUI.SCENE_TRANSITION_WAIT_TIME);
+
+        LoadGameLevel(levelNumber);
+    }
+
     public static void LoadScrollLevelSelect()
     {
         SceneManager.LoadScene("ScrollLevelSelect");
+    }
+
+    public static void LoadGameLevel(int levelNumber)
+    {
+        ES3.Save(BGStrings.ES_LEVELNUM, levelNumber);
+        UnityEngine.SceneManagement.SceneManager.LoadScene("Game");
     }
 }

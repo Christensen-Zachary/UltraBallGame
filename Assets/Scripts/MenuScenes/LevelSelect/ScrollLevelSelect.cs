@@ -9,6 +9,8 @@ using System.Linq;
 public class ScrollLevelSelect : MonoBehaviour
 {
     [field: SerializeField]
+    public ScrollLevelSelectUI ScrollLevelSelectUI { get; set; } // reference set in editor
+    [field: SerializeField]
     public GameObject LevelButtonPrefab { get; set; } // reference set in editor 
     [field: SerializeField]
     public GameObject BackgroundPrefab { get; set; } // reference set in editor 
@@ -63,10 +65,14 @@ public class ScrollLevelSelect : MonoBehaviour
     int lastMovementIndex = 0;
     float lastMovement = 0;
     bool rowDirection = true;
+
+    public SpriteRenderer backgroundSpriteRenderer;
     
 
     private List<List<LevelButton>> levelButtons = new List<List<LevelButton>>();
     LevelButton firstLevelButton, lastLevelButton;
+
+    private bool levelButtonSelected = false; // choke point to end routine after clicking button
 
     private void Awake() 
     {
@@ -85,6 +91,7 @@ public class ScrollLevelSelect : MonoBehaviour
         height = height * (1 - HeightPadding * 2);
         width = width * (1 - HeightPadding);//height * HeightWidthRatio;
         background.transform.localScale = new Vector3(width, height, 0);
+        backgroundSpriteRenderer = background.GetComponent<SpriteRenderer>();
 
         unitScale = width /columnCount;
         // bottom left corners
@@ -298,6 +305,8 @@ public class ScrollLevelSelect : MonoBehaviour
 
     private void Update()
     {
+        if (levelButtonSelected) return;
+
         if (Input.GetKeyDown(KeyCode.Return))
         {
             if (firstLevelButton == null) print($"FirstLevelButton is null");
@@ -342,7 +351,24 @@ public class ScrollLevelSelect : MonoBehaviour
             {
                 if (doSelectOnInputUp) // try to select button
                 {
+                    Vector3 mousePosition = mainCamera.ScreenToWorldPoint(Input.mousePosition);
+                    mousePosition = new Vector3(mousePosition.x, mousePosition.y, 0);
+                    if (backgroundSpriteRenderer.bounds.Contains(mousePosition)) // then allow click
+                    {
+                        RaycastHit2D[] hits = Physics2D.RaycastAll(mousePosition, Vector2.zero, 0);
+                        foreach (var hit in hits)
+                        {
+                            if (hit.transform.TryGetComponent(out LevelButton levelButton))
+                            {
+                                if (levelButton.levelNumber > highestLevel) break; // do not load levels higher than highestLevel
+                                if (levelButton.levelNumber > latestLevelUnlocked) break; // do not load locked levels
 
+                                ScrollLevelSelectUI.OpenLevel(levelButton.levelNumber);
+                                levelButtonSelected = true;
+                                break;
+                            }
+                        }
+                    }
                 }
                 lastMovement = GetAverage(lastMovements);
                 startedScroll = false;
@@ -388,51 +414,6 @@ public class ScrollLevelSelect : MonoBehaviour
 
             /***   DO NOT EVEN ROTATE BUTTONS. IT IS CONVOLUTED. JUST CREATE ALL BUTTONS AND SCROLL    ***/
 
-            //float moveAmount = Mathf.Abs(ButtonParent.transform.position.y - buttonParentStartPosition.y);
-            //while (moveAmount > unitScale) // moved a row
-            //{
-            //    if (firstLevelButton != null && firstLevelButton.transform.position.y > GetPosition(0, minimumRow).y) break; // don't rotate while 1st level exists
-                
-
-            //    print($"Rotating buttons");
-            //    moveAmount -= unitScale;
-            //    // rotate buttons
-            //    if (ButtonParent.transform.position.y - buttonParentStartPosition.y > 0) // above start position, rotate a top row to the bottom
-            //    {
-            //        int lowestLevelDisplayed = levelButtons[0].Min(x => x.levelNumber);
-            //        if (lowestLevelDisplayed == 1) break; // if level one is displayed, never put buttons underneath
-            //        //print($"Lowest Level Displayed {lowestLevelDisplayed}");
-            //        List<LevelButton> buttons = levelButtons[levelButtons.Count - 1];
-            //        levelButtons.RemoveAt(levelButtons.Count - 1);
-            //        levelButtons.Insert(0, buttons);
-            //        //PlaceRow(buttons, lowestLevelDisplayed - 5, startRow - 1, rowDirection);
-            //        //rowDirection = !rowDirection;
-            //        for (int i = 0; i < buttons.Count; i++)
-            //        {
-            //            InstantiateLevelButton(buttons[i], startRow - 1, i, lowestLevelDisplayed - 5 + i);
-            //        }
-            //        startRow--;
-            //        endRow--;
-            //    }
-            //    else // below start position, rotate a bottom row to the top
-            //    {
-            //        int highestLevelDisplayed = levelButtons[levelButtons.Count - 1].Max(x => x.levelNumber);
-            //        //print($"Highest Level Displayed {highestLevelDisplayed}");
-            //        List<LevelButton> buttons = levelButtons[0];
-            //        levelButtons.RemoveAt(0);
-            //        levelButtons.Add(buttons);
-            //        for (int i = 0; i < buttons.Count; i++)
-            //        {
-            //            InstantiateLevelButton(buttons[i], endRow + 1, i, highestLevelDisplayed + 1 + i);
-            //        }
-            //        endRow++;
-            //        startRow++;
-            //    }
-
-            //    buttonParentStartPosition = ButtonParent.transform.position;
-            //    scrollStartPosition = mainCamera.ScreenToWorldPoint(Input.mousePosition);
-            //    scrollStartPosition = new Vector3(scrollStartPosition.x, scrollStartPosition.y - minDistanceToStartScroll, 0);
-            //}
         }
     }
 

@@ -40,8 +40,8 @@ public class CreateLevelsButtons : MonoBehaviour
 
         yield return new WaitForSeconds(MainMenuUI.SCENE_TRANSITION_WAIT_TIME);
 
-        ES3.Save(BGStrings.ES_LEVELNUM, levelNumber);
-        UnityEngine.SceneManagement.SceneManager.LoadScene("Game");
+        ScrollLevelSelectUI.LoadGameLevel(levelNumber);
     }
 
+    
 }
