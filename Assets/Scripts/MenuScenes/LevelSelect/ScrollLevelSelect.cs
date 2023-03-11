@@ -19,6 +19,13 @@ public class ScrollLevelSelect : MonoBehaviour
     [field: SerializeField]
     public Image HeaderEdge { get; set; } // reference set in editor 
     [field: SerializeField]
+    public Image FooterFade { get; set; } // reference set in editor 
+    [field: SerializeField]
+    public Image Footer { get; set; } // reference set in editor 
+    [field: SerializeField]
+    public Image FooterEdge { get; set; } // reference set in editor 
+
+    [field: SerializeField]
     public GameObject ButtonParent { get; set; } // reference set in editor 
 
     [field: SerializeField]
@@ -72,7 +79,7 @@ public class ScrollLevelSelect : MonoBehaviour
         background.name = "Background";
         background.GetComponent<SpriteRenderer>().color = new Color(1, 1, 1, 0.25f);
         background.transform.position = Vector3.zero;
-        height = height * (1 - HeightPadding);
+        height = height * (1 - HeightPadding * 2);
         width = width * (1 - HeightPadding);//height * HeightWidthRatio;
         background.transform.localScale = new Vector3(width, height, 0);
 
@@ -104,13 +111,24 @@ public class ScrollLevelSelect : MonoBehaviour
             endRow = row;
         }
 
+        FooterFade.color = DivideColor(ThemeData.ThemeColors[ThemeItem.SuperBackground], 2);
         HeaderFade.color = DivideColor(ThemeData.ThemeColors[ThemeItem.SuperBackground], 2);//ThemeData.ThemeColors[ThemeItem.SuperBackground];
+        FooterEdge.color = ThemeData.ThemeColors[ThemeItem.GameboardBorder];
         HeaderEdge.color = ThemeData.ThemeColors[ThemeItem.GameboardBorder];
-        
-        if (PlayerPrefs.GetInt(ToggleHDR.HDR_ENABLED_KEY, 1) == 1) HeaderEdge.material.SetFloat("_Brightness", ThemeData.ThemeBorderBrightness / 12f);
-        else HeaderEdge.material.SetFloat("_Brightness", 3);
+
+        if (PlayerPrefs.GetInt(ToggleHDR.HDR_ENABLED_KEY, 1) == 1)
+        {
+            HeaderEdge.material.SetFloat("_Brightness", ThemeData.ThemeBorderBrightness / 12f);
+            FooterEdge.material.SetFloat("_Brightness", ThemeData.ThemeBorderBrightness / 12f);
+        }
+        else
+        {
+            HeaderEdge.material.SetFloat("_Brightness", 3);
+            FooterEdge.material.SetFloat("_Brightness", 3);
+        }
 
         Header.color = ThemeData.ThemeColors[ThemeItem.SuperBackground];
+        Footer.color = ThemeData.ThemeColors[ThemeItem.SuperBackground];
     }
 
     private void CreateLevelButton(int levelNum, int row, int col)
@@ -131,12 +149,10 @@ public class ScrollLevelSelect : MonoBehaviour
         //print($"Instantiating button for level {levelNum}");
         if (levelButton.levelNumber == 1) // was already first level and is being instantiated to something else
         {
-            print($"Setting firstLevelButton null for level {levelNum}");
             firstLevelButton = null;
         }
         else if (levelButton.levelNumber == highestLevel) // was already last level and is being instatiated to something else
         {
-            print($"Setting lastLevelButton null for level {levelNum}");
             lastLevelButton = null;
         }
 
@@ -146,12 +162,10 @@ public class ScrollLevelSelect : MonoBehaviour
 
         if (levelNum == 1)
         {
-            print($"Assigning firstLevelButton");
             firstLevelButton = levelButton;
         }
         else if (levelNum == highestLevel)
         {
-            print($"Assigning lastLevelButton");
             lastLevelButton = levelButton;
         }
 
@@ -279,7 +293,7 @@ public class ScrollLevelSelect : MonoBehaviour
                     levelButtons.Insert(0, buttons);
                     for (int i = 0; i < buttons.Count; i++)
                     {
-                        InstantiateLevelButton(buttons[i], startRow - 1, i, lowestLevelDisplayed - 1 - i);
+                        InstantiateLevelButton(buttons[i], startRow - 1, i, lowestLevelDisplayed - 4 + i);
                     }
                     startRow--;
                     endRow--;
