@@ -67,7 +67,7 @@ public class ScrollLevelSelect : MonoBehaviour
 
     private void Awake() 
     {
-        latestLevelUnlocked = 1;// ES3.Load<int>(BGStrings.ES_LEVELNUM, 1);
+        latestLevelUnlocked = 50;// ES3.Load<int>(BGStrings.ES_LEVELNUM, 1);
         
         mainCamera = Camera.main;
 
@@ -89,14 +89,18 @@ public class ScrollLevelSelect : MonoBehaviour
         // five buttons per column
         // create 100 rows
         int levelNum = latestLevelUnlocked - (latestLevelUnlocked % 5) + 1;
-        if (latestLevelUnlocked > 10) // if on greater levels than 10 create two lag rows, levelNum is start of lag row
+        //if (latestLevelUnlocked > 10) // if on greater levels than 10 create two lag rows, levelNum is start of lag row
+        //{
+        //    levelNum = latestLevelUnlocked - (latestLevelUnlocked % 10) - 9;
+        //}
+        //else if (latestLevelUnlocked > 5) // if on levels 5 - 10 only create one lag row, levelNum then must be 1
+        //{
+        //    levelNum = 1;
+        //}
+        startRow = 0;
+        for (int i = latestLevelUnlocked; i > 5; i -= 5)
         {
-            startRow = -2;
-            levelNum = latestLevelUnlocked - (latestLevelUnlocked % 10) - 9;
-        }
-        else if (latestLevelUnlocked > 5) // if on levels 5 - 10 only create one lag row, levelNum then must be 1
-        {
-            startRow = -1;
+            startRow -= 1;
             levelNum = 1;
         }
 
@@ -174,7 +178,7 @@ public class ScrollLevelSelect : MonoBehaviour
         button.SetParent(ButtonParent.transform);
         button.localScale = (1 - ButtonPadding) * unitScale * Vector3.one;
         button.localPosition = GetPosition(levelButton.col, levelButton.row);
-        if (true)//(levelNum <= latestLevelUnlocked)
+        if (levelNum <= latestLevelUnlocked)
         {
             button.GetComponentInChildren<TextMeshPro>().text = levelButton.levelNumber.ToString();
             button.transform.GetChild(1).gameObject.SetActive(false);
@@ -293,7 +297,7 @@ public class ScrollLevelSelect : MonoBehaviour
                     levelButtons.Insert(0, buttons);
                     for (int i = 0; i < buttons.Count; i++)
                     {
-                        InstantiateLevelButton(buttons[i], startRow - 1, i, lowestLevelDisplayed - 4 + i);
+                        InstantiateLevelButton(buttons[i], startRow - 1, i, lowestLevelDisplayed - 5 + i);
                     }
                     startRow--;
                     endRow--;
