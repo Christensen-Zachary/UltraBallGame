@@ -34,6 +34,8 @@ public class ScrollLevelSelect : MonoBehaviour
     public float HeightWidthRatio { get; set; } = 0.2f;
     [field: SerializeField]
     public float ButtonPadding { get; set; } = 0.8f;
+
+    public GameObject betweenButtonSprite; // reference set in editor
     
     private GameObject background;
     float height = 0f;
@@ -49,7 +51,7 @@ public class ScrollLevelSelect : MonoBehaviour
     bool doSelectOnInputUp = true;
     Camera mainCamera;
     int startRow = 0;
-    int endRow = 0;
+    int endRow = 250; // this is also how many rows above your current level will be created on start
     int latestLevelUnlocked = 1;
     int highestLevel = 500;
     int highestVisibleRow = 6;
@@ -60,6 +62,7 @@ public class ScrollLevelSelect : MonoBehaviour
     float[] lastMovements = new float[10];
     int lastMovementIndex = 0;
     float lastMovement = 0;
+    bool rowDirection = true;
     
 
     private List<List<LevelButton>> levelButtons = new List<List<LevelButton>>();
@@ -67,7 +70,7 @@ public class ScrollLevelSelect : MonoBehaviour
 
     private void Awake() 
     {
-        latestLevelUnlocked = 50;// ES3.Load<int>(BGStrings.ES_LEVELNUM, 1);
+        latestLevelUnlocked = 99;// ES3.Load<int>(BGStrings.ES_LEVELNUM, 1);
         
         mainCamera = Camera.main;
 
@@ -98,21 +101,29 @@ public class ScrollLevelSelect : MonoBehaviour
         //    levelNum = 1;
         //}
         startRow = 0;
-        for (int i = latestLevelUnlocked; i > 5; i -= 5)
+        if (latestLevelUnlocked >= 10)
         {
-            startRow -= 1;
-            levelNum = 1;
+            for (int i = latestLevelUnlocked; i > 10; i -= 5)
+            {
+                startRow -= 1;
+                levelNum = 1;
+            }
+        }
+        else
+        {
+            for (int i = latestLevelUnlocked; i > 5; i -= 5)
+            {
+                startRow -= 1;
+                levelNum = 1;
+            }
         }
 
-        for (int row = startRow; row < 250; row++)
+
+        for (int row = startRow; row <= endRow; row++)
         {
-            levelButtons.Add(new List<LevelButton>());
-            for (int col = 0; col < columnCount; col++)
-            {
-                CreateLevelButton(levelNum, row, col);
-                levelNum++;
-            }
-            endRow = row;
+            CreateRow(levelNum, row, rowDirection);
+            levelNum += 5;
+            rowDirection = !rowDirection;
         }
 
         FooterFade.color = DivideColor(ThemeData.ThemeColors[ThemeItem.SuperBackground], 2);
@@ -133,6 +144,98 @@ public class ScrollLevelSelect : MonoBehaviour
 
         Header.color = ThemeData.ThemeColors[ThemeItem.SuperBackground];
         Footer.color = ThemeData.ThemeColors[ThemeItem.SuperBackground];
+    }
+
+    private void CreateRow(int levelNumber, int row, bool doLeftToRight)
+    {
+        levelButtons.Add(new List<LevelButton>());
+
+        int col = doLeftToRight ? 0 : columnCount - 1;
+        while (true)
+        {
+            if (doLeftToRight && !(col < columnCount))
+            {
+                break;
+            }
+            else if (doLeftToRight)
+            {
+                GameObject betweenButtonSprite = Instantiate(this.betweenButtonSprite);
+                betweenButtonSprite.transform.SetParent(ButtonParent.transform);
+                betweenButtonSprite.transform.localScale = unitScale / 4f * Vector3.one;
+                if (col + 1 == columnCount)
+                {
+                    betweenButtonSprite.transform.localPosition = GetPosition(col, row + 0.5f);
+                }
+                else
+                {
+                    betweenButtonSprite.transform.localPosition = GetPosition(col + 0.5f, row);
+                    betweenButtonSprite.transform.Rotate(new Vector3(0, 0, -90));
+                }
+            }
+
+            if (!doLeftToRight && !(col >= 0))
+            {
+                break;
+            }
+            else if (!doLeftToRight)
+            {
+                GameObject betweenButtonSprite = Instantiate(this.betweenButtonSprite);
+                betweenButtonSprite.transform.SetParent(ButtonParent.transform);
+                betweenButtonSprite.transform.localScale = unitScale / 4f * Vector3.one;
+                if (col - 1 == -1)
+                {
+                    betweenButtonSprite.transform.localPosition = GetPosition(col, row + 0.5f);
+                }
+                else
+                {
+                    betweenButtonSprite.transform.localPosition = GetPosition(col - 0.5f, row);
+                    betweenButtonSprite.transform.Rotate(new Vector3(0, 0, 90));
+                }
+            }
+
+            CreateLevelButton(levelNumber, row, col);
+            levelNumber++;
+
+            
+            if (doLeftToRight)
+            {
+                // create between button to the right except the last one do above
+                
+                col++;
+            }
+            else
+            {
+                // create between button to the left except the last one do above
+                betweenButtonSprite.transform.localPosition = GetPosition(col - 0.5f, row);
+                col--;
+            }
+        }
+    }
+
+    private void PlaceRow(List<LevelButton> levelButtons, int levelNumber, int row, bool doLeftToRight)
+    {
+        int col = doLeftToRight ? 0 : columnCount - 1;
+        while (true)
+        {
+            if (doLeftToRight && !(col < columnCount))
+                break;
+            else if (!(col >= 0))
+                break;
+
+            levelButtons[col].transform.localPosition = GetPosition(col, row);
+            print($"Col is {col} while placing #{levelNumber}");
+            InstantiateLevelButton(levelButtons[col], levelNumber, row, col);
+            levelNumber++;
+
+            if (doLeftToRight)
+            {
+                col++;
+            }
+            else
+            {
+                col--;
+            }
+        }
     }
 
     private void CreateLevelButton(int levelNum, int row, int col)
@@ -178,6 +281,7 @@ public class ScrollLevelSelect : MonoBehaviour
         button.SetParent(ButtonParent.transform);
         button.localScale = (1 - ButtonPadding) * unitScale * Vector3.one;
         button.localPosition = GetPosition(levelButton.col, levelButton.row);
+        print($"Just placed button #{levelNum} in col {col}");
         if (levelNum <= latestLevelUnlocked)
         {
             button.GetComponentInChildren<TextMeshPro>().text = levelButton.levelNumber.ToString();
@@ -245,7 +349,7 @@ public class ScrollLevelSelect : MonoBehaviour
         }
         else if (rollTimer < rollDuration)
         {
-            print($"Moving player residual amount");
+            //print($"Moving player residual amount");
             rollTimer += Time.deltaTime;
             MoveButtonParent(new Vector3(0, ButtonParent.transform.position.y + lastMovement, 0));
             lastMovement *= rollDecay;
@@ -260,7 +364,7 @@ public class ScrollLevelSelect : MonoBehaviour
 
         if (firstLevelButton != null && movingUp)
         {
-            print($"Checking to stop first level");
+            //print($"Checking to stop first level");
             if (firstLevelButton.transform.position.y > GetPosition(0, 0).y) // if 1st level is in the bottom row and aligned with column
             {
                 doMove = false;
@@ -268,7 +372,7 @@ public class ScrollLevelSelect : MonoBehaviour
         }
         if (lastLevelButton != null && movingDown)
         {
-            print($"Checking to stop last level");
+            //print($"Checking to stop last level");
             if (lastLevelButton.transform.position.y < GetPosition(0, highestVisibleRow).y)
             {
                 doMove = false;
@@ -281,58 +385,93 @@ public class ScrollLevelSelect : MonoBehaviour
             lastMovements[lastMovementIndex++] = newPosition.y - ButtonParent.transform.position.y;
             ButtonParent.transform.position = newPosition;
 
-            float moveAmount = Mathf.Abs(ButtonParent.transform.position.y - buttonParentStartPosition.y);
-            while (moveAmount > unitScale) // moved a row
-            {
-                if (firstLevelButton != null && firstLevelButton.transform.position.y > GetPosition(0, minimumRow).y) break; // don't rotate while 1st level exists
-                moveAmount -= unitScale;
-                // rotate buttons
-                if (ButtonParent.transform.position.y - buttonParentStartPosition.y > 0) // above start position, rotate a top row to the bottom
-                {
-                    int lowestLevelDisplayed = levelButtons[0].Min(x => x.levelNumber);
-                    if (lowestLevelDisplayed == 1) break; // if level one is displayed, never put buttons underneath
-                    //print($"Lowest Level Displayed {lowestLevelDisplayed}");
-                    List<LevelButton> buttons = levelButtons[levelButtons.Count - 1];
-                    levelButtons.RemoveAt(levelButtons.Count - 1);
-                    levelButtons.Insert(0, buttons);
-                    for (int i = 0; i < buttons.Count; i++)
-                    {
-                        InstantiateLevelButton(buttons[i], startRow - 1, i, lowestLevelDisplayed - 5 + i);
-                    }
-                    startRow--;
-                    endRow--;
-                }
-                else // below start position, rotate a bottom row to the top
-                {
-                    int highestLevelDisplayed = levelButtons[levelButtons.Count - 1].Max(x => x.levelNumber);
-                    //print($"Highest Level Displayed {highestLevelDisplayed}");
-                    List<LevelButton> buttons = levelButtons[0];
-                    levelButtons.RemoveAt(0);
-                    levelButtons.Add(buttons);
-                    for (int i = 0; i < buttons.Count; i++)
-                    {
-                        InstantiateLevelButton(buttons[i], endRow + 1, i, highestLevelDisplayed + 1 + i);
-                    }
-                    endRow++;
-                    startRow++;
-                }
+            /***   DO NOT EVEN ROTATE BUTTONS. IT IS CONVOLUTED. JUST CREATE ALL BUTTONS AND SCROLL    ***/
 
-                buttonParentStartPosition = ButtonParent.transform.position;
-                scrollStartPosition = mainCamera.ScreenToWorldPoint(Input.mousePosition);
-                scrollStartPosition = new Vector3(scrollStartPosition.x, scrollStartPosition.y - minDistanceToStartScroll, 0);
+            //float moveAmount = Mathf.Abs(ButtonParent.transform.position.y - buttonParentStartPosition.y);
+            //while (moveAmount > unitScale) // moved a row
+            //{
+            //    if (firstLevelButton != null && firstLevelButton.transform.position.y > GetPosition(0, minimumRow).y) break; // don't rotate while 1st level exists
+                
 
-            }
+            //    print($"Rotating buttons");
+            //    moveAmount -= unitScale;
+            //    // rotate buttons
+            //    if (ButtonParent.transform.position.y - buttonParentStartPosition.y > 0) // above start position, rotate a top row to the bottom
+            //    {
+            //        int lowestLevelDisplayed = levelButtons[0].Min(x => x.levelNumber);
+            //        if (lowestLevelDisplayed == 1) break; // if level one is displayed, never put buttons underneath
+            //        //print($"Lowest Level Displayed {lowestLevelDisplayed}");
+            //        List<LevelButton> buttons = levelButtons[levelButtons.Count - 1];
+            //        levelButtons.RemoveAt(levelButtons.Count - 1);
+            //        levelButtons.Insert(0, buttons);
+            //        //PlaceRow(buttons, lowestLevelDisplayed - 5, startRow - 1, rowDirection);
+            //        //rowDirection = !rowDirection;
+            //        for (int i = 0; i < buttons.Count; i++)
+            //        {
+            //            InstantiateLevelButton(buttons[i], startRow - 1, i, lowestLevelDisplayed - 5 + i);
+            //        }
+            //        startRow--;
+            //        endRow--;
+            //    }
+            //    else // below start position, rotate a bottom row to the top
+            //    {
+            //        int highestLevelDisplayed = levelButtons[levelButtons.Count - 1].Max(x => x.levelNumber);
+            //        //print($"Highest Level Displayed {highestLevelDisplayed}");
+            //        List<LevelButton> buttons = levelButtons[0];
+            //        levelButtons.RemoveAt(0);
+            //        levelButtons.Add(buttons);
+            //        for (int i = 0; i < buttons.Count; i++)
+            //        {
+            //            InstantiateLevelButton(buttons[i], endRow + 1, i, highestLevelDisplayed + 1 + i);
+            //        }
+            //        endRow++;
+            //        startRow++;
+            //    }
+
+            //    buttonParentStartPosition = ButtonParent.transform.position;
+            //    scrollStartPosition = mainCamera.ScreenToWorldPoint(Input.mousePosition);
+            //    scrollStartPosition = new Vector3(scrollStartPosition.x, scrollStartPosition.y - minDistanceToStartScroll, 0);
+            //}
         }
     }
 
+    // only get average of values of the same sign, whichever sign there is the most of
     private float GetAverage(float[] arr)
     {
+        int positiveCount = 0;
+        int negativeCount = 0;
+        for (int i = 0; i < arr.Length; i++)
+        {
+            if (arr[i] >= 0) positiveCount++;
+            else if (arr[i] < 0) negativeCount++;
+        }
+
+        int numbersUsedCount = 0;
         float sum = 0;
         for (int i = 0; i < arr.Length; i++)
         {
-            sum += arr[i];
+            if (arr[i] == 0) continue;
+
+            if (positiveCount >= negativeCount)
+            {
+                if (arr[i] > 0)
+                {
+                    sum += arr[i];
+                    numbersUsedCount++; 
+                }
+            }
+            else
+            {
+                if (arr[i] < 0)
+                {
+                    sum += arr[i];
+                    numbersUsedCount++;
+                }
+            }
         }
-        return sum / arr.Length;
+
+        if (numbersUsedCount == 0) numbersUsedCount = 1; // prevent divide by zero
+        return sum / numbersUsedCount;
     }
 
     private Vector2 GetPosition(float col, float row)
