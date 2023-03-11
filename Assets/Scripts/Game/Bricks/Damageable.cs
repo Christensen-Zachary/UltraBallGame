@@ -91,7 +91,7 @@ public class Damageable : MonoBehaviour
             yield return null;
         }
 
-        SpriteRenderer.material.SetFloat("_FadeAmount", 0);
+        SpriteRenderer.material.SetFloat("_FadeAmount", 1);
     }
 
     private void CountDamage(float damage)
