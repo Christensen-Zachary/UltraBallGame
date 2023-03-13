@@ -87,7 +87,7 @@ public class FacLevelButton : MonoBehaviour
             button.transform.GetChild(1).gameObject.SetActive(false);
             button.transform.GetComponent<SpriteRenderer>().color = Color.clear;
         }
-        else if (levelNum <= scrollLevelSelect.latestLevelUnlocked) // show unlocked button
+        else if (levelNum <= scrollLevelSelect.latestLevelUnlocked || levelNum == 1) // show unlocked button, never lock first level
         {
             button.GetComponentInChildren<TextMeshPro>().text = levelButton.levelNumber.ToString();
             button.transform.GetChild(1).gameObject.SetActive(false);
