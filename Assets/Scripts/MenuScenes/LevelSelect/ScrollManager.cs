@@ -25,6 +25,7 @@ public class ScrollManager : MonoBehaviour
     private float distanceToDisableSelect;
     private float moveSinceStart = 0;
     private float residualScrollAmount = 0;
+    private readonly float maxResidualScrollAmount = 0.2f;
     private readonly float residualScrollDuration = 1f;
     private float residualScrollTimer = 0;
     private float[] movementsOverTime = new float[25];
@@ -36,7 +37,6 @@ public class ScrollManager : MonoBehaviour
 
     private float _buttonParentMoveAmount = 0; // relative to itself. Its starting position is 0
     private Vector2 bottomRowPosition;
-    private Vector2 highestVisibleRowPosition;
     private float unitScale = 0;
 
 
@@ -46,7 +46,6 @@ public class ScrollManager : MonoBehaviour
         mainCamera = Camera.main;
 
         bottomRowPosition = ScrollLevelSelect.GetPosition(0, 0);
-        highestVisibleRowPosition = ScrollLevelSelect.GetPosition(0, highestVisibleRow);
         unitScale = ScrollLevelSelect.unitScale;
         distanceToDisableSelect = unitScale / 4f;
 
@@ -125,6 +124,11 @@ public class ScrollManager : MonoBehaviour
                     if (Mathf.Abs(movement) > Mathf.Abs(residualScrollAmount))
                         residualScrollAmount = movement;
                 }
+
+                if (Mathf.Abs(residualScrollAmount) > maxResidualScrollAmount)
+                {
+                    residualScrollAmount = Mathf.Sign(residualScrollAmount) * maxResidualScrollAmount;
+                }
             }
         }
 
@@ -142,7 +146,7 @@ public class ScrollManager : MonoBehaviour
         }
         else if (movingDown && FacLevelButton.LastLevelButton != null)
         {
-            if (FacLevelButton.LastLevelButton.transform.position.y <= highestVisibleRowPosition.y)
+            if (FacLevelButton.LastLevelButton.transform.position.y <= bottomRowPosition.y)
                 return;
         }
 
