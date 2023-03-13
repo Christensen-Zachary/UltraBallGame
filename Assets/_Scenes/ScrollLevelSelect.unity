@@ -1918,6 +1918,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1855231885}
   - component: {fileID: 1855231884}
+  - component: {fileID: 1855231887}
+  - component: {fileID: 1855231886}
   m_Layer: 0
   m_Name: ScrollLevelSelect
   m_TagString: Untagged
@@ -1946,11 +1948,10 @@ MonoBehaviour:
   <FooterFade>k__BackingField: {fileID: 1750410751}
   <Footer>k__BackingField: {fileID: 1103374990}
   <FooterEdge>k__BackingField: {fileID: 1179516889}
-  <ButtonParent>k__BackingField: {fileID: 1914997447}
   <HeightPadding>k__BackingField: 0.14
   <HeightWidthRatio>k__BackingField: 0.44
-  <ButtonPadding>k__BackingField: 0.25
-  betweenButtonSprite: {fileID: 406241228}
+  unitScale: 0
+  latestLevelUnlocked: 1
   backgroundSpriteRenderer: {fileID: 0}
 --- !u!4 &1855231885
 Transform:
@@ -1967,6 +1968,39 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1855231886
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1855231883}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db248f0fc504cd94ebd6f57ed9dfbfb7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <FacLevelButton>k__BackingField: {fileID: 1855231887}
+  <ScrollLevelSelect>k__BackingField: {fileID: 1855231884}
+  <ScrollLevelSelectUI>k__BackingField: {fileID: 2044838969}
+  <ButtonParent>k__BackingField: {fileID: 1914997448}
+  allowButtonSelect: 1
+--- !u!114 &1855231887
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1855231883}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 370d4aa02ae05f848ba18eb4a206a345, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <LevelButtonPrefab>k__BackingField: {fileID: 902931785}
+  <ButtonParent>k__BackingField: {fileID: 1914997447}
+  scrollLevelSelect: {fileID: 1855231884}
+  <ButtonPadding>k__BackingField: 0.1
 --- !u!1 &1914997447
 GameObject:
   m_ObjectHideFlags: 0
