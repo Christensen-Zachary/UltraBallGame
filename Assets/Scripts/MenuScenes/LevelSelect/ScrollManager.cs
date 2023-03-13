@@ -18,8 +18,8 @@ public class ScrollManager : MonoBehaviour
     private Camera mainCamera;
 
     int levelNum = 1;
-    int rowCount = 6 + 10; // 2 * abs(startRow) + numberOfCenterRows
-    int startRow = -3;
+    int rowCount = 10;
+    int startRow = -2;
     readonly int highestVisibleRow = 5;
     public bool allowButtonSelect = true;
     private float distanceToDisableSelect;

@@ -43,7 +43,7 @@ Material:
     m_Ints: []
     m_Floats:
     - PixelSnap: 0
-    - _Brightness: 3
+    - _Brightness: 5.3333335
     - _EnableExternalAlpha: 0
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
