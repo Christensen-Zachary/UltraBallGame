@@ -48,7 +48,7 @@ public class ScrollLevelSelect : MonoBehaviour
    
     private void Awake() 
     {
-        latestLevelUnlocked = ES3.Load<int>(BGStrings.ES_LEVELNUM, 1);
+        latestLevelUnlocked = ES3.Load<int>(BGStrings.ES_LATEST_UNLOCKED_LEVELNUM, 1);
         
 
         (height, width) = BGUtils.GetScreenSize();
@@ -67,10 +67,6 @@ public class ScrollLevelSelect : MonoBehaviour
         unitScale = width /columnCount;
         // bottom left corners
         origin = new Vector2(-background.GetComponent<SpriteRenderer>().bounds.extents.x, -background.GetComponent<SpriteRenderer>().bounds.extents.y) + new Vector2(0.5f, 0.5f) * unitScale;
-        
-
-        // setup level buttons
-
 
         FooterFade.color = DivideColor(ThemeData.ThemeColors[ThemeItem.SuperBackground], 2);
         HeaderFade.color = DivideColor(ThemeData.ThemeColors[ThemeItem.SuperBackground], 2);//ThemeData.ThemeColors[ThemeItem.SuperBackground];

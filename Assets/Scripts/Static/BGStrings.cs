@@ -5,6 +5,7 @@ using UnityEngine;
 public static class BGStrings
 {
     public const string ES_LEVELNUM = "LevelNum";
+    public const string ES_LATEST_UNLOCKED_LEVELNUM = "LatestUnlockedLevel";
     public const string ES_LEVELNAME = "Level";
     public const string ES_LEVELSETNUMBER = "LevelSetNumber";
     public const string ES_THEMETYPE = "ThemeType";

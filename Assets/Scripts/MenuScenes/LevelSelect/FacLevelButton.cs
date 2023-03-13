@@ -29,8 +29,14 @@ public class FacLevelButton : MonoBehaviour
 
     public LevelButton FirstLevelButton;
     public LevelButton LastLevelButton;
-    private readonly int lastLevelNumber = 256;
-    
+
+    private int latestLevelUnlocked = 1;
+
+    private void Awake()
+    {
+        latestLevelUnlocked = ES3.Load<int>(BGStrings.ES_LATEST_UNLOCKED_LEVELNUM, 1);
+    }
+
     public void ReturnRow(int row)
     {
         List<LevelButton> temp = new List<LevelButton>();
@@ -68,8 +74,8 @@ public class FacLevelButton : MonoBehaviour
     {
         if (levelButton.levelNumber == 1) FirstLevelButton = null;
         if (levelNum == 1) FirstLevelButton = levelButton;
-        if (levelButton.levelNumber == lastLevelNumber) LastLevelButton = null;
-        if (levelNum == lastLevelNumber) LastLevelButton = levelButton;
+        if (levelButton.levelNumber == MainMenuUI.LAST_LEVEL_NUMBER) LastLevelButton = null;
+        if (levelNum == MainMenuUI.LAST_LEVEL_NUMBER) LastLevelButton = levelButton;
 
         levelButton.levelNumber = levelNum;
         levelButton.row = row;
@@ -87,7 +93,7 @@ public class FacLevelButton : MonoBehaviour
             button.transform.GetChild(1).gameObject.SetActive(false);
             button.transform.GetComponent<SpriteRenderer>().color = Color.clear;
         }
-        else if (levelNum <= scrollLevelSelect.latestLevelUnlocked || levelNum == 1) // show unlocked button, never lock first level
+        else if (levelNum <= latestLevelUnlocked || levelNum == 1) // show unlocked button, never lock first level
         {
             button.GetComponentInChildren<TextMeshPro>().text = levelButton.levelNumber.ToString();
             button.transform.GetChild(1).gameObject.SetActive(false);

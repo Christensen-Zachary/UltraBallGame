@@ -544,7 +544,8 @@ public class NormalGame : MonoBehaviour, IGetState, IEmpty, ISetupLevel, IWaitin
         }
         else if (_winService.HasWon())
         {
-            ES3.Save(BGStrings.ES_LEVELNUM, _levelService._levelNumber + 1);
+            if (_levelService._levelNumber + 1 <= MainMenuUI.LAST_LEVEL_NUMBER) ES3.Save(BGStrings.ES_LEVELNUM, _levelService._levelNumber + 1);
+            if (_levelService._levelNumber + 1 > ES3.Load<int>(BGStrings.ES_LATEST_UNLOCKED_LEVELNUM, 1)) ES3.Save<int>(BGStrings.ES_LATEST_UNLOCKED_LEVELNUM, _levelService._levelNumber + 1);
 
             if (_gameUI != null) _gameUI.HideGame();
             if (_gameUI != null) _gameUI.ShowWin();

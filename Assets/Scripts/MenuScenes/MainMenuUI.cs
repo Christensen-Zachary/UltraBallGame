@@ -47,6 +47,7 @@ public class MainMenuUI : MonoBehaviour
 
         yield return new WaitForSeconds(MainMenuUI.SCENE_TRANSITION_WAIT_TIME);
 
+        ES3.Save<int>(BGStrings.ES_LEVELNUM, ES3.Load<int>(BGStrings.ES_LATEST_UNLOCKED_LEVELNUM, 1));
         SceneManager.LoadScene("Game");
     }
 
@@ -79,11 +80,24 @@ public class MainMenuUI : MonoBehaviour
         ScrollLevelSelectUI.LoadScrollLevelSelect();
     }
     
+    public void UnlockAllLevels()
+    {
+        ES3.Save<int>(BGStrings.ES_LEVELNUM, LAST_LEVEL_NUMBER);
+        ES3.Save<int>(BGStrings.ES_LATEST_UNLOCKED_LEVELNUM, LAST_LEVEL_NUMBER);
+    }
+
+    public void ResetLevelUnlocks()
+    {
+        ES3.Save<int>(BGStrings.ES_LEVELNUM, 1);
+    }
+
     public static void LoadMainMenu()
     {
         SceneManager.LoadScene("MainMenu");
     }
 
     public static readonly float SCENE_TRANSITION_WAIT_TIME = 0.5F;
+    public static readonly int LAST_LEVEL_NUMBER = 256;
+
 
 }
