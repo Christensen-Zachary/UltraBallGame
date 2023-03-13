@@ -89,6 +89,7 @@ public class MainMenuUI : MonoBehaviour
     public void ResetLevelUnlocks()
     {
         ES3.Save<int>(BGStrings.ES_LEVELNUM, 1);
+        ES3.Save<int>(BGStrings.ES_LATEST_UNLOCKED_LEVELNUM, 1);
     }
 
     public static void LoadMainMenu()
