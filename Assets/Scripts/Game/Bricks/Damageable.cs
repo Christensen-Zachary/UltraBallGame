@@ -44,6 +44,8 @@ public class Damageable : MonoBehaviour
 
     public void Damage(float damage)
     {
+        if (Health <= 0) return;
+
         CountDamage(damage);
 
         if (Health <= 0)
