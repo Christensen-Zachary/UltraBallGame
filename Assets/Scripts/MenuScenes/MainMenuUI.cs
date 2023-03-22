@@ -34,6 +34,8 @@ public class MainMenuUI : MonoBehaviour
         {
             ES3.Save(BGStrings.ES_THEMETYPE, b4Theme);
         }
+
+        BGUtils.SetFrameRate(60);
     }
 
     public void PlayGame()

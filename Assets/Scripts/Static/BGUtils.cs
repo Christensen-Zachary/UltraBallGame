@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public static class BGUtils
 {
@@ -14,5 +15,16 @@ public static class BGUtils
     public static float CosineFunction(float input)
     {
         return 0.5f * Mathf.Cos(Mathf.PI * input + Mathf.PI) + 0.5f;
+    }
+
+    public static void SetFrameRate()
+    {
+        Application.targetFrameRate = Mathf.Clamp(30, 60, PlayerPrefs.GetInt("FPS", 60));
+    }
+
+    public static void SetFrameRate(int frameRate)
+    {
+        PlayerPrefs.SetInt("FPS", Mathf.Clamp(30, 60, frameRate));
+        SetFrameRate();
     }
 }

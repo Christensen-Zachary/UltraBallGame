@@ -1,3 +1,4 @@
+using System.Net;
 using UnityEngine;
 
 public enum GState
@@ -27,7 +28,7 @@ public class FSMGame : MonoBehaviour
 
     void Start()
     {
-        Application.targetFrameRate = 60;
+        BGUtils.SetFrameRate();
         //Time.timeScale = 2f;
     }
 
