@@ -64,14 +64,17 @@ public class ScrollManager : MonoBehaviour
     {
         for (int row = startRow; row < rowCount; row++)
         {
-            CreateRow(false, row, levelNum);
+            CreateRow(row, levelNum);
             levelNum += ScrollLevelSelect.columnCount;
         }
     }
 
-    private void CreateRow(bool isForwards, int row, int levelNum)
+    // levelNum is assumed to be the first level in the row
+    private void CreateRow(int row, int levelNum)
     {
-        if (!isForwards)
+        int lastLevelInRow = levelNum + ScrollLevelSelect.columnCount - 1;
+        // if last level in row is a multiple of an odd number, create forwards, ie create every other row forward starting with row containing level 1
+        if ((lastLevelInRow / ScrollLevelSelect.columnCount) % 2 == 1) 
         {
             for (int col = 0; col < ScrollLevelSelect.columnCount; col++)
             {
@@ -80,15 +83,10 @@ public class ScrollManager : MonoBehaviour
         }
         else
         {
-            int tempLevelNum = levelNum + ScrollLevelSelect.columnCount - 1; // set to last level in row
+            levelNum = levelNum + ScrollLevelSelect.columnCount - 1; // set to last level in row
             for (int col = 0; col < ScrollLevelSelect.columnCount; col++)
             {
-                FacLevelButton.CreateLevelButton(row, col, tempLevelNum--);
-            }
-
-            for (int col = 0; col < ScrollLevelSelect.columnCount; col++)
-            {
-                levelNum++;
+                FacLevelButton.CreateLevelButton(row, col, levelNum--);
             }
         }
     }
@@ -207,7 +205,7 @@ public class ScrollManager : MonoBehaviour
         int levelNum = FacLevelButton.HighestLevelButton + 1;
 
         int row = FacLevelButton.TopRow + 1;
-        CreateRow(false, row, levelNum);
+        CreateRow(row, levelNum);
         //for (int col = 0; col < ScrollLevelSelect.columnCount; col++)
         //{
         //    FacLevelButton.CreateLevelButton(row, col, levelNum++);
@@ -224,7 +222,7 @@ public class ScrollManager : MonoBehaviour
         int levelNum = FacLevelButton.LowestLevelButton - ScrollLevelSelect.columnCount;
 
         int row = FacLevelButton.BottomRow - 1;
-        CreateRow(false, row, levelNum);
+        CreateRow(row, levelNum);
         //for (int col = 0; col < ScrollLevelSelect.columnCount; col++)
         //{
         //    FacLevelButton.CreateLevelButton(row, col, levelNum++);
