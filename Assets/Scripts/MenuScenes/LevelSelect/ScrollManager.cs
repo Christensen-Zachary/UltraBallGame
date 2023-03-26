@@ -20,15 +20,14 @@ public class ScrollManager : MonoBehaviour
     int levelNum = 1;
     int rowCount = 10;
     int startRow = -2;
-    readonly int highestVisibleRow = 5;
     public bool allowButtonSelect = true;
     private float distanceToDisableSelect;
     private float moveSinceStart = 0;
     private float residualScrollAmount = 0;
-    private readonly float maxResidualScrollAmount = 0.2f;
-    private readonly float residualScrollDuration = 1f;
+    private readonly float maxResidualScrollAmount = 0.4f;
+    private readonly float residualScrollDuration = 1.5f;
     private float residualScrollTimer = 0;
-    private float[] movementsOverTime = new float[25];
+    private float[] movementsOverTime = new float[3];
     private int movementCounter = 0;
 
     private Vector2 _lastMousePosition = Vector2.zero;
@@ -79,7 +78,7 @@ public class ScrollManager : MonoBehaviour
             residualScrollAmount = 0;
             residualScrollTimer = 0;
             movementCounter = 0;
-            for (int i = 0; i < 25; i++)
+            for (int i = 0; i < movementsOverTime.Length; i++)
             {
                 movementsOverTime[i] = 0;
             }
@@ -102,7 +101,7 @@ public class ScrollManager : MonoBehaviour
                 MoveButtonParent(_deltaMousePosition.y);
 
                 movementsOverTime[movementCounter] = _deltaMousePosition.y;
-                if (++movementCounter >= 25) movementCounter = 0;
+                if (++movementCounter >= movementsOverTime.Length) movementCounter = 0;
 
             }
         }
@@ -111,7 +110,7 @@ public class ScrollManager : MonoBehaviour
             residualScrollTimer += Time.deltaTime;
 
             MoveButtonParent(residualScrollAmount);
-            residualScrollAmount *= 0.985f;
+            residualScrollAmount *= 0.97f;
         }
 
         if (Input.GetMouseButtonUp(0))
