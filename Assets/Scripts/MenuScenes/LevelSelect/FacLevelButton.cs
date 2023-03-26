@@ -55,7 +55,7 @@ public class FacLevelButton : MonoBehaviour
         levelButton.Return();
     }
 
-    public LevelButton CreateLevelButton(int row, int col, int levelNum)
+    public LevelButton CreateLevelButton(int row, int col, int levelNum, bool isForwards)
     {
         GameObject obj;
         if (LevelButtonPool.Count > 0)
@@ -65,12 +65,12 @@ public class FacLevelButton : MonoBehaviour
         }
         else obj = Instantiate(LevelButtonPrefab);
 
-        InstantiateLevelButton(obj.GetComponent<LevelButton>(), row, col, levelNum);
+        InstantiateLevelButton(obj.GetComponent<LevelButton>(), row, col, levelNum, isForwards);
         return obj.GetComponent<LevelButton>();
     }
 
 
-    private void InstantiateLevelButton(LevelButton levelButton, int row, int col, int levelNum)
+    private void InstantiateLevelButton(LevelButton levelButton, int row, int col, int levelNum, bool isForwards)
     {
         if (levelButton.levelNumber == 1) FirstLevelButton = null;
         if (levelNum == 1) FirstLevelButton = levelButton;
@@ -91,20 +91,32 @@ public class FacLevelButton : MonoBehaviour
         {
             button.GetComponentInChildren<TextMeshPro>().text = "";
             button.transform.GetChild(1).gameObject.SetActive(false);
+            levelButton.HideArrows();
             button.transform.GetComponent<SpriteRenderer>().color = Color.clear;
         }
-        else if (levelNum <= latestLevelUnlocked || levelNum == 1) // show unlocked button, never lock first level
+        else
         {
-            button.GetComponentInChildren<TextMeshPro>().text = levelButton.levelNumber.ToString();
-            button.transform.GetChild(1).gameObject.SetActive(false);
-            button.transform.GetComponent<SpriteRenderer>().color = Color.white;
-        }
-        else // show locked button
-        {
-            button.GetComponentInChildren<TextMeshPro>().text = "";
-            button.transform.GetChild(1).gameObject.SetActive(true);
-            button.transform.GetChild(1).GetComponent<SpriteRenderer>().color = ThemeData.ThemeColors[ThemeItem.MaxDamage];
-            button.transform.GetComponent<SpriteRenderer>().color = Color.white;
+            if (levelNum <= latestLevelUnlocked || levelNum == 1) // show unlocked button, never lock first level
+            {
+                button.GetComponentInChildren<TextMeshPro>().text = levelButton.levelNumber.ToString();
+                button.transform.GetChild(1).gameObject.SetActive(false);
+                button.transform.GetComponent<SpriteRenderer>().color = Color.white;
+            }
+            else // show locked button
+            {
+                button.GetComponentInChildren<TextMeshPro>().text = "";
+                button.transform.GetChild(1).gameObject.SetActive(true);
+                button.transform.GetChild(1).GetComponent<SpriteRenderer>().color = ThemeData.ThemeColors[ThemeItem.MaxDamage];
+                button.transform.GetComponent<SpriteRenderer>().color = Color.white;
+            }
+
+
+            if (levelNum % scrollLevelSelect.columnCount == 0) // is last button in row
+                levelButton.SetBetweenButtonUp();
+            else if (isForwards)
+                levelButton.SetBetweenButtonRight();
+            else
+                levelButton.SetBetweenButtonLeft();
         }
 
         LevelButtons.Add(levelButton);

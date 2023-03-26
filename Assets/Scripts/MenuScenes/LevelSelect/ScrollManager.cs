@@ -33,7 +33,7 @@ public class ScrollManager : MonoBehaviour
     private Vector2 _currentMousePosition = Vector2.zero;
     private Vector2 _deltaMousePosition = Vector2.zero;
 
-    private float _buttonParentMoveAmount = 0; // relative to itself. Its starting position is 0
+    private float _buttonParentMoveAmount = 0; // relative to itself. Its starting position is 0, it is used to know when to rotate rows after scrolling
     private Vector2 bottomRowPosition;
     private float unitScale = 0;
 
@@ -78,7 +78,7 @@ public class ScrollManager : MonoBehaviour
         {
             for (int col = 0; col < ScrollLevelSelect.columnCount; col++)
             {
-                FacLevelButton.CreateLevelButton(row, col, levelNum++);
+                FacLevelButton.CreateLevelButton(row, col, levelNum++, true);
             }
         }
         else
@@ -86,7 +86,7 @@ public class ScrollManager : MonoBehaviour
             levelNum = levelNum + ScrollLevelSelect.columnCount - 1; // set to last level in row
             for (int col = 0; col < ScrollLevelSelect.columnCount; col++)
             {
-                FacLevelButton.CreateLevelButton(row, col, levelNum--);
+                FacLevelButton.CreateLevelButton(row, col, levelNum--, false);
             }
         }
     }
@@ -96,6 +96,7 @@ public class ScrollManager : MonoBehaviour
         _currentMousePosition = mainCamera.ScreenToWorldPoint(Input.mousePosition); // must be at start of update
         _deltaMousePosition = _currentMousePosition - _lastMousePosition; // must be at start of update
 
+        // start scroll
         if (Input.GetMouseButtonDown(0))
         {
             moveSinceStart = 0;
@@ -109,6 +110,7 @@ public class ScrollManager : MonoBehaviour
             allowButtonSelect = true;
         }
 
+        // scroll
         if (Input.GetMouseButton(0))
         {
             if (allowButtonSelect)
@@ -137,6 +139,7 @@ public class ScrollManager : MonoBehaviour
             residualScrollAmount *= 0.97f;
         }
 
+        // end scroll
         if (Input.GetMouseButtonUp(0))
         {
             if (allowButtonSelect) TryButtonSelect();
@@ -202,14 +205,7 @@ public class ScrollManager : MonoBehaviour
 
     private void AddTopRow()
     {
-        int levelNum = FacLevelButton.HighestLevelButton + 1;
-
-        int row = FacLevelButton.TopRow + 1;
-        CreateRow(row, levelNum);
-        //for (int col = 0; col < ScrollLevelSelect.columnCount; col++)
-        //{
-        //    FacLevelButton.CreateLevelButton(row, col, levelNum++);
-        //}
+        CreateRow(FacLevelButton.TopRow + 1, FacLevelButton.HighestLevelButton + 1);
     }
 
     private void ReturnTopRow()
@@ -219,14 +215,7 @@ public class ScrollManager : MonoBehaviour
 
     private void AddBottomRow()
     {
-        int levelNum = FacLevelButton.LowestLevelButton - ScrollLevelSelect.columnCount;
-
-        int row = FacLevelButton.BottomRow - 1;
-        CreateRow(row, levelNum);
-        //for (int col = 0; col < ScrollLevelSelect.columnCount; col++)
-        //{
-        //    FacLevelButton.CreateLevelButton(row, col, levelNum++);
-        //}
+        CreateRow(FacLevelButton.BottomRow - 1, FacLevelButton.LowestLevelButton - ScrollLevelSelect.columnCount);
     }
 
     private void ReturnBottomRow()
