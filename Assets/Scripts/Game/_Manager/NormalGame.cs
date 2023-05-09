@@ -350,6 +350,10 @@ public class NormalGame : MonoBehaviour, IGetState, IEmpty, ISetupLevel, IWaitin
                 _player.Health -= 1f;
                 bottomRowBricks.Add(x.GetComponentInChildren<Damageable>());
             }
+            else if (x.Brick.Row == 1)
+            {
+                _endTurnDestroyService.AddGameObject(x.gameObject);
+            }
         });
         for (int i = 0; i < bottomRowBricks.Count; i++)
         {
